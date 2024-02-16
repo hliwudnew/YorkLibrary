@@ -3,7 +3,8 @@ package foo;
 import java.util.ArrayList;
 
 public class LibrarySystem {
-
+	
+	//Library System stuff
 	ArrayList<Item> stock = new ArrayList<Item>();
 	ArrayList<Item> borrowed = new ArrayList<Item>();
 	
