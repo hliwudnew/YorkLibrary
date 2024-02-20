@@ -6,4 +6,4 @@
 
 ## Built With
 * Java
-* (GUI goes here when decided)
+* Swing
