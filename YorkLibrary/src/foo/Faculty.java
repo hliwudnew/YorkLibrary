@@ -5,13 +5,13 @@ import java.util.ArrayList;
 public class Faculty extends User{
 
 	private ArrayList<Item> textBooks;
-	private ArrayList<String> courses;
+	private ArrayList<Course> courses;
 	
 	public Faculty() {
 		
 	}
 	
-	public Faculty(ArrayList<Item> textBooks, ArrayList<String> courses) {
+	public Faculty(ArrayList<Item> textBooks, ArrayList<Course> courses) {
 		this.courses = courses;
 		this.textBooks = textBooks;
 	}
@@ -22,7 +22,7 @@ public class Faculty extends User{
 		this.textBooks.remove(textbook);
 	}
 	
-	public void removeCourse(String course) {
+	public void removeCourse(Course course) {
 		//TODO: Oversimplification
 		this.courses.remove(course);
 	}
@@ -32,7 +32,7 @@ public class Faculty extends User{
 		this.textBooks.add(textbook);
 	}
 	
-	public void addCourse(String course) {
+	public void addCourse(Course course) {
 		//TODO: Oversimplification
 		this.courses.add(course);
 	}
@@ -42,7 +42,7 @@ public class Faculty extends User{
 		return this.textBooks;
 	}
 	
-	public ArrayList<String> getCourses() {
+	public ArrayList<Course> getCourses() {
 		return this.courses;
 	}
 	

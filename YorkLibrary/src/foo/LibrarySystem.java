@@ -1,21 +1,24 @@
 package foo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class LibrarySystem {
 	
 	//Library System stuff
-	ArrayList<Item> stock = new ArrayList<Item>();
-	ArrayList<Item> borrowed = new ArrayList<Item>();
+	private ArrayList<Item> stock = new ArrayList<Item>();
+	private ArrayList<Item> borrowed = new ArrayList<Item>();
+	private ArrayList<User> userlist = new ArrayList<User>();
 	
 	public LibrarySystem() {
 //		stock = new ArrayList<Item>();
 //		borrowed = new ArrayList<Item>();
 	}
 	
-	public LibrarySystem(ArrayList<Item> stock, ArrayList<Item> borrowed) {
+	public LibrarySystem(ArrayList<Item> stock, ArrayList<Item> borrowed, ArrayList<User> users) {
 		this.stock = stock;
 		this.borrowed = borrowed;
+		this.userlist = users;
 	}
 	
 	//Methods
@@ -38,19 +41,12 @@ public class LibrarySystem {
 	
 	//Setters
 	public void addStock(Item item) {
-		//Checks if the item was lent out, hence now being returned
-		if(getBorrowed().contains(item)) {
-			this.stock.add(item);
-			this.borrowed.remove(item);
-		}
-		else {
-			//New item TODO: this needs work and need to figure out how this would work with the Management Team since they add
-			this.stock.add(item);
-		}
+		//TODO: This should be done with the management team, some how?
+		this.stock.add(item);
 	}
 	public void removeStock(Item item) {
+		//TODO: This should be done with the management team, some how?
 		this.stock.remove(item);
-		//TODO: Add to borrower??
 	}
 	
 	
@@ -62,5 +58,17 @@ public class LibrarySystem {
 	public ArrayList<Item> getBorrowed(){
 		return this.borrowed;
 	}
-	
+	public ArrayList<User> getUsers(){
+		return this.userlist;
+	}
+	public int getStockOf(Item item) {
+		if(item != null) {
+			//Counts how many times the item appears in the stock
+			return Collections.frequency(stock, item);
+		}
+		else {
+			return 0;
+		}
+		
+	}
 }

@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 public class User {
 
-	protected String email;
-	protected String password;
-	protected ArrayList<Item> rented;
-	protected ArrayList<Item> subscriptions;
+	private String email;
+	private String password;
+	private ArrayList<Item> rented;
+	private ArrayList<Item> subscriptions;
 	
 	//TODO: Pretty sure this will be needed, hence we should be able to remove the addStock from Library system since Managment team handles it, since users shouldnt have access to it
 	//private LibrarySystem system = new LibrarySystem();

@@ -46,9 +46,9 @@ class testcases {
 		book1.setName("First Book");
 		
 		PhysicalItem book2 = new PhysicalItem();
-		book1.setId(2);
-		book1.setDisabled(false);
-		book1.setName("Second Book");
+		book2.setId(2);
+		book2.setDisabled(false);
+		book2.setName("Second Book");
 		
 		//TODO: Currently stores the address for the item, this is an issue??
 		team.addItem(book1);
@@ -60,17 +60,16 @@ class testcases {
 		
 		person.rentPhysicalItem(book1);
 		person.rentPhysicalItem(book2);
-
-		
+	
 		person.returnPhysicalItem(book1);
 		
-		assertTrue(person.rented.size() == 1);
-		assertTrue(person.rented.get(0).getName() == "Second Book");
+		assertTrue(person.getRented().size() == 1);
+		assertTrue(person.getRented().get(0).getName() == "Second Book");
 		
-		assertTrue(system.borrowed.size() == 1);
-		assertTrue(system.stock.size() == 1);
+		assertTrue(system.getBorrowed().size() == 1);
+		assertTrue(system.getStock().size() == 1);
 
-		assertTrue(system.borrowed.get(0).getName() == "Second Book");
-		assertTrue(system.stock.get(0).getName() == "First Book");
+		assertTrue(system.getBorrowed().get(0).getName() == "Second Book");
+		assertTrue(system.getStock().get(0).getName() == "First Book");
 	}
 }

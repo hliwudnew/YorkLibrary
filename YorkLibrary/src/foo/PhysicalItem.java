@@ -4,7 +4,6 @@ public class PhysicalItem extends Item{
 
 	private String dueDate;
 	private User borrower;
-	private boolean disabled;
 	private double fee;
 	
 	
@@ -12,10 +11,9 @@ public class PhysicalItem extends Item{
 		
 	}
 	
-	public PhysicalItem(String dueDate,User borrower,boolean disabled,double fee) {
+	public PhysicalItem(String dueDate,User borrower,double fee) {
 		this.dueDate = dueDate;
 		this.borrower = borrower;
-		this.disabled = disabled;
 		this.fee = fee;
 	}
 	
@@ -25,9 +23,6 @@ public class PhysicalItem extends Item{
 	}
 	public void setBorrower(User borrower) {
 		this.borrower = borrower;
-	}
-	public void setDisabled(boolean disabled) {
-		this.disabled = disabled;
 	}
 	public void setFee(double fee) {
 		this.fee = fee;
@@ -41,10 +36,6 @@ public class PhysicalItem extends Item{
 	
 	public User getBorrower() {
 		return this.borrower;
-	}
-	
-	public boolean getDisabled() {
-		return this.disabled;
 	}
 	
 	public double getFee() {
