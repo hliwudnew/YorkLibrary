@@ -192,16 +192,16 @@ public class MainGUI implements ActionListener {
 		centerContent_Rent.setLayout(gl_centerContent_Rent);
 		GroupLayout gl_rentPage = new GroupLayout(rentPage);
 		gl_rentPage.setHorizontalGroup(
-			gl_rentPage.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_rentPage.createSequentialGroup()
-					.addComponent(centerContent_Rent, GroupLayout.PREFERRED_SIZE, 845, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+			gl_rentPage.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_rentPage.createSequentialGroup()
+					.addComponent(centerContent_Rent, GroupLayout.DEFAULT_SIZE, 854, Short.MAX_VALUE)
+					.addGap(1))
 		);
 		gl_rentPage.setVerticalGroup(
 			gl_rentPage.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_rentPage.createSequentialGroup()
-					.addComponent(centerContent_Rent, GroupLayout.PREFERRED_SIZE, 609, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addComponent(centerContent_Rent, GroupLayout.DEFAULT_SIZE, 619, Short.MAX_VALUE)
+					.addGap(1))
 		);
 		rentPage.setLayout(gl_rentPage);
 		
@@ -272,17 +272,15 @@ public class MainGUI implements ActionListener {
 		GroupLayout gl_inventoryPage = new GroupLayout(inventoryPage);
 		gl_inventoryPage.setHorizontalGroup(
 			gl_inventoryPage.createParallelGroup(Alignment.TRAILING)
-				.addGap(0, 846, Short.MAX_VALUE)
 				.addGroup(gl_inventoryPage.createSequentialGroup()
-					.addComponent(centerContent_Inv, GroupLayout.PREFERRED_SIZE, 845, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addComponent(centerContent_Inv, GroupLayout.DEFAULT_SIZE, 854, Short.MAX_VALUE)
+					.addGap(1))
 		);
 		gl_inventoryPage.setVerticalGroup(
 			gl_inventoryPage.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 610, Short.MAX_VALUE)
 				.addGroup(gl_inventoryPage.createSequentialGroup()
-					.addComponent(centerContent_Inv, GroupLayout.PREFERRED_SIZE, 609, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addComponent(centerContent_Inv, GroupLayout.DEFAULT_SIZE, 619, Short.MAX_VALUE)
+					.addGap(1))
 		);
 		inventoryPage.setLayout(gl_inventoryPage);
 		
@@ -300,13 +298,10 @@ public class MainGUI implements ActionListener {
 		home_Inv.addActionListener(this);
 		rent_Inv.addActionListener(this);
 		inventory_Inv.addActionListener(this);
-
-		
-		//TODO: Get the Panels to resize with the frame so the window can be anysize
 		
 		//Sets the window text and lets user see the GUI
 		frame.setTitle("York Library");
-		//frame.setSize(1000, 750); //In editor it doesnt fit, but when running application it looks good
+		//frame.setSize(1000, 750); //In editor it doesn't fit, but when running application it looks good
 		frame.setSize(862, 649);
 		frame.setVisible(true);
 	}
