@@ -9,6 +9,7 @@ public class User {
 	private ArrayList<Item> rented;
 	private ArrayList<Item> subscriptions;
 	
+	
 	//TODO: Pretty sure this will be needed, hence we should be able to remove the addStock from Library system since Managment team handles it, since users shouldnt have access to it
 	//private LibrarySystem system = new LibrarySystem();
 	
@@ -25,9 +26,16 @@ public class User {
 	}
 	
 	//Methods
-	public void rentPhysicalItem(Item wantToRent) {
+	public void rentPhysicalItem(PhysicalItem wantToRent) {
 		//TODO: This is an oversimplification, will need real implementation at some point
-		rented.add(wantToRent);
+		if(wantToRent != null) {
+			rented.add(wantToRent);
+			wantToRent.setBorrower(this);
+			// Missing removal from stock and put into borrowed, going to build GUI first because I feel like I'm missing the implementation idea
+		}
+		else {
+			System.out.println("Item entered is null");
+		}
 	}
 	
 	public void loginAccount() {
