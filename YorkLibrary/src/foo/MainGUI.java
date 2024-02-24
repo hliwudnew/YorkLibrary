@@ -22,6 +22,13 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JToggleButton;
 import java.awt.FlowLayout;
+import javax.swing.JMenuItem;
+import javax.swing.JMenu;
+import javax.swing.JTextField;
+import javax.swing.Box;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 public class MainGUI implements ActionListener {
 	//Basic Setup
@@ -44,6 +51,9 @@ public class MainGUI implements ActionListener {
 	private JButton inventory_Inv;
 	private JButton rent_Inv;
 	private JLabel topBarTitle_Inv;
+	private JTextField textField;
+	private JTable tableInventory;
+	private JScrollPane scrollInventory;
 
 	
 	public static void main(String[] args) {
@@ -88,13 +98,13 @@ public class MainGUI implements ActionListener {
 		GroupLayout gl_centerContent = new GroupLayout(centerContent);
 		gl_centerContent.setHorizontalGroup(
 			gl_centerContent.createParallelGroup(Alignment.LEADING)
-				.addComponent(topBar, GroupLayout.DEFAULT_SIZE, 784, Short.MAX_VALUE)
+				.addComponent(topBar, GroupLayout.DEFAULT_SIZE, 846, Short.MAX_VALUE)
 		);
 		gl_centerContent.setVerticalGroup(
 			gl_centerContent.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_centerContent.createSequentialGroup()
 					.addComponent(topBar, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(419, Short.MAX_VALUE))
+					.addContainerGap(568, Short.MAX_VALUE))
 		);
 		
 		rent = new JButton("Rent");
@@ -178,17 +188,75 @@ public class MainGUI implements ActionListener {
 					.addComponent(rent_Rent))
 		);
 		topBar_Rent.setLayout(gl_topBar_Rent);
+		
+		textField = new JTextField();
+		textField.setColumns(10);
+		
+		JLabel searchLabel = new JLabel("Search");
+		searchLabel.setFont(new Font("Book Antiqua", Font.PLAIN, 18));
+		searchLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		JButton bthSearch = new JButton("Search");
+		
+		JPanel pReccomendation = new JPanel();
+		pReccomendation.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		GroupLayout gl_centerContent_Rent = new GroupLayout(centerContent_Rent);
 		gl_centerContent_Rent.setHorizontalGroup(
 			gl_centerContent_Rent.createParallelGroup(Alignment.LEADING)
 				.addComponent(topBar_Rent, GroupLayout.DEFAULT_SIZE, 845, Short.MAX_VALUE)
+				.addGroup(gl_centerContent_Rent.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(pReccomendation, GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
+					.addGap(78)
+					.addGroup(gl_centerContent_Rent.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_centerContent_Rent.createSequentialGroup()
+							.addGap(74)
+							.addComponent(searchLabel, GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
+							.addGap(77))
+						.addComponent(textField, GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
+						.addGroup(gl_centerContent_Rent.createSequentialGroup()
+							.addGap(105)
+							.addComponent(bthSearch, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addGap(104)))
+					.addGap(315))
 		);
 		gl_centerContent_Rent.setVerticalGroup(
 			gl_centerContent_Rent.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_centerContent_Rent.createSequentialGroup()
 					.addComponent(topBar_Rent, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(567, Short.MAX_VALUE))
+					.addGroup(gl_centerContent_Rent.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_centerContent_Rent.createSequentialGroup()
+							.addGap(35)
+							.addComponent(searchLabel, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(bthSearch))
+						.addGroup(gl_centerContent_Rent.createSequentialGroup()
+							.addGap(18)
+							.addComponent(pReccomendation, GroupLayout.PREFERRED_SIZE, 339, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(210, Short.MAX_VALUE))
 		);
+		
+		JLabel recomendationsLabel = new JLabel("Recomendations");
+		recomendationsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		recomendationsLabel.setFont(new Font("Book Antiqua", Font.PLAIN, 18));
+		GroupLayout gl_pReccomendation = new GroupLayout(pReccomendation);
+		gl_pReccomendation.setHorizontalGroup(
+			gl_pReccomendation.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pReccomendation.createSequentialGroup()
+					.addGap(10)
+					.addComponent(recomendationsLabel)
+					.addContainerGap(23, Short.MAX_VALUE))
+		);
+		gl_pReccomendation.setVerticalGroup(
+			gl_pReccomendation.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pReccomendation.createSequentialGroup()
+					.addGap(11)
+					.addComponent(recomendationsLabel)
+					.addContainerGap(303, Short.MAX_VALUE))
+		);
+		pReccomendation.setLayout(gl_pReccomendation);
 		centerContent_Rent.setLayout(gl_centerContent_Rent);
 		GroupLayout gl_rentPage = new GroupLayout(rentPage);
 		gl_rentPage.setHorizontalGroup(
@@ -255,18 +323,28 @@ public class MainGUI implements ActionListener {
 					.addComponent(rent_Inv))
 		);
 		topBar_Inv.setLayout(gl_topBar_Inv);
+		
+		tableInventory = new JTable();
+		scrollInventory = new JScrollPane();
+		tableInventory.add(scrollInventory);
+		
+		tableInventory.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		GroupLayout gl_centerContent_Inv = new GroupLayout(centerContent_Inv);
 		gl_centerContent_Inv.setHorizontalGroup(
 			gl_centerContent_Inv.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 845, Short.MAX_VALUE)
 				.addComponent(topBar_Inv, GroupLayout.DEFAULT_SIZE, 845, Short.MAX_VALUE)
+				.addGroup(gl_centerContent_Inv.createSequentialGroup()
+					.addGap(140)
+					.addComponent(tableInventory, GroupLayout.DEFAULT_SIZE, 520, Short.MAX_VALUE)
+					.addGap(185))
 		);
 		gl_centerContent_Inv.setVerticalGroup(
 			gl_centerContent_Inv.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 609, Short.MAX_VALUE)
 				.addGroup(gl_centerContent_Inv.createSequentialGroup()
 					.addComponent(topBar_Inv, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(567, Short.MAX_VALUE))
+					.addGap(121)
+					.addComponent(tableInventory, GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE)
+					.addGap(113))
 		);
 		centerContent_Inv.setLayout(gl_centerContent_Inv);
 		GroupLayout gl_inventoryPage = new GroupLayout(inventoryPage);
