@@ -16,16 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-/*
- *  Here is a quick crash course of how I have this set up because so far every tutorial I have looked at on swing is bad
- * 
- * Using JLayeredPane as a way to swap between different Panels without closing the frame (ie window)
- * So essentially make the GUI using panels and then swap them in and out of the layer for smooth transitions
- * 
- * I WOULD HIGHLY recommend looking at basic tutorials though, can't say I know how to do all of this perfectly
- * - Gabriel
- * 
- * */
+
 
 public class LoginGUI implements ActionListener {
 

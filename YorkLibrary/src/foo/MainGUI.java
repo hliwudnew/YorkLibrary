@@ -329,20 +329,29 @@ public class MainGUI implements ActionListener {
 		tableInventory.add(scrollInventory);
 		
 		tableInventory.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		
+		JButton btnRefreshInventory = new JButton("Refresh");
 		GroupLayout gl_centerContent_Inv = new GroupLayout(centerContent_Inv);
 		gl_centerContent_Inv.setHorizontalGroup(
-			gl_centerContent_Inv.createParallelGroup(Alignment.LEADING)
+			gl_centerContent_Inv.createParallelGroup(Alignment.TRAILING)
 				.addComponent(topBar_Inv, GroupLayout.DEFAULT_SIZE, 845, Short.MAX_VALUE)
 				.addGroup(gl_centerContent_Inv.createSequentialGroup()
-					.addGap(140)
-					.addComponent(tableInventory, GroupLayout.DEFAULT_SIZE, 520, Short.MAX_VALUE)
+					.addGroup(gl_centerContent_Inv.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_centerContent_Inv.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(btnRefreshInventory, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_centerContent_Inv.createSequentialGroup()
+							.addGap(140)
+							.addComponent(tableInventory, GroupLayout.DEFAULT_SIZE, 520, Short.MAX_VALUE)))
 					.addGap(185))
 		);
 		gl_centerContent_Inv.setVerticalGroup(
 			gl_centerContent_Inv.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_centerContent_Inv.createSequentialGroup()
 					.addComponent(topBar_Inv, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
-					.addGap(121)
+					.addGap(92)
+					.addComponent(btnRefreshInventory, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(tableInventory, GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE)
 					.addGap(113))
 		);
