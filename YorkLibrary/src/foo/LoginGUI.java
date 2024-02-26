@@ -96,12 +96,20 @@ public class LoginGUI implements ActionListener {
 		
 		
 		if(event.getSource() == login) {
-			//TODO: Check database to see if their information is correct to login
 			
+			//Checks database to see if their information is correct to login
+			if(CSVReader.loginData(email, password)) {
+				//Closes window to open main application
+				frame.dispose();
+				new MainGUI();
+			}
+			else {
+				//Prompts the user to enter in proper email and password
+				loginPanel.add(text3);
+				layers.repaint();
+				layers.revalidate();
+			}
 			
-			//Closes window to open main application
-			frame.dispose();
-			new MainGUI();
 		}
 		//Register
 		else if(event.getSource() == register) {

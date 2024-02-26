@@ -1,2 +1,3 @@
-﻿Email,Password,Rented,Subscriptions
-test@gmail.com,Password#123,null,null
+﻿Email,Password,Rented,Subscriptions,Courses,TextBooks
+test@gmail.com,Password#123,null,null,null,null
+account@gmail.com,Password#123,null,null,null,null
