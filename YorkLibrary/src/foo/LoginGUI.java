@@ -4,6 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -145,18 +148,44 @@ public class LoginGUI implements ActionListener {
 	
 	//Returns Pass if they meet the criteria, if not it will return a message on what to fix
 	public boolean validateInput(String email, String password) {
-		//Checks if @ is in the right place
+		//Checks if @ is in the right place, Email Checker
 		String emailRegex = "^(.+)@(.+)$";
 		Pattern pattern = Pattern.compile(emailRegex);
 		Matcher matcher = pattern.matcher(email);
-			
-		//TODO: Check if password is strong too
-		//Checks if the email is valid
-		if(matcher.matches() && email.contains(".com")) {
+		
+		//Password conditions
+        boolean hasLower = false;
+        boolean hasUpper = false;
+        boolean hasDigit = false;
+        boolean specialChar = false; 
+        //Goofy way to do this but it is written nicely instead of being gross
+        Set<Character> set = new HashSet<Character>(Arrays.asList('!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '+')); 
+        boolean goodPassword = false;
+        
+        //Checks each char in the password
+        for (char i : password.toCharArray()) 
+        { 
+            if (Character.isLowerCase(i)) 
+                hasLower = true; 
+            if (Character.isUpperCase(i)) 
+                hasUpper = true; 
+            if (Character.isDigit(i)) 
+                hasDigit = true; 
+            if (set.contains(i)) 
+                specialChar = true; 
+        } 
+        //Checks password
+        if (hasDigit && hasLower && hasUpper && specialChar) {
+        	goodPassword = true;
+        }
+        
+		//Checks if the email is valid                 //checks if password is valid
+		if((matcher.matches() && email.contains(".com")) && goodPassword){
 			return true;
 		}
 		else {
 			return false;
 		}
 	}
+
 }
