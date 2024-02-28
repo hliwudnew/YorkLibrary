@@ -1,3 +1,10 @@
-﻿Email,Password,Rented,Subscriptions,Courses,TextBooks
-test@gmail.com,Password#123,null,null,null,null
-account@gmail.com,Password#123,null,null,null,null
+Email,Password,Rented,Subscriptions
+test@gmail.com,Password#123,null,null
+account@gmail.com,Pass1#,null,null
+W@gmail.com,Ww1!, null, null
+added@gmail.com,Added123#, null, null
+cool@gmail.com,Ww1!, null, null
+,,,
+hot@gmail.com,Hh2@, null, null
+,,,
+test2@gmail.com,Empty@#$1, null, null

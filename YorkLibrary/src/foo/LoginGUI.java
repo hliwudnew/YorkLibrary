@@ -130,18 +130,25 @@ public class LoginGUI implements ActionListener {
 			layers.revalidate();
 		}
 		else if(event.getSource() == signup) {
-			if(validateInput(email,password)) {
-				//TODO: Call database to add credentials and sign them in
-				
-				//Closes window to open main application
-				frame.dispose();
-				new MainGUI();
-			}
-			else {
-				//Prompts the user to enter in proper email and password
-				registrationPanel.add(text3);
-				layers.repaint();
-				layers.revalidate();
+			try {
+				if(validateInput(email,password) && !CSVReader.checkEmail(email)) {
+					
+					//Calls database to add credentials and sign them in
+					CSVReader.register(email, password);
+					
+					//Closes window to open main application
+					frame.dispose();
+					new MainGUI();
+				}
+				else {
+					//Prompts the user to enter in proper email and password
+					registrationPanel.add(text3);
+					layers.repaint();
+					layers.revalidate();
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}
