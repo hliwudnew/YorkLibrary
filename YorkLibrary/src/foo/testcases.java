@@ -5,12 +5,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 class testcases {
-
-	@Test
-	void test() {
-		fail("Not yet implemented");
-	}
-
 	
 	@Test
 	void makePhysical() {
@@ -32,8 +26,8 @@ class testcases {
 	}
 	
 	@Test
+	//Management team adds two items, then the library has them, one person rents them and returns one of them
 	void basic_Test() {
-		//Management team adds two items, then the library has them, one person rents them and returns one of them
 		ManagementTeam team = new ManagementTeam();
 		LibrarySystem system = new LibrarySystem();
 		Student person = new Student();
@@ -50,13 +44,16 @@ class testcases {
 		book2.setDisabled(false);
 		book2.setName("Second Book");
 		
-		//TODO: Currently stores the address for the item, this is an issue??
 		team.addItem(book1);
 		team.addItem(book2);
 		
 		//Eventually will need fixing when good passwords are supposed to be implemented
 		person.setEmail("www@gmail");
 		person.setPassword("1234");
+		
+		//Add person to Library System since they at minimum require an email and password
+		//And a person requires an account to rent out books
+		system.addUser(person);
 		
 		person.rentPhysicalItem(book1);
 		person.rentPhysicalItem(book2);

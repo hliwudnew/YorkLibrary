@@ -22,7 +22,6 @@ public class LibrarySystem {
 	}
 	
 	//Methods
-	
 	public ArrayList<Item> checkDue(User user){
 		//Finds the user and returns their list of when their rented items are due
 		return null;
@@ -49,7 +48,25 @@ public class LibrarySystem {
 		this.stock.remove(item);
 	}
 	
+	//TODO: Might scrap this idea since it might not actually be helpful
+	public void addBarrowed(Item item) {
+		this.borrowed.add(item);
+	}
+	public void removeBarrowed(Item item) {
+		this.borrowed.remove(item);
+	}
 	
+	//Awesome
+	public void addUser(User user) {
+		if(user != null) {
+			//When the user is allowed/has email and password, they can be added to the system it establishes a connection with the user to the system
+			this.userlist.add(user);
+			user.setSystem(this);
+		}
+		else {
+			throw new NullPointerException();
+		}
+	}
 	
 	//Getters
 	public ArrayList<Item> getStock(){
