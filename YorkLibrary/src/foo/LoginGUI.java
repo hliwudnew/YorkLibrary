@@ -7,11 +7,13 @@ import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -31,12 +33,14 @@ public class LoginGUI implements ActionListener {
 	private JLabel text1;
 	private JLabel text2;
 	private JLabel text3;
+	private JLabel text4;
 	private JTextField emailInput;
 	private JPasswordField passwordInput;
 	private JLayeredPane layers;
 	//Registration
 	private JPanel registrationPanel;
 	private JButton signup;
+	private JComboBox<String> type;
 	
 	
 	public static void main(String[] args) {
@@ -56,6 +60,15 @@ public class LoginGUI implements ActionListener {
 		layers = new JLayeredPane();
 		signup = new JButton("Register");
 		text3 = new JLabel("Enter a valid email address and password");
+		text4 = new JLabel("Select Account Type");
+		
+		//Account stuff
+		Vector<String> accountTypes = new Vector<String>();
+		accountTypes.add("Studnet");
+		accountTypes.add("Faculty");
+		accountTypes.add("NonFaculty");
+		accountTypes.add("Visitor");
+		type = new JComboBox<String>(accountTypes);
 		
 		//Window Setup
 		layers.setBorder(BorderFactory.createEmptyBorder(100, 100, 100, 100)); //TODO: Can this be a factory from class lol?
@@ -121,6 +134,8 @@ public class LoginGUI implements ActionListener {
 			registrationPanel.add(emailInput);
 			registrationPanel.add(text2);
 			registrationPanel.add(passwordInput);
+			registrationPanel.add(text4);
+			registrationPanel.add(type);
 			registrationPanel.add(signup);
 			
 			//Swaps to Register Panel

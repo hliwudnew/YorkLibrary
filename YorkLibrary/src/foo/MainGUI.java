@@ -31,6 +31,7 @@ import javax.swing.Box;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JComboBox;
 
 public class MainGUI implements ActionListener {
 	//Basic Setup
