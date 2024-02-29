@@ -67,15 +67,29 @@ public class CSVReader {
 		String path ="src\\data\\items.csv";
 		String line = "";
 		ArrayList<Item> items = new ArrayList<Item>();
+		boolean skip = true; // Not my greatest fix but skips the first row of column names
 		
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(path));
 			while((line = br.readLine())!= null) {
 				String[] values = line.split(",");
 				//Fixes issues with blank spaces in csv file
-				if(values.length != 0) {
-					System.out.println(values[0]+ " " +values[1]);
+				if(values.length != 0 && !skip) {
+					PhysicalItem temp = new PhysicalItem();
+					boolean disabled = false;
+					
+					if(values[3].equals("TRUE")){
+						disabled = true;
+					}
+					
+					//All pulled from database
+					temp.setId(Integer.valueOf(values[0]));
+					temp.setName(values[1]);
+					temp.setPrice(Double.valueOf(values[2]));
+					temp.setDisabled(disabled);
+					items.add(temp);
 				}
+				skip = false;
 			}
 			System.out.println("Data has been read");
 		} catch(FileNotFoundException e) {
@@ -83,7 +97,8 @@ public class CSVReader {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return null;
+		
+		return items;
 	}
 	
 	//Checks if the user exists in the system
