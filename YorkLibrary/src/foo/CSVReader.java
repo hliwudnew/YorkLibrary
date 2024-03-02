@@ -7,7 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
 /*
@@ -17,7 +16,7 @@ import java.util.ArrayList;
 
 
 public class CSVReader {
-
+	
 	//This works well, just need to modify to work with folder in the project
 	public static void main(String[] args) { //Type is file name
 		//This should work in as long as the CSV files are in the data folder/package
@@ -78,7 +77,7 @@ public class CSVReader {
 					PhysicalItem temp = new PhysicalItem();
 					boolean disabled = false;
 					
-					if(values[3].equals("TRUE")){
+					if(values[3].equals("true") ||values[3].equals("TRUE") ){
 						disabled = true;
 					}
 					
@@ -141,7 +140,7 @@ public class CSVReader {
 			String path ="src\\data\\Accounts.csv";
 			BufferedWriter buffWrite = new BufferedWriter(new FileWriter(new File(path), true));
 			// New line is important because it moves down a row
-			buffWrite.write("\n"+email +"," + password+", null, null"); //Appends to CSV file
+			buffWrite.write(email +"," + password+", null, null"+"\n"); //Appends to CSV file
 			buffWrite.close();// Closes the writer so the data saves
 			System.out.println("Added to CSV");
 		}catch(Exception e){
@@ -179,4 +178,118 @@ public class CSVReader {
 		return false;
 	}
 	
+	public static void disableItem(int id) {
+		//Grabs items from database
+		ArrayList<Item> items = new ArrayList<Item>(CSVReader.itemData());
+		boolean found = false;
+		//Finds record we want
+		for(Item I : items) {
+			if(I.getId() == id) {
+				found = true;
+				I.setDisabled(true);
+			}
+		}
+		
+		if(found) {
+			try {
+				String path ="src\\data\\Items.csv";
+				BufferedWriter buffWrite = new BufferedWriter(new FileWriter(new File(path)));
+				buffWrite.write("Id,Name,Price,Disabled\n");// Rewrites the headers
+				//Writes updated data, Yes i know this rewrites the entire file, but I cannot find another way to only edit a single row without rows and columns coordinates
+				//TODO: Possible better fix is figure out how to find the column and row of specific data
+				for(Item I: items) {
+					buffWrite.write(I.getId()+","+I.getName()+","+I.getPrice()+","+I.getDisabled()+"\n");//Rewrites CSV file
+				}
+				buffWrite.close();// Closes the writer so the data saves
+				System.out.println("Added to CSV");
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		else {
+			System.out.println("Items doesnt exist");
+		}
+	}
+	
+	public static void enableItem(int id) {
+		//Grabs items from database
+		ArrayList<Item> items = new ArrayList<Item>(CSVReader.itemData());
+		boolean found = false;
+		//Finds record we want
+		for(Item I : items) {
+			if(I.getId() == id) {
+				found = true;
+				I.setDisabled(false);
+			}
+		}
+		
+		if(found) {
+			try {
+				String path ="src\\data\\Items.csv";
+				BufferedWriter buffWrite = new BufferedWriter(new FileWriter(new File(path)));
+				buffWrite.write("Id,Name,Price,Disabled\n");// Rewrites the headers
+				//Writes updated data, Yes i know this rewrites the entire file, but I cannot find another way to only edit a single row without rows and columns coordinates
+				//TODO: Possible better fix is figure out how to find the column and row of specific data
+				for(Item I: items) {
+					buffWrite.write(I.getId()+","+I.getName()+","+I.getPrice()+","+I.getDisabled()+"\n");//Rewrites CSV file
+				}
+				buffWrite.close();// Closes the writer so the data saves
+				System.out.println("Added to CSV");
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		else {
+			System.out.println("Items doesnt exist");
+		}
+	}
+	
+	//Adds item to the CSV
+	public static void addItem(int id, String name, double price, boolean disabled) {
+		//TODO: make this check if there are already the max for that item
+		try {
+			String path ="src\\data\\Items.csv";
+			BufferedWriter buffWrite = new BufferedWriter(new FileWriter(new File(path), true));
+			// New line is important because it moves down a row
+			buffWrite.write(id +"," + name+","+price+","+disabled+"\n"); //Appends to CSV file
+			buffWrite.close();// Closes the writer so the data saves
+			System.out.println("Added to CSV");
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+	}
+
+	public static void removeItem(int id) {
+		//Grabs items from database
+		ArrayList<Item> items = new ArrayList<Item>(CSVReader.itemData());
+		boolean found = false;
+		//Finds record we want to remove
+		for(int i = 0; i < items.size(); i++) {
+			if(items.get(i).getId() == id) {
+				items.remove(i);
+				found = true;
+			}
+		}
+		
+		if(found) {
+			try {
+				String path ="src\\data\\Items.csv";
+				BufferedWriter buffWrite = new BufferedWriter(new FileWriter(new File(path)));
+				buffWrite.write("Id,Name,Price,Disabled\n");// Rewrites the headers
+				//Writes updated data, Yes i know this rewrites the entire file, but I cannot find another way to only edit a single row without rows and columns coordinates
+				//TODO: Possible better fix is figure out how to find the column and row of specific data
+				for(Item I: items) {
+					buffWrite.write(I.getId()+","+I.getName()+","+I.getPrice()+","+I.getDisabled()+"\n");//Rewrites CSV file
+				}
+				buffWrite.close();// Closes the writer so the data saves
+				System.out.println("Added to CSV");
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		else {
+			System.out.println("Items doesnt exist");
+		}
+	}
 }

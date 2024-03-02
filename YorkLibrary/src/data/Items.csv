@@ -1,2 +1,4 @@
-﻿id,name,price,disabled
-1,FreeBook,0,FALSE
+Id,Name,Price,Disabled
+1,FreeBook,0.0,false
+3,cool,32.0,false
+2,Update,0.0,true

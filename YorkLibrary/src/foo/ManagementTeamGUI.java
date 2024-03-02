@@ -19,14 +19,19 @@ import javax.swing.JComboBox;
 import java.awt.Color;
 import javax.swing.JTabbedPane;
 import javax.swing.JLabel;
+import javax.swing.JCheckBox;
 
 public class ManagementTeamGUI {
 	//Basic Setup
 	private JFrame frame;
 	private JTable mtsTable;
-	private JTextField textField;
+	private JTextField textField_id;
 	private JTextField txtRemoveItem;
 	private JTextField textField_Disable;
+	private JTextField textField_Name;
+	private JTextField textField_Price;
+	private JCheckBox checkDisabled;
+	private JTextField textField_Enable;
 	
 	
 	
@@ -101,28 +106,98 @@ public class ManagementTeamGUI {
 		JPanel addItem = new JPanel();
 		tabbedPane.addTab("Add", null, addItem, null);
 		
-		textField = new JTextField();
-		textField.setColumns(10);
+		textField_id = new JTextField();
+		textField_id.setColumns(10);
 		
 		JLabel lblAdd = new JLabel("Add a new item");
+		
+		textField_Name = new JTextField();
+		textField_Name.setColumns(10);
+		
+		JLabel lblNewID = new JLabel("Id");
+		
+		textField_Price = new JTextField();
+		textField_Price.setColumns(10);
+		
+		JLabel lblNewName = new JLabel("Name");
+		
+		JLabel lblNewPrice = new JLabel("Price");
+		
+		JLabel lblNewDisbabled = new JLabel("Disabled");
+		
+		JButton btnAddItem = new JButton("Submit");
+		btnAddItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				boolean disabled;
+				if(checkDisabled.getSelectedObjects() != null) {
+					disabled = true;
+				}
+				else {
+					disabled = false;
+				}
+				CSVReader.addItem(Integer.valueOf(textField_id.getText()), textField_Name.getText(), Double.valueOf(textField_Price.getText()), disabled);
+			}
+		});
+		
+		checkDisabled = new JCheckBox("");
+		checkDisabled.setSelected(true);
 		GroupLayout gl_addItem = new GroupLayout(addItem);
 		gl_addItem.setHorizontalGroup(
-			gl_addItem.createParallelGroup(Alignment.LEADING)
+			gl_addItem.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_addItem.createSequentialGroup()
-					.addGap(149)
+					.addGap(169)
+					.addComponent(btnAddItem, GroupLayout.PREFERRED_SIZE, 128, Short.MAX_VALUE)
+					.addGap(143))
+				.addGroup(Alignment.LEADING, gl_addItem.createSequentialGroup()
 					.addGroup(gl_addItem.createParallelGroup(Alignment.LEADING)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblAdd))
-					.addContainerGap(142, Short.MAX_VALUE))
+						.addGroup(gl_addItem.createSequentialGroup()
+							.addGap(33)
+							.addComponent(lblNewID, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+							.addGap(45)
+							.addComponent(lblNewName)
+							.addGap(94)
+							.addComponent(lblNewPrice)
+							.addGap(69)
+							.addComponent(lblNewDisbabled, GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
+							.addGap(13))
+						.addGroup(gl_addItem.createSequentialGroup()
+							.addGap(149)
+							.addComponent(lblAdd, GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
+							.addGap(144))
+						.addGroup(gl_addItem.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(textField_id, GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(textField_Name, GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(textField_Price, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(checkDisabled)
+							.addGap(55)))
+					.addGap(37))
 		);
 		gl_addItem.setVerticalGroup(
-			gl_addItem.createParallelGroup(Alignment.LEADING)
+			gl_addItem.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_addItem.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(lblAdd, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addGap(43)
-					.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(122))
+					.addGap(18)
+					.addGroup(gl_addItem.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblNewID)
+						.addComponent(lblNewName)
+						.addComponent(lblNewPrice)
+						.addComponent(lblNewDisbabled))
+					.addGap(11)
+					.addGroup(gl_addItem.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_addItem.createSequentialGroup()
+							.addGroup(gl_addItem.createParallelGroup(Alignment.BASELINE)
+								.addComponent(textField_id, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(textField_Name, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(textField_Price, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(88)
+							.addComponent(btnAddItem))
+						.addComponent(checkDisabled))
+					.addContainerGap())
 		);
 		addItem.setLayout(gl_addItem);
 		
@@ -132,8 +207,7 @@ public class ManagementTeamGUI {
 		JButton btnRemoveItem = new JButton("Submit");
 		btnRemoveItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				
+				CSVReader.removeItem(Integer.valueOf(txtRemoveItem.getText()));
 			}
 		});
 		
@@ -171,12 +245,12 @@ public class ManagementTeamGUI {
 		removeItem.setLayout(gl_removeItem);
 		
 		JPanel disableItem = new JPanel();
-		tabbedPane.addTab("Disable", null, disableItem, null);
+		tabbedPane.addTab("Disable/Enable", null, disableItem, null);
 		
 		JButton btnDisableItem = new JButton("Submit");
 		btnDisableItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				CSVReader.disableItem(Integer.valueOf(textField_Disable.getText()));
 			}
 		});
 		
@@ -184,33 +258,63 @@ public class ManagementTeamGUI {
 		textField_Disable.setColumns(10);
 		
 		JLabel lblDisable = new JLabel("Disable by Id");
+		
+		JLabel lblEnabled = new JLabel("Enable by Id");
+		
+		textField_Enable = new JTextField();
+		textField_Enable.setColumns(10);
+		
+		JButton btnEnableItem = new JButton("Submit");
+		btnEnableItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CSVReader.enableItem(Integer.valueOf(textField_Enable.getText()));
+			}
+		});
 		GroupLayout gl_disableItem = new GroupLayout(disableItem);
 		gl_disableItem.setHorizontalGroup(
 			gl_disableItem.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_disableItem.createSequentialGroup()
-					.addGap(153)
+				.addGroup(Alignment.LEADING, gl_disableItem.createSequentialGroup()
+					.addGap(33)
 					.addGroup(gl_disableItem.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_disableItem.createSequentialGroup()
 							.addGap(9)
-							.addComponent(lblDisable, GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
+							.addComponent(lblDisable, GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
 							.addGap(10))
-						.addComponent(textField_Disable)
+						.addComponent(textField_Disable, 149, 149, 149)
 						.addGroup(gl_disableItem.createSequentialGroup()
 							.addGap(12)
-							.addComponent(btnDisableItem, GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
+							.addComponent(btnDisableItem, GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
 							.addGap(9)))
-					.addGap(138))
+					.addGap(43)
+					.addGroup(gl_disableItem.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_disableItem.createSequentialGroup()
+							.addGap(9)
+							.addComponent(lblEnabled, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE))
+						.addComponent(textField_Enable, GroupLayout.PREFERRED_SIZE, 149, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_disableItem.createSequentialGroup()
+							.addGap(12)
+							.addComponent(btnEnableItem, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)))
+					.addGap(66))
 		);
 		gl_disableItem.setVerticalGroup(
 			gl_disableItem.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_disableItem.createSequentialGroup()
-					.addGap(73)
-					.addComponent(lblDisable, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addGap(11)
-					.addComponent(textField_Disable, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(11)
-					.addComponent(btnDisableItem)
-					.addGap(58))
+				.addGroup(Alignment.LEADING, gl_disableItem.createSequentialGroup()
+					.addGap(71)
+					.addGroup(gl_disableItem.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_disableItem.createSequentialGroup()
+							.addComponent(lblEnabled)
+							.addGap(11)
+							.addComponent(textField_Enable, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGap(11)
+							.addComponent(btnEnableItem)
+							.addContainerGap())
+						.addGroup(gl_disableItem.createSequentialGroup()
+							.addComponent(lblDisable, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addGap(11)
+							.addComponent(textField_Disable, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGap(11)
+							.addComponent(btnDisableItem)
+							.addGap(60))))
 		);
 		disableItem.setLayout(gl_disableItem);
 		

@@ -266,8 +266,8 @@ public class MainGUI implements ActionListener {
 							.addGap(315))
 						.addGroup(gl_centerContent_Rent.createSequentialGroup()
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(rentScroll, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap())))
+							.addComponent(rentScroll, GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
+							.addGap(225))))
 		);
 		gl_centerContent_Rent.setVerticalGroup(
 			gl_centerContent_Rent.createParallelGroup(Alignment.LEADING)
@@ -282,7 +282,7 @@ public class MainGUI implements ActionListener {
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(bthSearch)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(rentScroll, GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE))
+							.addComponent(rentScroll, GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE))
 						.addGroup(gl_centerContent_Rent.createSequentialGroup()
 							.addGap(18)
 							.addComponent(pReccomendation, GroupLayout.PREFERRED_SIZE, 339, GroupLayout.PREFERRED_SIZE)))
