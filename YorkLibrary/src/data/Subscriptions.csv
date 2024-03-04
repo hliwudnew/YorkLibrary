@@ -1,1 +1,2 @@
-﻿Name,Subscribers
+﻿Id,Name,Price,Disabled,Subscribers,Link
+20,New York Times Magazine,0,FALSE,test@gmail.com,https://www.nytimes.com/ca/

@@ -26,14 +26,20 @@ public abstract class User {
 	
 	//Methods
 	public void rentPhysicalItem(PhysicalItem wantToRent) {
-		if(wantToRent != null && !this.rented.contains(wantToRent) && !system.getBorrowed().contains(wantToRent)) {
-			rented.add(wantToRent); //They rent  the book
-			wantToRent.setBorrower(email); //The book is now borrowed by them
-			system.removeStock(wantToRent); //Book is now in borrowed
-			system.addBarrowed(wantToRent);
+		//Prevents from going over the limit
+		if(this.rented.size() < 10) {
+			if(wantToRent != null && !this.rented.contains(wantToRent) && !system.getBorrowed().contains(wantToRent)) {
+				rented.add(wantToRent); //They rent  the book
+				wantToRent.setBorrower(email); //The book is now borrowed by them
+				system.removeStock(wantToRent); //Book is now in borrowed
+				system.addBarrowed(wantToRent);
+			}
+			else {
+				System.out.println("Item entered is null");
+			}
 		}
 		else {
-			System.out.println("Item entered is null");
+			System.out.println("Cannot rent more than 10 items");
 		}
 	}
 	

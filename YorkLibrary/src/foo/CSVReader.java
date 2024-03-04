@@ -42,6 +42,7 @@ public class CSVReader {
 //			e.printStackTrace();
 //		}
 //	}
+	
 	//TODO: not fully complete yet
 	public static ArrayList<User> userData(LibrarySystem system) {
 		String path ="src\\data\\Accounts.csv";
@@ -58,7 +59,7 @@ public class CSVReader {
 				//Fixes issues with blank spaces in csv file
 				ArrayList<PhysicalItem> rented = new ArrayList<PhysicalItem>();
 				if(values.length != 0 && !skip) {
-					//TODO:today
+					//TODO: - Gabriel Ill figure this out at some point
 					if(values[4].equals("Student")) {
 						Student temp = new Student(null); //TODO: some how put all courses in this
 						temp.setEmail(values[0]);
@@ -114,7 +115,6 @@ public class CSVReader {
 						}
 						else {
 							String[] split = values[2].split("\\|");
-							int id = 0;
 							for(int i = 0; i < split.length; i ++) {
 								for(PhysicalItem I: items) {
 									if(!split[i].equals("\\|")) {
@@ -292,9 +292,76 @@ public class CSVReader {
 		}
 		return false;
 	}
+
+	//Uploads everything to the CSV on close
+	//TODO: when other things are set to run on the system, we can add them to save
+	public static void upload(LibrarySystem system) {
+		ArrayList<PhysicalItem> items = new ArrayList<PhysicalItem>(system.getStock());
+		items.addAll(system.getBorrowed());
+		ArrayList<User> users = new ArrayList<User>(system.getUsers());
+		boolean first = true;
+		// Saves all the items data and Account data
+		try {
+			String path ="src\\data\\Items.csv";
+			String pathAccount ="src\\data\\Accounts.csv";
+			
+			BufferedWriter buffWrite = new BufferedWriter(new FileWriter(new File(path)));
+			buffWrite.write(itemHeaders);// Rewrites the headers
+			//Saves item data
+			for(PhysicalItem I: items) {
+				buffWrite.write(I.getId()+","+I.getName()+","+I.getPrice()+","+I.getDisabled()+","+ I.getDueDate() +","+ I.getBorrower()+","+ I.getFee()+"\n");//Rewrites CSV file
+			}
+			buffWrite.close();// Closes the writer so the data saves
+			
+			BufferedWriter buffWrite2 = new BufferedWriter(new FileWriter(new File(pathAccount)));
+			buffWrite2.write(accountHeaders);
+			//Saves user data
+			for(User u: users) {
+				String type ="";
+		    	String rented ="";
+				if(u.getClass().toString().equals("class foo.Student")) {
+					type = "Student";
+				}
+				else if(u.getClass().toString().equals("class foo.Faculty")) {
+					type = "Faculty";
+				}
+				else if(u.getClass().toString().equals("class foo.Visitor")){
+					type = "Visitor";
+				}
+				else {
+					type = "NonFaculty";
+				}
+				
+				if(u.getRented().isEmpty()) {
+					rented = "BLANK";
+				}
+				else {
+					//Adds deliminator to the rented items to store properly in CSV
+					for(PhysicalItem I: u.getRented()) {
+						if(!first) {
+							rented = rented +"|"+I.getId();
+						}
+						else {
+							rented = I.getId()+"";
+							first = false;
+						}
+					}
+					first = true;
+				}
+				buffWrite2.write(u.getEmail()+","+u.getPassword()+","+rented+","+"BLANK"+","+type+","+"BLANK,BLANK"+"\n");//Rewrites CSV file
+			}
+			
+			buffWrite2.close();// Closes the writer so the data saves
+			System.out.println("Added to CSV");
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
 	
 	/*
-	 * This was to directly manipulate the CSV files, DO NOT USE PLEASE OR IT WILL BREAK THINGS
+	 * This was to directly manipulate the CSV files, DO NOT USE PLEASE OR IT WILL BREAK THINGS. I might be required in the future hence I am leaving it here
+	 * Again please DO NOT uncomment this or use it 
+	 * - Gabriel
 	 */
 /*
 //	public static void disableItem(int id) {
@@ -411,72 +478,4 @@ public class CSVReader {
  * 
  */
 	
-	
-	
-	
-	
-	//Uploads everything to the CSV on close
-	//TODO: when other things are set to run on the system, we can add them to save
-	public static void upload(LibrarySystem system) {
-		ArrayList<PhysicalItem> items = new ArrayList<PhysicalItem>(system.getStock());
-		items.addAll(system.getBorrowed());
-		ArrayList<User> users = new ArrayList<User>(system.getUsers());
-		boolean first = true;
-		// Saves all the items data and Account data
-		try {
-			String path ="src\\data\\Items.csv";
-			String pathAccount ="src\\data\\Accounts.csv";
-			
-			BufferedWriter buffWrite = new BufferedWriter(new FileWriter(new File(path)));
-			buffWrite.write(itemHeaders);// Rewrites the headers
-			//Saves item data
-			for(PhysicalItem I: items) {
-				buffWrite.write(I.getId()+","+I.getName()+","+I.getPrice()+","+I.getDisabled()+","+ I.getDueDate() +","+ I.getBorrower()+","+ I.getFee()+"\n");//Rewrites CSV file
-			}
-			buffWrite.close();// Closes the writer so the data saves
-			
-			BufferedWriter buffWrite2 = new BufferedWriter(new FileWriter(new File(pathAccount)));
-			buffWrite2.write(accountHeaders);
-			//Saves user data
-			for(User u: users) {
-				String type ="";
-		    	String rented ="";
-				if(u.getClass().toString().equals("class foo.Student")) {
-					type = "Student";
-				}
-				else if(u.getClass().toString().equals("class foo.Faculty")) {
-					type = "Faculty";
-				}
-				else if(u.getClass().toString().equals("class foo.Visitor")){
-					type = "Visitor";
-				}
-				else {
-					type = "NonFaculty";
-				}
-				
-				if(u.getRented().isEmpty()) {
-					rented = "BLANK";
-				}
-				else {
-					//Adds deliminator to the rented items to store properly in CSV
-					for(PhysicalItem I: u.getRented()) {
-						if(!first) {
-							rented = rented +"|"+I.getId();
-						}
-						else {
-							rented = I.getId()+"";
-							first = false;
-						}
-					}
-					first = true;
-				}
-				buffWrite2.write(u.getEmail()+","+u.getPassword()+","+rented+","+"BLANK"+","+type+","+"BLANK,BLANK"+"\n");//Rewrites CSV file
-			}
-			
-			buffWrite2.close();// Closes the writer so the data saves
-			System.out.println("Added to CSV");
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-	}
 }
