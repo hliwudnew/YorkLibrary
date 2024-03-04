@@ -64,7 +64,7 @@ public class LoginGUI implements ActionListener {
 		
 		//Account stuff
 		Vector<String> accountTypes = new Vector<String>();
-		accountTypes.add("Studnet");
+		accountTypes.add("Student");
 		accountTypes.add("Faculty");
 		accountTypes.add("NonFaculty");
 		accountTypes.add("Visitor");
@@ -109,6 +109,7 @@ public class LoginGUI implements ActionListener {
 	public void actionPerformed(ActionEvent event) { // onClick Function
 		String email = emailInput.getText();
 		String password = passwordInput.getText();
+		String accountType = type.getSelectedItem() +"";
 		
 		
 		if(event.getSource() == login) {
@@ -117,7 +118,7 @@ public class LoginGUI implements ActionListener {
 			if(CSVReader.loginData(email, password)) {
 				//Closes window to open main application
 				frame.dispose();
-				new MainGUI();
+				new MainGUI(email);
 			}
 			else {
 				//Prompts the user to enter in proper email and password
@@ -149,11 +150,11 @@ public class LoginGUI implements ActionListener {
 				if(validateInput(email,password) && !CSVReader.checkEmail(email)) {
 					
 					//Calls database to add credentials and sign them in
-					CSVReader.register(email, password);
+					CSVReader.register(email, password,accountType);
 					
 					//Closes window to open main application
 					frame.dispose();
-					new MainGUI();
+					new MainGUI(email);
 				}
 				else {
 					//Prompts the user to enter in proper email and password

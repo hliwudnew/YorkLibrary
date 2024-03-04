@@ -13,12 +13,11 @@ public class ManagementTeam {
 	}
 	
 	//Methods
-	public void addItem(Item item) {
-		//Adds new Item to the library stock
+	public void addItem(PhysicalItem item) {
 		system.addStock(item);
 	}
 	
-	public void removeItem(Item item) {
+	public void removeItem(PhysicalItem item) {
 		if(item != null) {
 			if(!system.getStock().contains(item) && system.getBorrowed().contains(item)) {
 				System.out.println("Cannot Delete Item it is being barrowed");
@@ -29,13 +28,14 @@ public class ManagementTeam {
 		}
 	}
 	
-	public void disableItem(Item item) {
+	public void disableItem(PhysicalItem item) {
 		item.setDisabled(true);
 	}
 	
-	public void enableItem(Item item) {
+	public void enableItem(PhysicalItem item) {
 		item.setDisabled(false);
 	}
+	
 	
 	public void verifyAccount(String username, String password) {
 		

@@ -2,25 +2,22 @@ package foo;
 
 import java.util.ArrayList;
 
-public class User {
+public abstract class User {
 
 	private String email;
 	private String password;
-	private ArrayList<Item> rented;
-	private ArrayList<Item> subscriptions;
-	private LibrarySystem system; //TODO: will need to check in everything if the user is in the system
+	private ArrayList<PhysicalItem> rented;
+	private ArrayList<OnlineItem> subscriptions;
+	private LibrarySystem system;
 	//Ask me, Gabriel, about this connection and how it works
 	
 	
-	//TODO: Pretty sure this will be needed, hence we should be able to remove the addStock from Library system since Managment team handles it, since users shouldnt have access to it
-	//private LibrarySystem system = new LibrarySystem();
-	
 	public User() {
-		this.rented = new ArrayList<Item>();
-		this.subscriptions = new ArrayList<Item>();
+		this.rented = new ArrayList<PhysicalItem>();
+		this.subscriptions = new ArrayList<OnlineItem>();
 	}
 	
-	public User(String email, String password, ArrayList<Item> rented, ArrayList<Item> subs) {
+	public User(String email, String password, ArrayList<PhysicalItem> rented, ArrayList<OnlineItem> subs) {
 		this.email = email;
 		this.password = password;
 		this.rented = rented;
@@ -29,11 +26,10 @@ public class User {
 	
 	//Methods
 	public void rentPhysicalItem(PhysicalItem wantToRent) {
-		//TODO: This is an oversimplification, will need real implementation at some point
-		if(wantToRent != null) {
-			rented.add(wantToRent); // They rent  the book
-			wantToRent.setBorrower(this); // The book is now borrowed by them
-			system.removeStock(wantToRent); // Book is now in borrowed
+		if(wantToRent != null && !this.rented.contains(wantToRent) && !system.getBorrowed().contains(wantToRent)) {
+			rented.add(wantToRent); //They rent  the book
+			wantToRent.setBorrower(email); //The book is now borrowed by them
+			system.removeStock(wantToRent); //Book is now in borrowed
 			system.addBarrowed(wantToRent);
 		}
 		else {
@@ -50,11 +46,12 @@ public class User {
 	}
 	
 	public void returnPhysicalItem(PhysicalItem item) {
-		//Remove from user can add to system. The swap it from the borrowed list to stock list
-		item.setBorrower(null);
-		this.rented.remove(item);
-		system.addStock(item);
-		system.removeBarrowed(item);
+		if(item != null && this.rented.contains(item) && !system.getStock().contains(item)) {
+			item.setBorrower("BLANK");
+			this.rented.remove(item);
+			system.addStock(item);
+			system.removeBarrowed(item);
+		}
 	}
 	
 	public void requestNewItem(Item item) {
@@ -63,12 +60,12 @@ public class User {
 	
 	
 	//Setters
-	public void subscribe(Item newsletter) {
+	public void subscribe(OnlineItem newsletter) {
 		//TODO: oversimplification
 		this.subscriptions.add(newsletter);
 	}
 	
-	public void unSubscribe(Item newsletter) {
+	public void unSubscribe(OnlineItem newsletter) {
 		//TODO: oversimplification
 		this.subscriptions.remove(newsletter);
 	}
@@ -85,11 +82,19 @@ public class User {
 	
 	public void setPassword(String validPassword) {
 		if(validPassword != null && validPassword != "") {
-			this.email = validPassword;
+			this.password = validPassword;
 		}
 		else {
 			System.out.print("Please input valid password");
 		}
+	}
+	
+	public void setRented(ArrayList<PhysicalItem> items) {
+		this.rented = items;
+	}
+	
+	public void setSubscriptions(ArrayList<OnlineItem> subs) {
+		this.subscriptions = subs;
 	}
 	
 	public void setSystem(LibrarySystem system) {
@@ -97,7 +102,7 @@ public class User {
 	}
 	
 	//Getters
-	public ArrayList<Item> getRented(){
+	public ArrayList<PhysicalItem> getRented(){
 		return this.rented;
 	}
 	
@@ -109,7 +114,7 @@ public class User {
 		return this.password;
 	}
 	
-	public ArrayList<Item> getSubscriptions(){
+	public ArrayList<OnlineItem> getSubscriptions(){
 		return this.subscriptions;
 	}
 	

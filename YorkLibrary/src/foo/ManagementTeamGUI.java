@@ -35,13 +35,14 @@ public class ManagementTeamGUI {
 	
 	
 	
-	public static void main(String[] args) {
-		new ManagementTeamGUI();
-	}
+//	public static void main(String[] args) {
+//		new ManagementTeamGUI();
+//	}
 	
 	
-	public ManagementTeamGUI() {
-		frame = new JFrame();
+	public ManagementTeamGUI(LibrarySystem system, JFrame frame) {
+		ManagementTeam mgr = new ManagementTeam(system);
+		
 		frame.getContentPane().setLayout(new CardLayout(0, 0));
 		
 		JPanel mainPage = new JPanel();
@@ -51,22 +52,18 @@ public class ManagementTeamGUI {
 		JScrollPane mtsScroll = new JScrollPane();
 		
 		JButton btnRefresh = new JButton("Refresh");
-		//TODO: This is awesome, I'll convert the action thing in the library GUI
 		btnRefresh.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent event) {
-				ArrayList<Item> items = new ArrayList<Item>();
-				//Grabs everything from the items CSV
-				items.addAll(CSVReader.itemData());
-				
+			public void actionPerformed(ActionEvent event) {				
 				//Clears the table of old data
 				DefaultTableModel clear = (DefaultTableModel) mtsTable.getModel();
 				clear.setRowCount(0);
-				//Loops through the CSV data and adds it to the table
-				for(Item e : items) {
+				//Looks at all items
+				ArrayList<PhysicalItem> holder = new ArrayList<PhysicalItem>(system.getStock());
+				holder.addAll(system.getBorrowed());
+				for(PhysicalItem e : holder) {
 					String[] rowdata = {e.getId()+"",e.getName(),e.getPrice() +"",e.getDisabled()+""};
 					DefaultTableModel tblModel = (DefaultTableModel) mtsTable.getModel();
 					tblModel.addRow(rowdata);
-					//System.out.println(e.toString());
 				}
 			}
 		});
@@ -135,7 +132,16 @@ public class ManagementTeamGUI {
 				else {
 					disabled = false;
 				}
-				CSVReader.addItem(Integer.valueOf(textField_id.getText()), textField_Name.getText(), Double.valueOf(textField_Price.getText()), disabled);
+				//Builds the item
+				PhysicalItem holder = new PhysicalItem();
+				holder.setId(Integer.valueOf(textField_id.getText()));
+				holder.setName(textField_Name.getText());
+				holder.setPrice(Double.valueOf(textField_Price.getText()));
+				holder.setDisabled(disabled);
+				holder.setBorrower("BLANK");
+				holder.setDueDate("BLANK");
+				holder.setFee(0);
+				mgr.addItem(holder);
 			}
 		});
 		
@@ -207,7 +213,7 @@ public class ManagementTeamGUI {
 		JButton btnRemoveItem = new JButton("Submit");
 		btnRemoveItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CSVReader.removeItem(Integer.valueOf(txtRemoveItem.getText()));
+				mgr.removeItem(system.getItem(Integer.valueOf(txtRemoveItem.getText())));
 			}
 		});
 		
@@ -250,7 +256,7 @@ public class ManagementTeamGUI {
 		JButton btnDisableItem = new JButton("Submit");
 		btnDisableItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CSVReader.disableItem(Integer.valueOf(textField_Disable.getText()));
+				mgr.disableItem(system.getItem(Integer.valueOf(textField_Disable.getText())));
 			}
 		});
 		
@@ -267,7 +273,7 @@ public class ManagementTeamGUI {
 		JButton btnEnableItem = new JButton("Submit");
 		btnEnableItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CSVReader.enableItem(Integer.valueOf(textField_Enable.getText()));
+				mgr.enableItem(system.getItem(Integer.valueOf(textField_Enable.getText())));
 			}
 		});
 		GroupLayout gl_disableItem = new GroupLayout(disableItem);

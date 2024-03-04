@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -36,6 +38,7 @@ import javax.swing.JComboBox;
 public class MainGUI implements ActionListener {
 	//Basic Setup
 	private JFrame frame;
+	private JFrame mgrFrame;
 	private JButton inventory;
 	private JPanel mainPage;
 	private JButton home;
@@ -54,7 +57,7 @@ public class MainGUI implements ActionListener {
 	private JButton inventory_Inv;
 	private JButton rent_Inv;
 	private JLabel topBarTitle_Inv;
-	private JTextField textField;
+	private JTextField textField_Search;
 	private JButton btnRefreshInventory_1;
 	private JScrollPane displayScrollPane;
 	private JTable displayTable;
@@ -62,17 +65,31 @@ public class MainGUI implements ActionListener {
 	private JTable searchTable;
 	private JScrollPane inventoryScroll;
 	private JTable inventoryTable;
+	private JLabel lblName;
+	private JTextField textField_Rent;
+	private JTextField textField_Return;
+	private JButton btnSeeAll;
 	
 	public static void main(String[] args) {
-		new MainGUI();
+		new MainGUI("test@gmail.com");
 	}
 	
 	/**
 	 * @wbp.parser.entryPoint
 	 */
-	public MainGUI() {
+	public MainGUI(String email) {
 		System.out.println("Logged in");
+		//Populate the system with data from CSVs
+		LibrarySystem system = new LibrarySystem();
+		system.setItems(CSVReader.itemData());
+		system.setUsers(CSVReader.userData(system));
+		
+		User loggedIn = system.getUser(email);
+		
+		
+		
 		frame = new JFrame();
+		mgrFrame = new JFrame();
 		frame.getContentPane().setLayout(new CardLayout(0, 0));
 		
 		mainPage = new JPanel();
@@ -104,6 +121,20 @@ public class MainGUI implements ActionListener {
 		);
 		
 		btnRefreshInventory_1 = new JButton("Refresh");
+		btnRefreshInventory_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				//Clears the table of old data
+				DefaultTableModel clear = (DefaultTableModel) displayTable.getModel();
+				clear.setRowCount(0);
+				//Loops through the CSV data and adds it to the table
+				for(Item e : system.getStock()) {
+					String[] rowdata = {e.getId()+"",e.getName(),e.getPrice() +"",e.getDisabled()+""};
+					DefaultTableModel tblModel = (DefaultTableModel) displayTable.getModel();
+					tblModel.addRow(rowdata);
+					//System.out.println(e.toString());
+				}
+			}
+		});
 		
 		displayScrollPane = new JScrollPane();
 		
@@ -149,6 +180,18 @@ public class MainGUI implements ActionListener {
 		displayScrollPane.setViewportView(displayTable);
 		
 		rent = new JButton("Rent");
+		
+		lblName = new JLabel("{email}");
+		lblName.setText(email);
+		lblName.setFont(new Font("Book Antiqua", Font.PLAIN, 16));
+		lblName.setForeground(new Color(255, 255, 255));
+		
+		JButton btnAdmin = new JButton("Admin");
+		btnAdmin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new ManagementTeamGUI(system, mgrFrame);
+			}
+		});
 		GroupLayout gl_topBar = new GroupLayout(topBar);
 		gl_topBar.setHorizontalGroup(
 			gl_topBar.createParallelGroup(Alignment.LEADING)
@@ -160,8 +203,12 @@ public class MainGUI implements ActionListener {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(rent)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(topBarTitle, GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
-					.addGap(327))
+					.addComponent(topBarTitle, GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
+					.addGap(183)
+					.addComponent(lblName)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(btnAdmin, GroupLayout.PREFERRED_SIZE, 53, Short.MAX_VALUE)
+					.addContainerGap())
 		);
 		gl_topBar.setVerticalGroup(
 			gl_topBar.createParallelGroup(Alignment.LEADING)
@@ -173,7 +220,12 @@ public class MainGUI implements ActionListener {
 					.addComponent(inventory))
 				.addGroup(gl_topBar.createParallelGroup(Alignment.BASELINE)
 					.addComponent(topBarTitle, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
-					.addComponent(rent))
+					.addComponent(rent)
+					.addComponent(lblName))
+				.addGroup(Alignment.TRAILING, gl_topBar.createSequentialGroup()
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(btnAdmin)
+					.addContainerGap())
 		);
 		topBar.setLayout(gl_topBar);
 		centerContent.setLayout(gl_centerContent);
@@ -230,8 +282,8 @@ public class MainGUI implements ActionListener {
 		);
 		topBar_Rent.setLayout(gl_topBar_Rent);
 		
-		textField = new JTextField();
-		textField.setColumns(10);
+		textField_Search = new JTextField();
+		textField_Search.setColumns(10);
 		
 		JLabel searchLabel = new JLabel("Search");
 		searchLabel.setFont(new Font("Book Antiqua", Font.PLAIN, 18));
@@ -243,13 +295,31 @@ public class MainGUI implements ActionListener {
 		pReccomendation.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		
 		rentScroll = new JScrollPane();
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		
+		btnSeeAll = new JButton("See All");
+		btnSeeAll.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				//Clears the table of old data
+				DefaultTableModel clear = (DefaultTableModel) searchTable.getModel();
+				clear.setRowCount(0);
+				//Loops through the CSV data and adds it to the table
+				for(Item e : system.getStock()) {
+					String[] rowdata = {e.getId()+"",e.getName(),e.getPrice() +"",e.getDisabled()+""};
+					DefaultTableModel tblModel = (DefaultTableModel) searchTable.getModel();
+					tblModel.addRow(rowdata);
+					//System.out.println(e.toString());
+				}
+			}
+		});
 		GroupLayout gl_centerContent_Rent = new GroupLayout(centerContent_Rent);
 		gl_centerContent_Rent.setHorizontalGroup(
 			gl_centerContent_Rent.createParallelGroup(Alignment.LEADING)
-				.addComponent(topBar_Rent, GroupLayout.DEFAULT_SIZE, 866, Short.MAX_VALUE)
 				.addGroup(gl_centerContent_Rent.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(pReccomendation, GroupLayout.PREFERRED_SIZE, 169, GroupLayout.PREFERRED_SIZE)
+					.addComponent(pReccomendation, GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
 					.addGroup(gl_centerContent_Rent.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_centerContent_Rent.createSequentialGroup()
 							.addGap(98)
@@ -258,36 +328,100 @@ public class MainGUI implements ActionListener {
 									.addGap(74)
 									.addComponent(searchLabel, GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
 									.addGap(77))
-								.addComponent(textField, GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
+								.addComponent(textField_Search, GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
 								.addGroup(gl_centerContent_Rent.createSequentialGroup()
 									.addGap(105)
 									.addComponent(bthSearch, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 									.addGap(104)))
-							.addGap(315))
+							.addGap(96))
 						.addGroup(gl_centerContent_Rent.createSequentialGroup()
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(rentScroll, GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
-							.addGap(225))))
+							.addGroup(gl_centerContent_Rent.createParallelGroup(Alignment.LEADING)
+								.addComponent(btnSeeAll)
+								.addComponent(rentScroll, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(6)))
+					.addGap(18)
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 173, Short.MAX_VALUE)
+					.addGap(55))
+				.addGroup(gl_centerContent_Rent.createSequentialGroup()
+					.addComponent(topBar_Rent, GroupLayout.DEFAULT_SIZE, 891, Short.MAX_VALUE)
+					.addGap(0))
 		);
 		gl_centerContent_Rent.setVerticalGroup(
 			gl_centerContent_Rent.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_centerContent_Rent.createSequentialGroup()
 					.addComponent(topBar_Rent, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_centerContent_Rent.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_centerContent_Rent.createSequentialGroup()
 							.addGap(35)
 							.addComponent(searchLabel, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(bthSearch)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(textField_Search, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGroup(gl_centerContent_Rent.createParallelGroup(Alignment.LEADING, false)
+								.addGroup(gl_centerContent_Rent.createSequentialGroup()
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(bthSearch)
+									.addPreferredGap(ComponentPlacement.UNRELATED))
+								.addGroup(Alignment.TRAILING, gl_centerContent_Rent.createSequentialGroup()
+									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(btnSeeAll)
+									.addGap(3)))
 							.addComponent(rentScroll, GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE))
 						.addGroup(gl_centerContent_Rent.createSequentialGroup()
 							.addGap(18)
-							.addComponent(pReccomendation, GroupLayout.PREFERRED_SIZE, 339, GroupLayout.PREFERRED_SIZE)))
+							.addGroup(gl_centerContent_Rent.createParallelGroup(Alignment.LEADING)
+								.addComponent(panel, GroupLayout.PREFERRED_SIZE, 330, GroupLayout.PREFERRED_SIZE)
+								.addComponent(pReccomendation, GroupLayout.PREFERRED_SIZE, 339, GroupLayout.PREFERRED_SIZE))))
 					.addContainerGap())
 		);
+		
+		textField_Rent = new JTextField();
+		textField_Rent.setColumns(10);
+		
+		JLabel lblRent = new JLabel("Self Checkout");
+		lblRent.setFont(new Font("Book Antiqua", Font.BOLD, 16));
+		
+		JLabel lblNewLabel = new JLabel("Rent by Id");
+		
+		JButton btnRent = new JButton("Rent");
+		btnRent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				loggedIn.rentPhysicalItem(system.getItem(Integer.valueOf(textField_Rent.getText())));
+			}
+		});
+		GroupLayout gl_panel = new GroupLayout(panel);
+		gl_panel.setHorizontalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(49)
+					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+					.addGap(67))
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(27)
+					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+						.addComponent(textField_Rent)
+						.addComponent(lblRent, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addGap(54))
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(53)
+					.addComponent(btnRent)
+					.addContainerGap(59, Short.MAX_VALUE))
+		);
+		gl_panel.setVerticalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblRent)
+					.addGap(49)
+					.addComponent(lblNewLabel)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(textField_Rent, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(btnRent)
+					.addContainerGap(176, Short.MAX_VALUE))
+		);
+		panel.setLayout(gl_panel);
 		
 		searchTable = new JTable();
 		searchTable.setModel(new DefaultTableModel(
@@ -329,14 +463,14 @@ public class MainGUI implements ActionListener {
 		GroupLayout gl_rentPage = new GroupLayout(rentPage);
 		gl_rentPage.setHorizontalGroup(
 			gl_rentPage.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_rentPage.createSequentialGroup()
-					.addComponent(centerContent_Rent, GroupLayout.DEFAULT_SIZE, 854, Short.MAX_VALUE)
-					.addGap(1))
+				.addGroup(Alignment.LEADING, gl_rentPage.createSequentialGroup()
+					.addComponent(centerContent_Rent, GroupLayout.DEFAULT_SIZE, 891, Short.MAX_VALUE)
+					.addGap(0))
 		);
 		gl_rentPage.setVerticalGroup(
 			gl_rentPage.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_rentPage.createSequentialGroup()
-					.addComponent(centerContent_Rent, GroupLayout.DEFAULT_SIZE, 619, Short.MAX_VALUE)
+					.addComponent(centerContent_Rent, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addGap(1))
 		);
 		rentPage.setLayout(gl_rentPage);
@@ -393,8 +527,42 @@ public class MainGUI implements ActionListener {
 		topBar_Inv.setLayout(gl_topBar_Inv);
 		
 		JButton btnRefreshInventory = new JButton("Refresh");
+		btnRefreshInventory.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				//Refreshes loggedin inventory
+				
+				//Clears the table of old data
+				DefaultTableModel clear = (DefaultTableModel) inventoryTable.getModel();
+				clear.setRowCount(0);
+				//Loops through the CSV data and adds it to the table
+				for(Item e : loggedIn.getRented()) {
+					String[] rowdata = {e.getId()+"",e.getName(),e.getPrice() +"",e.getDisabled()+""};
+					DefaultTableModel tblModel = (DefaultTableModel) inventoryTable.getModel();
+					tblModel.addRow(rowdata);
+				}
+			}
+		});
 		
 		inventoryScroll = new JScrollPane();
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		
+		JLabel lblReturn_2 = new JLabel("Return by Id");
+		
+		textField_Return = new JTextField();
+		textField_Return.setColumns(10);
+		
+		JLabel lblReturn = new JLabel("Return To Library");
+		lblReturn.setFont(new Font("Book Antiqua", Font.BOLD, 16));
+		
+		JButton btnReturn = new JButton("Return");
+		btnReturn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PhysicalItem item = system.getItem(Integer.valueOf(textField_Return.getText()));
+				loggedIn.returnPhysicalItem(system.getItem(Integer.valueOf(textField_Return.getText())));
+			}
+		});
 		GroupLayout gl_centerContent_Inv = new GroupLayout(centerContent_Inv);
 		gl_centerContent_Inv.setHorizontalGroup(
 			gl_centerContent_Inv.createParallelGroup(Alignment.TRAILING)
@@ -404,18 +572,59 @@ public class MainGUI implements ActionListener {
 					.addGroup(gl_centerContent_Inv.createParallelGroup(Alignment.TRAILING)
 						.addComponent(inventoryScroll, GroupLayout.DEFAULT_SIZE, 541, Short.MAX_VALUE)
 						.addComponent(btnRefreshInventory, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE))
-					.addGap(185))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 173, Short.MAX_VALUE)
+					.addGap(6))
 		);
 		gl_centerContent_Inv.setVerticalGroup(
 			gl_centerContent_Inv.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_centerContent_Inv.createSequentialGroup()
 					.addComponent(topBar_Inv, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
-					.addGap(92)
-					.addComponent(btnRefreshInventory)
-					.addGap(18)
-					.addComponent(inventoryScroll, GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
-					.addGap(120))
+					.addGroup(gl_centerContent_Inv.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_centerContent_Inv.createSequentialGroup()
+							.addGap(92)
+							.addComponent(btnRefreshInventory)
+							.addGap(18)
+							.addComponent(inventoryScroll, GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
+							.addGap(120))
+						.addGroup(gl_centerContent_Inv.createSequentialGroup()
+							.addGap(42)
+							.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 330, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap())))
 		);
+		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
+		gl_panel_1.setHorizontalGroup(
+			gl_panel_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addGap(65)
+					.addComponent(lblReturn_2, GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
+					.addGap(35))
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addGap(28)
+					.addComponent(btnReturn, GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+					.addGap(13))
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addGap(18)
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addGap(23)
+							.addComponent(textField_Return, GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE))
+						.addComponent(lblReturn, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addGap(20))
+		);
+		gl_panel_1.setVerticalGroup(
+			gl_panel_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addGap(11)
+					.addComponent(lblReturn)
+					.addGap(76)
+					.addComponent(lblReturn_2)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(textField_Return, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnReturn))
+		);
+		panel_1.setLayout(gl_panel_1);
 		
 		inventoryTable = new JTable();
 		inventoryTable.setModel(new DefaultTableModel(
@@ -464,13 +673,24 @@ public class MainGUI implements ActionListener {
 		rent_Inv.addActionListener(this);
 		inventory_Inv.addActionListener(this);
 		
-		btnRefreshInventory_1.addActionListener(this);
-		
 		//Sets the window text and lets user see the GUI
 		frame.setTitle("York Library");
 		//frame.setSize(1000, 750); //In editor it doesn't fit, but when running application it looks good
 		frame.setSize(862, 649);
 		frame.setVisible(true);
+		
+		//Saves everything to CSVs when the window closes
+		frame.addWindowListener(new WindowAdapter() {
+		    public void windowClosing(WindowEvent e) {
+		    	//Saves everything that happened
+		    	CSVReader.upload(system);
+		    	
+		    	
+		        //Closes windows
+		    	frame.dispose();
+		    	mgrFrame.dispose();
+		    }
+		});
 	}
 
 	@Override
@@ -496,23 +716,5 @@ public class MainGUI implements ActionListener {
 			frame.repaint();
 			frame.revalidate();
 		}
-		//Refreshes homepage stock
-		if(event.getSource() == btnRefreshInventory_1) {
-			ArrayList<Item> items = new ArrayList<Item>();
-			//Grabs everything from the items CSV
-			items.addAll(CSVReader.itemData());
-			
-			//Clears the table of old data
-			DefaultTableModel clear = (DefaultTableModel) displayTable.getModel();
-			clear.setRowCount(0);
-			//Loops through the CSV data and adds it to the table
-			for(Item e : items) {
-				String[] rowdata = {e.getId()+"",e.getName(),e.getPrice() +"",e.getDisabled()+""};
-				DefaultTableModel tblModel = (DefaultTableModel) displayTable.getModel();
-				tblModel.addRow(rowdata);
-				//System.out.println(e.toString());
-			}
-		}
-		
 	}
 }

@@ -16,12 +16,10 @@ public class Student extends User{
 	
 	//Setters
 	public void addCourse(Course course) {
-		//TODO: Oversimplification
 		this.courses.add(course);
 	}
 	
 	public void dropCourse(Course course) {
-		//TODO: Oversimplification
 		this.courses.remove(course);
 	}
 	

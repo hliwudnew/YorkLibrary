@@ -6,19 +6,40 @@ import java.util.Collections;
 public class LibrarySystem {
 	
 	//Library System stuff
-	private ArrayList<Item> stock = new ArrayList<Item>();
-	private ArrayList<Item> borrowed = new ArrayList<Item>();
+	private ArrayList<PhysicalItem> stock = new ArrayList<PhysicalItem>();
+	private ArrayList<PhysicalItem> borrowed = new ArrayList<PhysicalItem>();
 	private ArrayList<User> userlist = new ArrayList<User>();
 	
 	public LibrarySystem() {
-//		stock = new ArrayList<Item>();
-//		borrowed = new ArrayList<Item>();
+		stock = new ArrayList<PhysicalItem>();
+		borrowed = new ArrayList<PhysicalItem>();
 	}
 	
-	public LibrarySystem(ArrayList<Item> stock, ArrayList<Item> borrowed, ArrayList<User> users) {
+	public LibrarySystem(ArrayList<PhysicalItem> stock, ArrayList<PhysicalItem> borrowed, ArrayList<User> users) {
 		this.stock = stock;
 		this.borrowed = borrowed;
 		this.userlist = users;
+	}
+	
+
+	//Both below are used to populate the LibrarySystem with data from the CSVs
+	public void setUsers(ArrayList<User> usersCSV) {
+		this.userlist = usersCSV;
+	}
+	
+	public void setItems(ArrayList<PhysicalItem> itemsCSV) {
+		ArrayList<PhysicalItem> stock = new ArrayList<PhysicalItem>();
+		ArrayList<PhysicalItem> barrowed = new ArrayList<PhysicalItem>();
+		for(PhysicalItem I: itemsCSV) {
+			if(I.getBorrower().equals("BLANK")) {
+				stock.add(I);
+			}
+			else {
+				barrowed.add(I);
+			}
+		}
+		this.stock = stock;
+		this.borrowed = barrowed;
 	}
 	
 	//Methods
@@ -39,24 +60,20 @@ public class LibrarySystem {
 	
 	
 	//Setters
-	public void addStock(Item item) {
-		//TODO: This should be done with the management team, some how?
+	public void addStock(PhysicalItem item) {
 		this.stock.add(item);
 	}
-	public void removeStock(Item item) {
-		//TODO: This should be done with the management team, some how?
+	public void removeStock(PhysicalItem item) {
 		this.stock.remove(item);
 	}
 	
-	//TODO: Might scrap this idea since it might not actually be helpful
-	public void addBarrowed(Item item) {
+	public void addBarrowed(PhysicalItem item) {
 		this.borrowed.add(item);
 	}
-	public void removeBarrowed(Item item) {
+	public void removeBarrowed(PhysicalItem item) {
 		this.borrowed.remove(item);
 	}
 	
-	//Awesome
 	public void addUser(User user) {
 		if(user != null) {
 			//When the user is allowed/has email and password, they can be added to the system it establishes a connection with the user to the system
@@ -69,16 +86,37 @@ public class LibrarySystem {
 	}
 	
 	//Getters
-	public ArrayList<Item> getStock(){
+	public ArrayList<PhysicalItem> getStock(){
 		return this.stock;
 	}
-	public ArrayList<Item> getBorrowed(){
+	public ArrayList<PhysicalItem> getBorrowed(){
 		return this.borrowed;
 	}
 	public ArrayList<User> getUsers(){
 		return this.userlist;
 	}
-	public int getStockOf(Item item) {
+	public User getUser(String email) {
+		for(User u: this.userlist) {
+			if(u.getEmail().equals(email)) {
+				u.setSystem(this);
+				return u;
+			}
+		}
+		return null;
+	}
+	
+	public PhysicalItem getItem(int id) {
+		ArrayList<PhysicalItem> items = new ArrayList<PhysicalItem>(this.stock);
+		items.addAll(this.borrowed);
+		for(PhysicalItem I: items) {
+			if(I.getId() == id) {
+				return I;
+			}
+		}
+		return null;
+	}
+	
+	public int getStockOf(PhysicalItem item) {
 		if(item != null) {
 			//Counts how many times the item appears in the stock
 			return Collections.frequency(stock, item);
