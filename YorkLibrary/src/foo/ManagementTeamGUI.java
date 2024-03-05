@@ -33,13 +33,6 @@ public class ManagementTeamGUI {
 	private JCheckBox checkDisabled;
 	private JTextField textField_Enable;
 	
-	
-	
-//	public static void main(String[] args) {
-//		new ManagementTeamGUI();
-//	}
-	
-	
 	public ManagementTeamGUI(LibrarySystem system, JFrame frame) {
 		ManagementTeam mgr = new ManagementTeam(system);
 		

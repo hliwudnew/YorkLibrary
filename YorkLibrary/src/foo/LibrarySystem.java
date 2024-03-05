@@ -13,6 +13,7 @@ public class LibrarySystem {
 	public LibrarySystem() {
 		stock = new ArrayList<PhysicalItem>();
 		borrowed = new ArrayList<PhysicalItem>();
+		userlist = new ArrayList<User>();
 	}
 	
 	public LibrarySystem(ArrayList<PhysicalItem> stock, ArrayList<PhysicalItem> borrowed, ArrayList<User> users) {

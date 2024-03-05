@@ -42,175 +42,7 @@ public class CSVReader {
 //			e.printStackTrace();
 //		}
 //	}
-	
-	//TODO: not fully complete yet
-	public static ArrayList<User> userData(LibrarySystem system) {
-		String path ="src\\data\\Accounts.csv";
-		String line = "";
-		ArrayList<User> users = new ArrayList<User>();
-		ArrayList<PhysicalItem> items = new ArrayList<PhysicalItem>(system.getStock());
-		items.addAll(system.getBorrowed());
-		boolean skip = true; // Not my greatest fix but skips the first row of column names
-		
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(path));
-			while((line = br.readLine())!= null) {
-				String[] values = line.split(",");
-				//Fixes issues with blank spaces in csv file
-				ArrayList<PhysicalItem> rented = new ArrayList<PhysicalItem>();
-				if(values.length != 0 && !skip) {
-					//TODO: - Gabriel Ill figure this out at some point
-					if(values[4].equals("Student")) {
-						Student temp = new Student(null); //TODO: some how put all courses in this
-						temp.setEmail(values[0]);
-						temp.setPassword(values[1]);
-						if(values[2].equals("BLANK")) {
-							temp.setRented(new ArrayList<PhysicalItem>());
-						}
-						else {
-							String[] split = values[2].split("\\|");
-							for(int i = 0; i < split.length; i ++) {
-								for(PhysicalItem I: items) {
-									if(!split[i].equals("\\|")) {
-										if(I.getId() == Integer.valueOf(split[i])) {
-											rented.add(I);
-										}
-									}
-								}
-							}
-							temp.setRented(rented);
-						}
-						temp.setSubscriptions(null); //TODO: some how put all subscriptions in here
-						users.add(temp);
-					}
-					else if(values[4].equals("Faculty")) {
-						Faculty temp = new Faculty(null,null); //TODO: Somehow put all courses and textbooks in this
-						temp.setEmail(values[0]);
-						temp.setPassword(values[1]);
-						if(values[2].equals("BLANK")) {
-							temp.setRented(new ArrayList<PhysicalItem>());
-						}
-						else {
-							String[] split = values[2].split("\\|");
-							for(int i = 0; i < split.length; i ++) {
-								for(PhysicalItem I: items) {
-									if(!split[i].equals("\\|")) {
-										if(I.getId() == Integer.valueOf(split[i])) {
-											rented.add(I);
-										}
-									}
-								}
-							}
-							temp.setRented(rented);
-						}
-						temp.setSubscriptions(null);
-						users.add(temp);
-					}
-					else if(values[4].equals("NonFaculty")) {
-						Nonfaculty temp = new Nonfaculty();
-						temp.setEmail(values[0]);
-						temp.setPassword(values[1]);
-						if(values[2].equals("BLANK")) {
-							temp.setRented(new ArrayList<PhysicalItem>());
-						}
-						else {
-							String[] split = values[2].split("\\|");
-							for(int i = 0; i < split.length; i ++) {
-								for(PhysicalItem I: items) {
-									if(!split[i].equals("\\|")) {
-										if(I.getId() == Integer.valueOf(split[i])) {
-											rented.add(I);
-										}
-									}
-									else {
-										
-									}
-								}
-							}
-							temp.setRented(rented);
-						}
-						temp.setSubscriptions(null);
-						users.add(temp);
-					}
-					else if(values[4].equals("Visitor")) {
-						Visitor temp = new Visitor();
-						temp.setEmail(values[0]);
-						temp.setPassword(values[1]);
-						if(values[2].equals("BLANK")) {
-							temp.setRented(new ArrayList<PhysicalItem>());
-						}
-						else {
-							String[] split = values[2].split("\\|");
-							for(int i = 0; i < split.length; i ++) {
-								for(PhysicalItem I: items) {
-									if(!split[i].equals("\\|")) {
-										if(I.getId() == Integer.valueOf(split[i])) {
-											rented.add(I);
-										}
-									}
-								}
-							}
-							temp.setRented(rented);
-						}
-						temp.setSubscriptions(null);
-						users.add(temp);
-					}
-				}
-				skip = false;
-			}
-			br.close();
-			System.out.println("Data has been read");
-		} catch(FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		return users;
-	}
-	
-	public static ArrayList<PhysicalItem> itemData() {
-		String path ="src\\data\\items.csv";
-		String line = "";
-		ArrayList<PhysicalItem> items = new ArrayList<PhysicalItem>();
-		boolean skip = true; // Not my greatest fix but skips the first row of column names
-		
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(path));
-			while((line = br.readLine())!= null) {
-				String[] values = line.split(",");
-				//Fixes issues with blank spaces in csv file
-				if(values.length != 0 && !skip) {
-					PhysicalItem temp = new PhysicalItem();
-					boolean disabled = false;
-					
-					if(values[3].equals("true") ||values[3].equals("TRUE") ){
-						disabled = true;
-					}
-					
-					//All pulled from database
-					temp.setId(Integer.valueOf(values[0]));
-					temp.setName(values[1]);
-					temp.setPrice(Double.valueOf(values[2]));
-					temp.setDisabled(disabled);
-					temp.setDueDate(values[4]);
-					temp.setBorrower(values[5]);
-					temp.setFee(Double.valueOf(values[6]));
-					items.add(temp);
-				}
-				skip = false;
-			}
-			br.close();
-			System.out.println("Data has been read");
-		} catch(FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		return items;
-	}
-	
+
 	//Checks if the user exists in the system
 	public static boolean loginData(String email, String password) {
 		String path ="src\\data\\Accounts.csv";
@@ -294,12 +126,10 @@ public class CSVReader {
 	}
 
 	//Uploads everything to the CSV on close
-	//TODO: when other things are set to run on the system, we can add them to save
 	public static void upload(LibrarySystem system) {
 		ArrayList<PhysicalItem> items = new ArrayList<PhysicalItem>(system.getStock());
 		items.addAll(system.getBorrowed());
 		ArrayList<User> users = new ArrayList<User>(system.getUsers());
-		boolean first = true;
 		// Saves all the items data and Account data
 		try {
 			String path ="src\\data\\Items.csv";
@@ -318,7 +148,7 @@ public class CSVReader {
 			//Saves user data
 			for(User u: users) {
 				String type ="";
-		    	String rented ="";
+		    	String rented ="BLANK";
 				if(u.getClass().toString().equals("class foo.Student")) {
 					type = "Student";
 				}
@@ -331,23 +161,6 @@ public class CSVReader {
 				else {
 					type = "NonFaculty";
 				}
-				
-				if(u.getRented().isEmpty()) {
-					rented = "BLANK";
-				}
-				else {
-					//Adds deliminator to the rented items to store properly in CSV
-					for(PhysicalItem I: u.getRented()) {
-						if(!first) {
-							rented = rented +"|"+I.getId();
-						}
-						else {
-							rented = I.getId()+"";
-							first = false;
-						}
-					}
-					first = true;
-				}
 				buffWrite2.write(u.getEmail()+","+u.getPassword()+","+rented+","+"BLANK"+","+type+","+"BLANK,BLANK"+"\n");//Rewrites CSV file
 			}
 			
@@ -356,6 +169,113 @@ public class CSVReader {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+	}
+	
+	
+	public static LibrarySystem dowloadData(LibrarySystem system) {
+		/*
+		 *  Grabbing user data
+		 */
+		String path2 ="src\\data\\Accounts.csv";
+		String line2 = "";
+		ArrayList<User> users = new ArrayList<User>();
+		boolean skip2 = true; // Not my greatest fix but skips the first row of column names
+		
+		try {
+			BufferedReader br2 = new BufferedReader(new FileReader(path2));
+			while((line2 = br2.readLine())!= null) {
+				String[] values = line2.split(",");
+				if(values.length != 0 && !skip2) {
+					if(values[4].equals("Student")) {
+						Student temp = new Student(null); //TODO: some how put all courses in this
+						temp.setEmail(values[0]);
+						temp.setPassword(values[1]);
+						temp.setRented(new ArrayList<PhysicalItem>());
+						temp.setSubscriptions(new ArrayList<OnlineItem>()); //TODO: some how put all subscriptions in here
+						users.add(temp);
+					}
+					else if(values[4].equals("Faculty")) {
+						Faculty temp = new Faculty(null,null); //TODO: Somehow put all courses and textbooks in this
+						temp.setEmail(values[0]);
+						temp.setPassword(values[1]);
+						temp.setRented(new ArrayList<PhysicalItem>());
+						temp.setSubscriptions(new ArrayList<OnlineItem>());
+						users.add(temp);
+					}
+					else if(values[4].equals("NonFaculty")) {
+						Nonfaculty temp = new Nonfaculty();
+						temp.setEmail(values[0]);
+						temp.setPassword(values[1]);
+						temp.setRented(new ArrayList<PhysicalItem>());
+						temp.setSubscriptions(new ArrayList<OnlineItem>());
+						users.add(temp);
+					}
+					else if(values[4].equals("Visitor")) {
+						Visitor temp = new Visitor();
+						temp.setEmail(values[0]);
+						temp.setPassword(values[1]);
+						temp.setRented(new ArrayList<PhysicalItem>());
+						temp.setSubscriptions(new ArrayList<OnlineItem>());
+						users.add(temp);
+					}
+				}
+				skip2 = false;
+			}
+			br2.close();
+		} catch(FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		system.setUsers(users);//Adds all the users from the CSV to the system
+		
+		/*
+		 *  Grabbing Item data
+		 */
+		String path ="src\\data\\items.csv";
+		String line = "";
+		ArrayList<PhysicalItem> items = new ArrayList<PhysicalItem>();
+		boolean skip = true; // Not my greatest fix but skips the first row of column names
+		
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(path));
+			while((line = br.readLine())!= null) {
+				String[] values = line.split(",");
+				//Fixes issues with blank spaces in csv file
+				if(values.length != 0 && !skip) {
+					PhysicalItem temp = new PhysicalItem();
+					boolean disabled = false;
+					
+					if(values[3].equals("true") ||values[3].equals("TRUE") ){
+						disabled = true;
+					}
+					
+					//All pulled from database
+					temp.setId(Integer.valueOf(values[0]));
+					temp.setName(values[1]);
+					temp.setPrice(Double.valueOf(values[2]));
+					temp.setDisabled(disabled);
+					temp.setDueDate(values[4]);
+					temp.setBorrower(values[5]);
+					temp.setFee(Double.valueOf(values[6]));
+					//Assign Item to User
+					if(!temp.getBorrower().equals("BLANK")) {
+						system.getUser(temp.getBorrower()).rentPhysicalItem(temp);
+					}
+					items.add(temp);
+				}
+				skip = false;
+			}
+			br.close();
+			system.setItems(items);//All Items have been added to the database
+		} catch(FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("Downloaded From CSV");
+		return system;
 	}
 	
 	/*

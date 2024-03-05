@@ -1,5 +1,5 @@
 Email,Password,Rented,Subscriptions,Type,Courses,TextBooks
-test@gmail.com,Password123#,10|14|4|3,BLANK,Student,BLANK,BLANK
-Vist@gmail.com,Pp)0,2|5|6,BLANK,Visitor,BLANK,BLANK
-Fac@gmail.com,Fac@2,7|8|9,BLANK,Faculty,BLANK,BLANK
-Non@hotmail.com,Non@1,13,BLANK,NonFaculty,BLANK,BLANK
+test@gmail.com,Password123#,BLANK,BLANK,Student,BLANK,BLANK
+Vist@gmail.com,Pp)0,BLANK,BLANK,Visitor,BLANK,BLANK
+Fac@gmail.com,Fac@2,BLANK,BLANK,Faculty,BLANK,BLANK
+Non@hotmail.com,Non@1,BLANK,BLANK,NonFaculty,BLANK,BLANK

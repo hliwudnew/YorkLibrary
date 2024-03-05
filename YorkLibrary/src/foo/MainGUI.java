@@ -97,9 +97,7 @@ public class MainGUI implements ActionListener {
 	public MainGUI(String email) {
 		System.out.println("Logged in");
 		//Populate the system with data from CSVs
-		LibrarySystem system = new LibrarySystem();
-		system.setItems(CSVReader.itemData());
-		system.setUsers(CSVReader.userData(system));
+		LibrarySystem system = CSVReader.dowloadData(new LibrarySystem());
 		
 		User loggedIn = system.getUser(email);
 		
@@ -689,6 +687,19 @@ public class MainGUI implements ActionListener {
 		onlineScroll = new JScrollPane();
 		
 		JButton btnRefreshOnline = new JButton("Refresh");
+		btnRefreshOnline.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				//Clears the table of old data
+				DefaultTableModel clear = (DefaultTableModel) onlineTable.getModel();
+				clear.setRowCount(0);
+				//Loops through the CSV data and adds it to the table
+				for(Item e : loggedIn.getSubscriptions()) {
+					String[] rowdata = {e.getId()+"",e.getName(),e.getPrice() +"",e.getDisabled()+""};
+					DefaultTableModel tblModel = (DefaultTableModel) onlineTable.getModel();
+					tblModel.addRow(rowdata);
+				}
+			}
+		});
 		
 		JPanel panel_Subs = new JPanel();
 		panel_Subs.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
@@ -801,6 +812,19 @@ public class MainGUI implements ActionListener {
 		JScrollPane scrollRead = new JScrollPane();
 		
 		JButton btnRrefreshRead = new JButton("Refresh");
+		btnRrefreshRead.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				//Clears the table of old data
+				DefaultTableModel clear = (DefaultTableModel) tableRead.getModel();
+				clear.setRowCount(0);
+				//Loops through the CSV data and adds it to the table
+				for(Item e : loggedIn.getSubscriptions()) {
+					String[] rowdata = {e.getId()+"",e.getName(),e.getPrice() +"",e.getDisabled()+""};
+					DefaultTableModel tblModel = (DefaultTableModel) tableRead.getModel();
+					tblModel.addRow(rowdata);
+				}
+			}
+		});
 		
 		JPanel panel_Read = new JPanel();
 		panel_Read.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
