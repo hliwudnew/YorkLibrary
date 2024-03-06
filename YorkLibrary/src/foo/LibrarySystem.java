@@ -6,20 +6,27 @@ import java.util.Collections;
 public class LibrarySystem {
 	
 	//Library System stuff
-	private ArrayList<PhysicalItem> stock = new ArrayList<PhysicalItem>();
-	private ArrayList<PhysicalItem> borrowed = new ArrayList<PhysicalItem>();
+	private ArrayList<Item> stock = new ArrayList<Item>();
+	private ArrayList<Item> borrowed = new ArrayList<Item>();
 	private ArrayList<User> userlist = new ArrayList<User>();
+	private ArrayList<OnlineItem> subscriptions = new ArrayList<OnlineItem>(); //Holds who has subscriptions
+	private ArrayList<OnlineItem> subOptions = new ArrayList<OnlineItem>(); // Holds the actual subscription
+	
 	
 	public LibrarySystem() {
-		stock = new ArrayList<PhysicalItem>();
-		borrowed = new ArrayList<PhysicalItem>();
+		stock = new ArrayList<Item>();
+		borrowed = new ArrayList<Item>();
 		userlist = new ArrayList<User>();
+		subscriptions = new ArrayList<OnlineItem>();
+		subOptions = new ArrayList<OnlineItem>();
 	}
 	
-	public LibrarySystem(ArrayList<PhysicalItem> stock, ArrayList<PhysicalItem> borrowed, ArrayList<User> users) {
+	public LibrarySystem(ArrayList<Item> stock, ArrayList<Item> borrowed, ArrayList<User> users,ArrayList<OnlineItem> subs,ArrayList<OnlineItem> options) {
 		this.stock = stock;
 		this.borrowed = borrowed;
 		this.userlist = users;
+		this.subscriptions = subs;
+		this.subOptions = options;
 	}
 	
 
@@ -29,8 +36,8 @@ public class LibrarySystem {
 	}
 	
 	public void setItems(ArrayList<PhysicalItem> itemsCSV) {
-		ArrayList<PhysicalItem> stock = new ArrayList<PhysicalItem>();
-		ArrayList<PhysicalItem> barrowed = new ArrayList<PhysicalItem>();
+		ArrayList<Item> stock = new ArrayList<Item>();
+		ArrayList<Item> barrowed = new ArrayList<Item>();
 		for(PhysicalItem I: itemsCSV) {
 			if(I.getBorrower().equals("BLANK")) {
 				stock.add(I);
@@ -41,6 +48,13 @@ public class LibrarySystem {
 		}
 		this.stock = stock;
 		this.borrowed = barrowed;
+	}
+	
+	public void setSubscriptions(ArrayList<OnlineItem> subsCSV) {
+		this.subscriptions = subsCSV;
+	}
+	public void setSubOptions(ArrayList<OnlineItem> subOp) {
+		this.subOptions = subOp;
 	}
 	
 	//Methods
@@ -61,18 +75,30 @@ public class LibrarySystem {
 	
 	
 	//Setters
-	public void addStock(PhysicalItem item) {
+	public void addStock(Item item) {
 		this.stock.add(item);
 	}
-	public void removeStock(PhysicalItem item) {
+	public void removeStock(Item item) {
 		this.stock.remove(item);
 	}
 	
-	public void addBarrowed(PhysicalItem item) {
+	public void addBarrowed(Item item) {
 		this.borrowed.add(item);
 	}
-	public void removeBarrowed(PhysicalItem item) {
+	public void removeBarrowed(Item item) {
 		this.borrowed.remove(item);
+	}
+	public void addSub(OnlineItem sub) {
+		this.subscriptions.add(sub);
+	}
+	public void removeSub(OnlineItem sub) {
+		this.subscriptions.remove(sub);
+	}
+	public void addSubOp(OnlineItem op) {
+		this.subOptions.add(op);
+	}
+	public void removeSubOp(Item i) {
+		this.subOptions.remove(i);
 	}
 	
 	public void addUser(User user) {
@@ -87,10 +113,10 @@ public class LibrarySystem {
 	}
 	
 	//Getters
-	public ArrayList<PhysicalItem> getStock(){
+	public ArrayList<Item> getStock(){
 		return this.stock;
 	}
-	public ArrayList<PhysicalItem> getBorrowed(){
+	public ArrayList<Item> getBorrowed(){
 		return this.borrowed;
 	}
 	public ArrayList<User> getUsers(){
@@ -106,10 +132,10 @@ public class LibrarySystem {
 		return null;
 	}
 	
-	public PhysicalItem getItem(int id) {
-		ArrayList<PhysicalItem> items = new ArrayList<PhysicalItem>(this.stock);
+	public Item getPhysicalItem(int id) {
+		ArrayList<Item> items = new ArrayList<Item>(this.stock);
 		items.addAll(this.borrowed);
-		for(PhysicalItem I: items) {
+		for(Item I: items) {
 			if(I.getId() == id) {
 				return I;
 			}
@@ -117,7 +143,33 @@ public class LibrarySystem {
 		return null;
 	}
 	
-	public int getStockOf(PhysicalItem item) {
+	public ArrayList<Item> getItemAll(int id) {
+		ArrayList<Item> holder = new ArrayList<Item>();
+		
+		ArrayList<Item> items = new ArrayList<Item>(this.stock);
+		items.addAll(this.borrowed);
+		items.addAll(this.subscriptions);
+		items.addAll(this.subOptions);
+		for(Item I: items) {
+			if(I.getId() == id) {
+				holder.add(I);
+			}
+		}
+		return holder;
+	}
+	
+	public Item getOnlineItem(int id) {
+		ArrayList<Item> items = new ArrayList<Item>(this.subscriptions);
+		items.addAll(this.subOptions);
+		for(Item I: items) {
+			if(I.getId() == id) {
+				return I;
+			}
+		}
+		return null;
+	}
+	
+	public int getStockOf(Item item) {
 		if(item != null) {
 			//Counts how many times the item appears in the stock
 			return Collections.frequency(stock, item);
@@ -126,5 +178,31 @@ public class LibrarySystem {
 			return 0;
 		}
 		
+	}
+	
+	public Item getSubOp(int id) {
+		for(Item I: this.subOptions) {
+			if(I.getId() == id) {
+				return I;
+			}
+		}
+		return null;
+	}
+	
+	public OnlineItem getSub(int id, String email) {
+		for(OnlineItem I: this.subscriptions) {
+			if(I.getId() == id && I.getSubscriber().equals(email)) {
+				return I;
+			}
+		}
+		return null;
+	}
+	
+	public ArrayList<OnlineItem> getSubs(){
+		return this.subscriptions;
+	}
+	
+	public ArrayList<OnlineItem> getSubOps(){
+		return this.subOptions;
 	}
 }

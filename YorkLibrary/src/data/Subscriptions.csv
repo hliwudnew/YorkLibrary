@@ -1,2 +1,8 @@
-﻿Id,Name,Price,Disabled,Subscribers,Link
-20,New York Times Magazine,0,FALSE,test@gmail.com,https://www.nytimes.com/ca/
+Id,Name,Price,Disabled,Subscriber,Link
+100,Online,0,TRUE,BLANK,https://www.google.com/
+33,CBC,0,FALSE,BLANK,https://www.cbc.ca/
+33,CBC,0,FALSE,test@gmail.com,https://www.cbc.ca/
+20,GITHUB,0,FALSE,Fac@gmail.com,https://github.com/
+20,GITHUB,0,FALSE,test@gmail.com,https://github.com/
+33,CBC,0,FALSE,Fac@gmail.com,https://www.cbc.ca/
+101,Added,0,TRUE,test@gmail.com,https://www.youtube.com/
