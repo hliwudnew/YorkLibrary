@@ -4,40 +4,33 @@ import java.util.ArrayList;
 
 public class OnlineItem extends Item{
 
-	ArrayList<User> subscribers = new ArrayList<User>();
+	String subscriber;
+	String link;
 	
 	public OnlineItem() {
 		
 	}
 	
-	public OnlineItem(ArrayList<User> subs) {
-		this.subscribers = subs;
+	public OnlineItem(String sub, String link) {
+		this.subscriber = sub;
+		this.link = link;
 	}
-	//Setters
-	public void addSubscriber(User person) {
-		if(person != null) {
-			this.subscribers.add(person);
-		}
-		else {
-			System.out.print("Could not add they are null");
-		}
+	// Getters
+	public String getSubscriber() {
+		return this.subscriber;
 	}
-	public void removeSubscriber(User person) {
-		this.subscribers.remove(person);
+	public String getLink() {
+		return this.link;
 	}
 	
-	//Getters
-	public ArrayList<User> getSubscribers(){
-		return this.subscribers;
+	//Setters
+	public void setSubscriber(String sub) {
+		this.subscriber = sub;
 	}
-	public User getSubscriber(User person) {
-		ArrayList<User> current = getSubscribers();
-		if(current.contains(person)) {
-			return person;
-		}
-		else {
-			return null;
-		}
+	
+	public void setLink(String link) {
+		this.link = link;
 	}
+
 
 }

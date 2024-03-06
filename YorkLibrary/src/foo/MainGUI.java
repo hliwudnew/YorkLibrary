@@ -43,7 +43,7 @@ import javax.swing.JComboBox;
 import javax.swing.JEditorPane;
 import javax.swing.JTabbedPane;
 
-public class MainGUI implements ActionListener {
+public class MainGUI{
 	//Basic Setup
 	private JFrame frame;
 	private JFrame mgrFrame;
@@ -82,10 +82,19 @@ public class MainGUI implements ActionListener {
 	private JPanel physicalItemPage;
 	private JScrollPane onlineScroll;
 	private JTable onlineTable;
-	private JTextField textField_Subscribe;
 	private JTextField textField_UnSubscribe;
 	private JTable tableRead;
 	private JTextField textField_Read;
+	private JPanel centerContent_Sub;
+	private JPanel topBar_1;
+	private JButton home_1;
+	private JButton inventory_1;
+	private JButton rent_1;
+	private JButton Subscribe_3;
+	private JLabel topBarTitle_1;
+	private JTable tableSubs;
+	private JTextField textField_Sub;
+	private JTextField textField_1;
 	
 	public static void main(String[] args) {
 		new MainGUI("test@gmail.com");
@@ -108,7 +117,7 @@ public class MainGUI implements ActionListener {
 		frame.getContentPane().setLayout(new CardLayout(0, 0));
 		
 		mainPage = new JPanel();
-		frame.getContentPane().add(mainPage, "mainPage_");
+		frame.getContentPane().add(mainPage, "homePage_");
 		
 		JPanel centerContent = new JPanel();
 		centerContent.setBackground(Color.WHITE);
@@ -118,8 +127,22 @@ public class MainGUI implements ActionListener {
 		topBar.setBackground(new Color(227, 24, 55));
 		
 		inventory = new JButton("My Inventory");
+		inventory.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "inventoryPage_");
+				frame.repaint();
+				frame.revalidate();
+			}
+		});
 		
 		home = new JButton("Home");
+		home.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "homePage_");
+				frame.repaint();
+				frame.revalidate();
+			}
+		});
 		
 		JLabel topBarTitle = new JLabel("York Library");
 		topBarTitle.setForeground(Color.WHITE);
@@ -195,6 +218,13 @@ public class MainGUI implements ActionListener {
 		displayScrollPane.setViewportView(displayTable);
 		
 		rent = new JButton("Rent");
+		rent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "rentPage_");
+				frame.repaint();
+				frame.revalidate();
+			}
+		});
 		
 		lblName = new JLabel("{email}");
 		lblName.setText(email);
@@ -207,6 +237,15 @@ public class MainGUI implements ActionListener {
 				new ManagementTeamGUI(system, mgrFrame);
 			}
 		});
+		
+		JButton Subscribe = new JButton("Subscribe");
+		Subscribe.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "subscribePage_");
+				frame.repaint();
+				frame.revalidate();
+			}
+		});
 		GroupLayout gl_topBar = new GroupLayout(topBar);
 		gl_topBar.setHorizontalGroup(
 			gl_topBar.createParallelGroup(Alignment.LEADING)
@@ -217,30 +256,33 @@ public class MainGUI implements ActionListener {
 					.addComponent(inventory)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(rent)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(topBarTitle, GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
-					.addGap(183)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(Subscribe)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(topBarTitle, GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
+					.addGap(107)
 					.addComponent(lblName)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(btnAdmin, GroupLayout.PREFERRED_SIZE, 53, Short.MAX_VALUE)
+					.addComponent(btnAdmin, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		gl_topBar.setVerticalGroup(
-			gl_topBar.createParallelGroup(Alignment.LEADING)
+			gl_topBar.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_topBar.createSequentialGroup()
-					.addGap(11)
-					.addComponent(home))
-				.addGroup(gl_topBar.createSequentialGroup()
-					.addGap(11)
-					.addComponent(inventory))
-				.addGroup(gl_topBar.createParallelGroup(Alignment.BASELINE)
+					.addContainerGap(14, Short.MAX_VALUE)
+					.addGroup(gl_topBar.createParallelGroup(Alignment.LEADING)
+						.addComponent(home)
+						.addComponent(inventory)
+						.addGroup(gl_topBar.createParallelGroup(Alignment.BASELINE)
+							.addComponent(rent)
+							.addComponent(lblName)
+							.addComponent(Subscribe))
+						.addGroup(gl_topBar.createSequentialGroup()
+							.addComponent(btnAdmin)
+							.addContainerGap())))
+				.addGroup(Alignment.LEADING, gl_topBar.createSequentialGroup()
 					.addComponent(topBarTitle, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
-					.addComponent(rent)
-					.addComponent(lblName))
-				.addGroup(Alignment.TRAILING, gl_topBar.createSequentialGroup()
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addComponent(btnAdmin)
-					.addContainerGap())
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		topBar.setLayout(gl_topBar);
 		centerContent.setLayout(gl_centerContent);
@@ -258,19 +300,48 @@ public class MainGUI implements ActionListener {
 		topBar_Rent.setBackground(new Color(227, 24, 55));
 		
 		home_Rent = new JButton("Home");
+		home_Rent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "homePage_");
+				frame.repaint();
+				frame.revalidate();
+			}
+		});
 		
 		inventory_Rent = new JButton("My Inventory");
+		inventory_Rent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "inventoryPage_");
+				frame.repaint();
+				frame.revalidate();
+			}
+		});
 		
 		rent_Rent = new JButton("Rent");
+		rent_Rent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "rentPage_");
+				frame.repaint();
+				frame.revalidate();
+			}
+		});
 		
 		topBarTitle_Rent = new JLabel("Rentings");
 		topBarTitle_Rent.setHorizontalAlignment(SwingConstants.CENTER);
 		topBarTitle_Rent.setForeground(Color.WHITE);
 		topBarTitle_Rent.setFont(new Font("Book Antiqua", Font.PLAIN, 24));
+		
+		JButton Subscribe_1 = new JButton("Subscribe");
+		Subscribe_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "subscribePage_");
+				frame.repaint();
+				frame.revalidate();
+			}
+		});
 		GroupLayout gl_topBar_Rent = new GroupLayout(topBar_Rent);
 		gl_topBar_Rent.setHorizontalGroup(
 			gl_topBar_Rent.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 846, Short.MAX_VALUE)
 				.addGroup(gl_topBar_Rent.createSequentialGroup()
 					.addGap(9)
 					.addComponent(home_Rent)
@@ -278,13 +349,14 @@ public class MainGUI implements ActionListener {
 					.addComponent(inventory_Rent)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(rent_Rent)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(topBarTitle_Rent, GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
-					.addGap(327))
+					.addGap(10)
+					.addComponent(Subscribe_1, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(topBarTitle_Rent, GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
+					.addGap(415))
 		);
 		gl_topBar_Rent.setVerticalGroup(
 			gl_topBar_Rent.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 42, Short.MAX_VALUE)
 				.addGroup(gl_topBar_Rent.createSequentialGroup()
 					.addGap(11)
 					.addComponent(home_Rent))
@@ -292,8 +364,9 @@ public class MainGUI implements ActionListener {
 					.addGap(11)
 					.addComponent(inventory_Rent))
 				.addGroup(gl_topBar_Rent.createParallelGroup(Alignment.BASELINE)
-					.addComponent(topBarTitle_Rent, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
-					.addComponent(rent_Rent))
+					.addComponent(rent_Rent)
+					.addComponent(Subscribe_1)
+					.addComponent(topBarTitle_Rent, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
 		);
 		topBar_Rent.setLayout(gl_topBar_Rent);
 		
@@ -402,7 +475,7 @@ public class MainGUI implements ActionListener {
 		JButton btnRent = new JButton("Rent");
 		btnRent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				loggedIn.rentPhysicalItem(system.getItem(Integer.valueOf(textField_Rent.getText())));
+				loggedIn.rentPhysicalItem((PhysicalItem)system.getPhysicalItem(Integer.valueOf(textField_Rent.getText())));
 			}
 		});
 		GroupLayout gl_panel = new GroupLayout(panel);
@@ -477,15 +550,13 @@ public class MainGUI implements ActionListener {
 		centerContent_Rent.setLayout(gl_centerContent_Rent);
 		GroupLayout gl_rentPage = new GroupLayout(rentPage);
 		gl_rentPage.setHorizontalGroup(
-			gl_rentPage.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, gl_rentPage.createSequentialGroup()
-					.addComponent(centerContent_Rent, GroupLayout.DEFAULT_SIZE, 891, Short.MAX_VALUE)
-					.addGap(0))
+			gl_rentPage.createParallelGroup(Alignment.LEADING)
+				.addComponent(centerContent_Rent, GroupLayout.PREFERRED_SIZE, 846, Short.MAX_VALUE)
 		);
 		gl_rentPage.setVerticalGroup(
 			gl_rentPage.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_rentPage.createSequentialGroup()
-					.addComponent(centerContent_Rent, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(centerContent_Rent, GroupLayout.DEFAULT_SIZE, 609, Short.MAX_VALUE)
 					.addGap(1))
 		);
 		rentPage.setLayout(gl_rentPage);
@@ -502,19 +573,48 @@ public class MainGUI implements ActionListener {
 		topBar_Inv.setBackground(new Color(227, 24, 55));
 		
 		home_Inv = new JButton("Home");
+		home_Inv.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "homePage_");
+				frame.repaint();
+				frame.revalidate();
+			}
+		});
 		
 		inventory_Inv = new JButton("My Inventory");
+		inventory_Inv.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "inventoryPage_");
+				frame.repaint();
+				frame.revalidate();
+			}
+		});
 		
 		rent_Inv = new JButton("Rent");
+		rent_Inv.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "rentPage_");
+				frame.repaint();
+				frame.revalidate();
+			}
+		});
 		
 		topBarTitle_Inv = new JLabel("My Inventory");
 		topBarTitle_Inv.setHorizontalAlignment(SwingConstants.CENTER);
 		topBarTitle_Inv.setForeground(Color.WHITE);
 		topBarTitle_Inv.setFont(new Font("Book Antiqua", Font.PLAIN, 24));
+		
+		JButton Subscribe_2 = new JButton("Subscribe");
+		Subscribe_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "subscribePage_");
+				frame.repaint();
+				frame.revalidate();
+			}
+		});
 		GroupLayout gl_topBar_Inv = new GroupLayout(topBar_Inv);
 		gl_topBar_Inv.setHorizontalGroup(
 			gl_topBar_Inv.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 845, Short.MAX_VALUE)
 				.addGroup(gl_topBar_Inv.createSequentialGroup()
 					.addGap(9)
 					.addComponent(home_Inv)
@@ -522,13 +622,14 @@ public class MainGUI implements ActionListener {
 					.addComponent(inventory_Inv)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(rent_Inv)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(topBarTitle_Inv, GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
-					.addGap(327))
+					.addGap(10)
+					.addComponent(Subscribe_2, GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
+					.addGap(18)
+					.addComponent(topBarTitle_Inv, GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
+					.addGap(313))
 		);
 		gl_topBar_Inv.setVerticalGroup(
 			gl_topBar_Inv.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 42, Short.MAX_VALUE)
 				.addGroup(gl_topBar_Inv.createSequentialGroup()
 					.addGap(11)
 					.addComponent(home_Inv))
@@ -536,8 +637,9 @@ public class MainGUI implements ActionListener {
 					.addGap(11)
 					.addComponent(inventory_Inv))
 				.addGroup(gl_topBar_Inv.createParallelGroup(Alignment.BASELINE)
-					.addComponent(topBarTitle_Inv, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
-					.addComponent(rent_Inv))
+					.addComponent(rent_Inv)
+					.addComponent(Subscribe_2)
+					.addComponent(topBarTitle_Inv, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
 		);
 		topBar_Inv.setLayout(gl_topBar_Inv);
 		
@@ -597,8 +699,7 @@ public class MainGUI implements ActionListener {
 		JButton btnReturn = new JButton("Return");
 		btnReturn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PhysicalItem item = system.getItem(Integer.valueOf(textField_Return.getText()));
-				loggedIn.returnPhysicalItem(system.getItem(Integer.valueOf(textField_Return.getText())));
+				loggedIn.returnPhysicalItem((PhysicalItem)system.getPhysicalItem(Integer.valueOf(textField_Return.getText())));
 			}
 		});
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
@@ -744,19 +845,17 @@ public class MainGUI implements ActionListener {
 							.addComponent(onlineScroll, GroupLayout.PREFERRED_SIZE, 394, GroupLayout.PREFERRED_SIZE))))
 		);
 		
-		textField_Subscribe = new JTextField();
-		textField_Subscribe.setColumns(10);
-		
-		JLabel lblSubscribe = new JLabel("Subscribe by Id");
-		
 		JLabel lblUnSubscribe = new JLabel("UnSubscribe by Id");
 		
 		textField_UnSubscribe = new JTextField();
 		textField_UnSubscribe.setColumns(10);
 		
 		JButton btnUnSubscribe = new JButton("UnSubscribe");
-		
-		JButton btnSubscribe = new JButton("Subscribe");
+		btnUnSubscribe.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				loggedIn.unSubscribe((OnlineItem) system.getSub(Integer.valueOf(textField_UnSubscribe.getText()),loggedIn.getEmail()));
+			}
+		});
 		
 		JLabel lblSub = new JLabel("Subscriptions");
 		lblSub.setFont(new Font("Tahoma", Font.BOLD, 18));
@@ -767,17 +866,11 @@ public class MainGUI implements ActionListener {
 					.addGroup(gl_panel_Subs.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel_Subs.createSequentialGroup()
 							.addGap(56)
-							.addGroup(gl_panel_Subs.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_panel_Subs.createParallelGroup(Alignment.TRAILING)
-									.addComponent(lblUnSubscribe, Alignment.LEADING)
-									.addGroup(gl_panel_Subs.createParallelGroup(Alignment.LEADING)
-										.addComponent(btnUnSubscribe)
-										.addComponent(textField_UnSubscribe, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-								.addGroup(gl_panel_Subs.createParallelGroup(Alignment.TRAILING)
-									.addComponent(btnSubscribe)
-									.addGroup(gl_panel_Subs.createParallelGroup(Alignment.LEADING)
-										.addComponent(lblSubscribe)
-										.addComponent(textField_Subscribe, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))))
+							.addGroup(gl_panel_Subs.createParallelGroup(Alignment.TRAILING)
+								.addComponent(lblUnSubscribe, Alignment.LEADING)
+								.addGroup(gl_panel_Subs.createParallelGroup(Alignment.LEADING)
+									.addComponent(btnUnSubscribe)
+									.addComponent(textField_UnSubscribe, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
 						.addGroup(gl_panel_Subs.createSequentialGroup()
 							.addGap(21)
 							.addComponent(lblSub)))
@@ -788,19 +881,13 @@ public class MainGUI implements ActionListener {
 				.addGroup(gl_panel_Subs.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(lblSub)
-					.addGap(78)
-					.addComponent(lblSubscribe)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(textField_Subscribe, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnSubscribe)
-					.addGap(48)
+					.addGap(195)
 					.addComponent(lblUnSubscribe)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(textField_UnSubscribe, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnUnSubscribe)
-					.addContainerGap(132, Short.MAX_VALUE))
+					.addContainerGap(124, Short.MAX_VALUE))
 		);
 		panel_Subs.setLayout(gl_panel_Subs);
 		onlineItemsPage.setLayout(gl_onlineItemsPage);
@@ -864,7 +951,12 @@ public class MainGUI implements ActionListener {
 			// https://stackoverflow.com/questions/1988202/how-do-i-get-a-webpage-to-open-up-in-a-frame
 			public void actionPerformed(ActionEvent e) {
 				try {
-					Desktop.getDesktop().browse(new URL("https://google.com").toURI());
+					for(OnlineItem I: loggedIn.getSubscriptions()) {
+						if((I.getId()+"").equals(textField_Read.getText())) {
+							Desktop.getDesktop().browse(new URL(I.getLink()).toURI());
+						}
+					}
+					//Desktop.getDesktop().browse(new URL("https://google.com").toURI());
 				} catch (MalformedURLException e1) {
 					e1.printStackTrace();
 				} catch (IOException e1) {
@@ -945,20 +1037,278 @@ public class MainGUI implements ActionListener {
 		);
 		inventoryPage.setLayout(gl_inventoryPage);
 		
+		JPanel subscribePage = new JPanel();
+		subscribePage.setBackground(new Color(255, 255, 255));
+		frame.getContentPane().add(subscribePage, "subscribePage_");
 		
-		//Buttons
-		home.addActionListener(this);
-		rent.addActionListener(this);
-		inventory.addActionListener(this);
+		centerContent_Sub = new JPanel();
+		centerContent_Sub.setBackground(new Color(255, 255, 255));
 		
-		home_Rent.addActionListener(this);
-		rent_Rent.addActionListener(this);
-		inventory_Rent.addActionListener(this);
+		topBar_1 = new JPanel();
+		topBar_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		topBar_1.setBackground(new Color(227, 24, 55));
 		
+		home_1 = new JButton("Home");
+		home_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "homePage_");
+				frame.repaint();
+				frame.revalidate();
+			}
+		});
 		
-		home_Inv.addActionListener(this);
-		rent_Inv.addActionListener(this);
-		inventory_Inv.addActionListener(this);
+		inventory_1 = new JButton("My Inventory");
+		inventory_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "inventoryPage_");
+				frame.repaint();
+				frame.revalidate();
+			}
+		});
+		
+		rent_1 = new JButton("Rent");
+		rent_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "rentPage_");
+				frame.repaint();
+				frame.revalidate();
+			}
+		});
+		
+		Subscribe_3 = new JButton("Subscribe");
+		Subscribe_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "subscribePage_");
+				frame.repaint();
+				frame.revalidate();
+			}
+		});
+		
+		topBarTitle_1 = new JLabel("Subscriptions");
+		topBarTitle_1.setHorizontalAlignment(SwingConstants.CENTER);
+		topBarTitle_1.setForeground(Color.WHITE);
+		topBarTitle_1.setFont(new Font("Book Antiqua", Font.PLAIN, 24));
+		GroupLayout gl_topBar_1 = new GroupLayout(topBar_1);
+		gl_topBar_1.setHorizontalGroup(
+			gl_topBar_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_topBar_1.createSequentialGroup()
+					.addGap(9)
+					.addComponent(home_1)
+					.addGap(10)
+					.addComponent(inventory_1)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(rent_1)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(Subscribe_3)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(topBarTitle_1, GroupLayout.PREFERRED_SIZE, 211, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(308, Short.MAX_VALUE))
+		);
+		gl_topBar_1.setVerticalGroup(
+			gl_topBar_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_topBar_1.createSequentialGroup()
+					.addContainerGap(14, Short.MAX_VALUE)
+					.addGroup(gl_topBar_1.createParallelGroup(Alignment.LEADING)
+						.addComponent(home_1)
+						.addComponent(inventory_1)
+						.addGroup(gl_topBar_1.createParallelGroup(Alignment.BASELINE)
+							.addComponent(rent_1)
+							.addComponent(Subscribe_3)))
+					.addContainerGap())
+				.addGroup(gl_topBar_1.createSequentialGroup()
+					.addComponent(topBarTitle_1)
+					.addContainerGap(18, Short.MAX_VALUE))
+		);
+		topBar_1.setLayout(gl_topBar_1);
+		GroupLayout gl_subscribePage = new GroupLayout(subscribePage);
+		gl_subscribePage.setHorizontalGroup(
+			gl_subscribePage.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_subscribePage.createSequentialGroup()
+					.addComponent(centerContent_Sub, GroupLayout.DEFAULT_SIZE, 856, Short.MAX_VALUE)
+					.addGap(0))
+		);
+		gl_subscribePage.setVerticalGroup(
+			gl_subscribePage.createParallelGroup(Alignment.LEADING)
+				.addComponent(centerContent_Sub, GroupLayout.DEFAULT_SIZE, 610, Short.MAX_VALUE)
+		);
+		
+		JScrollPane scrollSubs = new JScrollPane();
+		
+		JButton btnRefreshSub = new JButton("Refresh");
+		btnRefreshSub.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				//Clears the table of old data
+				DefaultTableModel clear = (DefaultTableModel) tableSubs.getModel();
+				clear.setRowCount(0);
+				//Loops through the CSV data and adds it to the table
+				for(Item e : system.getSubOps()) {
+					String[] rowdata = {e.getId()+"",e.getName(),e.getPrice() +""};
+					DefaultTableModel tblModel = (DefaultTableModel) tableSubs.getModel();
+					tblModel.addRow(rowdata);
+				}
+			}
+		});
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		
+		JLabel lblSubsID = new JLabel("Subscribe by Id");
+		
+		textField_Sub = new JTextField();
+		textField_Sub.setColumns(10);
+		
+		JLabel lblSubs = new JLabel("Subscribe");
+		lblSubs.setFont(new Font("Book Antiqua", Font.BOLD, 16));
+		
+		JButton btnSub = new JButton("Subscribe");
+		btnSub.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//Looks at sub-options list and checks if the online item exists
+				loggedIn.copySubscriptionOption((OnlineItem) system.getSubOp(Integer.valueOf(textField_Sub.getText())));
+			}
+		});
+		GroupLayout gl_panel_2 = new GroupLayout(panel_2);
+		gl_panel_2.setHorizontalGroup(
+			gl_panel_2.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_2.createSequentialGroup()
+					.addGap(38)
+					.addComponent(lblSubsID, GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
+					.addGap(65))
+				.addGroup(gl_panel_2.createSequentialGroup()
+					.addGap(27)
+					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel_2.createSequentialGroup()
+							.addGap(10)
+							.addComponent(btnSub)
+							.addContainerGap())
+						.addGroup(gl_panel_2.createSequentialGroup()
+							.addGroup(gl_panel_2.createParallelGroup(Alignment.TRAILING)
+								.addComponent(textField_Sub, 104, 104, 104)
+								.addComponent(lblSubs, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+							.addGap(54))))
+		);
+		gl_panel_2.setVerticalGroup(
+			gl_panel_2.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_2.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblSubs)
+					.addGap(49)
+					.addComponent(lblSubsID)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(textField_Sub, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(btnSub)
+					.addContainerGap(174, Short.MAX_VALUE))
+		);
+		panel_2.setLayout(gl_panel_2);
+		
+		JPanel pReccomendation_1 = new JPanel();
+		pReccomendation_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		
+		JLabel recomendationsLabel_1 = new JLabel("Recomendations");
+		recomendationsLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		recomendationsLabel_1.setFont(new Font("Book Antiqua", Font.PLAIN, 18));
+		GroupLayout gl_pReccomendation_1 = new GroupLayout(pReccomendation_1);
+		gl_pReccomendation_1.setHorizontalGroup(
+			gl_pReccomendation_1.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 155, Short.MAX_VALUE)
+				.addGroup(gl_pReccomendation_1.createSequentialGroup()
+					.addGap(10)
+					.addComponent(recomendationsLabel_1)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
+		gl_pReccomendation_1.setVerticalGroup(
+			gl_pReccomendation_1.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 339, Short.MAX_VALUE)
+				.addGroup(gl_pReccomendation_1.createSequentialGroup()
+					.addGap(11)
+					.addComponent(recomendationsLabel_1)
+					.addContainerGap(303, Short.MAX_VALUE))
+		);
+		pReccomendation_1.setLayout(gl_pReccomendation_1);
+		
+		JButton bthSearch_1 = new JButton("Search");
+		
+		textField_1 = new JTextField();
+		textField_1.setColumns(10);
+		
+		JLabel searchLabel_1 = new JLabel("Search");
+		searchLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		searchLabel_1.setFont(new Font("Book Antiqua", Font.PLAIN, 18));
+		GroupLayout gl_centerContent_Sub = new GroupLayout(centerContent_Sub);
+		gl_centerContent_Sub.setHorizontalGroup(
+			gl_centerContent_Sub.createParallelGroup(Alignment.LEADING)
+				.addComponent(topBar_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+				.addGroup(gl_centerContent_Sub.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(pReccomendation_1, GroupLayout.PREFERRED_SIZE, 155, GroupLayout.PREFERRED_SIZE)
+					.addGroup(gl_centerContent_Sub.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_centerContent_Sub.createSequentialGroup()
+							.addGap(18)
+							.addGroup(gl_centerContent_Sub.createParallelGroup(Alignment.TRAILING)
+								.addComponent(btnRefreshSub)
+								.addComponent(scrollSubs, GroupLayout.PREFERRED_SIZE, 470, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(gl_centerContent_Sub.createSequentialGroup()
+							.addGap(106)
+							.addGroup(gl_centerContent_Sub.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_centerContent_Sub.createSequentialGroup()
+									.addGap(74)
+									.addComponent(searchLabel_1, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE))
+								.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 274, GroupLayout.PREFERRED_SIZE)
+								.addGroup(gl_centerContent_Sub.createSequentialGroup()
+									.addGap(105)
+									.addComponent(bthSearch_1, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)))))
+					.addGap(10)
+					.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 173, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
+		);
+		gl_centerContent_Sub.setVerticalGroup(
+			gl_centerContent_Sub.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_centerContent_Sub.createSequentialGroup()
+					.addComponent(topBar_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGroup(gl_centerContent_Sub.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_centerContent_Sub.createParallelGroup(Alignment.LEADING)
+							.addGroup(gl_centerContent_Sub.createSequentialGroup()
+								.addPreferredGap(ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+								.addComponent(searchLabel_1)
+								.addGap(6)
+								.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addGap(6)
+								.addComponent(bthSearch_1)
+								.addGap(24)
+								.addComponent(btnRefreshSub)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(scrollSubs, GroupLayout.PREFERRED_SIZE, 372, GroupLayout.PREFERRED_SIZE)
+								.addContainerGap())
+							.addGroup(gl_centerContent_Sub.createSequentialGroup()
+								.addGap(28)
+								.addComponent(pReccomendation_1, GroupLayout.PREFERRED_SIZE, 339, GroupLayout.PREFERRED_SIZE)
+								.addContainerGap()))
+						.addGroup(gl_centerContent_Sub.createSequentialGroup()
+							.addGap(18)
+							.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 330, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap())))
+		);
+		
+		tableSubs = new JTable();
+		tableSubs.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Id", "Name", "Price"
+			}
+		) {
+			boolean[] columnEditables = new boolean[] {
+				false, false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		scrollSubs.setViewportView(tableSubs);
+		centerContent_Sub.setLayout(gl_centerContent_Sub);
+		subscribePage.setLayout(gl_subscribePage);
+		
 		
 		//Sets the window text and lets user see the GUI
 		frame.setTitle("York Library");
@@ -969,39 +1319,26 @@ public class MainGUI implements ActionListener {
 		//Saves everything to CSVs when the window closes
 		frame.addWindowListener(new WindowAdapter() {
 		    public void windowClosing(WindowEvent e) {
+		    	//Adds any unused subscription options to the CSV, so they don't get lost
+		    	ArrayList<Integer> ids = new ArrayList<Integer>(); // Grabs all unique instances of an Id
+		    	for(OnlineItem I: system.getSubs()) {
+		    		if(!ids.contains(I.getId())){
+		    			ids.add(I.getId());
+		    		}
+		    	}
+		    	//Compares all saving Id's with the subOps Id's to make sure there is a copy being saved
+		    	for(OnlineItem I: system.getSubOps()) {
+		    		if(!ids.contains(I.getId())){
+		    			system.addSub(I);
+		    		}
+		    	}
 		    	//Saves everything that happened
 		    	CSVReader.upload(system);
-		    	
 		    	
 		        //Closes windows
 		    	frame.dispose();
 		    	mgrFrame.dispose();
 		    }
 		});
-	}
-
-	@Override
-	//TODO: I don't like how I did this, but unless I want to move everything into separate files it will stay like this for now
-	public void actionPerformed(ActionEvent event) { //onClick Function
-		
-		//Swaps between the different pages
-		if(event.getSource() == home || event.getSource() == home_Rent || event.getSource() ==  home_Inv) {
-			System.out.println("Home Page");
-			((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "mainPage_");
-			frame.repaint();
-			frame.revalidate();
-		}
-		if(event.getSource() == rent || event.getSource() == rent_Rent || event.getSource() == rent_Inv) {
-			System.out.println("Rent Page");
-			((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "rentPage_");
-			frame.repaint();
-			frame.revalidate();
-		}
-		if(event.getSource() == inventory || event.getSource() == inventory_Rent || event.getSource() == inventory_Inv) {
-			System.out.println("Inventory Page");
-			((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "inventoryPage_");
-			frame.repaint();
-			frame.revalidate();
-		}
 	}
 }

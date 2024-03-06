@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class CSVReader {
 	
 	private static String itemHeaders = "Id,Name,Price,Disabled,DueDate,Barrower,Fee\n";
-	private static String subscriptionHeaders ="Name,Subscribers\n";
+	private static String subscriptionHeaders ="Id,Name,Price,Disabled,Subscriber,Link\n";
 	private static String accountHeaders = "Email,Password,Rented,Subscriptions,Type,Courses,TextBooks\n";
 	
 //	public static void main(String[] args) { //Type is file name
@@ -127,19 +127,21 @@ public class CSVReader {
 
 	//Uploads everything to the CSV on close
 	public static void upload(LibrarySystem system) {
-		ArrayList<PhysicalItem> items = new ArrayList<PhysicalItem>(system.getStock());
+		ArrayList<Item> items = new ArrayList<Item>(system.getStock());
 		items.addAll(system.getBorrowed());
 		ArrayList<User> users = new ArrayList<User>(system.getUsers());
+		ArrayList<OnlineItem> subs = new ArrayList<OnlineItem>(system.getSubs());
 		// Saves all the items data and Account data
 		try {
 			String path ="src\\data\\Items.csv";
 			String pathAccount ="src\\data\\Accounts.csv";
+			String pathSubs ="src\\data\\Subscriptions.csv";
 			
 			BufferedWriter buffWrite = new BufferedWriter(new FileWriter(new File(path)));
 			buffWrite.write(itemHeaders);// Rewrites the headers
 			//Saves item data
-			for(PhysicalItem I: items) {
-				buffWrite.write(I.getId()+","+I.getName()+","+I.getPrice()+","+I.getDisabled()+","+ I.getDueDate() +","+ I.getBorrower()+","+ I.getFee()+"\n");//Rewrites CSV file
+			for(Item I: items) {
+				buffWrite.write(I.getId()+","+I.getName()+","+I.getPrice()+","+I.getDisabled()+","+ ((PhysicalItem) I).getDueDate() +","+ ((PhysicalItem) I).getBorrower()+","+ ((PhysicalItem) I).getFee()+"\n");//Rewrites CSV file
 			}
 			buffWrite.close();// Closes the writer so the data saves
 			
@@ -161,10 +163,19 @@ public class CSVReader {
 				else {
 					type = "NonFaculty";
 				}
-				buffWrite2.write(u.getEmail()+","+u.getPassword()+","+rented+","+"BLANK"+","+type+","+"BLANK,BLANK"+"\n");//Rewrites CSV file
+				buffWrite2.write(u.getEmail()+","+u.getPassword()+","+rented+","+"BLANK"+","+type+","+"BLANK,BLANK"+"\n");//Rewrites CSV file				
 			}
 			
 			buffWrite2.close();// Closes the writer so the data saves
+
+			//Saves subscription data
+			BufferedWriter buffWrite3 = new BufferedWriter(new FileWriter(new File(pathSubs)));
+			buffWrite3.write(subscriptionHeaders);// Rewrites the headers
+			
+			for(OnlineItem I: subs) {
+				buffWrite3.write(I.getId()+","+I.getName()+","+I.getPrice()+","+I.getDisabled()+","+I.getSubscriber()+","+I.getLink()+"\n");//Rewrites CSV file	
+			}
+			buffWrite3.close();
 			System.out.println("Added to CSV");
 		}catch(Exception e){
 			e.printStackTrace();
@@ -274,6 +285,70 @@ public class CSVReader {
 			e.printStackTrace();
 		}
 		
+		/*
+		 *  Grabbing Subscription Data
+		 */
+		String path3 ="src\\data\\Subscriptions.csv";
+		String line3 = "";
+		ArrayList<OnlineItem> subs = new ArrayList<OnlineItem>();
+		ArrayList<OnlineItem> subOps = new ArrayList<OnlineItem>();
+		boolean skip3 = true; // Not my greatest fix but skips the first row of column names
+		
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(path3));
+			while((line3 = br.readLine())!= null) {
+				String[] values = line3.split(",");
+				//Fixes issues with blank spaces in csv file
+				if(values.length != 0 && !skip3) {
+					OnlineItem temp = new OnlineItem();
+					boolean disabled = false;
+					
+					if(values[3].equals("true") ||values[3].equals("TRUE") ){
+						disabled = true;
+					}
+					
+					//All pulled from database
+					temp.setId(Integer.valueOf(values[0]));
+					temp.setName(values[1]);
+					temp.setPrice(Double.valueOf(values[2]));
+					temp.setDisabled(disabled);
+					temp.setSubscriber(values[4]);
+					temp.setLink(values[5]);
+					
+					//Assigns OnlineItem to User
+					if(!temp.getSubscriber().equals("BLANK")) {
+						system.getUser(temp.getSubscriber()).subscribe(temp);
+					}
+					subs.add(temp);
+				}
+				skip3 = false;
+			}
+			br.close();
+		} catch(FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		//Gathers the list of possible subscriptions
+		ArrayList<Integer> ids = new ArrayList<Integer>();
+		for(OnlineItem I: subs) {
+			//Checks which id's the list doesn't have, gathers one instance of every id, hence the all subscription options
+			if(!ids.contains(I.getId())) {
+				OnlineItem holder = new OnlineItem();
+				ids.add(I.getId());
+				//Constructs the subscription option
+				holder.setId(I.getId());
+				holder.setName(I.getName());
+				holder.setPrice(I.getPrice());
+				holder.setDisabled(I.getDisabled());
+				holder.setLink(I.getLink());
+				holder.setSubscriber("BLANK");
+				
+				subOps.add(holder);
+			}
+		}
+		system.setSubOptions(subOps);
+		system.setSubscriptions(subs);
 		System.out.println("Downloaded From CSV");
 		return system;
 	}

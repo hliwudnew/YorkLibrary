@@ -22,7 +22,7 @@ class testcases {
 	void makeOnline(){
 		OnlineItem newsletter = new OnlineItem();
 		
-		newsletter.addSubscriber(null);
+		newsletter.setSubscriber("BLANK");
 	}
 	
 	@Test
@@ -44,8 +44,8 @@ class testcases {
 		book2.setDisabled(false);
 		book2.setName("Second Book");
 		
-		team.addItem(book1);
-		team.addItem(book2);
+		team.addPhysicalItem(book1);
+		team.addPhysicalItem(book2);
 		
 		//Eventually will need fixing when good passwords are supposed to be implemented
 		person.setEmail("www@gmail");
