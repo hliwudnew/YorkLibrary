@@ -46,6 +46,7 @@ public class ManagementTeamGUI {
 	private JTextField textField_SEmail;
 	private JTextField textField_FEmail;
 	private JTextField textField_CRemove;
+	private JTable mts2Table;
 	
 	public ManagementTeamGUI(LibrarySystem system, JFrame frame) {
 		ManagementTeam mgr = new ManagementTeam(system);
@@ -56,7 +57,53 @@ public class ManagementTeamGUI {
 		mainPage.setBackground(new Color(255, 255, 255));
 		frame.getContentPane().add(mainPage, "name_1113365353893500");
 		
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		
+		JTabbedPane tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
+		GroupLayout gl_mainPage = new GroupLayout(mainPage);
+		gl_mainPage.setHorizontalGroup(
+			gl_mainPage.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_mainPage.createSequentialGroup()
+					.addGap(210)
+					.addGroup(gl_mainPage.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_mainPage.createSequentialGroup()
+							.addComponent(tabbedPane_1, GroupLayout.PREFERRED_SIZE, 555, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap())
+						.addGroup(gl_mainPage.createSequentialGroup()
+							.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE)
+							.addGap(258))))
+		);
+		gl_mainPage.setVerticalGroup(
+			gl_mainPage.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_mainPage.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(tabbedPane_1, GroupLayout.PREFERRED_SIZE, 401, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
+		);
+		
+		JPanel panelTableItems = new JPanel();
+		tabbedPane_1.addTab("Items", null, panelTableItems, null);
+		
 		JScrollPane mtsScroll = new JScrollPane();
+		
+		mtsTable = new JTable();
+		mtsTable.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Type", "Id", "Name", "Price", "Disabled"
+			}
+		) {
+			boolean[] columnEditables = new boolean[] {
+				false, false, false, false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		mtsScroll.setViewportView(mtsTable);
 		
 		JButton btnRefresh = new JButton("Refresh");
 		btnRefresh.addActionListener(new ActionListener() {
@@ -76,37 +123,84 @@ public class ManagementTeamGUI {
 				}
 			}
 		});
-		
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		GroupLayout gl_mainPage = new GroupLayout(mainPage);
-		gl_mainPage.setHorizontalGroup(
-			gl_mainPage.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_mainPage.createSequentialGroup()
-					.addGroup(gl_mainPage.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_mainPage.createSequentialGroup()
-							.addGap(672)
-							.addComponent(btnRefresh, GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
-							.addGap(8))
-						.addGroup(gl_mainPage.createSequentialGroup()
-							.addGap(143)
-							.addComponent(mtsScroll, GroupLayout.DEFAULT_SIZE, 612, Short.MAX_VALUE)))
-					.addGap(162))
-				.addGroup(Alignment.LEADING, gl_mainPage.createSequentialGroup()
-					.addGap(210)
-					.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
-					.addGap(258))
-		);
-		gl_mainPage.setVerticalGroup(
-			gl_mainPage.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_mainPage.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
-					.addGap(15)
-					.addComponent(btnRefresh)
+		GroupLayout gl_panelTableItems = new GroupLayout(panelTableItems);
+		gl_panelTableItems.setHorizontalGroup(
+			gl_panelTableItems.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelTableItems.createSequentialGroup()
+					.addGap(12)
+					.addComponent(mtsScroll, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(mtsScroll, GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE)
+					.addComponent(btnRefresh)
+					.addContainerGap(151, Short.MAX_VALUE))
+		);
+		gl_panelTableItems.setVerticalGroup(
+			gl_panelTableItems.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelTableItems.createSequentialGroup()
+					.addGap(5)
+					.addGroup(gl_panelTableItems.createParallelGroup(Alignment.BASELINE)
+						.addComponent(mtsScroll, GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE)
+						.addComponent(btnRefresh)))
+		);
+		panelTableItems.setLayout(gl_panelTableItems);
+		
+		JPanel panelTableCourses = new JPanel();
+		tabbedPane_1.addTab("Courses", null, panelTableCourses, null);
+		
+		JScrollPane mtsScroll2 = new JScrollPane();
+		
+		JButton btnRefreshCourses = new JButton("Refresh");
+		btnRefreshCourses.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				//Clears the table of old data
+				DefaultTableModel clear = (DefaultTableModel) mts2Table.getModel();
+				clear.setRowCount(0);
+				//Looks at all items
+				ArrayList<Course> holder = new ArrayList<Course>(system.getCourses()); //Courses
+				
+				for(Course e : holder) {
+					String[] rowdata = {e.getCode()+"",e.getName()};
+					DefaultTableModel tblModel = (DefaultTableModel) mts2Table.getModel();
+					tblModel.addRow(rowdata);
+				}
+			}
+		});
+		GroupLayout gl_panelTableCourses = new GroupLayout(panelTableCourses);
+		gl_panelTableCourses.setHorizontalGroup(
+			gl_panelTableCourses.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelTableCourses.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(mtsScroll2, GroupLayout.PREFERRED_SIZE, 346, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnRefreshCourses)
+					.addContainerGap(99, Short.MAX_VALUE))
+		);
+		gl_panelTableCourses.setVerticalGroup(
+			gl_panelTableCourses.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelTableCourses.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panelTableCourses.createParallelGroup(Alignment.BASELINE)
+						.addComponent(mtsScroll2, GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)
+						.addComponent(btnRefreshCourses))
 					.addContainerGap())
 		);
+		
+		mts2Table = new JTable();
+		mts2Table.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Code", "Name"
+			}
+		) {
+			boolean[] columnEditables = new boolean[] {
+				false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		mtsScroll2.setViewportView(mts2Table);
+		panelTableCourses.setLayout(gl_panelTableCourses);
 		
 		JPanel addItem = new JPanel();
 		tabbedPane.addTab("Add Items", null, addItem, null);
@@ -603,23 +697,6 @@ public class ManagementTeamGUI {
 						.addComponent(btnCAddFaculty)))
 		);
 		Courses.setLayout(gl_Courses);
-		
-		mtsTable = new JTable();
-		mtsTable.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Type", "Id", "Name", "Price", "Disabled"
-			}
-		) {
-			boolean[] columnEditables = new boolean[] {
-				false, false, false, false, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
-		mtsScroll.setViewportView(mtsTable);
 		mainPage.setLayout(gl_mainPage);
 		
 		
