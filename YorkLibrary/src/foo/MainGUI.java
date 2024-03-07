@@ -229,7 +229,7 @@ public class MainGUI{
 		lblName = new JLabel("{email}");
 		lblName.setText(email);
 		lblName.setFont(new Font("Book Antiqua", Font.PLAIN, 16));
-		lblName.setForeground(new Color(255, 255, 255));
+		lblName.setForeground(new Color(0, 0, 255));
 		
 		JButton btnAdmin = new JButton("Admin");
 		btnAdmin.addActionListener(new ActionListener() {
@@ -1101,8 +1101,8 @@ public class MainGUI{
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(Subscribe_3)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(topBarTitle_1, GroupLayout.PREFERRED_SIZE, 211, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(308, Short.MAX_VALUE))
+					.addComponent(topBarTitle_1, GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+					.addGap(308))
 		);
 		gl_topBar_1.setVerticalGroup(
 			gl_topBar_1.createParallelGroup(Alignment.LEADING)
@@ -1115,9 +1115,7 @@ public class MainGUI{
 							.addComponent(rent_1)
 							.addComponent(Subscribe_3)))
 					.addContainerGap())
-				.addGroup(gl_topBar_1.createSequentialGroup()
-					.addComponent(topBarTitle_1)
-					.addContainerGap(18, Short.MAX_VALUE))
+				.addComponent(topBarTitle_1, GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
 		);
 		topBar_1.setLayout(gl_topBar_1);
 		GroupLayout gl_subscribePage = new GroupLayout(subscribePage);
