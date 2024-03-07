@@ -95,6 +95,8 @@ public class MainGUI{
 	private JTable tableSubs;
 	private JTextField textField_Sub;
 	private JTextField textField_1;
+	private JPanel cartPage;
+	private JPanel centerContentPanel;
 	
 	public static void main(String[] args) {
 		new MainGUI("test@gmail.com");
@@ -1102,7 +1104,7 @@ public class MainGUI{
 					.addComponent(Subscribe_3)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(topBarTitle_1, GroupLayout.PREFERRED_SIZE, 211, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(308, Short.MAX_VALUE))
+					.addContainerGap(318, Short.MAX_VALUE))
 		);
 		gl_topBar_1.setVerticalGroup(
 			gl_topBar_1.createParallelGroup(Alignment.LEADING)
@@ -1115,9 +1117,7 @@ public class MainGUI{
 							.addComponent(rent_1)
 							.addComponent(Subscribe_3)))
 					.addContainerGap())
-				.addGroup(gl_topBar_1.createSequentialGroup()
-					.addComponent(topBarTitle_1)
-					.addContainerGap(18, Short.MAX_VALUE))
+				.addComponent(topBarTitle_1, GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
 		);
 		topBar_1.setLayout(gl_topBar_1);
 		GroupLayout gl_subscribePage = new GroupLayout(subscribePage);
@@ -1308,6 +1308,80 @@ public class MainGUI{
 		scrollSubs.setViewportView(tableSubs);
 		centerContent_Sub.setLayout(gl_centerContent_Sub);
 		subscribePage.setLayout(gl_subscribePage);
+		
+		cartPage = new JPanel();
+		frame.getContentPane().add(cartPage, "name_14766760913300");
+		
+		centerContentPanel = new JPanel();
+		GroupLayout gl_cartPage = new GroupLayout(cartPage);
+		gl_cartPage.setHorizontalGroup(
+			gl_cartPage.createParallelGroup(Alignment.LEADING)
+				.addComponent(centerContentPanel, GroupLayout.DEFAULT_SIZE, 856, Short.MAX_VALUE)
+		);
+		gl_cartPage.setVerticalGroup(
+			gl_cartPage.createParallelGroup(Alignment.LEADING)
+				.addComponent(centerContentPanel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 620, Short.MAX_VALUE)
+		);
+		
+		JPanel topBar_1_1 = new JPanel();
+		topBar_1_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		topBar_1_1.setBackground(new Color(227, 24, 55));
+		
+		JButton home_1_1 = new JButton("Home");
+		
+		JButton inventory_1_1 = new JButton("My Inventory");
+		
+		JButton rent_1_1 = new JButton("Rent");
+		
+		JButton Subscribe_3_1 = new JButton("Subscribe");
+		
+		JLabel topBarTitle_1_1 = new JLabel("Your Cart");
+		topBarTitle_1_1.setHorizontalAlignment(SwingConstants.CENTER);
+		topBarTitle_1_1.setForeground(Color.WHITE);
+		topBarTitle_1_1.setFont(new Font("Book Antiqua", Font.PLAIN, 24));
+		GroupLayout gl_topBar_1_1 = new GroupLayout(topBar_1_1);
+		gl_topBar_1_1.setHorizontalGroup(
+			gl_topBar_1_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_topBar_1_1.createSequentialGroup()
+					.addGap(9)
+					.addComponent(home_1_1)
+					.addGap(10)
+					.addComponent(inventory_1_1)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(rent_1_1)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(Subscribe_3_1)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(topBarTitle_1_1, GroupLayout.PREFERRED_SIZE, 211, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(318, Short.MAX_VALUE))
+		);
+		gl_topBar_1_1.setVerticalGroup(
+			gl_topBar_1_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_topBar_1_1.createSequentialGroup()
+					.addContainerGap(14, Short.MAX_VALUE)
+					.addGroup(gl_topBar_1_1.createParallelGroup(Alignment.LEADING)
+						.addComponent(home_1_1)
+						.addComponent(inventory_1_1)
+						.addGroup(gl_topBar_1_1.createParallelGroup(Alignment.BASELINE)
+							.addComponent(rent_1_1)
+							.addComponent(Subscribe_3_1)))
+					.addContainerGap())
+				.addComponent(topBarTitle_1_1, GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
+		);
+		topBar_1_1.setLayout(gl_topBar_1_1);
+		GroupLayout gl_centerContentPanel = new GroupLayout(centerContentPanel);
+		gl_centerContentPanel.setHorizontalGroup(
+			gl_centerContentPanel.createParallelGroup(Alignment.LEADING)
+				.addComponent(topBar_1_1, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 866, Short.MAX_VALUE)
+		);
+		gl_centerContentPanel.setVerticalGroup(
+			gl_centerContentPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_centerContentPanel.createSequentialGroup()
+					.addComponent(topBar_1_1, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(570, Short.MAX_VALUE))
+		);
+		centerContentPanel.setLayout(gl_centerContentPanel);
+		cartPage.setLayout(gl_cartPage);
 		
 		
 		//Sets the window text and lets user see the GUI
