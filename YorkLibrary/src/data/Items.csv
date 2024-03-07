@@ -2,6 +2,8 @@ Id,Name,Price,Disabled,DueDate,Barrower,Fee
 14,NewS,121,FALSE,BLANK,BLANK,0
 10,ten,0,FALSE,BLANK,BLANK,0
 99,Physical,0,TRUE,BLANK,BLANK,0
+15,weee,0,TRUE,BLANK,BLANK,0
+16,coolll,0,TRUE,BLANK,BLANK,0
 2,Vis,2,TRUE,BLANK,Vist@gmail.com,0
 5,fiv,0,TRUE,BLANK,Vist@gmail.com,0
 6,six,0,TRUE,BLANK,Vist@gmail.com,0
@@ -12,5 +14,3 @@ Id,Name,Price,Disabled,DueDate,Barrower,Fee
 4,fr,0,TRUE,BLANK,test@gmail.com,0
 3,th,0,TRUE,BLANK,test@gmail.com,0
 1,wda,12,FALSE,BLANK,test@gmail.com,0
-15,weee,0,TRUE,BLANK,BLANK,0
-16,coolll,0,TRUE,BLANK,BLANK,0
