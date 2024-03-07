@@ -101,7 +101,7 @@ public class ManagementTeamGUI {
 		);
 		
 		JPanel addItem = new JPanel();
-		tabbedPane.addTab("Add", null, addItem, null);
+		tabbedPane.addTab("Add Items", null, addItem, null);
 		
 		textField_id = new JTextField();
 		textField_id.setColumns(10);
@@ -125,6 +125,17 @@ public class ManagementTeamGUI {
 		JButton btnAddItem = new JButton("Submit");
 		btnAddItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				ArrayList<Item> items = new ArrayList<Item>(system.getBorrowed());
+				items.addAll(system.getStock());
+				items.addAll(system.getSubOps());
+				boolean taken = false;
+				//Checks if Id is already taken
+				for(Item I: items) {
+					if((I.getId()+"").equals(textField_id.getText())) {
+						taken = true;
+					}
+				}
+				
 				String type = comboBoxItemType.getSelectedItem()+"";
 				
 				boolean disabled;
@@ -134,31 +145,36 @@ public class ManagementTeamGUI {
 				else {
 					disabled = false;
 				}
-				
-				if(type.equals("Physical Item")) {
-					//Builds the item
-					PhysicalItem holder = new PhysicalItem();
-					holder.setId(Integer.valueOf(textField_id.getText()));
-					holder.setName(textField_Name.getText());
-					holder.setPrice(Double.valueOf(textField_Price.getText()));
-					holder.setDisabled(disabled);
-					holder.setBorrower("BLANK");
-					holder.setDueDate("BLANK");
-					holder.setFee(0);
-					
-					mgr.addPhysicalItem(holder);
+				//Prevents duplicate Ids from being used
+				if(!taken) {
+					if(type.equals("Physical Item")) {
+						//Builds the item
+						PhysicalItem holder = new PhysicalItem();
+						holder.setId(Integer.valueOf(textField_id.getText()));
+						holder.setName(textField_Name.getText());
+						holder.setPrice(Double.valueOf(textField_Price.getText()));
+						holder.setDisabled(disabled);
+						holder.setBorrower("BLANK");
+						holder.setDueDate("BLANK");
+						holder.setFee(0);
+						
+						mgr.addPhysicalItem(holder);
+					}
+					else {//Online Item
+						//Builds the item
+						OnlineItem holder = new OnlineItem();
+						holder.setId(Integer.valueOf(textField_id.getText()));
+						holder.setName(textField_Name.getText());
+						holder.setPrice(Double.valueOf(textField_Price.getText()));
+						holder.setDisabled(disabled);
+						holder.setSubscriber("BLANK");
+						holder.setLink(textField_Link.getText());
+						
+						mgr.addOnlineItem(holder);
+					}
 				}
-				else {//Online Item
-					//Builds the item
-					OnlineItem holder = new OnlineItem();
-					holder.setId(Integer.valueOf(textField_id.getText()));
-					holder.setName(textField_Name.getText());
-					holder.setPrice(Double.valueOf(textField_Price.getText()));
-					holder.setDisabled(disabled);
-					holder.setSubscriber("BLANK");
-					holder.setLink(textField_Link.getText());
-					
-					mgr.addOnlineItem(holder);
+				else {
+					System.out.println("Duplicate ID, try again");
 				}
 			}
 		});
@@ -334,7 +350,7 @@ public class ManagementTeamGUI {
 		disableItem.setLayout(gl_disableItem);
 		
 		JPanel removeItem = new JPanel();
-		tabbedPane.addTab("Remove", null, removeItem, null);
+		tabbedPane.addTab("Remove Items", null, removeItem, null);
 		
 		JButton btnRemoveItem = new JButton("Submit");
 		btnRemoveItem.addActionListener(new ActionListener() {
@@ -402,6 +418,12 @@ public class ManagementTeamGUI {
 					.addGap(72))
 		);
 		removeItem.setLayout(gl_removeItem);
+		
+		JPanel panel_addCourse = new JPanel();
+		tabbedPane.addTab("Add Course", null, panel_addCourse, null);
+		
+		JPanel panel_RemoveCourse = new JPanel();
+		tabbedPane.addTab("Remove Course", null, panel_RemoveCourse, null);
 		
 		mtsTable = new JTable();
 		mtsTable.setModel(new DefaultTableModel(
