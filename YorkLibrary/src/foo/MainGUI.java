@@ -1103,8 +1103,8 @@ public class MainGUI{
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(Subscribe_3)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(topBarTitle_1, GroupLayout.PREFERRED_SIZE, 211, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(318, Short.MAX_VALUE))
+					.addComponent(topBarTitle_1, GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+					.addGap(308))
 		);
 		gl_topBar_1.setVerticalGroup(
 			gl_topBar_1.createParallelGroup(Alignment.LEADING)
