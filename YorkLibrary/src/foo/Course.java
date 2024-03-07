@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Course {
 
+	private String code;
 	private String name;
 	private ArrayList<Item> textBooks;
 	private ArrayList<Student> students;
@@ -13,7 +14,8 @@ public class Course {
 		
 	}
 	
-	public Course(String name, ArrayList<Item> textBooks, ArrayList<Student> students, ArrayList<Faculty> faculty) {
+	public Course(String code,String name, ArrayList<Item> textBooks, ArrayList<Student> students, ArrayList<Faculty> faculty) {
+		this.code = code;
 		this.name = name;
 		this.textBooks = textBooks;
 		this.students = students;
@@ -100,6 +102,9 @@ public class Course {
 		}
 	}
 	
+	public void setCode(String code) {
+		this.code = code;
+	}
 	
 	//Getters
 	public ArrayList<Item> getTextBooks(){
@@ -116,6 +121,10 @@ public class Course {
 	
 	public ArrayList<Faculty> getFaculty(){
 		return this.faculty;
+	}
+	
+	public String getCode() {
+		return this.code;
 	}
 	
 }

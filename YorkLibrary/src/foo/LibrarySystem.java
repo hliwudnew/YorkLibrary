@@ -11,6 +11,7 @@ public class LibrarySystem {
 	private ArrayList<User> userlist = new ArrayList<User>();
 	private ArrayList<OnlineItem> subscriptions = new ArrayList<OnlineItem>(); //Holds who has subscriptions
 	private ArrayList<OnlineItem> subOptions = new ArrayList<OnlineItem>(); // Holds the actual subscription
+	private ArrayList<Course> courses = new ArrayList<Course>();
 	
 	
 	public LibrarySystem() {
@@ -19,14 +20,16 @@ public class LibrarySystem {
 		userlist = new ArrayList<User>();
 		subscriptions = new ArrayList<OnlineItem>();
 		subOptions = new ArrayList<OnlineItem>();
+		courses = new ArrayList<Course>();
 	}
 	
-	public LibrarySystem(ArrayList<Item> stock, ArrayList<Item> borrowed, ArrayList<User> users,ArrayList<OnlineItem> subs,ArrayList<OnlineItem> options) {
+	public LibrarySystem(ArrayList<Item> stock, ArrayList<Item> borrowed, ArrayList<User> users,ArrayList<OnlineItem> subs,ArrayList<OnlineItem> options,ArrayList<Course> courses ) {
 		this.stock = stock;
 		this.borrowed = borrowed;
 		this.userlist = users;
 		this.subscriptions = subs;
 		this.subOptions = options;
+		this.courses = courses;
 	}
 	
 
@@ -112,6 +115,15 @@ public class LibrarySystem {
 		}
 	}
 	
+	public void addCourse(Course course) {
+		this.courses.add(course);
+	}
+	public void removeCourse(Course course) {
+		if(course != null) {
+			this.courses.remove(course);
+		}
+	}
+	
 	//Getters
 	public ArrayList<Item> getStock(){
 		return this.stock;
@@ -127,6 +139,14 @@ public class LibrarySystem {
 			if(u.getEmail().equals(email)) {
 				u.setSystem(this);
 				return u;
+			}
+		}
+		return null;
+	}
+	public Course getCourse(String code) {
+		for(Course C: this.courses) {
+			if(C.getCode().equals(code)) {
+				return C;
 			}
 		}
 		return null;
@@ -204,5 +224,18 @@ public class LibrarySystem {
 	
 	public ArrayList<OnlineItem> getSubOps(){
 		return this.subOptions;
+	}
+	
+	public ArrayList<Course> getCourses(){
+		return this.courses;
+	}
+	
+	public Course getCourseByCode(String code) {
+		for(Course C: this.courses) {
+			if(C.getCode().equals(code)) {
+				return C;
+			}
+		}
+		return null;
 	}
 }

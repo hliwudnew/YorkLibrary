@@ -16,11 +16,21 @@ public class ManagementTeam {
 	
 	//Methods
 	public void addPhysicalItem(PhysicalItem item) {
-		system.addStock(item);
+		if(item != null) {
+			system.addStock(item);
+		}
+		else {
+			System.out.println("Null Item");
+		}
 	}
 	
 	public void addOnlineItem(OnlineItem item) {
-		system.addSubOp(item);// Adding a new subscription entirely
+		if(item != null) {
+			system.addSubOp(item);// Adding a new subscription entirely
+		}
+		else {
+			System.out.println("Null Item");
+		}
 	}
 	
 	public void removePhysicalItem(PhysicalItem item) {
@@ -61,6 +71,25 @@ public class ManagementTeam {
 	public void verifyAccount(String username, String password) {
 		
 	}
+	
+	public void addCourse(String code, String name) {
+		if(!code.equals("") && !name.equals("") && system.getCourseByCode(code) == null) {
+			Course course = new Course();
+			course.setName(name);
+			course.setCode(code);
+			system.addCourse(course);
+		}
+		else {
+			System.out.println("Enter proper values");
+		}
+	}
+	
+	public void removeCourse(String course) {
+		if(!course.equals("") && course != null) {
+			system.removeCourse(system.getCourseByCode(course));
+		}
+	}
+	
 	
 	//Setters
 	public void setSystem(LibrarySystem system) {
