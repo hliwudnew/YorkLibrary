@@ -231,7 +231,7 @@ public class MainGUI{
 		lblName = new JLabel("{email}");
 		lblName.setText(email);
 		lblName.setFont(new Font("Book Antiqua", Font.PLAIN, 16));
-		lblName.setForeground(new Color(255, 255, 255));
+		lblName.setForeground(new Color(0, 0, 255));
 		
 		JButton btnAdmin = new JButton("Admin");
 		btnAdmin.addActionListener(new ActionListener() {
