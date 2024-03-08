@@ -4,33 +4,39 @@ import java.util.ArrayList;
 
 public class OnlineItem extends Item{
 
-	String subscriber;
+	ArrayList<User> subscribers;
 	String link;
 	
 	public OnlineItem() {
-		
+		this.subscribers = new ArrayList<User>();
 	}
 	
-	public OnlineItem(String sub, String link) {
-		this.subscriber = sub;
+	public OnlineItem(ArrayList<User> subs, String link) {
+		this.subscribers = subs;
 		this.link = link;
 	}
 	// Getters
-	public String getSubscriber() {
-		return this.subscriber;
+	public ArrayList<User> getSubscribers() {
+		return this.subscribers;
 	}
 	public String getLink() {
 		return this.link;
 	}
 	
+	
 	//Setters
-	public void setSubscriber(String sub) {
-		this.subscriber = sub;
+	public void setSubscribers(ArrayList<User> sub) {
+		this.subscribers = sub;
 	}
 	
 	public void setLink(String link) {
 		this.link = link;
 	}
-
+	
+	public void addSubscriber(User user) {
+		if(user != null && !this.subscribers.contains(user)) {
+			this.subscribers.add(user);
+		}
+	}
 
 }

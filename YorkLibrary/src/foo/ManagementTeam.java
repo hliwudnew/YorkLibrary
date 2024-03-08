@@ -26,26 +26,38 @@ public class ManagementTeam {
 	
 	public void addOnlineItem(OnlineItem item) {
 		if(item != null) {
-			system.addSubOp(item);// Adding a new subscription entirely
+			system.addSub(item);
 		}
 		else {
 			System.out.println("Null Item");
 		}
 	}
 	
-	public void removePhysicalItem(PhysicalItem item) {
+	public void removeItem(Item item) {
 		if(item != null) {
-			if(!system.getStock().contains(item) && system.getBorrowed().contains(item)) {
-				System.out.println("Cannot Delete Item it is being barrowed");
+			//Physical Item
+			if(item.getClass() == (new PhysicalItem()).getClass()) {
+				if(!system.getStock().contains(item) && system.getBorrowed().contains(item)) {
+					System.out.println("Cannot Delete Item it is being barrowed");
+				}
+				else {
+					system.removeStock(item);
+				}	
 			}
+			//Online Item
 			else {
-				system.removeStock(item);
-			}	
+				//Unsubscribes everyone from the online item
+				for(User u: ((OnlineItem)item).getSubscribers()) {
+					u.unSubscribe((OnlineItem)item);
+				}
+				//Removes the online item from the system
+				system.removeSub((OnlineItem)item);
+				
+			}
 		}
-	}
-	
-	public void removeOnlineItem(OnlineItem item) {
-		System.out.println("I need to finish implementing this"); //TODO: finish
+		else {
+			System.out.println("Item Doesnt exits");
+		}
 	}
 	
 	public void disableItem(Item item) {
@@ -87,6 +99,57 @@ public class ManagementTeam {
 	public void removeCourse(String course) {
 		if(!course.equals("") && course != null) {
 			system.removeCourse(system.getCourseByCode(course));
+		}
+	}
+	
+	public void addStudentToCourse(String code, String email) {
+		Course course = system.getCourseByCode(code);
+		User student = system.getUser(email);
+		
+		if(course != null && student != null && student.getClass() == (new Student()).getClass()) {
+			if(!course.getStudents().contains(student)) {
+				course.addStudent((Student) student);
+			}
+			else {
+				System.out.println("They are already in the class");
+			}
+		}
+		else {
+			System.out.println("Student or Course entered wrong");
+		}
+		
+	}
+	
+	public void addFacultyToCourse(String code, String email) {
+		Course course = system.getCourseByCode(code);
+		User fac = system.getUser(email);
+		if(course != null && fac != null && fac.getClass() == (new Faculty()).getClass()) {
+			if(!course.getFaculty().contains(fac)) {
+				course.addFaculty((Faculty) fac);
+			}
+			else {
+				System.out.println("They are already in the class");
+			}
+		}
+		else {
+			System.out.println("Faculty or Course entered wrong");
+		}
+	}
+	
+	public void addTextBookToCourse(String code, String id) {
+		Course course = system.getCourseByCode(code);
+		Item textbook = system.getPhysicalItem(Integer.valueOf(id));
+		
+		if(course != null && textbook != null) {
+			if(!course.getTextBooks().contains(textbook)) {
+				course.addTextBook(textbook);
+			}
+			else {
+				System.out.println("Book is already assigned to the class");
+			}
+		}
+		else {
+			System.out.println("TextBook Id or Course entered wrong");
 		}
 	}
 	

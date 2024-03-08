@@ -1,8 +1,1 @@
-Id,Name,Price,Disabled,Subscriber,Link
-100,Online,0.0,true,BLANK,https://www.google.com/
-33,CBC,0.0,false,BLANK,https://www.cbc.ca/
-33,CBC,0.0,false,test@gmail.com,https://www.cbc.ca/
-20,GITHUB,0.0,false,Fac@gmail.com,https://github.com/
-20,GITHUB,0.0,false,test@gmail.com,https://github.com/
-33,CBC,0.0,false,Fac@gmail.com,https://www.cbc.ca/
-101,Added,0.0,true,test@gmail.com,https://www.youtube.com/
+Id,Name,Price,Disabled,Link

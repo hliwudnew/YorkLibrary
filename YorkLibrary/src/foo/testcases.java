@@ -22,7 +22,7 @@ class testcases {
 	void makeOnline(){
 		OnlineItem newsletter = new OnlineItem();
 		
-		newsletter.setSubscriber("BLANK");
+		newsletter.addSubscriber( new Student());
 	}
 	
 	@Test

@@ -9,8 +9,7 @@ public class LibrarySystem {
 	private ArrayList<Item> stock = new ArrayList<Item>();
 	private ArrayList<Item> borrowed = new ArrayList<Item>();
 	private ArrayList<User> userlist = new ArrayList<User>();
-	private ArrayList<OnlineItem> subscriptions = new ArrayList<OnlineItem>(); //Holds who has subscriptions
-	private ArrayList<OnlineItem> subOptions = new ArrayList<OnlineItem>(); // Holds the actual subscription
+	private ArrayList<OnlineItem> subscriptions = new ArrayList<OnlineItem>();
 	private ArrayList<Course> courses = new ArrayList<Course>();
 	
 	
@@ -19,16 +18,14 @@ public class LibrarySystem {
 		borrowed = new ArrayList<Item>();
 		userlist = new ArrayList<User>();
 		subscriptions = new ArrayList<OnlineItem>();
-		subOptions = new ArrayList<OnlineItem>();
 		courses = new ArrayList<Course>();
 	}
 	
-	public LibrarySystem(ArrayList<Item> stock, ArrayList<Item> borrowed, ArrayList<User> users,ArrayList<OnlineItem> subs,ArrayList<OnlineItem> options,ArrayList<Course> courses ) {
+	public LibrarySystem(ArrayList<Item> stock, ArrayList<Item> borrowed, ArrayList<User> users,ArrayList<OnlineItem> subs,ArrayList<Course> courses ) {
 		this.stock = stock;
 		this.borrowed = borrowed;
 		this.userlist = users;
 		this.subscriptions = subs;
-		this.subOptions = options;
 		this.courses = courses;
 	}
 	
@@ -56,8 +53,9 @@ public class LibrarySystem {
 	public void setSubscriptions(ArrayList<OnlineItem> subsCSV) {
 		this.subscriptions = subsCSV;
 	}
-	public void setSubOptions(ArrayList<OnlineItem> subOp) {
-		this.subOptions = subOp;
+
+	public void setCourses(ArrayList<Course> coursesCSVs) {
+		this.courses = coursesCSVs;
 	}
 	
 	//Methods
@@ -96,12 +94,6 @@ public class LibrarySystem {
 	}
 	public void removeSub(OnlineItem sub) {
 		this.subscriptions.remove(sub);
-	}
-	public void addSubOp(OnlineItem op) {
-		this.subOptions.add(op);
-	}
-	public void removeSubOp(Item i) {
-		this.subOptions.remove(i);
 	}
 	
 	public void addUser(User user) {
@@ -152,6 +144,18 @@ public class LibrarySystem {
 		return null;
 	}
 	
+	public Item getItemAll(int id) {
+		ArrayList<Item> items = new ArrayList<Item>(this.stock);
+		items.addAll(this.borrowed);
+		items.addAll(this.subscriptions);
+		for(Item I: items) {
+			if(I.getId() == id) {
+				return I;
+			}
+		}
+		return null;
+	}
+	
 	public Item getPhysicalItem(int id) {
 		ArrayList<Item> items = new ArrayList<Item>(this.stock);
 		items.addAll(this.borrowed);
@@ -163,24 +167,8 @@ public class LibrarySystem {
 		return null;
 	}
 	
-	public ArrayList<Item> getItemAll(int id) {
-		ArrayList<Item> holder = new ArrayList<Item>();
-		
-		ArrayList<Item> items = new ArrayList<Item>(this.stock);
-		items.addAll(this.borrowed);
-		items.addAll(this.subscriptions);
-		items.addAll(this.subOptions);
-		for(Item I: items) {
-			if(I.getId() == id) {
-				holder.add(I);
-			}
-		}
-		return holder;
-	}
-	
 	public Item getOnlineItem(int id) {
 		ArrayList<Item> items = new ArrayList<Item>(this.subscriptions);
-		items.addAll(this.subOptions);
 		for(Item I: items) {
 			if(I.getId() == id) {
 				return I;
@@ -200,31 +188,10 @@ public class LibrarySystem {
 		
 	}
 	
-	public Item getSubOp(int id) {
-		for(Item I: this.subOptions) {
-			if(I.getId() == id) {
-				return I;
-			}
-		}
-		return null;
-	}
-	
-	public OnlineItem getSub(int id, String email) {
-		for(OnlineItem I: this.subscriptions) {
-			if(I.getId() == id && I.getSubscriber().equals(email)) {
-				return I;
-			}
-		}
-		return null;
-	}
-	
 	public ArrayList<OnlineItem> getSubs(){
 		return this.subscriptions;
 	}
 	
-	public ArrayList<OnlineItem> getSubOps(){
-		return this.subOptions;
-	}
 	
 	public ArrayList<Course> getCourses(){
 		return this.courses;
@@ -237,5 +204,27 @@ public class LibrarySystem {
 			}
 		}
 		return null;
+	}
+	
+	public ArrayList<Faculty> getFaculty() {
+		ArrayList<Faculty> fac = new ArrayList<Faculty>();
+		for(User I: this.userlist) {
+			if(I.getClass() == (new Faculty()).getClass()) {
+				fac.add((Faculty) I);
+			}
+		}
+		
+		return fac;
+	}
+	
+	public ArrayList<Student> getStudents() {
+		ArrayList<Student> student = new ArrayList<Student>();
+		for(User I: this.userlist) {
+			if(I.getClass() == (new Student()).getClass()) {
+				student.add((Student) I);
+			}
+		}
+		
+		return student;
 	}
 }

@@ -7,7 +7,7 @@ public class Student extends User{
 	private ArrayList<Course> courses;
 	
 	public Student() {
-		
+		courses = new ArrayList<Course>();
 	}
 	
 	public Student(ArrayList<Course> courses) {

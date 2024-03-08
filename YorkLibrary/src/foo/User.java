@@ -66,34 +66,10 @@ public abstract class User {
 	
 	
 	//Setters
-	public void copySubscriptionOption(OnlineItem newsletter) {
-		boolean owned = false;
-		for(OnlineItem I:this.getSubscriptions()) {
-			if(I.getId() == newsletter.getId()) {
-				owned = true;
-			}
-		}
-		if(newsletter != null && !owned) {
-			OnlineItem holder = new OnlineItem();
-			//Builds the users own subscription to the Subscription option
-			holder.setId(newsletter.getId());
-			holder.setName(newsletter.getName());
-			holder.setPrice(newsletter.getPrice());
-			holder.setDisabled(newsletter.getDisabled());
-			holder.setSubscriber(email);
-			holder.setLink(newsletter.getLink());
-			this.subscriptions.add(holder);//User is assigned their own copy of the subscription
-			system.addSub(holder);//System notes down their own copy
-		}
-		else {
-			System.out.println("Online Item doesnt exist");
-		}
-	}
 	
 	public void unSubscribe(OnlineItem newsletter) {
 		if(newsletter != null && this.subscriptions.contains(newsletter)) {
-			this.subscriptions.remove(newsletter); //Removes users copy of the subscription
-			system.removeSub(newsletter);//Removes users copy of the subscription
+			this.subscriptions.remove(newsletter);
 		}
 		else {
 			System.out.println("Online Item doesnt exist");
@@ -101,8 +77,9 @@ public abstract class User {
 	}
 	
 	public void subscribe(OnlineItem newsletter) {
-		if(newsletter != null) {
+		if(newsletter != null && !this.subscriptions.contains(newsletter)) {
 			this.subscriptions.add(newsletter);	
+			newsletter.addSubscriber(this);
 		}
 		else {
 			System.out.println("Online Item doesnt exist");

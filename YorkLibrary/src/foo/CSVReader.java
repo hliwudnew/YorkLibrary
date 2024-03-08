@@ -17,10 +17,6 @@ import java.util.ArrayList;
 
 public class CSVReader {
 	
-	private static String itemHeaders = "Id,Name,Price,Disabled,DueDate,Barrower,Fee\n";
-	private static String subscriptionHeaders ="Id,Name,Price,Disabled,Subscriber,Link\n";
-	private static String accountHeaders = "Email,Password,Rented,Subscriptions,Type,Courses,TextBooks\n";
-	
 //	public static void main(String[] args) { //Type is file name
 //		//This should work in as long as the CSV files are in the data folder/package
 //		String path ="src\\data\\Accounts.csv";
@@ -127,10 +123,24 @@ public class CSVReader {
 
 	//Uploads everything to the CSV on close
 	public static void upload(LibrarySystem system) {
+		String itemHeaders = "Id,Name,Price,Disabled,DueDate,Barrower,Fee\n";
+		String accountHeaders = "Email,Password,Rented,Subscriptions,Type,Courses,TextBooks\n";
+		
+		String subscribersHeader ="Id,Email\n";
+		String subscriptionsHeader = "Id,Name,Price,Disabled,Link\n";
+		
+		String courseHeaders = "Code,Name\n";
+		String courseFHeader = "Code,Faculty\n";
+		String courseTHeader = "Code,TextBook\n";
+		String courseSHeader = "Code,Student\n";
+		
+		
+		
 		ArrayList<Item> items = new ArrayList<Item>(system.getStock());
 		items.addAll(system.getBorrowed());
 		ArrayList<User> users = new ArrayList<User>(system.getUsers());
 		ArrayList<OnlineItem> subs = new ArrayList<OnlineItem>(system.getSubs());
+		
 		// Saves all the items data and Account data
 		try {
 			String path ="src\\data\\Items.csv";
@@ -139,7 +149,9 @@ public class CSVReader {
 			
 			BufferedWriter buffWrite = new BufferedWriter(new FileWriter(new File(path)));
 			buffWrite.write(itemHeaders);// Rewrites the headers
-			//Saves item data
+			/*
+			 * Saves item data
+			 */
 			for(Item I: items) {
 				buffWrite.write(I.getId()+","+I.getName()+","+I.getPrice()+","+I.getDisabled()+","+ ((PhysicalItem) I).getDueDate() +","+ ((PhysicalItem) I).getBorrower()+","+ ((PhysicalItem) I).getFee()+"\n");//Rewrites CSV file
 			}
@@ -147,7 +159,9 @@ public class CSVReader {
 			
 			BufferedWriter buffWrite2 = new BufferedWriter(new FileWriter(new File(pathAccount)));
 			buffWrite2.write(accountHeaders);
-			//Saves user data
+			/*
+			 * Saves user data
+			 */
 			for(User u: users) {
 				String type ="";
 		    	String rented ="BLANK";
@@ -167,16 +181,76 @@ public class CSVReader {
 			}
 			
 			buffWrite2.close();// Closes the writer so the data saves
-
-			//Saves subscription data
+			/*
+			 * Saves subscription data
+			 */
 			BufferedWriter buffWrite3 = new BufferedWriter(new FileWriter(new File(pathSubs)));
-			buffWrite3.write(subscriptionHeaders);// Rewrites the headers
-			
+			buffWrite3.write(subscriptionsHeader);// Rewrites the headers
+			//Saves the subscriptions
 			for(OnlineItem I: subs) {
-				buffWrite3.write(I.getId()+","+I.getName()+","+I.getPrice()+","+I.getDisabled()+","+I.getSubscriber()+","+I.getLink()+"\n");//Rewrites CSV file	
+				buffWrite3.write(I.getId()+","+I.getName()+","+I.getPrice()+","+I.getDisabled()+","+I.getLink()+"\n");//Rewrites CSV file	
 			}
 			buffWrite3.close();
+			
+			buffWrite3 = new BufferedWriter(new FileWriter(new File("src\\data\\Subscribers.csv")));
+			buffWrite3.write(subscribersHeader);// Rewrites the headers
+			//Saves the subscribers for a subscription/ who have a subscription
+			for(OnlineItem I: subs) {
+				for(User u: I.getSubscribers()) {
+					buffWrite3.write(I.getId()+","+u.getEmail()+"\n");//Rewrites CSV file	
+				}
+			}
+			buffWrite3.close();
+			
+			/*
+			 * Saves courses data
+			 */
+			BufferedWriter buffWriter = new BufferedWriter(new FileWriter(new File("src\\data\\Courses.csv")));
+			//Courses
+			buffWriter.write(courseHeaders);// Rewrites the headers
+			for(Course c: system.getCourses()) {
+				buffWriter.write(c.getCode()+","+c.getName()+"\n");//Rewrites CSV file	
+			}
+			buffWriter.close();
+			
+			buffWriter = new BufferedWriter(new FileWriter(new File("src\\data\\CourseStudents.csv")));
+			//Course Students
+			buffWriter.write(courseSHeader);// Rewrites the headers
+			for(Course c: system.getCourses()) {
+				if(c.getStudents() != null) {
+					for(Student u: c.getStudents()) {
+						buffWriter.write(c.getCode()+","+u.getEmail()+"\n");//Rewrites CSV file	
+					}
+				}
+			}
+			buffWriter.close();
+			
+			buffWriter = new BufferedWriter(new FileWriter(new File("src\\data\\CourseFaculty.csv")));
+			//Course Faculty
+			buffWriter.write(courseFHeader);// Rewrites the headers
+			for(Course c: system.getCourses()) {
+				if(c.getFaculty() != null) {
+					for(User u: c.getFaculty()) {
+						buffWriter.write(c.getCode()+","+u.getEmail()+"\n");//Rewrites CSV file	
+					}
+				}
+			}
+			buffWriter.close();
+			
+			buffWriter = new BufferedWriter(new FileWriter(new File("src\\data\\CourseTextBooks.csv")));
+			//Course Textbooks
+			buffWriter.write(courseTHeader);// Rewrites the headers
+			for(Course c: system.getCourses()) {
+				if(c.getTextBooks() != null) {
+					for(Item u: c.getTextBooks()) {
+						buffWriter.write(c.getCode()+","+u.getId()+"\n");//Rewrites CSV file	
+					}
+				}
+			}
+			
+			buffWriter.close();
 			System.out.println("Added to CSV");
+			
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -198,15 +272,15 @@ public class CSVReader {
 				String[] values = line2.split(",");
 				if(values.length != 0 && !skip2) {
 					if(values[4].equals("Student")) {
-						Student temp = new Student(null); //TODO: some how put all courses in this
+						Student temp = new Student(); 
 						temp.setEmail(values[0]);
 						temp.setPassword(values[1]);
 						temp.setRented(new ArrayList<PhysicalItem>());
-						temp.setSubscriptions(new ArrayList<OnlineItem>()); //TODO: some how put all subscriptions in here
+						temp.setSubscriptions(new ArrayList<OnlineItem>()); 
 						users.add(temp);
 					}
 					else if(values[4].equals("Faculty")) {
-						Faculty temp = new Faculty(null,null); //TODO: Somehow put all courses and textbooks in this
+						Faculty temp = new Faculty();
 						temp.setEmail(values[0]);
 						temp.setPassword(values[1]);
 						temp.setRented(new ArrayList<PhysicalItem>());
@@ -290,11 +364,11 @@ public class CSVReader {
 		 */
 		String path3 ="src\\data\\Subscriptions.csv";
 		String line3 = "";
-		ArrayList<OnlineItem> subs = new ArrayList<OnlineItem>();
-		ArrayList<OnlineItem> subOps = new ArrayList<OnlineItem>();
+		ArrayList<OnlineItem> subscriptions = new ArrayList<OnlineItem>();
 		boolean skip3 = true; // Not my greatest fix but skips the first row of column names
 		
 		try {
+			//Creates the subscriptions
 			BufferedReader br = new BufferedReader(new FileReader(path3));
 			while((line3 = br.readLine())!= null) {
 				String[] values = line3.split(",");
@@ -312,14 +386,26 @@ public class CSVReader {
 					temp.setName(values[1]);
 					temp.setPrice(Double.valueOf(values[2]));
 					temp.setDisabled(disabled);
-					temp.setSubscriber(values[4]);
-					temp.setLink(values[5]);
+					temp.setLink(values[4]);
 					
-					//Assigns OnlineItem to User
-					if(!temp.getSubscriber().equals("BLANK")) {
-						system.getUser(temp.getSubscriber()).subscribe(temp);
+					subscriptions.add(temp);
+				}
+				skip3 = false;
+			}
+			br.close();
+			//Assigned the users to the subscriptions
+			skip3 = true;
+			br = new BufferedReader(new FileReader("src\\data\\Subscribers.csv"));
+			while((line3 = br.readLine())!= null) {
+				String[] values = line3.split(",");
+				//Fixes issues with blank spaces in csv file
+				if(values.length != 0 && !skip3) {
+					for(OnlineItem I: subscriptions) {
+						if((I.getId()+"").equals(values[0])) {
+							system.getUser(values[1]).subscribe(I);;
+						}
 					}
-					subs.add(temp);
+					
 				}
 				skip3 = false;
 			}
@@ -329,26 +415,109 @@ public class CSVReader {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		//Gathers the list of possible subscriptions
-		ArrayList<Integer> ids = new ArrayList<Integer>();
-		for(OnlineItem I: subs) {
-			//Checks which id's the list doesn't have, gathers one instance of every id, hence the all subscription options
-			if(!ids.contains(I.getId())) {
-				OnlineItem holder = new OnlineItem();
-				ids.add(I.getId());
-				//Constructs the subscription option
-				holder.setId(I.getId());
-				holder.setName(I.getName());
-				holder.setPrice(I.getPrice());
-				holder.setDisabled(I.getDisabled());
-				holder.setLink(I.getLink());
-				holder.setSubscriber("BLANK");
-				
-				subOps.add(holder);
+		system.setSubscriptions(subscriptions);
+		
+		/*
+		 * Gets Courses Data
+		 */
+		ArrayList<Course> courses = new ArrayList<Course>();
+		try {
+			String pathCourse ="src\\data\\Courses.csv";
+			String lineCourse = "";
+			boolean skipC = true; // Not my greatest fix but skips the first row of column names
+			
+			//Grabs courses
+			BufferedReader br = new BufferedReader(new FileReader(pathCourse));
+			while((lineCourse = br.readLine())!= null) {
+				String[] values = lineCourse.split(",");
+				//Fixes issues with blank spaces in csv file
+				if(values.length != 0 && !skipC) {
+					Course temp = new Course();
+					
+					temp.setCode(values[0]);
+					temp.setName(values[1]);
+
+					courses.add(temp);
+				}
+				skipC = false;
 			}
+			br.close();
+			
+			//Grabs Courses Faculty
+			skipC= true;
+			br = new BufferedReader(new FileReader("src\\data\\CourseFaculty.csv"));
+			while((lineCourse = br.readLine())!= null) {
+				String[] values = lineCourse.split(",");
+				//Fixes issues with blank spaces in csv file
+				if(values.length != 0 && !skipC) {
+					for(Course c: courses) {
+						if(c.getCode().equals(values[0])) {
+							for(Faculty f: system.getFaculty()) {
+								if(f.getEmail().equals(values[1])) {
+									c.addFaculty(f);
+									f.addCourse(c);
+								}
+							}
+						}
+					}
+					
+				}
+				skipC = false;
+			}
+			br.close();
+			
+			//Grabs Courses Students
+			skipC= true;
+			br = new BufferedReader(new FileReader("src\\data\\CourseStudents.csv"));
+			while((lineCourse = br.readLine())!= null) {
+				String[] values = lineCourse.split(",");
+				//Fixes issues with blank spaces in csv file
+				if(values.length != 0 && !skipC) {
+					for(Course c: courses) {
+						if(c.getCode().equals(values[0])) {
+							for(Student s: system.getStudents()) {
+								if(s.getEmail().equals(values[1])) {
+									c.addStudent(s);
+									s.addCourse(c);
+								}
+							}
+						}
+					}
+					
+				}
+				skipC = false;
+			}
+			br.close();
+			
+			//Grabs Courses TextBooks
+			skipC= true;
+			br = new BufferedReader(new FileReader("src\\data\\CourseTextBooks.csv"));
+			while((lineCourse = br.readLine())!= null) {
+				String[] values = lineCourse.split(",");
+				//Fixes issues with blank spaces in csv file
+				if(values.length != 0 && !skipC) {
+					for(Course c: courses) {
+						if(c.getCode().equals(values[0])) {
+							for(PhysicalItem I: items) {
+								if(I.getId() ==Integer.valueOf(values[1])) {
+									c.addTextBook(I);
+								}
+							}
+						}
+					}
+					
+				}
+				skipC = false;
+			}
+			br.close();
+		} catch(FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		system.setSubOptions(subOps);
-		system.setSubscriptions(subs);
+		system.setCourses(courses);
+		
+		
 		System.out.println("Downloaded From CSV");
 		return system;
 	}
@@ -425,7 +594,6 @@ public class CSVReader {
 	
 //	//Adds item to the CSV
 //	public static void addItem(int id, String name, double price, boolean disabled) {
-//		//TODO: make this check if there are already the max for that item
 //		try {
 //			String path ="src\\data\\Items.csv";
 //			BufferedWriter buffWrite = new BufferedWriter(new FileWriter(new File(path), true));

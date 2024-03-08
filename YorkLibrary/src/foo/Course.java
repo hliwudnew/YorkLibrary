@@ -11,7 +11,9 @@ public class Course {
 	private ArrayList<Faculty> faculty;
 	
 	public Course() {
-		
+		this.textBooks = new ArrayList<Item>();
+		this.students = new ArrayList<Student>();
+		this.faculty = new ArrayList<Faculty>();
 	}
 	
 	public Course(String code,String name, ArrayList<Item> textBooks, ArrayList<Student> students, ArrayList<Faculty> faculty) {

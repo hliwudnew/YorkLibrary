@@ -38,7 +38,6 @@ public class ManagementTeamGUI {
 	private JComboBox<String> comboBoxItemType;
 	private JTextField textField_Link;
 	private JLabel lblLink;
-	private JTextField textField_RemO;
 	private JTextField textField_CCode;
 	private JTextField textField_CName;
 	private JTextField textField_CCode2;
@@ -47,6 +46,8 @@ public class ManagementTeamGUI {
 	private JTextField textField_FEmail;
 	private JTextField textField_CRemove;
 	private JTable mts2Table;
+	private JTextField textField_Ctextbook;
+	private JTextField textField_CIDtextbook;
 	
 	public ManagementTeamGUI(LibrarySystem system, JFrame frame) {
 		ManagementTeam mgr = new ManagementTeam(system);
@@ -65,13 +66,10 @@ public class ManagementTeamGUI {
 			gl_mainPage.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_mainPage.createSequentialGroup()
 					.addGap(210)
-					.addGroup(gl_mainPage.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_mainPage.createSequentialGroup()
-							.addComponent(tabbedPane_1, GroupLayout.PREFERRED_SIZE, 555, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap())
-						.addGroup(gl_mainPage.createSequentialGroup()
-							.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE)
-							.addGap(258))))
+					.addGroup(gl_mainPage.createParallelGroup(Alignment.TRAILING)
+						.addComponent(tabbedPane, Alignment.LEADING)
+						.addComponent(tabbedPane_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 602, Short.MAX_VALUE))
+					.addGap(105))
 		);
 		gl_mainPage.setVerticalGroup(
 			gl_mainPage.createParallelGroup(Alignment.TRAILING)
@@ -114,7 +112,7 @@ public class ManagementTeamGUI {
 				//Looks at all items
 				ArrayList<Item> holder = new ArrayList<Item>(system.getStock()); // Books in stock
 				holder.addAll(system.getBorrowed());// Books people are borrowing
-				holder.addAll(system.getSubOps()); // Subscription options
+				holder.addAll(system.getSubs()); // Subscription options
 				
 				for(Item e : holder) {
 					String[] rowdata = {e.getClass().toString().substring(10),e.getId()+"",e.getName(),e.getPrice() +"",e.getDisabled()+""};
@@ -229,7 +227,7 @@ public class ManagementTeamGUI {
 			public void actionPerformed(ActionEvent e) {
 				ArrayList<Item> items = new ArrayList<Item>(system.getBorrowed());
 				items.addAll(system.getStock());
-				items.addAll(system.getSubOps());
+				items.addAll(system.getSubs());
 				boolean taken = false;
 				//Checks if Id is already taken
 				for(Item I: items) {
@@ -269,7 +267,7 @@ public class ManagementTeamGUI {
 						holder.setName(textField_Name.getText());
 						holder.setPrice(Double.valueOf(textField_Price.getText()));
 						holder.setDisabled(disabled);
-						holder.setSubscriber("BLANK");
+//						holder.setSubscriber("BLANK");
 						holder.setLink(textField_Link.getText());
 						
 						mgr.addOnlineItem(holder);
@@ -386,7 +384,7 @@ public class ManagementTeamGUI {
 		JButton btnDisableItem = new JButton("Submit");
 		btnDisableItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				mgr.disableItem(system.getItemAll(Integer.valueOf(textField_Disable.getText())));
+				mgr.disableItem(system.getOnlineItem(Integer.valueOf(textField_Disable.getText())));
 			}
 		});
 		
@@ -403,7 +401,7 @@ public class ManagementTeamGUI {
 		JButton btnEnableItem = new JButton("Submit");
 		btnEnableItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				mgr.enableItem(system.getItemAll(Integer.valueOf(textField_Enable.getText())));
+				mgr.enableItem(system.getOnlineItem(Integer.valueOf(textField_Enable.getText())));
 			}
 		});
 		GroupLayout gl_disableItem = new GroupLayout(disableItem);
@@ -457,67 +455,41 @@ public class ManagementTeamGUI {
 		JButton btnRemoveItem = new JButton("Submit");
 		btnRemoveItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				mgr.removePhysicalItem((PhysicalItem) system.getPhysicalItem(Integer.valueOf(txtRemoveItem.getText())));
+				mgr.removeItem(system.getItemAll(Integer.valueOf(txtRemoveItem.getText())));
 			}
 		});
 		
 		txtRemoveItem = new JTextField();
 		txtRemoveItem.setColumns(10);
 		
-		JLabel lblRemove = new JLabel("Remove Physical Item by Id");
-		
-		JButton btnRemoveItem_1 = new JButton("Submit");
-		btnRemoveItem_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				mgr.removeOnlineItem((OnlineItem) system.getOnlineItem(Integer.valueOf(textField_RemO.getText())));
-			}
-		});
-		
-		textField_RemO = new JTextField();
-		textField_RemO.setColumns(10);
-		
-		JLabel lblRemove_1 = new JLabel("Remove Online Item by Id");
+		JLabel lblRemove = new JLabel("Remove Item by Id");
 		GroupLayout gl_removeItem = new GroupLayout(removeItem);
 		gl_removeItem.setHorizontalGroup(
 			gl_removeItem.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_removeItem.createSequentialGroup()
-					.addGap(36)
+					.addGap(146)
 					.addGroup(gl_removeItem.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_removeItem.createSequentialGroup()
-							.addGap(12)
 							.addComponent(btnRemoveItem, GroupLayout.PREFERRED_SIZE, 132, GroupLayout.PREFERRED_SIZE)
-							.addGap(82)
-							.addComponent(btnRemoveItem_1, GroupLayout.PREFERRED_SIZE, 132, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_removeItem.createSequentialGroup()
-							.addGroup(gl_removeItem.createParallelGroup(Alignment.LEADING)
+							.addContainerGap())
+						.addGroup(gl_removeItem.createParallelGroup(Alignment.LEADING)
+							.addGroup(gl_removeItem.createSequentialGroup()
 								.addComponent(txtRemoveItem, GroupLayout.PREFERRED_SIZE, 153, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_removeItem.createSequentialGroup()
-									.addComponent(lblRemove, 0, 0, Short.MAX_VALUE)
-									.addPreferredGap(ComponentPlacement.RELATED)))
-							.addGap(61)
-							.addGroup(gl_removeItem.createParallelGroup(Alignment.TRAILING)
-								.addComponent(textField_RemO, GroupLayout.PREFERRED_SIZE, 153, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_removeItem.createSequentialGroup()
-									.addComponent(lblRemove_1)
-									.addGap(13)))))
-					.addContainerGap(41, Short.MAX_VALUE))
+								.addContainerGap())
+							.addGroup(gl_removeItem.createSequentialGroup()
+								.addComponent(lblRemove, 0, 0, Short.MAX_VALUE)
+								.addGap(225)))))
 		);
 		gl_removeItem.setVerticalGroup(
-			gl_removeItem.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_removeItem.createSequentialGroup()
-					.addContainerGap(98, Short.MAX_VALUE)
-					.addGroup(gl_removeItem.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblRemove, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblRemove_1, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE))
+			gl_removeItem.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_removeItem.createSequentialGroup()
+					.addContainerGap(76, Short.MAX_VALUE)
+					.addComponent(lblRemove, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_removeItem.createParallelGroup(Alignment.LEADING)
-						.addComponent(txtRemoveItem, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField_RemO, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(11)
-					.addGroup(gl_removeItem.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnRemoveItem)
-						.addComponent(btnRemoveItem_1))
-					.addGap(72))
+					.addComponent(txtRemoveItem, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(btnRemoveItem)
+					.addGap(84))
 		);
 		removeItem.setLayout(gl_removeItem);
 		
@@ -525,9 +497,11 @@ public class ManagementTeamGUI {
 		tabbedPane.addTab("Courses", null, Courses, null);
 		
 		textField_CCode = new JTextField();
+		textField_CCode.setBounds(10, 56, 86, 20);
 		textField_CCode.setColumns(10);
 		
 		JButton btnCSubmit = new JButton("Add Course");
+		btnCSubmit.setBounds(63, 87, 89, 23);
 		btnCSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mgr.addCourse(textField_CCode.getText(),textField_CName.getText());
@@ -535,168 +509,139 @@ public class ManagementTeamGUI {
 		});
 		
 		JLabel lblCName = new JLabel("Course Code");
+		lblCName.setBounds(10, 31, 62, 14);
 		
 		textField_CName = new JTextField();
+		textField_CName.setBounds(106, 56, 86, 20);
 		textField_CName.setColumns(10);
 		
 		JLabel lblName = new JLabel("Name");
+		lblName.setBounds(120, 31, 62, 14);
 		
 		textField_CCode2 = new JTextField();
+		textField_CCode2.setBounds(255, 47, 86, 20);
 		textField_CCode2.setColumns(10);
 		
 		JLabel lblNewLabel = new JLabel("Add Student");
+		lblNewLabel.setBounds(315, 11, 60, 14);
 		
 		JButton btnCAddStudent = new JButton("Add to Course");
+		btnCAddStudent.setBounds(301, 73, 106, 23);
 		btnCAddStudent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				system.getCourse(textField_CCode2.getText()).addStudent((Student)system.getUser(textField_SEmail.getText()));;
+				mgr.addStudentToCourse(textField_CCode2.getText(), textField_SEmail.getText());
 			}
 		});
 		
 		JLabel lblAddFaculty = new JLabel("Add Faculty");
+		lblAddFaculty.setBounds(315, 125, 57, 14);
 		
 		textField_CCode3 = new JTextField();
+		textField_CCode3.setBounds(255, 170, 86, 20);
 		textField_CCode3.setColumns(10);
 		
 		JButton btnCAddFaculty = new JButton("Add to Course");
+		btnCAddFaculty.setBounds(297, 201, 110, 23);
 		btnCAddFaculty.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				system.getCourse(textField_CCode3.getText()).addFaculty((Faculty) system.getUser(textField_FEmail.getText()));
+				mgr.addFacultyToCourse(textField_CCode3.getText(), textField_FEmail.getText());
 			}
 		});
 		
 		textField_SEmail = new JTextField();
+		textField_SEmail.setBounds(351, 47, 86, 20);
 		textField_SEmail.setColumns(10);
 		
 		textField_FEmail = new JTextField();
+		textField_FEmail.setBounds(351, 170, 86, 20);
 		textField_FEmail.setColumns(10);
 		
 		JLabel lblNewLabel_1 = new JLabel("Course Code");
+		lblNewLabel_1.setBounds(267, 150, 62, 14);
 		
 		JLabel lblNewLabel_2 = new JLabel("Email");
+		lblNewLabel_2.setBounds(378, 150, 24, 14);
 		
 		JLabel lblNewLabel_3 = new JLabel("Course Code");
+		lblNewLabel_3.setBounds(280, 31, 62, 14);
 		
 		JLabel lblNewLabel_4 = new JLabel("Email");
+		lblNewLabel_4.setBounds(381, 31, 24, 14);
 		
 		JLabel lblAddCourse = new JLabel("Add Course");
+		lblAddCourse.setBounds(63, 11, 60, 14);
 		
 		JLabel lblRemoveCourse = new JLabel("Remove by Code");
+		lblRemoveCourse.setBounds(494, 91, 82, 14);
 		
 		textField_CRemove = new JTextField();
+		textField_CRemove.setBounds(478, 115, 103, 20);
 		textField_CRemove.setColumns(10);
 		
 		JButton btnRemoveCourse = new JButton("Remove Course");
+		btnRemoveCourse.setBounds(478, 146, 109, 23);
 		btnRemoveCourse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mgr.removeCourse(textField_CRemove.getText());
 			}
 		});
-		GroupLayout gl_Courses = new GroupLayout(Courses);
-		gl_Courses.setHorizontalGroup(
-			gl_Courses.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_Courses.createSequentialGroup()
-					.addGap(63)
-					.addComponent(lblAddCourse, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
-					.addGap(192)
-					.addComponent(lblNewLabel))
-				.addGroup(gl_Courses.createSequentialGroup()
-					.addGap(10)
-					.addComponent(lblCName)
-					.addGap(48)
-					.addComponent(lblName, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE)
-					.addGap(98)
-					.addComponent(lblNewLabel_3)
-					.addGap(39)
-					.addComponent(lblNewLabel_4))
-				.addGroup(gl_Courses.createSequentialGroup()
-					.addGap(10)
-					.addGroup(gl_Courses.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_Courses.createSequentialGroup()
-							.addComponent(textField_CCode, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(10)
-							.addComponent(textField_CName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_Courses.createSequentialGroup()
-							.addGap(53)
-							.addComponent(btnCSubmit)))
-					.addGap(63)
-					.addGroup(gl_Courses.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_Courses.createSequentialGroup()
-							.addComponent(textField_CCode2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(10)
-							.addComponent(textField_SEmail, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_Courses.createSequentialGroup()
-							.addGap(46)
-							.addComponent(btnCAddStudent, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE))))
-				.addGroup(gl_Courses.createSequentialGroup()
-					.addGap(315)
-					.addComponent(lblAddFaculty))
-				.addGroup(gl_Courses.createSequentialGroup()
-					.addGap(58)
-					.addComponent(lblRemoveCourse)
-					.addGap(127)
-					.addComponent(lblNewLabel_1)
-					.addGap(49)
-					.addComponent(lblNewLabel_2))
-				.addGroup(gl_Courses.createSequentialGroup()
-					.addGap(50)
-					.addComponent(textField_CRemove, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)
-					.addGap(102)
-					.addComponent(textField_CCode3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(10)
-					.addComponent(textField_FEmail, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				.addGroup(gl_Courses.createSequentialGroup()
-					.addGap(50)
-					.addComponent(btnRemoveCourse)
-					.addGap(138)
-					.addComponent(btnCAddFaculty, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE))
-		);
-		gl_Courses.setVerticalGroup(
-			gl_Courses.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_Courses.createSequentialGroup()
-					.addGap(11)
-					.addGroup(gl_Courses.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblAddCourse)
-						.addComponent(lblNewLabel))
-					.addGap(6)
-					.addGroup(gl_Courses.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblCName)
-						.addComponent(lblName)
-						.addComponent(lblNewLabel_3)
-						.addComponent(lblNewLabel_4))
-					.addGap(2)
-					.addGroup(gl_Courses.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_Courses.createSequentialGroup()
-							.addGap(9)
-							.addGroup(gl_Courses.createParallelGroup(Alignment.LEADING)
-								.addComponent(textField_CCode, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(textField_CName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGap(11)
-							.addComponent(btnCSubmit))
-						.addGroup(gl_Courses.createSequentialGroup()
-							.addGroup(gl_Courses.createParallelGroup(Alignment.LEADING)
-								.addComponent(textField_CCode2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(textField_SEmail, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGap(6)
-							.addComponent(btnCAddStudent)))
-					.addGap(15)
-					.addComponent(lblAddFaculty)
-					.addGap(11)
-					.addGroup(gl_Courses.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblRemoveCourse)
-						.addComponent(lblNewLabel_1)
-						.addComponent(lblNewLabel_2))
-					.addGap(6)
-					.addGroup(gl_Courses.createParallelGroup(Alignment.LEADING)
-						.addComponent(textField_CRemove, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField_CCode3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField_FEmail, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(11)
-					.addGroup(gl_Courses.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnRemoveCourse)
-						.addComponent(btnCAddFaculty)))
-		);
-		Courses.setLayout(gl_Courses);
+		
+		textField_Ctextbook = new JTextField();
+		textField_Ctextbook.setBounds(10, 170, 86, 20);
+		textField_Ctextbook.setColumns(10);
+		
+		textField_CIDtextbook = new JTextField();
+		textField_CIDtextbook.setBounds(119, 170, 86, 20);
+		textField_CIDtextbook.setColumns(10);
+		
+		JButton btnAddTextBook = new JButton("Add TextBook");
+		btnAddTextBook.setBounds(63, 201, 106, 23);
+		btnAddTextBook.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mgr.addTextBookToCourse(textField_Ctextbook.getText(), textField_CIDtextbook.getText());
+			}
+		});
+		
+		JLabel lblNewLabel_5 = new JLabel("Add Textbook to Course");
+		lblNewLabel_5.setBounds(52, 125, 117, 14);
+		
+		JLabel label = new JLabel("New label");
+		label.setBounds(37, 170, 46, 14);
+		
+		JLabel lblNewLabel_6 = new JLabel("Course Code");
+		lblNewLabel_6.setBounds(10, 150, 62, 14);
+		
+		JLabel lblNewLabel_6_1 = new JLabel("Id");
+		lblNewLabel_6_1.setBounds(136, 150, 46, 14);
+		Courses.setLayout(null);
+		Courses.add(lblAddCourse);
+		Courses.add(lblNewLabel);
+		Courses.add(lblCName);
+		Courses.add(lblName);
+		Courses.add(lblNewLabel_3);
+		Courses.add(lblNewLabel_4);
+		Courses.add(textField_CCode);
+		Courses.add(textField_CName);
+		Courses.add(btnCSubmit);
+		Courses.add(textField_CCode2);
+		Courses.add(textField_SEmail);
+		Courses.add(btnCAddStudent);
+		Courses.add(lblAddFaculty);
+		Courses.add(lblRemoveCourse);
+		Courses.add(lblNewLabel_1);
+		Courses.add(lblNewLabel_2);
+		Courses.add(textField_CRemove);
+		Courses.add(textField_CCode3);
+		Courses.add(textField_FEmail);
+		Courses.add(btnRemoveCourse);
+		Courses.add(btnCAddFaculty);
+		Courses.add(textField_Ctextbook);
+		Courses.add(textField_CIDtextbook);
+		Courses.add(btnAddTextBook);
+		Courses.add(lblNewLabel_5);
+		Courses.add(label);
+		Courses.add(lblNewLabel_6);
+		Courses.add(lblNewLabel_6_1);
 		mainPage.setLayout(gl_mainPage);
 		
 		

@@ -855,7 +855,8 @@ public class MainGUI{
 		JButton btnUnSubscribe = new JButton("UnSubscribe");
 		btnUnSubscribe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				loggedIn.unSubscribe((OnlineItem) system.getSub(Integer.valueOf(textField_UnSubscribe.getText()),loggedIn.getEmail()));
+				//Integer.valueOf(textField_UnSubscribe.getText()
+				loggedIn.unSubscribe((OnlineItem)system.getOnlineItem(Integer.valueOf(textField_UnSubscribe.getText())));
 			}
 		});
 		
@@ -1141,7 +1142,7 @@ public class MainGUI{
 				DefaultTableModel clear = (DefaultTableModel) tableSubs.getModel();
 				clear.setRowCount(0);
 				//Loops through the CSV data and adds it to the table
-				for(Item e : system.getSubOps()) {
+				for(Item e : system.getSubs()) {
 					String[] rowdata = {e.getId()+"",e.getName(),e.getPrice() +""};
 					DefaultTableModel tblModel = (DefaultTableModel) tableSubs.getModel();
 					tblModel.addRow(rowdata);
@@ -1163,8 +1164,8 @@ public class MainGUI{
 		JButton btnSub = new JButton("Subscribe");
 		btnSub.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//Looks at sub-options list and checks if the online item exists
-				loggedIn.copySubscriptionOption((OnlineItem) system.getSubOp(Integer.valueOf(textField_Sub.getText())));
+				//.copySubscriptionOption((OnlineItem) system.getSubOp(Integer.valueOf(textField_Sub.getText())));
+				loggedIn.subscribe((OnlineItem)system.getOnlineItem(Integer.valueOf(textField_Sub.getText())));
 			}
 		});
 		GroupLayout gl_panel_2 = new GroupLayout(panel_2);
@@ -1393,19 +1394,6 @@ public class MainGUI{
 		//Saves everything to CSVs when the window closes
 		frame.addWindowListener(new WindowAdapter() {
 		    public void windowClosing(WindowEvent e) {
-		    	//Adds any unused subscription options to the CSV, so they don't get lost
-		    	ArrayList<Integer> ids = new ArrayList<Integer>(); // Grabs all unique instances of an Id
-		    	for(OnlineItem I: system.getSubs()) {
-		    		if(!ids.contains(I.getId())){
-		    			ids.add(I.getId());
-		    		}
-		    	}
-		    	//Compares all saving Id's with the subOps Id's to make sure there is a copy being saved
-		    	for(OnlineItem I: system.getSubOps()) {
-		    		if(!ids.contains(I.getId())){
-		    			system.addSub(I);
-		    		}
-		    	}
 		    	//Saves everything that happened
 		    	CSVReader.upload(system);
 		    	

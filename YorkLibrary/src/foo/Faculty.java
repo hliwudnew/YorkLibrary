@@ -8,7 +8,8 @@ public class Faculty extends User{
 	private ArrayList<Course> courses;
 	
 	public Faculty() {
-		
+		textBooks = new ArrayList<Item>();
+		courses = new ArrayList<Course>();
 	}
 	
 	public Faculty(ArrayList<Item> textBooks, ArrayList<Course> courses) {
@@ -53,7 +54,6 @@ public class Faculty extends User{
 	}
 	
 	public void addCourse(Course course) {
-
 		if (course != null) {
 			this.courses.add(course);
 		} else {
