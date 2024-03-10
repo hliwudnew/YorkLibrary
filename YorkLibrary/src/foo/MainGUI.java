@@ -411,14 +411,6 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "cart_");
 				frame.repaint();
 				frame.revalidate();
-				DefaultTableModel clear = (DefaultTableModel) table.getModel();
-				clear.setRowCount(0);
-				for(Item item : loggedIn.getCart().getItems()) {
-					String[] rowdata = {item.getId()+"",item.getName(),item.getPrice()+""};
-					DefaultTableModel tblModel = (DefaultTableModel) table.getModel();
-					tblModel.addRow(rowdata);
-					//System.out.println(e.toString());
-				}
 				updateTable1(table, loggedIn,loggedIn.getCart().getItems());
 			}
 		});
