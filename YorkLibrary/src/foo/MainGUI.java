@@ -47,6 +47,7 @@ public class MainGUI{
 	//Basic Setup
 	private JFrame frame;
 	private JFrame mgrFrame;
+	private JFrame notifyFrame;
 	private JButton inventory;
 	private JPanel mainPage;
 	private JButton home;
@@ -116,6 +117,7 @@ public class MainGUI{
 		
 		frame = new JFrame();
 		mgrFrame = new JFrame();
+		notifyFrame = new JFrame();
 		frame.getContentPane().setLayout(new CardLayout(0, 0));
 		
 		mainPage = new JPanel();
@@ -178,6 +180,13 @@ public class MainGUI{
 		
 		displayScrollPane = new JScrollPane();
 		
+		JButton btnNotifications = new JButton("Notifications");
+		btnNotifications.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new NotificationsGUI(notifyFrame);
+			}
+		});
+		
 		
 		
 		GroupLayout gl_centerContent = new GroupLayout(centerContent);
@@ -190,12 +199,18 @@ public class MainGUI{
 						.addComponent(displayScrollPane, GroupLayout.DEFAULT_SIZE, 541, Short.MAX_VALUE)
 						.addComponent(btnRefreshInventory_1, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE))
 					.addGap(197))
+				.addGroup(Alignment.TRAILING, gl_centerContent.createSequentialGroup()
+					.addContainerGap(747, Short.MAX_VALUE)
+					.addComponent(btnNotifications)
+					.addContainerGap())
 		);
 		gl_centerContent.setVerticalGroup(
 			gl_centerContent.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_centerContent.createSequentialGroup()
 					.addComponent(topBar, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
-					.addGap(106)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(btnNotifications)
+					.addGap(72)
 					.addComponent(btnRefreshInventory_1)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(displayScrollPane, GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
@@ -1443,6 +1458,7 @@ public class MainGUI{
 		        //Closes windows
 		    	frame.dispose();
 		    	mgrFrame.dispose();
+		    	notifyFrame.dispose();
 		    }
 		});
 	}

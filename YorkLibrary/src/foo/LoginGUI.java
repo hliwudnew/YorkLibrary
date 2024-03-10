@@ -71,7 +71,7 @@ public class LoginGUI implements ActionListener {
 		type = new JComboBox<String>(accountTypes);
 		
 		//Window Setup
-		layers.setBorder(BorderFactory.createEmptyBorder(100, 100, 100, 100)); //TODO: Can this be a factory from class lol?
+		layers.setBorder(BorderFactory.createEmptyBorder(100, 100, 100, 100));
 		layers.setLayout(new GridLayout(0,1));
 		
 		loginPanel.setBorder(BorderFactory.createEmptyBorder(100, 100, 100, 100));
@@ -163,7 +163,6 @@ public class LoginGUI implements ActionListener {
 					layers.revalidate();
 				}
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

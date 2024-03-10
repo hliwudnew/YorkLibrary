@@ -38,5 +38,10 @@ public class OnlineItem extends Item{
 			this.subscribers.add(user);
 		}
 	}
+	public void removeSubscriber(User user) {
+		if(user != null && this.subscribers.contains(user)) {
+			this.subscribers.remove(user);
+		}
+	}
 
 }

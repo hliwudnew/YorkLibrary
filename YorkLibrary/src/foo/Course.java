@@ -6,17 +6,17 @@ public class Course {
 
 	private String code;
 	private String name;
-	private ArrayList<Item> textBooks;
+	private ArrayList<PhysicalItem> textBooks;
 	private ArrayList<Student> students;
 	private ArrayList<Faculty> faculty;
 	
 	public Course() {
-		this.textBooks = new ArrayList<Item>();
+		this.textBooks = new ArrayList<PhysicalItem>();
 		this.students = new ArrayList<Student>();
 		this.faculty = new ArrayList<Faculty>();
 	}
 	
-	public Course(String code,String name, ArrayList<Item> textBooks, ArrayList<Student> students, ArrayList<Faculty> faculty) {
+	public Course(String code,String name, ArrayList<PhysicalItem> textBooks, ArrayList<Student> students, ArrayList<Faculty> faculty) {
 		this.code = code;
 		this.name = name;
 		this.textBooks = textBooks;
@@ -25,7 +25,7 @@ public class Course {
 	}
 	
 	//Setters
-	public void addTextBook(Item textBook) {
+	public void addTextBook(PhysicalItem textBook) {
 		if(textBook != null) {
 			this.textBooks.add(textBook);
 		}
@@ -109,7 +109,7 @@ public class Course {
 	}
 	
 	//Getters
-	public ArrayList<Item> getTextBooks(){
+	public ArrayList<PhysicalItem> getTextBooks(){
 		return this.textBooks;
 	}
 	

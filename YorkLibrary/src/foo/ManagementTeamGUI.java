@@ -55,19 +55,28 @@ public class ManagementTeamGUI {
 		frame.getContentPane().setLayout(new CardLayout(0, 0));
 		
 		JPanel mainPage = new JPanel();
-		mainPage.setBackground(new Color(255, 255, 255));
+		mainPage.setBackground(new Color(192, 192, 192));
 		frame.getContentPane().add(mainPage, "name_1113365353893500");
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		
 		JTabbedPane tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
+		
+		JButton btnNewButton = new JButton("Back");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+			}
+		});
 		GroupLayout gl_mainPage = new GroupLayout(mainPage);
 		gl_mainPage.setHorizontalGroup(
 			gl_mainPage.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_mainPage.createSequentialGroup()
-					.addGap(210)
+					.addContainerGap()
+					.addComponent(btnNewButton)
+					.addGap(111)
 					.addGroup(gl_mainPage.createParallelGroup(Alignment.TRAILING)
-						.addComponent(tabbedPane, Alignment.LEADING)
+						.addComponent(tabbedPane, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(tabbedPane_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 602, Short.MAX_VALUE))
 					.addGap(105))
 		);
@@ -75,7 +84,9 @@ public class ManagementTeamGUI {
 			gl_mainPage.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_mainPage.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
+					.addGroup(gl_mainPage.createParallelGroup(Alignment.BASELINE)
+						.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
+						.addComponent(btnNewButton))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(tabbedPane_1, GroupLayout.PREFERRED_SIZE, 401, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
@@ -229,11 +240,17 @@ public class ManagementTeamGUI {
 				items.addAll(system.getStock());
 				items.addAll(system.getSubs());
 				boolean taken = false;
+				boolean invalid = false;
 				//Checks if Id is already taken
 				for(Item I: items) {
 					if((I.getId()+"").equals(textField_id.getText())) {
 						taken = true;
 					}
+				}
+				
+				//Negative id's are reserved for copies of textbooks
+				if(Integer.valueOf(textField_id.getText()) < 0) {
+					invalid = true;
 				}
 				
 				String type = comboBoxItemType.getSelectedItem()+"";
@@ -246,7 +263,7 @@ public class ManagementTeamGUI {
 					disabled = false;
 				}
 				//Prevents duplicate Ids from being used
-				if(!taken) {
+				if(!taken && !invalid) {
 					if(type.equals("Physical Item")) {
 						//Builds the item
 						PhysicalItem holder = new PhysicalItem();
@@ -274,7 +291,12 @@ public class ManagementTeamGUI {
 					}
 				}
 				else {
-					System.out.println("Duplicate ID, try again");
+					if(invalid) {
+						System.out.println("Negative ID's are not allowed");
+					}
+					else {
+						System.out.println("Duplicate ID, try again");
+					}
 				}
 			}
 		});

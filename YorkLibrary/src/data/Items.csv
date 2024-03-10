@@ -6,6 +6,7 @@ Id,Name,Price,Disabled,DueDate,Barrower,Fee
 12,cool,3.0,true,BLANK,BLANK,0.0
 13,coooooool,3.0,true,BLANK,BLANK,0.0
 33,went,4.0,true,BLANK,BLANK,0.0
+50,WD,0.0,true,BLANK,BLANK,0.0
 2,Vis,2.0,true,BLANK,Vist@gmail.com,0.0
 5,fiv,0.0,true,BLANK,Vist@gmail.com,0.0
 6,six,0.0,true,BLANK,Vist@gmail.com,0.0

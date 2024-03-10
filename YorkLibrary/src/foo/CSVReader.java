@@ -137,7 +137,7 @@ public class CSVReader {
 		String courseTHeader = "Code,TextBook\n";
 		String courseSHeader = "Code,Student\n";
 		
-		
+		String facultyTHeader = "Email,Id,Name\n";
 		
 		ArrayList<Item> items = new ArrayList<Item>(system.getStock());
 		items.addAll(system.getBorrowed());
@@ -197,6 +197,7 @@ public class CSVReader {
 			
 			buffWrite3 = new BufferedWriter(new FileWriter(new File("src/data/Subscribers.csv")));
 			buffWrite3.write(subscribersHeader);// Rewrites the headers
+			
 			//Saves the subscribers for a subscription/ who have a subscription
 			for(OnlineItem I: subs) {
 				for(User u: I.getSubscribers()) {
@@ -252,6 +253,21 @@ public class CSVReader {
 			}
 			
 			buffWriter.close();
+			
+			/*
+			 * Save Faculty Textbooks
+			 */
+			buffWriter = new BufferedWriter(new FileWriter(new File("src/data/FacultyTextBooks.csv")));
+
+			buffWriter.write(facultyTHeader);// Rewrites the headers
+			//Saves all their textbooks
+			for(Faculty f: system.getFaculty()) {
+				for(Item i: f.getTextBooks()) {
+					buffWriter.write(f.getEmail()+","+i.getId()+","+i.getName()+"\n");//Rewrites CSV file	
+				}
+			}
+			buffWriter.close();
+			
 			System.out.println("Added to CSV");
 			
 		}catch(Exception e){
@@ -513,12 +529,39 @@ public class CSVReader {
 				skipC = false;
 			}
 			br.close();
+			
+			/*
+			 * Gets Faculty textbooks
+			 */
+			//Grabs the faculty all their previous and current textbooks
+			skip3 = true;
+			br = new BufferedReader(new FileReader("src/data/FacultyTextBooks.csv"));
+			while((line3 = br.readLine())!= null) {
+				String[] values = line3.split(",");
+				//Fixes issues with blank spaces in csv file
+				if(values.length != 0 && !skip3) {
+					for(Faculty f: system.getFaculty()) {
+						if(f.getEmail().equals(values[0])) {
+							//Assigns their previous textbooks to their textbook list
+							PhysicalItem temp = new PhysicalItem();
+							temp.setId(Integer.valueOf(values[1]));
+							temp.setName(values[2]);
+							f.addTextBook(temp);
+						}
+					}
+				}
+				skip3 = false;
+			}
+			br.close();
+			
+			
 		} catch(FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		system.setCourses(courses);
+		
 		
 		
 		System.out.println("Downloaded From CSV");

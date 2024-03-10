@@ -98,17 +98,76 @@ public class ManagementTeam {
 	
 	public void removeCourse(String course) {
 		if(!course.equals("") && course != null) {
+			Course holder = system.getCourse(course);
+			
+			ArrayList<Integer> ids = new ArrayList<Integer>();
+			for(Item I: holder.getTextBooks()) {
+				ids.add(I.getId()*-1);//Looking at online copies of books hence negative
+			}
+			
+			ArrayList<OnlineItem> remove = new ArrayList<OnlineItem>();
+			//Unsubscribes users from the Online Copy of their textbooks
+			for(User u: holder.getStudents()) {
+				for(OnlineItem I: u.getSubscriptions()) {
+					if(ids.contains(I.getId())) {
+						remove.add(I);
+					}
+				}
+			}
+			
+			for(User u: holder.getStudents()) {
+				for(int i =0; i < remove.size(); i++) {
+					u.unSubscribe(remove.get(i));
+				}
+			}
+			
+			
+			//Removes course
 			system.removeCourse(system.getCourseByCode(course));
 		}
 	}
 	
 	public void addStudentToCourse(String code, String email) {
 		Course course = system.getCourseByCode(code);
-		User student = system.getUser(email);
+		Student student = (Student) system.getUser(email);
 		
 		if(course != null && student != null && student.getClass() == (new Student()).getClass()) {
 			if(!course.getStudents().contains(student)) {
-				course.addStudent((Student) student);
+				ArrayList<Integer> subIds = new ArrayList<Integer>();
+				for(Item I: system.getSubs()) {
+					subIds.add(I.getId());
+				}
+				
+				ArrayList<Integer> holder = new ArrayList<Integer>();
+				for(Item I: student.getSubscriptions()) {
+					holder.add(I.getId());
+				}
+				
+				//Assigns the Student virtual copies of the textbooks
+				for(Item I: course.getTextBooks()) {
+					//If the Student doesn't have the online textbook
+					if(!holder.contains(I.getId()*-1)) {// negative is for online copies
+						//If textbook already has a online copy subscribe them too it
+						if(subIds.contains(I.getId()*-1)){
+						  student.subscribe((OnlineItem) system.getOnlineItem(I.getId()*-1));
+						  ((OnlineItem) system.getOnlineItem(I.getId()*-1)).addSubscriber(student);
+						}
+						else {
+							//IF not edition of the textbook is online make one
+							OnlineItem textBookCopy = new OnlineItem();
+							
+							textBookCopy.setId(I.getId()*-1);
+							textBookCopy.setName(I.getName());
+							textBookCopy.setPrice(I.getPrice());
+							textBookCopy.setDisabled(I.getDisabled());
+							textBookCopy.setLink("https://www.amazon.ca/New-Used-Textbooks-Books/b?ie=UTF8&node=15115321");
+							
+							student.subscribe(textBookCopy);
+							textBookCopy.addSubscriber(student);
+						}
+					}
+				}
+				course.addStudent(student); // Assigns student to course
 			}
 			else {
 				System.out.println("They are already in the class");
@@ -122,10 +181,37 @@ public class ManagementTeam {
 	
 	public void addFacultyToCourse(String code, String email) {
 		Course course = system.getCourseByCode(code);
-		User fac = system.getUser(email);
+		Faculty fac = (Faculty)system.getUser(email);
 		if(course != null && fac != null && fac.getClass() == (new Faculty()).getClass()) {
 			if(!course.getFaculty().contains(fac)) {
-				course.addFaculty((Faculty) fac);
+				//Adds the faculty to the course
+				course.addFaculty(fac);
+				
+				
+				for(Item I: course.getTextBooks()) {
+					//Assigns them the textbook if they dont have any
+					if(fac.getTextBooks().size() == 0) {
+						//Assign them the textbook they are missing it
+						PhysicalItem temp = new PhysicalItem();
+						temp.setId(I.getId());
+						temp.setName(I.getName());
+						fac.addTextBook(temp);
+					}
+					//They already have textbooks
+					else {
+						ArrayList<String> holder = new ArrayList<String>();
+						for(Item K: fac.getTextBooks()) {
+							holder.add(K.getName());
+						}
+						//If they dont have the textbook by name assign it to them
+						if(!holder.contains(I.getName())) {
+							PhysicalItem temp = new PhysicalItem();
+							temp.setId(I.getId());
+							temp.setName(I.getName());
+							fac.addTextBook(temp);
+						}
+					}
+				}
 			}
 			else {
 				System.out.println("They are already in the class");
@@ -138,11 +224,78 @@ public class ManagementTeam {
 	
 	public void addTextBookToCourse(String code, String id) {
 		Course course = system.getCourseByCode(code);
-		Item textbook = system.getPhysicalItem(Integer.valueOf(id));
+		PhysicalItem textbook =(PhysicalItem)system.getPhysicalItem(Integer.valueOf(id));
 		
 		if(course != null && textbook != null) {
 			if(!course.getTextBooks().contains(textbook)) {
-				course.addTextBook(textbook);
+				
+				ArrayList<Integer> subIds = new ArrayList<Integer>();
+				for(Item I: system.getSubs()) {
+					subIds.add(I.getId());
+				}
+				
+				
+				//If the online copy already exists then assign it to the students
+				if(subIds.contains(textbook.getId()*-1)){//Negative is for online copy
+					for(User u: course.getStudents()) {
+						
+						ArrayList<Integer> holder = new ArrayList<Integer>();
+						for(Item I: u.getSubscriptions()) {
+							holder.add(I.getId());
+						}
+						
+						//If the user doesn't already have the online textbook we subscribe them to it
+						if(!holder.contains(textbook.getId()*-1)) {
+							((OnlineItem) system.getOnlineItem(textbook.getId()*-1)).addSubscriber(u);
+							u.subscribe(((OnlineItem) system.getOnlineItem(textbook.getId()*-1)));
+						}
+					
+					}
+				}
+				//Online copy doesnt exist
+				else {
+					//IF not edition of the textbook is online make one
+					OnlineItem textBookCopy = new OnlineItem();
+					textBookCopy.setId(textbook.getId()*-1);//Negative Ids are used for textbook online copies
+					textBookCopy.setName(textbook.getName());
+					textBookCopy.setPrice(textbook.getPrice());
+					textBookCopy.setDisabled(textbook.getDisabled());
+					textBookCopy.setLink("https://www.amazon.ca/New-Used-Textbooks-Books/b?ie=UTF8&node=15115321");
+					system.addSub(textBookCopy);
+					
+					//Assigns a virtual copy to all of the student in the course
+					for(User u: course.getStudents()) {
+						textBookCopy.addSubscriber(u);
+						u.subscribe(textBookCopy);
+					}
+				}
+				
+				course.addTextBook(textbook); // Assigns textbook to course
+				//Assigns the textbook to the faulty
+				for(Faculty u: course.getFaculty()) {
+					//assigns them the textbook if they dont have any
+					if(u.getTextBooks().size() == 0) {
+						PhysicalItem temp = new PhysicalItem();
+						temp.setId(textbook.getId());
+						temp.setName(textbook.getName());
+						u.addTextBook(temp);
+					}
+					//They already have textbooks
+					else {
+						//Gets all their textbook names
+						ArrayList<String> holder = new ArrayList<String>();
+						for(Item I: u.getTextBooks()) {
+							holder.add(I.getName());
+						}
+						//Checks if the faculty already has a textbook of that name, if not gives them the textbook
+						if(!holder.contains(textbook.getName())) {
+							PhysicalItem temp = new PhysicalItem();
+							temp.setId(textbook.getId());
+							temp.setName(textbook.getName());
+							u.addTextBook(temp);
+						}
+					}
+				}
 			}
 			else {
 				System.out.println("Book is already assigned to the class");

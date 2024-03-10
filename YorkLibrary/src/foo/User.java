@@ -66,13 +66,22 @@ public abstract class User {
 	
 	
 	//Setters
-	
 	public void unSubscribe(OnlineItem newsletter) {
 		if(newsletter != null && this.subscriptions.contains(newsletter)) {
 			this.subscriptions.remove(newsletter);
+			newsletter.removeSubscriber(this);
 		}
 		else {
 			System.out.println("Online Item doesnt exist");
+		}
+	}
+	
+	public void unSubscribeById(int id) {
+		for(OnlineItem I: this.subscriptions) {
+			if(I.getId() == id) {
+				this.subscriptions.remove(I);
+				break;
+			}
 		}
 	}
 	
