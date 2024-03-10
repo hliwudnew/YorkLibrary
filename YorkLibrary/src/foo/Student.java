@@ -7,7 +7,7 @@ public class Student extends User{
 	private ArrayList<Course> courses;
 	
 	public Student() {
-		
+		//super();
 	}
 	
 	public Student(ArrayList<Course> courses) {

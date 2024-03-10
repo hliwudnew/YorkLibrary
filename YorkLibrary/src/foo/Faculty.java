@@ -8,7 +8,7 @@ public class Faculty extends User{
 	private ArrayList<Course> courses;
 	
 	public Faculty() {
-		
+		//super();
 	}
 	
 	public Faculty(ArrayList<Item> textBooks, ArrayList<Course> courses) {
