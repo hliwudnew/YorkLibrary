@@ -6,7 +6,7 @@ public class Nonfaculty extends User {
 	private ArrayList<Course> courses;
 
 	public Nonfaculty() {
-
+		//super();
 	}
 
 	public Nonfaculty(ArrayList<Course> courses) {

@@ -9,12 +9,24 @@ public abstract class User {
 	private ArrayList<PhysicalItem> rented;
 	private ArrayList<OnlineItem> subscriptions;
 	private LibrarySystem system;
+	//each user will have a cart with their own items, and a menu that allows them to interact with the cart
+	private Cart cart;
+	private Menu menu;
 	//Ask me, Gabriel, about this connection and how it works
 	
 	
 	public User() {
 		this.rented = new ArrayList<PhysicalItem>();
 		this.subscriptions = new ArrayList<OnlineItem>();
+		//create a new empty cart for this user
+		this.cart=new Cart(new ArrayList<Item>(), this);
+		//create the command objects and initialize them so that they are using this user's cart
+		ICartCommand1 clickAdd = new Add(this.cart);
+		ICartCommand1 clickRemove = new Remove(this.cart);
+		ICartCommand2 clickClear = new Clear(this.cart);
+		ICartCommand2 clickCheckout = new Checkout(this.cart);
+		//create a menu with the commands that the user can use 
+		this.menu=new Menu(clickAdd, clickRemove, clickClear, clickCheckout);
 	}
 	
 	public User(String email, String password, ArrayList<PhysicalItem> rented, ArrayList<OnlineItem> subs) {
@@ -22,9 +34,23 @@ public abstract class User {
 		this.password = password;
 		this.rented = rented;
 		this.subscriptions = subs;
+		//create a new empty cart for this user
+		this.cart=new Cart(new ArrayList<Item>(), this);
+		//create the command objects and initialize them so that they are using this user's cart
+		ICartCommand1 clickAdd = new Add(this.cart);
+		ICartCommand1 clickRemove = new Remove(this.cart);
+		ICartCommand2 clickClear = new Clear(this.cart);
+		ICartCommand2 clickCheckout = new Checkout(this.cart);
+		//create a menu with the commands that the user can use 
+		this.menu=new Menu(clickAdd, clickRemove, clickClear, clickCheckout);
 	}
 	
 	//Methods
+	
+	//NOTE: Moved this method to the cart class, since all renting happens through the cart, the user class does not need
+	//this method in its class (user can access it through menu class)
+	//however, i am leaving it here strictly because it is being used by CSVReader to intialize the system (can be changed later)
+	
 	public void rentPhysicalItem(PhysicalItem wantToRent) {
 		//Prevents from going over the limit
 		if(this.rented.size() < 10) {
@@ -35,7 +61,7 @@ public abstract class User {
 				system.addBarrowed(wantToRent);
 			}
 			else {
-				System.out.println("Item entered is null");
+				System.out.println("Item entered is null or it has been rented already");
 			}
 		}
 		else {
@@ -132,6 +158,12 @@ public abstract class User {
 	
 	public ArrayList<OnlineItem> getSubscriptions(){
 		return this.subscriptions;
+	}
+	public Menu getMenu() {
+		return this.menu;
+	}
+	public Cart getCart() {
+		return this.cart;
 	}
 	
 }
