@@ -385,47 +385,48 @@ public class MainGUI{
 		JButton bthSearch = new JButton("Search");
 		bthSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-		        String searchQuery = textField_Search.getText().trim().toLowerCase();
-		        ArrayList<Item> searchResults = new ArrayList<>();
+				String searchQuery = textField_Search.getText().trim().toLowerCase();
+				ArrayList<Item> searchResults = new ArrayList<>();
 
-		        // Search for exact match
-		        for (Item item : system.getStock()) {
-		            if (item.getName().toLowerCase().equals(searchQuery)) {
-		                searchResults.add(item);
-		            }
-		        }
+				for (Item item : system.getStock()) {
+					if (item.getName().toLowerCase().equals(searchQuery)) {
+						searchResults.add(item);
+					}
+				}
 
-		        // if nothing is found then call method for recommendations
-		        if (searchResults.isEmpty()) {
-		            searchResults = recommendations(searchQuery);
-		        }
+				ArrayList<Item> recommendations = recommendations(searchQuery);
+				for (Item recommendation : recommendations) {
+					if (!searchResults.contains(recommendation)) {
+						searchResults.add(recommendation);
+					}
+				}
 
-		        DefaultTableModel searchTableModel = (DefaultTableModel) searchTable.getModel();
-		        searchTableModel.setRowCount(0);
+				DefaultTableModel searchTableModel = (DefaultTableModel) searchTable.getModel();
+				searchTableModel.setRowCount(0);
 
-		        if (!searchResults.isEmpty()) {
-		            for (Item result : searchResults) {
-		                String[] rowData = {String.valueOf(result.getId()), result.getName(), String.valueOf(result.getPrice()), String.valueOf(result.getDisabled())};
-		                searchTableModel.addRow(rowData);
-		            }
-		        } else {
-		            String[] rowData = {"N/A", "N/A", "N/A", "N/A"};
-		            searchTableModel.addRow(rowData);
-		        }
-		    }
+				if (!searchResults.isEmpty()) {
+					for (Item result : searchResults) {
+						String[] rowData = {String.valueOf(result.getId()), result.getName(), String.valueOf(result.getPrice()), String.valueOf(result.getDisabled())};
+						searchTableModel.addRow(rowData);
+					}
+				} else {
+					String[] rowData = {"N/A", "N/A", "N/A", "N/A"};
+					searchTableModel.addRow(rowData);
+				}
+			}
 
 			private ArrayList<Item> recommendations(String searchQuery) {
 				ArrayList<Item> similarBooks = new ArrayList<>();
-			    for (Item item : system.getStock()) {
-			        String title = item.getName().toLowerCase();
-			        if (title.contains(searchQuery)) {
-			            similarBooks.add(item);
-			        }
-			    }
-			    return similarBooks;
+				for (Item item : system.getStock()) {
+					String title = item.getName().toLowerCase();
+					if (title.contains(searchQuery)) {
+						similarBooks.add(item);
+					}
+				}
+				return similarBooks;
 			}
 		});
-		
+
 		
 		rentScroll = new JScrollPane();
 		
