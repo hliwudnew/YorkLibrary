@@ -69,6 +69,17 @@ public class Faculty extends User{
 	public ArrayList<Course> getCourses() {
 		return this.courses;
 	}
+
+	public void addTextBooks(ArrayList<PhysicalItem> textbooks) {
+		for(PhysicalItem I: textbooks) {
+			if (I != null) {
+				this.textBooks.add(I);
+			} else {
+				System.out.println("Textbook cannot be added: Null Value");
+			}
+		}
+		
+	}
 	
 	
 }
