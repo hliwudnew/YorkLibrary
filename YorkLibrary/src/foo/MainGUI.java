@@ -521,7 +521,7 @@ public class MainGUI{
 			gl_centerContent_Rent.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_centerContent_Rent.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(pReccomendation, GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
+					//.addComponent(pReccomendation, GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
 					.addGroup(gl_centerContent_Rent.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_centerContent_Rent.createSequentialGroup()
 							.addGap(98)
@@ -574,7 +574,8 @@ public class MainGUI{
 							.addGap(18)
 							.addGroup(gl_centerContent_Rent.createParallelGroup(Alignment.LEADING)
 								.addComponent(panel, GroupLayout.PREFERRED_SIZE, 330, GroupLayout.PREFERRED_SIZE)
-								.addComponent(pReccomendation, GroupLayout.PREFERRED_SIZE, 339, GroupLayout.PREFERRED_SIZE))))
+								//.addComponent(pReccomendation, GroupLayout.PREFERRED_SIZE, 339, GroupLayout.PREFERRED_SIZE)
+								)))
 					.addContainerGap())
 		);
 		
@@ -646,25 +647,25 @@ public class MainGUI{
 			}
 		});
 		rentScroll.setViewportView(searchTable);
-		JLabel recomendationsLabel = new JLabel("Recomendations");
-		recomendationsLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		recomendationsLabel.setFont(new Font("Book Antiqua", Font.PLAIN, 18));
-		GroupLayout gl_pReccomendation = new GroupLayout(pReccomendation);
-		gl_pReccomendation.setHorizontalGroup(
-			gl_pReccomendation.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pReccomendation.createSequentialGroup()
-					.addGap(10)
-					.addComponent(recomendationsLabel)
-					.addContainerGap(23, Short.MAX_VALUE))
-		);
-		gl_pReccomendation.setVerticalGroup(
-			gl_pReccomendation.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pReccomendation.createSequentialGroup()
-					.addGap(11)
-					.addComponent(recomendationsLabel)
-					.addContainerGap(303, Short.MAX_VALUE))
-		);
-		pReccomendation.setLayout(gl_pReccomendation);
+//		JLabel recomendationsLabel = new JLabel("Recomendations");
+//		recomendationsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+//		recomendationsLabel.setFont(new Font("Book Antiqua", Font.PLAIN, 18));
+//		GroupLayout gl_pReccomendation = new GroupLayout(pReccomendation);
+//		gl_pReccomendation.setHorizontalGroup(
+//			gl_pReccomendation.createParallelGroup(Alignment.LEADING)
+//				.addGroup(gl_pReccomendation.createSequentialGroup()
+//					.addGap(10)
+//					.addComponent(recomendationsLabel)
+//					.addContainerGap(23, Short.MAX_VALUE))
+//		);
+//		gl_pReccomendation.setVerticalGroup(
+//			gl_pReccomendation.createParallelGroup(Alignment.LEADING)
+//				.addGroup(gl_pReccomendation.createSequentialGroup()
+//					.addGap(11)
+//					.addComponent(recomendationsLabel)
+//					.addContainerGap(303, Short.MAX_VALUE))
+//		);
+//		pReccomendation.setLayout(gl_pReccomendation);
 		centerContent_Rent.setLayout(gl_centerContent_Rent);
 		GroupLayout gl_rentPage = new GroupLayout(rentPage);
 		gl_rentPage.setHorizontalGroup(
