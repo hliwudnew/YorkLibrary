@@ -8,6 +8,7 @@ public class Student extends User{
 	
 	public Student() {
 		courses = new ArrayList<Course>();
+
 	}
 	
 	public Student(ArrayList<Course> courses) {

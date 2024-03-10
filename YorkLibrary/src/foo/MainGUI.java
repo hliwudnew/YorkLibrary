@@ -98,11 +98,41 @@ public class MainGUI{
 	private JTextField textField_1;
 	private JPanel cartPage;
 	private JPanel centerContentPanel;
+	private JTable table;
+	private JButton btnNewButton_2;
+	private JButton btnNewButton_3;
+	private JButton btnNewButton_4;
+	private JTextField textFieldRemove;
 	
 	public static void main(String[] args) {
 		new MainGUI("test@gmail.com");
+		
 	}
 	
+	//update methods to reuse code for updating tables in GUI:
+	
+	//updates given table for given user with ID, NAME, PRICE
+	public <T extends Item> void updateTable1(JTable table, User user, ArrayList<T> listToParse) {
+		 DefaultTableModel clear = (DefaultTableModel) table.getModel();
+			clear.setRowCount(0);
+			for(Item item : listToParse) {
+				String[] rowdata = {item.getId()+"",item.getName(),item.getPrice()+""};
+				DefaultTableModel tblModel = (DefaultTableModel) table.getModel();
+				tblModel.addRow(rowdata);
+			}
+	}
+	//updates given table for given user with ID, NAME, PRICE, DISABLED STATUS
+	//might not need this method? can even add more methods for different attribute displays
+	//could get a bit messy but it is a nice quick fix to adding this code to every single button
+	public <T extends Item> void updateTable2(JTable table, User user, ArrayList<T> listToParse) {
+		 DefaultTableModel clear = (DefaultTableModel) table.getModel();
+			clear.setRowCount(0);
+			for(Item item : listToParse) {
+				String[] rowdata = {item.getId()+"",item.getName(),item.getPrice()+"", item.getDisabled()+""};
+				DefaultTableModel tblModel = (DefaultTableModel) table.getModel();
+				tblModel.addRow(rowdata);
+			}
+	}
 	/**
 	 * @wbp.parser.entryPoint
 	 */
@@ -136,6 +166,9 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "inventoryPage_");
 				frame.repaint();
 				frame.revalidate();
+				updateTable2(inventoryTable, loggedIn, loggedIn.getRented());
+				updateTable2(onlineTable, loggedIn, loggedIn.getSubscriptions());
+				updateTable2(tableRead, loggedIn, loggedIn.getSubscriptions());
 			}
 		});
 		
@@ -145,6 +178,17 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "homePage_");
 				frame.repaint();
 				frame.revalidate();
+				//Clears the table of old data
+				DefaultTableModel clear = (DefaultTableModel) displayTable.getModel();
+				clear.setRowCount(0);
+				//Loops through the CSV data and adds it to the table
+				for(Item item : system.getStock()) {
+					String[] rowdata = {item.getId()+"",item.getName(),item.getPrice() +"",item.getDisabled()+""};
+					DefaultTableModel tblModel = (DefaultTableModel) displayTable.getModel();
+					tblModel.addRow(rowdata);
+					//System.out.println(e.toString());
+				}
+				updateTable2(displayTable, loggedIn, system.getStock());
 			}
 		});
 		
@@ -165,16 +209,7 @@ public class MainGUI{
 		btnRefreshInventory_1 = new JButton("Refresh");
 		btnRefreshInventory_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				//Clears the table of old data
-				DefaultTableModel clear = (DefaultTableModel) displayTable.getModel();
-				clear.setRowCount(0);
-				//Loops through the CSV data and adds it to the table
-				for(Item e : system.getStock()) {
-					String[] rowdata = {e.getId()+"",e.getName(),e.getPrice() +"",e.getDisabled()+""};
-					DefaultTableModel tblModel = (DefaultTableModel) displayTable.getModel();
-					tblModel.addRow(rowdata);
-					//System.out.println(e.toString());
-				}
+				updateTable2(displayTable, loggedIn, system.getStock());
 			}
 		});
 		
@@ -234,12 +269,17 @@ public class MainGUI{
 		});
 		displayScrollPane.setViewportView(displayTable);
 		
+		//after table on home page is initialized, populate the table (same functionality as refresh, but it does it on startup now)
+		//Clears the table of old data
+		updateTable2(displayTable, loggedIn, system.getStock());
+		
 		rent = new JButton("Rent");
 		rent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "rentPage_");
 				frame.repaint();
 				frame.revalidate();
+				updateTable2(searchTable, loggedIn, system.getStock());
 			}
 		});
 		
@@ -261,6 +301,18 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "subscribePage_");
 				frame.repaint();
 				frame.revalidate();
+				updateTable1(tableSubs, loggedIn, system.getSubs());
+				
+			}
+		});
+		
+		JButton btnNewButton_1 = new JButton("Cart");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "cart_");
+				frame.repaint();
+				frame.revalidate();
+				updateTable1(table, loggedIn, loggedIn.getCart().getItems());
 			}
 		});
 		GroupLayout gl_topBar = new GroupLayout(topBar);
@@ -276,15 +328,17 @@ public class MainGUI{
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(Subscribe)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(topBarTitle, GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
-					.addGap(107)
+					.addComponent(topBarTitle, GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnNewButton_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addGap(38)
 					.addComponent(lblName)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(btnAdmin, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(btnAdmin, GroupLayout.PREFERRED_SIZE, 71, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		gl_topBar.setVerticalGroup(
-			gl_topBar.createParallelGroup(Alignment.TRAILING)
+			gl_topBar.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_topBar.createSequentialGroup()
 					.addContainerGap(14, Short.MAX_VALUE)
 					.addGroup(gl_topBar.createParallelGroup(Alignment.LEADING)
@@ -294,11 +348,12 @@ public class MainGUI{
 							.addComponent(rent)
 							.addComponent(lblName)
 							.addComponent(Subscribe))
-						.addGroup(gl_topBar.createSequentialGroup()
-							.addComponent(btnAdmin)
-							.addContainerGap())))
-				.addGroup(Alignment.LEADING, gl_topBar.createSequentialGroup()
-					.addComponent(topBarTitle, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnAdmin))
+					.addContainerGap())
+				.addGroup(gl_topBar.createSequentialGroup()
+					.addGroup(gl_topBar.createParallelGroup(Alignment.BASELINE)
+						.addComponent(topBarTitle, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnNewButton_1))
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		topBar.setLayout(gl_topBar);
@@ -322,6 +377,9 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "homePage_");
 				frame.repaint();
 				frame.revalidate();
+				updateTable2(displayTable, loggedIn, system.getStock());
+				
+				
 			}
 		});
 		
@@ -331,6 +389,9 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "inventoryPage_");
 				frame.repaint();
 				frame.revalidate();
+				updateTable2(inventoryTable, loggedIn, loggedIn.getRented());
+				updateTable2(onlineTable, loggedIn, loggedIn.getSubscriptions());
+				updateTable2(tableRead, loggedIn, loggedIn.getSubscriptions());
 			}
 		});
 		
@@ -340,6 +401,7 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "rentPage_");
 				frame.repaint();
 				frame.revalidate();
+				updateTable2(inventoryTable, loggedIn, loggedIn.getRented());
 			}
 		});
 		
@@ -354,6 +416,17 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "subscribePage_");
 				frame.repaint();
 				frame.revalidate();
+				updateTable1(tableSubs, loggedIn, system.getSubs());
+			}
+		});
+		
+		btnNewButton_2 = new JButton("Cart");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "cart_");
+				frame.repaint();
+				frame.revalidate();
+				updateTable1(table, loggedIn,loggedIn.getCart().getItems());
 			}
 		});
 		GroupLayout gl_topBar_Rent = new GroupLayout(topBar_Rent);
@@ -370,7 +443,9 @@ public class MainGUI{
 					.addComponent(Subscribe_1, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(topBarTitle_Rent, GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
-					.addGap(415))
+					.addGap(78)
+					.addComponent(btnNewButton_2, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
+					.addGap(272))
 		);
 		gl_topBar_Rent.setVerticalGroup(
 			gl_topBar_Rent.createParallelGroup(Alignment.LEADING)
@@ -383,7 +458,8 @@ public class MainGUI{
 				.addGroup(gl_topBar_Rent.createParallelGroup(Alignment.BASELINE)
 					.addComponent(rent_Rent)
 					.addComponent(Subscribe_1)
-					.addComponent(topBarTitle_Rent, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
+					.addComponent(topBarTitle_Rent, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
+					.addComponent(btnNewButton_2))
 		);
 		topBar_Rent.setLayout(gl_topBar_Rent);
 		
@@ -393,6 +469,7 @@ public class MainGUI{
 		JLabel searchLabel = new JLabel("Search");
 		searchLabel.setFont(new Font("Book Antiqua", Font.PLAIN, 18));
 		searchLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
 		JPanel pReccomendation = new JPanel();
 		pReccomendation.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		
@@ -400,47 +477,48 @@ public class MainGUI{
 		JButton bthSearch = new JButton("Search");
 		bthSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-		        String searchQuery = textField_Search.getText().trim().toLowerCase();
-		        ArrayList<Item> searchResults = new ArrayList<>();
+				String searchQuery = textField_Search.getText().trim().toLowerCase();
+				ArrayList<Item> searchResults = new ArrayList<>();
 
-		        // Search for exact match
-		        for (Item item : system.getStock()) {
-		            if (item.getName().toLowerCase().equals(searchQuery)) {
-		                searchResults.add(item);
-		            }
-		        }
+				for (Item item : system.getStock()) {
+					if (item.getName().toLowerCase().equals(searchQuery)) {
+						searchResults.add(item);
+					}
+				}
 
-		        // if nothing is found then call method for recommendations
-		        if (searchResults.isEmpty()) {
-		            searchResults = recommendations(searchQuery);
-		        }
+				ArrayList<Item> recommendations = recommendations(searchQuery);
+				for (Item recommendation : recommendations) {
+					if (!searchResults.contains(recommendation)) {
+						searchResults.add(recommendation);
+					}
+				}
 
-		        DefaultTableModel searchTableModel = (DefaultTableModel) searchTable.getModel();
-		        searchTableModel.setRowCount(0);
+				DefaultTableModel searchTableModel = (DefaultTableModel) searchTable.getModel();
+				searchTableModel.setRowCount(0);
 
-		        if (!searchResults.isEmpty()) {
-		            for (Item result : searchResults) {
-		                String[] rowData = {String.valueOf(result.getId()), result.getName(), String.valueOf(result.getPrice()), String.valueOf(result.getDisabled())};
-		                searchTableModel.addRow(rowData);
-		            }
-		        } else {
-		            String[] rowData = {"N/A", "N/A", "N/A", "N/A"};
-		            searchTableModel.addRow(rowData);
-		        }
-		    }
+				if (!searchResults.isEmpty()) {
+					for (Item result : searchResults) {
+						String[] rowData = {String.valueOf(result.getId()), result.getName(), String.valueOf(result.getPrice()), String.valueOf(result.getDisabled())};
+						searchTableModel.addRow(rowData);
+					}
+				} else {
+					String[] rowData = {"N/A", "N/A", "N/A", "N/A"};
+					searchTableModel.addRow(rowData);
+				}
+			}
 
 			private ArrayList<Item> recommendations(String searchQuery) {
 				ArrayList<Item> similarBooks = new ArrayList<>();
-			    for (Item item : system.getStock()) {
-			        String title = item.getName().toLowerCase();
-			        if (title.contains(searchQuery)) {
-			            similarBooks.add(item);
-			        }
-			    }
-			    return similarBooks;
+				for (Item item : system.getStock()) {
+					String title = item.getName().toLowerCase();
+					if (title.contains(searchQuery)) {
+						similarBooks.add(item);
+					}
+				}
+				return similarBooks;
 			}
 		});
-		
+
 		
 		rentScroll = new JScrollPane();
 		
@@ -450,16 +528,7 @@ public class MainGUI{
 		btnSeeAll = new JButton("See All");
 		btnSeeAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				//Clears the table of old data
-				DefaultTableModel clear = (DefaultTableModel) searchTable.getModel();
-				clear.setRowCount(0);
-				//Loops through the CSV data and adds it to the table
-				for(Item e : system.getStock()) {
-					String[] rowdata = {e.getId()+"",e.getName(),e.getPrice() +"",e.getDisabled()+""};
-					DefaultTableModel tblModel = (DefaultTableModel) searchTable.getModel();
-					tblModel.addRow(rowdata);
-					//System.out.println(e.toString());
-				}
+				updateTable2(searchTable, loggedIn, system.getStock());
 			}
 		});
 		GroupLayout gl_centerContent_Rent = new GroupLayout(centerContent_Rent);
@@ -467,7 +536,7 @@ public class MainGUI{
 			gl_centerContent_Rent.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_centerContent_Rent.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(pReccomendation, GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
+					//.addComponent(pReccomendation, GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
 					.addGroup(gl_centerContent_Rent.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_centerContent_Rent.createSequentialGroup()
 							.addGap(98)
@@ -520,41 +589,47 @@ public class MainGUI{
 							.addGap(18)
 							.addGroup(gl_centerContent_Rent.createParallelGroup(Alignment.LEADING)
 								.addComponent(panel, GroupLayout.PREFERRED_SIZE, 330, GroupLayout.PREFERRED_SIZE)
-								.addComponent(pReccomendation, GroupLayout.PREFERRED_SIZE, 339, GroupLayout.PREFERRED_SIZE))))
+								//.addComponent(pReccomendation, GroupLayout.PREFERRED_SIZE, 339, GroupLayout.PREFERRED_SIZE)
+								)))
 					.addContainerGap())
 		);
 		
 		textField_Rent = new JTextField();
 		textField_Rent.setColumns(10);
 		
-		JLabel lblRent = new JLabel("Self Checkout");
+		JLabel lblRent = new JLabel("Add to Cart");
 		lblRent.setFont(new Font("Book Antiqua", Font.BOLD, 16));
 		
-		JLabel lblNewLabel = new JLabel("Rent by Id");
+		JLabel lblNewLabel = new JLabel("Add by ID");
 		
-		JButton btnRent = new JButton("Rent");
+		JButton btnRent = new JButton("Add");
 		btnRent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				loggedIn.rentPhysicalItem((PhysicalItem)system.getPhysicalItem(Integer.valueOf(textField_Rent.getText())));
+				//loggedIn.rentPhysicalItem((PhysicalItem)system.getPhysicalItem(Integer.valueOf(textField_Rent.getText())));
+				
+				//when user clicks add button, menu (invoker) calls the add command and then it gets added to cart 
+				loggedIn.getMenu().clickAdd(((PhysicalItem)system.getPhysicalItem(Integer.valueOf(textField_Rent.getText()))));
 			}
 		});
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(49)
+					.addGap(40)
+					.addComponent(lblRent, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addGap(41))
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(32)
+					.addComponent(textField_Rent, GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
+					.addGap(35))
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(57)
+					.addComponent(btnRent, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addGap(63))
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(56)
 					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-					.addGap(67))
-				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(27)
-					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-						.addComponent(textField_Rent)
-						.addComponent(lblRent, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.addGap(54))
-				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(53)
-					.addComponent(btnRent)
-					.addContainerGap(59, Short.MAX_VALUE))
+					.addGap(60))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
@@ -567,7 +642,7 @@ public class MainGUI{
 					.addComponent(textField_Rent, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(btnRent)
-					.addContainerGap(176, Short.MAX_VALUE))
+					.addContainerGap(174, Short.MAX_VALUE))
 		);
 		panel.setLayout(gl_panel);
 		
@@ -587,26 +662,25 @@ public class MainGUI{
 			}
 		});
 		rentScroll.setViewportView(searchTable);
-		
-		JLabel recomendationsLabel = new JLabel("Recomendations");
-		recomendationsLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		recomendationsLabel.setFont(new Font("Book Antiqua", Font.PLAIN, 18));
-		GroupLayout gl_pReccomendation = new GroupLayout(pReccomendation);
-		gl_pReccomendation.setHorizontalGroup(
-			gl_pReccomendation.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pReccomendation.createSequentialGroup()
-					.addGap(10)
-					.addComponent(recomendationsLabel)
-					.addContainerGap(23, Short.MAX_VALUE))
-		);
-		gl_pReccomendation.setVerticalGroup(
-			gl_pReccomendation.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pReccomendation.createSequentialGroup()
-					.addGap(11)
-					.addComponent(recomendationsLabel)
-					.addContainerGap(303, Short.MAX_VALUE))
-		);
-		pReccomendation.setLayout(gl_pReccomendation);
+//		JLabel recomendationsLabel = new JLabel("Recomendations");
+//		recomendationsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+//		recomendationsLabel.setFont(new Font("Book Antiqua", Font.PLAIN, 18));
+//		GroupLayout gl_pReccomendation = new GroupLayout(pReccomendation);
+//		gl_pReccomendation.setHorizontalGroup(
+//			gl_pReccomendation.createParallelGroup(Alignment.LEADING)
+//				.addGroup(gl_pReccomendation.createSequentialGroup()
+//					.addGap(10)
+//					.addComponent(recomendationsLabel)
+//					.addContainerGap(23, Short.MAX_VALUE))
+//		);
+//		gl_pReccomendation.setVerticalGroup(
+//			gl_pReccomendation.createParallelGroup(Alignment.LEADING)
+//				.addGroup(gl_pReccomendation.createSequentialGroup()
+//					.addGap(11)
+//					.addComponent(recomendationsLabel)
+//					.addContainerGap(303, Short.MAX_VALUE))
+//		);
+//		pReccomendation.setLayout(gl_pReccomendation);
 		centerContent_Rent.setLayout(gl_centerContent_Rent);
 		GroupLayout gl_rentPage = new GroupLayout(rentPage);
 		gl_rentPage.setHorizontalGroup(
@@ -638,6 +712,7 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "homePage_");
 				frame.repaint();
 				frame.revalidate();
+				updateTable2(displayTable, loggedIn, system.getStock());
 			}
 		});
 		
@@ -647,6 +722,7 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "inventoryPage_");
 				frame.repaint();
 				frame.revalidate();
+				updateTable2(inventoryTable, loggedIn, loggedIn.getRented());
 			}
 		});
 		
@@ -656,6 +732,7 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "rentPage_");
 				frame.repaint();
 				frame.revalidate();
+				updateTable2(searchTable, loggedIn, system.getStock());
 			}
 		});
 		
@@ -670,6 +747,17 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "subscribePage_");
 				frame.repaint();
 				frame.revalidate();
+				updateTable1(tableSubs, loggedIn, system.getSubs());
+			}
+		});
+		
+		btnNewButton_3 = new JButton("Cart");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "cart_");
+				frame.repaint();
+				frame.revalidate();
+				updateTable1(table, loggedIn, loggedIn.getCart().getItems());
 			}
 		});
 		GroupLayout gl_topBar_Inv = new GroupLayout(topBar_Inv);
@@ -683,10 +771,12 @@ public class MainGUI{
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(rent_Inv)
 					.addGap(10)
-					.addComponent(Subscribe_2, GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
+					.addComponent(Subscribe_2, GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)
 					.addGap(18)
-					.addComponent(topBarTitle_Inv, GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
-					.addGap(313))
+					.addComponent(topBarTitle_Inv, GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
+					.addGap(46)
+					.addComponent(btnNewButton_3, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
+					.addGap(202))
 		);
 		gl_topBar_Inv.setVerticalGroup(
 			gl_topBar_Inv.createParallelGroup(Alignment.LEADING)
@@ -699,7 +789,8 @@ public class MainGUI{
 				.addGroup(gl_topBar_Inv.createParallelGroup(Alignment.BASELINE)
 					.addComponent(rent_Inv)
 					.addComponent(Subscribe_2)
-					.addComponent(topBarTitle_Inv, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
+					.addComponent(topBarTitle_Inv, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
+					.addComponent(btnNewButton_3))
 		);
 		topBar_Inv.setLayout(gl_topBar_Inv);
 		
@@ -760,6 +851,7 @@ public class MainGUI{
 		btnReturn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				loggedIn.returnPhysicalItem((PhysicalItem)system.getPhysicalItem(Integer.valueOf(textField_Return.getText())));
+				updateTable2(inventoryTable, loggedIn, loggedIn.getRented() );
 			}
 		});
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
@@ -828,20 +920,11 @@ public class MainGUI{
 		btnRefreshInventory.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				//Refreshes loggedin inventory
-				
-				//Clears the table of old data
-				DefaultTableModel clear = (DefaultTableModel) inventoryTable.getModel();
-				clear.setRowCount(0);
-				//Loops through the CSV data and adds it to the table
-				for(Item e : loggedIn.getRented()) {
-					String[] rowdata = {e.getId()+"",e.getName(),e.getPrice() +"",e.getDisabled()+""};
-					DefaultTableModel tblModel = (DefaultTableModel) inventoryTable.getModel();
-					tblModel.addRow(rowdata);
-				}
+				updateTable2(inventoryTable, loggedIn,loggedIn.getRented());
 			}
 		});
 		
-		onlineItemsPage = new JPanel();
+		onlineItemsPage = 	new JPanel();
 		onlineItemsPage.setBackground(new Color(255, 255, 255));
 		tabbedPane.addTab("Online Items", null, onlineItemsPage, null);
 		
@@ -850,15 +933,7 @@ public class MainGUI{
 		JButton btnRefreshOnline = new JButton("Refresh");
 		btnRefreshOnline.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				//Clears the table of old data
-				DefaultTableModel clear = (DefaultTableModel) onlineTable.getModel();
-				clear.setRowCount(0);
-				//Loops through the CSV data and adds it to the table
-				for(Item e : loggedIn.getSubscriptions()) {
-					String[] rowdata = {e.getId()+"",e.getName(),e.getPrice() +"",e.getDisabled()+""};
-					DefaultTableModel tblModel = (DefaultTableModel) onlineTable.getModel();
-					tblModel.addRow(rowdata);
-				}
+				updateTable2(onlineTable, loggedIn, loggedIn.getSubscriptions());
 			}
 		});
 		
@@ -913,8 +988,11 @@ public class MainGUI{
 		JButton btnUnSubscribe = new JButton("UnSubscribe");
 		btnUnSubscribe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
 				//Integer.valueOf(textField_UnSubscribe.getText()
 				loggedIn.unSubscribe((OnlineItem)system.getOnlineItem(Integer.valueOf(textField_UnSubscribe.getText())));
+				updateTable2(tableSubs, loggedIn, loggedIn.getSubscriptions() );
+
 			}
 		});
 		
@@ -962,15 +1040,7 @@ public class MainGUI{
 		JButton btnRrefreshRead = new JButton("Refresh");
 		btnRrefreshRead.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				//Clears the table of old data
-				DefaultTableModel clear = (DefaultTableModel) tableRead.getModel();
-				clear.setRowCount(0);
-				//Loops through the CSV data and adds it to the table
-				for(Item e : loggedIn.getSubscriptions()) {
-					String[] rowdata = {e.getId()+"",e.getName(),e.getPrice() +"",e.getDisabled()+""};
-					DefaultTableModel tblModel = (DefaultTableModel) tableRead.getModel();
-					tblModel.addRow(rowdata);
-				}
+				updateTable2(tableRead, loggedIn, loggedIn.getSubscriptions());
 			}
 		});
 		
@@ -1115,6 +1185,7 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "homePage_");
 				frame.repaint();
 				frame.revalidate();
+				updateTable2(displayTable, loggedIn, system.getStock());
 			}
 		});
 		
@@ -1124,6 +1195,9 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "inventoryPage_");
 				frame.repaint();
 				frame.revalidate();
+				updateTable2(inventoryTable, loggedIn, loggedIn.getRented());
+				updateTable2(onlineTable, loggedIn, loggedIn.getSubscriptions());
+				updateTable2(tableRead, loggedIn, loggedIn.getSubscriptions());
 			}
 		});
 		
@@ -1133,6 +1207,7 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "rentPage_");
 				frame.repaint();
 				frame.revalidate();
+				updateTable2(searchTable, loggedIn, system.getStock());
 			}
 		});
 		
@@ -1142,6 +1217,7 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "subscribePage_");
 				frame.repaint();
 				frame.revalidate();
+				updateTable1(tableSubs, loggedIn, loggedIn.getSubscriptions());
 			}
 		});
 		
@@ -1149,6 +1225,16 @@ public class MainGUI{
 		topBarTitle_1.setHorizontalAlignment(SwingConstants.CENTER);
 		topBarTitle_1.setForeground(Color.WHITE);
 		topBarTitle_1.setFont(new Font("Book Antiqua", Font.PLAIN, 24));
+		
+		btnNewButton_4 = new JButton("Cart");
+		btnNewButton_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "cart_");
+				frame.repaint();
+				frame.revalidate();
+				updateTable1(table, loggedIn, loggedIn.getCart().getItems());
+			}
+		});
 		GroupLayout gl_topBar_1 = new GroupLayout(topBar_1);
 		gl_topBar_1.setHorizontalGroup(
 			gl_topBar_1.createParallelGroup(Alignment.LEADING)
@@ -1162,8 +1248,10 @@ public class MainGUI{
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(Subscribe_3)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(topBarTitle_1, GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
-					.addGap(308))
+					.addComponent(topBarTitle_1, GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
+					.addGap(18)
+					.addComponent(btnNewButton_4, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
+					.addGap(225))
 		);
 		gl_topBar_1.setVerticalGroup(
 			gl_topBar_1.createParallelGroup(Alignment.LEADING)
@@ -1177,6 +1265,10 @@ public class MainGUI{
 							.addComponent(Subscribe_3)))
 					.addContainerGap())
 				.addComponent(topBarTitle_1, GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
+				.addGroup(gl_topBar_1.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(btnNewButton_4)
+					.addContainerGap(14, Short.MAX_VALUE))
 		);
 		topBar_1.setLayout(gl_topBar_1);
 		GroupLayout gl_subscribePage = new GroupLayout(subscribePage);
@@ -1196,15 +1288,8 @@ public class MainGUI{
 		JButton btnRefreshSub = new JButton("Refresh");
 		btnRefreshSub.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				//Clears the table of old data
-				DefaultTableModel clear = (DefaultTableModel) tableSubs.getModel();
-				clear.setRowCount(0);
-				//Loops through the CSV data and adds it to the table
-				for(Item e : system.getSubs()) {
-					String[] rowdata = {e.getId()+"",e.getName(),e.getPrice() +""};
-					DefaultTableModel tblModel = (DefaultTableModel) tableSubs.getModel();
-					tblModel.addRow(rowdata);
-				}
+				updateTable1(tableSubs, loggedIn, system.getSubs());
+
 			}
 		});
 		
@@ -1222,8 +1307,11 @@ public class MainGUI{
 		JButton btnSub = new JButton("Subscribe");
 		btnSub.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
 				//.copySubscriptionOption((OnlineItem) system.getSubOp(Integer.valueOf(textField_Sub.getText())));
 				loggedIn.subscribe((OnlineItem)system.getOnlineItem(Integer.valueOf(textField_Sub.getText())));
+				updateTable1(tableSubs, loggedIn, system.getSubs());
+
 			}
 		});
 		GroupLayout gl_panel_2 = new GroupLayout(panel_2);
@@ -1369,7 +1457,7 @@ public class MainGUI{
 		subscribePage.setLayout(gl_subscribePage);
 		
 		cartPage = new JPanel();
-		frame.getContentPane().add(cartPage, "name_14766760913300");
+		frame.getContentPane().add(cartPage, "cart_");
 		
 		centerContentPanel = new JPanel();
 		GroupLayout gl_cartPage = new GroupLayout(cartPage);
@@ -1387,13 +1475,43 @@ public class MainGUI{
 		topBar_1_1.setBackground(new Color(227, 24, 55));
 		
 		JButton home_1_1 = new JButton("Home");
-		
+		home_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "homePage_");
+				frame.repaint();
+				frame.revalidate();
+				updateTable2(displayTable, loggedIn, system.getStock());
+			}
+		});
 		JButton inventory_1_1 = new JButton("My Inventory");
-		
+		inventory_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "inventoryPage_");
+				frame.repaint();
+				frame.revalidate();
+				updateTable2(inventoryTable, loggedIn, loggedIn.getRented());
+				updateTable2(onlineTable, loggedIn, loggedIn.getSubscriptions());
+				updateTable2(tableRead, loggedIn, loggedIn.getSubscriptions());
+			}
+		});
 		JButton rent_1_1 = new JButton("Rent");
-		
+		rent_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "rentPage_");
+				frame.repaint();
+				frame.revalidate();
+				updateTable2(searchTable, loggedIn, system.getStock());
+			}
+		});
 		JButton Subscribe_3_1 = new JButton("Subscribe");
-		
+		Subscribe_3_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "subscribePage_");
+				frame.repaint();
+				frame.revalidate();
+				updateTable1(tableSubs, loggedIn, system.getSubs());
+			}
+		});
 		JLabel topBarTitle_1_1 = new JLabel("Your Cart");
 		topBarTitle_1_1.setHorizontalAlignment(SwingConstants.CENTER);
 		topBarTitle_1_1.setForeground(Color.WHITE);
@@ -1428,17 +1546,106 @@ public class MainGUI{
 				.addComponent(topBarTitle_1_1, GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
 		);
 		topBar_1_1.setLayout(gl_topBar_1_1);
+		
+		JScrollPane displayScrollPane_1 = new JScrollPane();
+		
+		JButton btnNewButton_5 = new JButton("Clear Cart");
+		btnNewButton_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				loggedIn.getMenu().clickClear();
+				updateTable1(table, loggedIn, loggedIn.getCart().getItems());
+			}
+		});
+		
+		JButton btnNewButton_6 = new JButton("Checkout");
+		btnNewButton_6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				loggedIn.getMenu().clickCheckout();
+
+				updateTable1(table, loggedIn, loggedIn.getCart().getItems());
+			}
+		});
+		
+		textFieldRemove = new JTextField();
+		textFieldRemove.setColumns(10);
+		JButton btnNewButton_7 = new JButton("Remove");
+		btnNewButton_7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(!textFieldRemove.getText().isEmpty()){
+					loggedIn.getMenu().clickRemove(((PhysicalItem)system.getPhysicalItem(Integer.valueOf(textFieldRemove.getText()))));
+				}
+				updateTable1(table, loggedIn, loggedIn.getCart().getItems());
+			}
+		});
+		
+		JLabel lblNewLabel_1 = new JLabel("Remove Item by ID");
+		
+		//textField = new JTextField();
+		//textField.setColumns(10);
 		GroupLayout gl_centerContentPanel = new GroupLayout(centerContentPanel);
 		gl_centerContentPanel.setHorizontalGroup(
 			gl_centerContentPanel.createParallelGroup(Alignment.LEADING)
-				.addComponent(topBar_1_1, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 866, Short.MAX_VALUE)
+				.addComponent(topBar_1_1, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+				.addGroup(gl_centerContentPanel.createSequentialGroup()
+					.addGroup(gl_centerContentPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_centerContentPanel.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(lblNewLabel_1, GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE))
+						.addGroup(gl_centerContentPanel.createSequentialGroup()
+							.addGap(18)
+							.addComponent(btnNewButton_7))
+						.addGroup(gl_centerContentPanel.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(textFieldRemove, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+					.addGap(18)
+					.addComponent(displayScrollPane_1, GroupLayout.DEFAULT_SIZE, 551, Short.MAX_VALUE)
+					.addGap(189))
+				.addGroup(gl_centerContentPanel.createSequentialGroup()
+					.addGap(137)
+					.addComponent(btnNewButton_5)
+					.addGap(66)
+					.addComponent(btnNewButton_6)
+					.addContainerGap(495, Short.MAX_VALUE))
 		);
 		gl_centerContentPanel.setVerticalGroup(
 			gl_centerContentPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_centerContentPanel.createSequentialGroup()
 					.addComponent(topBar_1_1, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(570, Short.MAX_VALUE))
+					.addGroup(gl_centerContentPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_centerContentPanel.createSequentialGroup()
+							.addGap(44)
+							.addComponent(displayScrollPane_1, GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE)
+							.addGap(27)
+							.addGroup(gl_centerContentPanel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(btnNewButton_5)
+								.addComponent(btnNewButton_6))
+							.addGap(152))
+						.addGroup(gl_centerContentPanel.createSequentialGroup()
+							.addGap(156)
+							.addComponent(lblNewLabel_1)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(textFieldRemove, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGap(11)
+							.addComponent(btnNewButton_7)
+							.addContainerGap())))
 		);
+		
+		table = new JTable();
+		table.setModel(new DefaultTableModel(
+		new Object[][] {
+		},
+		new String[] {
+			"Id", "Name", "Price"
+		}
+	) {
+		boolean[] columnEditables = new boolean[] {
+			false, false, false
+		};
+		public boolean isCellEditable(int row, int column) {
+			return columnEditables[column];
+		}
+	});
+		displayScrollPane_1.setViewportView(table);
 		centerContentPanel.setLayout(gl_centerContentPanel);
 		cartPage.setLayout(gl_cartPage);
 		
