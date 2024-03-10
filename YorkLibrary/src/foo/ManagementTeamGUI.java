@@ -23,6 +23,8 @@ import java.awt.Window.Type;
 import javax.swing.JTabbedPane;
 import javax.swing.JLabel;
 import javax.swing.JCheckBox;
+import javax.swing.SwingConstants;
+import java.awt.Font;
 
 public class ManagementTeamGUI {
 	//Basic Setup
@@ -48,6 +50,7 @@ public class ManagementTeamGUI {
 	private JTable mts2Table;
 	private JTextField textField_Ctextbook;
 	private JTextField textField_CIDtextbook;
+	private JTable tableNotifications;
 	
 	public ManagementTeamGUI(LibrarySystem system, JFrame frame) {
 		ManagementTeam mgr = new ManagementTeam(system);
@@ -75,9 +78,9 @@ public class ManagementTeamGUI {
 					.addContainerGap()
 					.addComponent(btnNewButton)
 					.addGap(111)
-					.addGroup(gl_mainPage.createParallelGroup(Alignment.TRAILING)
-						.addComponent(tabbedPane, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(tabbedPane_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 602, Short.MAX_VALUE))
+					.addGroup(gl_mainPage.createParallelGroup(Alignment.LEADING)
+						.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 636, Short.MAX_VALUE)
+						.addComponent(tabbedPane_1, GroupLayout.DEFAULT_SIZE, 636, Short.MAX_VALUE))
 					.addGap(105))
 		);
 		gl_mainPage.setVerticalGroup(
@@ -88,7 +91,7 @@ public class ManagementTeamGUI {
 						.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
 						.addComponent(btnNewButton))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(tabbedPane_1, GroupLayout.PREFERRED_SIZE, 401, GroupLayout.PREFERRED_SIZE)
+					.addComponent(tabbedPane_1, GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		
@@ -211,6 +214,61 @@ public class ManagementTeamGUI {
 		mtsScroll2.setViewportView(mts2Table);
 		panelTableCourses.setLayout(gl_panelTableCourses);
 		
+		JPanel panelNotifications = new JPanel();
+		tabbedPane_1.addTab("Notifications", null, panelNotifications, null);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		
+		JLabel lblNewLabel_7 = new JLabel("Notifications");
+		lblNewLabel_7.setFont(new Font("Book Antiqua", Font.PLAIN, 24));
+		lblNewLabel_7.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		JButton btnNewButton_1 = new JButton("Approve Notifications");
+		GroupLayout gl_panelNotifications = new GroupLayout(panelNotifications);
+		gl_panelNotifications.setHorizontalGroup(
+			gl_panelNotifications.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelNotifications.createSequentialGroup()
+					.addGroup(gl_panelNotifications.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panelNotifications.createSequentialGroup()
+							.addGap(130)
+							.addComponent(lblNewLabel_7, GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
+							.addGap(253)
+							.addComponent(btnNewButton_1, GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE))
+						.addGroup(gl_panelNotifications.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)))
+					.addGap(21))
+		);
+		gl_panelNotifications.setVerticalGroup(
+			gl_panelNotifications.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelNotifications.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panelNotifications.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblNewLabel_7)
+						.addComponent(btnNewButton_1))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		
+		tableNotifications = new JTable();
+		tableNotifications.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Type", "Message"
+			}
+		) {
+			boolean[] columnEditables = new boolean[] {
+				false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		scrollPane.setViewportView(tableNotifications);
+		panelNotifications.setLayout(gl_panelNotifications);
+		
 		JPanel addItem = new JPanel();
 		tabbedPane.addTab("Add Items", null, addItem, null);
 		
@@ -330,10 +388,7 @@ public class ManagementTeamGUI {
 		lblLink = new JLabel("Link");
 		GroupLayout gl_addItem = new GroupLayout(addItem);
 		gl_addItem.setHorizontalGroup(
-			gl_addItem.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_addItem.createSequentialGroup()
-					.addContainerGap(383, Short.MAX_VALUE)
-					.addComponent(lblNewDisbabled, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE))
+			gl_addItem.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_addItem.createSequentialGroup()
 					.addGroup(gl_addItem.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_addItem.createSequentialGroup()
@@ -355,20 +410,19 @@ public class ManagementTeamGUI {
 								.addComponent(lblAdd, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_addItem.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblNewPrice)
-								.addGroup(gl_addItem.createSequentialGroup()
-									.addComponent(textField_Price, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE)
-									.addGap(18)
-									.addComponent(checkDisabled)))))
-					.addContainerGap(22, Short.MAX_VALUE))
-				.addGroup(gl_addItem.createSequentialGroup()
-					.addContainerGap(183, Short.MAX_VALUE)
-					.addComponent(textField_Link, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(175))
-				.addGroup(Alignment.LEADING, gl_addItem.createSequentialGroup()
-					.addGap(207)
-					.addComponent(lblLink)
-					.addContainerGap(219, Short.MAX_VALUE))
+								.addComponent(textField_Price, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblNewPrice))
+							.addGap(18)
+							.addGroup(gl_addItem.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblNewDisbabled, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
+								.addComponent(checkDisabled)))
+						.addGroup(gl_addItem.createSequentialGroup()
+							.addGap(207)
+							.addComponent(lblLink))
+						.addGroup(gl_addItem.createSequentialGroup()
+							.addGap(181)
+							.addComponent(textField_Link, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(169, Short.MAX_VALUE))
 		);
 		gl_addItem.setVerticalGroup(
 			gl_addItem.createParallelGroup(Alignment.LEADING)
@@ -381,8 +435,9 @@ public class ManagementTeamGUI {
 							.addComponent(lblNewName)
 							.addComponent(lblNewID)
 							.addComponent(lblType))
-						.addComponent(lblNewDisbabled)
-						.addComponent(lblNewPrice))
+						.addGroup(gl_addItem.createParallelGroup(Alignment.BASELINE)
+							.addComponent(lblNewPrice)
+							.addComponent(lblNewDisbabled)))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_addItem.createParallelGroup(Alignment.LEADING)
 						.addComponent(checkDisabled)
@@ -393,9 +448,9 @@ public class ManagementTeamGUI {
 							.addComponent(comboBoxItemType, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 					.addGap(18)
 					.addComponent(lblLink)
-					.addGap(3)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(textField_Link, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(32)
+					.addGap(29)
 					.addComponent(btnAddItem))
 		);
 		addItem.setLayout(gl_addItem);
@@ -430,44 +485,41 @@ public class ManagementTeamGUI {
 		gl_disableItem.setHorizontalGroup(
 			gl_disableItem.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_disableItem.createSequentialGroup()
-					.addGroup(gl_disableItem.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_disableItem.createSequentialGroup()
-							.addGap(33)
-							.addComponent(lblDisable, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_disableItem.createSequentialGroup()
-							.addContainerGap()
-							.addGroup(gl_disableItem.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_disableItem.createSequentialGroup()
-									.addGap(10)
-									.addComponent(btnDisableItem, GroupLayout.PREFERRED_SIZE, 132, GroupLayout.PREFERRED_SIZE))
-								.addComponent(textField_Disable, GroupLayout.PREFERRED_SIZE, 149, GroupLayout.PREFERRED_SIZE))))
-					.addGap(70)
-					.addGroup(gl_disableItem.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_disableItem.createSequentialGroup()
-							.addGroup(gl_disableItem.createParallelGroup(Alignment.TRAILING)
-								.addComponent(textField_Enable, GroupLayout.PREFERRED_SIZE, 149, GroupLayout.PREFERRED_SIZE)
-								.addComponent(btnEnableItem, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE))
-							.addGap(10))
-						.addGroup(gl_disableItem.createSequentialGroup()
-							.addComponent(lblEnabled, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
-							.addGap(50))))
+					.addGap(47)
+					.addComponent(lblDisable, GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+					.addGap(235)
+					.addComponent(lblEnabled, GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
+					.addGap(162))
+				.addGroup(gl_disableItem.createSequentialGroup()
+					.addGap(10)
+					.addComponent(textField_Disable, GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)
+					.addGap(187)
+					.addComponent(textField_Enable, GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)
+					.addGap(136))
+				.addGroup(gl_disableItem.createSequentialGroup()
+					.addGap(20)
+					.addComponent(btnDisableItem, GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
+					.addGap(204)
+					.addComponent(btnEnableItem, GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
+					.addGap(147))
 		);
 		gl_disableItem.setVerticalGroup(
 			gl_disableItem.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_disableItem.createSequentialGroup()
 					.addGap(71)
-					.addGroup(gl_disableItem.createParallelGroup(Alignment.BASELINE)
+					.addGroup(gl_disableItem.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblDisable, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblEnabled))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_disableItem.createParallelGroup(Alignment.BASELINE)
+						.addGroup(gl_disableItem.createSequentialGroup()
+							.addGap(6)
+							.addComponent(lblEnabled)))
+					.addGap(6)
+					.addGroup(gl_disableItem.createParallelGroup(Alignment.LEADING)
 						.addComponent(textField_Disable, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(textField_Enable, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_disableItem.createParallelGroup(Alignment.BASELINE)
+					.addGap(11)
+					.addGroup(gl_disableItem.createParallelGroup(Alignment.LEADING)
 						.addComponent(btnDisableItem)
-						.addComponent(btnEnableItem))
-					.addGap(41))
+						.addComponent(btnEnableItem)))
 		);
 		disableItem.setLayout(gl_disableItem);
 		
@@ -519,11 +571,9 @@ public class ManagementTeamGUI {
 		tabbedPane.addTab("Courses", null, Courses, null);
 		
 		textField_CCode = new JTextField();
-		textField_CCode.setBounds(10, 56, 86, 20);
 		textField_CCode.setColumns(10);
 		
 		JButton btnCSubmit = new JButton("Add Course");
-		btnCSubmit.setBounds(63, 87, 89, 23);
 		btnCSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mgr.addCourse(textField_CCode.getText(),textField_CName.getText());
@@ -531,24 +581,18 @@ public class ManagementTeamGUI {
 		});
 		
 		JLabel lblCName = new JLabel("Course Code");
-		lblCName.setBounds(10, 31, 62, 14);
 		
 		textField_CName = new JTextField();
-		textField_CName.setBounds(106, 56, 86, 20);
 		textField_CName.setColumns(10);
 		
 		JLabel lblName = new JLabel("Name");
-		lblName.setBounds(120, 31, 62, 14);
 		
 		textField_CCode2 = new JTextField();
-		textField_CCode2.setBounds(255, 47, 86, 20);
 		textField_CCode2.setColumns(10);
 		
 		JLabel lblNewLabel = new JLabel("Add Student");
-		lblNewLabel.setBounds(315, 11, 60, 14);
 		
 		JButton btnCAddStudent = new JButton("Add to Course");
-		btnCAddStudent.setBounds(301, 73, 106, 23);
 		btnCAddStudent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mgr.addStudentToCourse(textField_CCode2.getText(), textField_SEmail.getText());
@@ -556,14 +600,11 @@ public class ManagementTeamGUI {
 		});
 		
 		JLabel lblAddFaculty = new JLabel("Add Faculty");
-		lblAddFaculty.setBounds(315, 125, 57, 14);
 		
 		textField_CCode3 = new JTextField();
-		textField_CCode3.setBounds(255, 170, 86, 20);
 		textField_CCode3.setColumns(10);
 		
 		JButton btnCAddFaculty = new JButton("Add to Course");
-		btnCAddFaculty.setBounds(297, 201, 110, 23);
 		btnCAddFaculty.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mgr.addFacultyToCourse(textField_CCode3.getText(), textField_FEmail.getText());
@@ -571,37 +612,27 @@ public class ManagementTeamGUI {
 		});
 		
 		textField_SEmail = new JTextField();
-		textField_SEmail.setBounds(351, 47, 86, 20);
 		textField_SEmail.setColumns(10);
 		
 		textField_FEmail = new JTextField();
-		textField_FEmail.setBounds(351, 170, 86, 20);
 		textField_FEmail.setColumns(10);
 		
 		JLabel lblNewLabel_1 = new JLabel("Course Code");
-		lblNewLabel_1.setBounds(267, 150, 62, 14);
 		
 		JLabel lblNewLabel_2 = new JLabel("Email");
-		lblNewLabel_2.setBounds(378, 150, 24, 14);
 		
 		JLabel lblNewLabel_3 = new JLabel("Course Code");
-		lblNewLabel_3.setBounds(280, 31, 62, 14);
 		
 		JLabel lblNewLabel_4 = new JLabel("Email");
-		lblNewLabel_4.setBounds(381, 31, 24, 14);
 		
 		JLabel lblAddCourse = new JLabel("Add Course");
-		lblAddCourse.setBounds(63, 11, 60, 14);
 		
 		JLabel lblRemoveCourse = new JLabel("Remove by Code");
-		lblRemoveCourse.setBounds(494, 91, 82, 14);
 		
 		textField_CRemove = new JTextField();
-		textField_CRemove.setBounds(478, 115, 103, 20);
 		textField_CRemove.setColumns(10);
 		
 		JButton btnRemoveCourse = new JButton("Remove Course");
-		btnRemoveCourse.setBounds(478, 146, 109, 23);
 		btnRemoveCourse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mgr.removeCourse(textField_CRemove.getText());
@@ -609,15 +640,12 @@ public class ManagementTeamGUI {
 		});
 		
 		textField_Ctextbook = new JTextField();
-		textField_Ctextbook.setBounds(10, 170, 86, 20);
 		textField_Ctextbook.setColumns(10);
 		
 		textField_CIDtextbook = new JTextField();
-		textField_CIDtextbook.setBounds(119, 170, 86, 20);
 		textField_CIDtextbook.setColumns(10);
 		
 		JButton btnAddTextBook = new JButton("Add TextBook");
-		btnAddTextBook.setBounds(63, 201, 106, 23);
 		btnAddTextBook.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mgr.addTextBookToCourse(textField_Ctextbook.getText(), textField_CIDtextbook.getText());
@@ -625,45 +653,167 @@ public class ManagementTeamGUI {
 		});
 		
 		JLabel lblNewLabel_5 = new JLabel("Add Textbook to Course");
-		lblNewLabel_5.setBounds(52, 125, 117, 14);
 		
 		JLabel label = new JLabel("New label");
-		label.setBounds(37, 170, 46, 14);
 		
 		JLabel lblNewLabel_6 = new JLabel("Course Code");
-		lblNewLabel_6.setBounds(10, 150, 62, 14);
 		
 		JLabel lblNewLabel_6_1 = new JLabel("Id");
-		lblNewLabel_6_1.setBounds(136, 150, 46, 14);
-		Courses.setLayout(null);
-		Courses.add(lblAddCourse);
-		Courses.add(lblNewLabel);
-		Courses.add(lblCName);
-		Courses.add(lblName);
-		Courses.add(lblNewLabel_3);
-		Courses.add(lblNewLabel_4);
-		Courses.add(textField_CCode);
-		Courses.add(textField_CName);
-		Courses.add(btnCSubmit);
-		Courses.add(textField_CCode2);
-		Courses.add(textField_SEmail);
-		Courses.add(btnCAddStudent);
-		Courses.add(lblAddFaculty);
-		Courses.add(lblRemoveCourse);
-		Courses.add(lblNewLabel_1);
-		Courses.add(lblNewLabel_2);
-		Courses.add(textField_CRemove);
-		Courses.add(textField_CCode3);
-		Courses.add(textField_FEmail);
-		Courses.add(btnRemoveCourse);
-		Courses.add(btnCAddFaculty);
-		Courses.add(textField_Ctextbook);
-		Courses.add(textField_CIDtextbook);
-		Courses.add(btnAddTextBook);
-		Courses.add(lblNewLabel_5);
-		Courses.add(label);
-		Courses.add(lblNewLabel_6);
-		Courses.add(lblNewLabel_6_1);
+		GroupLayout gl_Courses = new GroupLayout(Courses);
+		gl_Courses.setHorizontalGroup(
+			gl_Courses.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_Courses.createSequentialGroup()
+					.addGap(63)
+					.addComponent(lblAddCourse, GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
+					.addGap(192)
+					.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addGap(256))
+				.addGroup(gl_Courses.createSequentialGroup()
+					.addGap(10)
+					.addComponent(lblCName, GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
+					.addGap(48)
+					.addComponent(lblName, GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
+					.addGap(98)
+					.addComponent(lblNewLabel_3, GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
+					.addGap(31)
+					.addComponent(lblNewLabel_4, GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
+					.addGap(211))
+				.addGroup(gl_Courses.createSequentialGroup()
+					.addGap(10)
+					.addGroup(gl_Courses.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_Courses.createSequentialGroup()
+							.addComponent(textField_CCode)
+							.addGap(10)
+							.addComponent(textField_CName, GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE))
+						.addGroup(gl_Courses.createSequentialGroup()
+							.addGap(53)
+							.addComponent(btnCSubmit, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addGap(40)))
+					.addGap(63)
+					.addGroup(gl_Courses.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_Courses.createSequentialGroup()
+							.addComponent(textField_CCode2)
+							.addGap(10)
+							.addComponent(textField_SEmail, GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE))
+						.addGroup(gl_Courses.createSequentialGroup()
+							.addGap(46)
+							.addComponent(btnCAddStudent, GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
+							.addGap(30)))
+					.addGap(57)
+					.addComponent(lblRemoveCourse, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addGap(55))
+				.addGroup(gl_Courses.createSequentialGroup()
+					.addGap(52)
+					.addComponent(lblNewLabel_5, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addGap(146)
+					.addComponent(lblAddFaculty, GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
+					.addGap(106)
+					.addComponent(textField_CRemove, GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
+					.addGap(50))
+				.addGroup(gl_Courses.createSequentialGroup()
+					.addGap(10)
+					.addComponent(lblNewLabel_6, GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
+					.addGap(64)
+					.addComponent(lblNewLabel_6_1, GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
+					.addGap(85)
+					.addComponent(lblNewLabel_1, GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
+					.addGap(35)
+					.addComponent(lblNewLabel_2, GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
+					.addGap(76)
+					.addComponent(btnRemoveCourse, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addGap(44))
+				.addGroup(gl_Courses.createSequentialGroup()
+					.addGap(10)
+					.addGroup(gl_Courses.createParallelGroup(Alignment.LEADING)
+						.addComponent(textField_Ctextbook)
+						.addGroup(gl_Courses.createSequentialGroup()
+							.addGap(27)
+							.addComponent(label)))
+					.addGap(23)
+					.addComponent(textField_CIDtextbook, GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
+					.addGap(50)
+					.addComponent(textField_CCode3, GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
+					.addGap(10)
+					.addComponent(textField_FEmail)
+					.addGap(194))
+				.addGroup(gl_Courses.createSequentialGroup()
+					.addGap(63)
+					.addComponent(btnAddTextBook, GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
+					.addGap(128)
+					.addComponent(btnCAddFaculty, GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+					.addGap(224))
+		);
+		gl_Courses.setVerticalGroup(
+			gl_Courses.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_Courses.createSequentialGroup()
+					.addGap(11)
+					.addGroup(gl_Courses.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblAddCourse)
+						.addComponent(lblNewLabel))
+					.addGap(6)
+					.addGroup(gl_Courses.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblCName)
+						.addComponent(lblName)
+						.addGroup(gl_Courses.createParallelGroup(Alignment.BASELINE)
+							.addComponent(lblNewLabel_3)
+							.addComponent(lblNewLabel_4)))
+					.addGap(2)
+					.addGroup(gl_Courses.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_Courses.createSequentialGroup()
+							.addGap(9)
+							.addGroup(gl_Courses.createParallelGroup(Alignment.LEADING)
+								.addComponent(textField_CCode, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(textField_CName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(11)
+							.addComponent(btnCSubmit))
+						.addGroup(gl_Courses.createSequentialGroup()
+							.addGroup(gl_Courses.createParallelGroup(Alignment.LEADING)
+								.addComponent(textField_CCode2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(textField_SEmail, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(6)
+							.addComponent(btnCAddStudent))
+						.addGroup(gl_Courses.createSequentialGroup()
+							.addGap(44)
+							.addComponent(lblRemoveCourse)))
+					.addGap(5)
+					.addGroup(gl_Courses.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_Courses.createSequentialGroup()
+							.addGap(10)
+							.addComponent(lblNewLabel_5))
+						.addGroup(gl_Courses.createSequentialGroup()
+							.addGap(10)
+							.addComponent(lblAddFaculty))
+						.addComponent(textField_CRemove, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGroup(gl_Courses.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_Courses.createSequentialGroup()
+							.addGap(7)
+							.addGroup(gl_Courses.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_Courses.createSequentialGroup()
+									.addGap(4)
+									.addComponent(lblNewLabel_6))
+								.addGroup(gl_Courses.createSequentialGroup()
+									.addGap(4)
+									.addComponent(lblNewLabel_6_1))
+								.addGroup(gl_Courses.createSequentialGroup()
+									.addGap(4)
+									.addComponent(lblNewLabel_1))
+								.addComponent(btnRemoveCourse)))
+						.addGroup(gl_Courses.createSequentialGroup()
+							.addGap(11)
+							.addComponent(lblNewLabel_2)))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_Courses.createParallelGroup(Alignment.LEADING)
+						.addComponent(textField_Ctextbook, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(label)
+						.addComponent(textField_CIDtextbook, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(textField_CCode3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(textField_FEmail, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(11)
+					.addGroup(gl_Courses.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnAddTextBook)
+						.addComponent(btnCAddFaculty)))
+		);
+		Courses.setLayout(gl_Courses);
 		mainPage.setLayout(gl_mainPage);
 		
 		

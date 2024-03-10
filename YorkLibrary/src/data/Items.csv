@@ -1,6 +1,5 @@
 Id,Name,Price,Disabled,DueDate,Barrower,Fee
 10,ten,0.0,false,BLANK,BLANK,0.0
-99,Physical,0.0,true,BLANK,BLANK,0.0
 15,weee,0.0,true,BLANK,BLANK,0.0
 16,coolll,0.0,true,BLANK,BLANK,0.0
 12,cool,3.0,true,BLANK,BLANK,0.0
@@ -17,3 +16,4 @@ Id,Name,Price,Disabled,DueDate,Barrower,Fee
 4,fr,0.0,true,BLANK,test@gmail.com,0.0
 3,th,0.0,true,BLANK,test@gmail.com,0.0
 1,wda,12.0,false,BLANK,test@gmail.com,0.0
+99,Physical,0.0,true,BLANK,test@gmail.com,0.0
