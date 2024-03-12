@@ -7,8 +7,7 @@ public class Checkout implements ICartCommand2 {
 		this.cart=cart;
 	}
 	@Override
-	public void execute() {
-		// TODO Auto-generated method stub
-		cart.checkout();
+	public double execute() {
+		return cart.checkout();
 	}
 }
