@@ -52,7 +52,7 @@ public class ManagementTeamGUI {
 	private JTextField textField_CIDtextbook;
 	private JTable tableNotifications;
 	
-	public ManagementTeamGUI(LibrarySystem system, JFrame frame) {
+	public ManagementTeamGUI(LibrarySystem system, JFrame frame, User loggedIn) {
 		ManagementTeam mgr = new ManagementTeam(system);
 		
 		frame.getContentPane().setLayout(new CardLayout(0, 0));
@@ -224,6 +224,11 @@ public class ManagementTeamGUI {
 		lblNewLabel_7.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		JButton btnNewButton_1 = new JButton("Approve Notifications");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 		GroupLayout gl_panelNotifications = new GroupLayout(panelNotifications);
 		gl_panelNotifications.setHorizontalGroup(
 			gl_panelNotifications.createParallelGroup(Alignment.LEADING)
@@ -816,7 +821,9 @@ public class ManagementTeamGUI {
 		Courses.setLayout(gl_Courses);
 		mainPage.setLayout(gl_mainPage);
 		
-		
+		//Populates Notifications Table
+		//Todo: test this
+		updateTable(tableNotifications,loggedIn,checkNotification(loggedIn,system));
 		
 		textField_Link.setVisible(false);
 		lblLink.setVisible(false);
@@ -826,4 +833,90 @@ public class ManagementTeamGUI {
 		frame.setSize(862, 649);
 		frame.setVisible(true);
 	}
+	
+	public ArrayList<String> checkNotification(User loggedIn, LibrarySystem system) {//This is just tied to when the pages is opened
+		ArrayList<String> notifications = new ArrayList<String>();
+		/*
+		 *  For putting a notification into this, format with: "SUBJECT,MESSAGE". COMMA IS REQUIRED
+		 *  Just look at the example I did for new editions
+		 */
+		//Checks faculty notifications
+		for(Faculty f: system.getFaculty()) {
+			//Checks if new editions of the books exists but is not available for purchase
+			for(Item I: f.getTextBooks()) {
+				for(Item J: system.getBorrowed()) {
+					String[] owned = I.getName().split(" ");
+					String[] barrowed = J.getName().split(" ");
+					boolean newEdition = true;
+					int ownedEdition = 1;
+					int barrowedEdition = 1;
+					
+					//Checks if one of the books or both have an edition number
+					if((isNumeric(owned[owned.length-1]) && isNumeric(barrowed[barrowed.length-1])) || (!isNumeric(owned[owned.length-1]) && isNumeric(barrowed[barrowed.length-1]))){
+						//Lengths would equal if same book different edition, unless first edition with no number
+						if(owned.length == barrowed.length || owned.length+1 == barrowed.length) {
+							//Checks each part of the name of the book to compare
+							for(int i = 0; i < owned.length; i++) {
+								if(!owned[i].equals(barrowed[i])) {
+									newEdition = false;
+								}
+							}
+							
+							//Owned editions can be original 1 or higher
+							if(isNumeric(owned[owned.length-1])) {
+								ownedEdition = Integer.valueOf(owned[owned.length-1]);
+							}
+							
+							//Stock editions can be original 1 or higher
+							if(isNumeric(barrowed[barrowed.length-1])) {
+								barrowedEdition = Integer.valueOf(barrowed[barrowed.length-1]);
+							}
+						}
+					}
+					//Checks if the book is a new edition
+					if(ownedEdition < barrowedEdition && newEdition) {
+						boolean canPurchase = false;
+						//Makes sure there is no copy of the new edition available for purchase
+						for(Item w: system.getStock()) {
+							if(w.getName().equals(I.getName())) {
+								canPurchase = true;
+							}
+						}
+						//Textbook cannot be procured hence we must decided to talk to user
+						if(!canPurchase) {
+							//do notification
+							String notification = "New Edition of "+I.getName()+"Not Available," + f.getEmail() +" has an old edition: "+ I.getName()+" while a new Edition: "+J.getName()+" is not in stock, please consult them!";
+							notifications.add(notification);
+						}
+					}
+				}
+			}
+		}
+		//Returns all the found notifications
+		return notifications;
+	}
+	
+	//Used for checking if strings can be Integers or Doubles
+	public boolean isNumeric(String str) { 
+		try {  
+			Double.parseDouble(str);  
+			return true;
+		} 
+		catch(NumberFormatException e){  
+			return false;  
+		}  
+	}
+	
+	//updates given table for given user with Type/Subject, Message
+	public void updateTable(JTable table, User user, ArrayList<String> listToParse) {
+		 DefaultTableModel clear = (DefaultTableModel) table.getModel();
+			clear.setRowCount(0);
+			for(String message : listToParse) {
+				String[] data = message.split(",");
+				String[] rowdata = {data[0].toString(),data[1]+""};
+				DefaultTableModel tblModel = (DefaultTableModel) table.getModel();
+				tblModel.addRow(rowdata);
+			}
+	}
+	
 }

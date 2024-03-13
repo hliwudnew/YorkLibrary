@@ -217,8 +217,9 @@ public class MainGUI{
 		
 		JButton btnNotifications = new JButton("Notifications");
 		btnNotifications.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new NotificationsGUI(notifyFrame);
+			public void actionPerformed(ActionEvent e) {				
+				//Provides them to the GUI
+				new NotificationsGUI(notifyFrame, loggedIn,system);
 			}
 		});
 		
@@ -291,7 +292,7 @@ public class MainGUI{
 		JButton btnAdmin = new JButton("Admin");
 		btnAdmin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new ManagementTeamGUI(system, mgrFrame);
+				new ManagementTeamGUI(system, mgrFrame,loggedIn);
 			}
 		});
 		
