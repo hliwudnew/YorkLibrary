@@ -303,7 +303,14 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "subscribePage_");
 				frame.repaint();
 				frame.revalidate();
-				updateTable1(tableSubs, loggedIn, system.getSubs());
+				//Removes Student online textbooks, since they are technically subscriptions but shouldn't be allow subscribing
+				ArrayList<OnlineItem> holder = new ArrayList<OnlineItem>();
+				for(OnlineItem I: system.getSubs()) {
+					if(I.getId() >=0) {
+						holder.add(I);
+					}
+				}
+				updateTable1(tableSubs, loggedIn, holder);
 				
 			}
 		});
@@ -418,7 +425,14 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "subscribePage_");
 				frame.repaint();
 				frame.revalidate();
-				updateTable1(tableSubs, loggedIn, system.getSubs());
+				//Removes Student online textbooks, since they are technically subscriptions but shouldn't be allow subscribing
+				ArrayList<OnlineItem> holder = new ArrayList<OnlineItem>();
+				for(OnlineItem I: system.getSubs()) {
+					if(I.getId() >=0) {
+						holder.add(I);
+					}
+				}
+				updateTable1(tableSubs, loggedIn, holder);
 			}
 		});
 		
@@ -751,7 +765,14 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "subscribePage_");
 				frame.repaint();
 				frame.revalidate();
-				updateTable1(tableSubs, loggedIn, system.getSubs());
+				//Removes Student online textbooks, since they are technically subscriptions but shouldn't be allow subscribing
+				ArrayList<OnlineItem> holder = new ArrayList<OnlineItem>();
+				for(OnlineItem I: system.getSubs()) {
+					if(I.getId() >=0) {
+						holder.add(I);
+					}
+				}
+				updateTable1(tableSubs, loggedIn, holder);
 			}
 		});
 		
@@ -1221,7 +1242,14 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "subscribePage_");
 				frame.repaint();
 				frame.revalidate();
-				updateTable1(tableSubs, loggedIn, loggedIn.getSubscriptions());
+				//Removes Student online textbooks, since they are technically subscriptions but shouldn't be allow subscribing
+				ArrayList<OnlineItem> holder = new ArrayList<OnlineItem>();
+				for(OnlineItem I: system.getSubs()) {
+					if(I.getId() >=0) {
+						holder.add(I);
+					}
+				}
+				updateTable1(tableSubs, loggedIn, holder);
 			}
 		});
 		
@@ -1292,8 +1320,14 @@ public class MainGUI{
 		JButton btnRefreshSub = new JButton("Refresh");
 		btnRefreshSub.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				updateTable1(tableSubs, loggedIn, system.getSubs());
-
+				//Removes Student online textbooks, since they are technically subscriptions but shouldn't be allow subscribing
+				ArrayList<OnlineItem> holder = new ArrayList<OnlineItem>();
+				for(OnlineItem I: system.getSubs()) {
+					if(I.getId() >=0) {
+						holder.add(I);
+					}
+				}
+				updateTable1(tableSubs, loggedIn, holder);
 			}
 		});
 		
@@ -1504,7 +1538,14 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "subscribePage_");
 				frame.repaint();
 				frame.revalidate();
-				updateTable1(tableSubs, loggedIn, system.getSubs());
+				//Removes Student online textbooks, since they are technically subscriptions but shouldn't be allow subscribing
+				ArrayList<OnlineItem> holder = new ArrayList<OnlineItem>();
+				for(OnlineItem I: system.getSubs()) {
+					if(I.getId() >=0) {
+						holder.add(I);
+					}
+				}
+				updateTable1(tableSubs, loggedIn, holder);
 			}
 		});
 		JLabel topBarTitle_1_1 = new JLabel("Your Cart");

@@ -1,8 +1,6 @@
 Id,Name,Price,Disabled,DueDate,Barrower,Fee
-10,ten,0.0,false,BLANK,BLANK,0.0
 15,weee,0.0,true,BLANK,BLANK,0.0
 16,coolll,0.0,true,BLANK,BLANK,0.0
-13,coooooool,3.0,true,BLANK,BLANK,0.0
 50,WD,0.0,true,BLANK,BLANK,0.0
 63,Cool Things 3,1.0,true,BLANK,BLANK,0.0
 64,Cool Stuff 4,0.0,true,BLANK,BLANK,0.0
@@ -21,3 +19,5 @@ Id,Name,Price,Disabled,DueDate,Barrower,Fee
 12,cool,3.0,true,BLANK,test@gmail.com,0.0
 60,Cool Things,0.0,true,BLANK,Fac@gmail.com,0.0
 61,Cool Things 2,0.0,true,BLANK,test@gmail.com,0.0
+13,coooooool,3.0,true,BLANK,test@gmail.com,0.0
+10,ten,0.0,false,BLANK,test@gmail.com,0.0
