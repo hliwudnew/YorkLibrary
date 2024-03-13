@@ -52,6 +52,24 @@ public class ManagementTeamGUI {
 	private JTextField textField_CIDtextbook;
 	private JTable tableNotifications;
 	
+	//updates the items table for managementgui with 5 fields: Type, Id, Name, Price, Disabled
+	//parameters are just the table to update and the library system to update from
+	public void updateItemsTable(JTable table, LibrarySystem system) {
+		//Clears the table of old data
+		DefaultTableModel clear = (DefaultTableModel) table.getModel();
+		clear.setRowCount(0);
+		//Looks at all items
+		ArrayList<Item> holder = new ArrayList<Item>(system.getStock()); // Books in stock
+		holder.addAll(system.getBorrowed());// Books people are borrowing
+		holder.addAll(system.getSubs()); // Subscription options
+		
+		for(Item e : holder) {
+			String[] rowdata = {e.getClass().toString().substring(10),e.getId()+"",e.getName(),e.getPrice() +"",e.getDisabled()+""};
+			DefaultTableModel tblModel = (DefaultTableModel) table.getModel();
+			tblModel.addRow(rowdata);
+		}
+	}
+
 	public ManagementTeamGUI(LibrarySystem system, JFrame frame, User loggedIn) {
 		ManagementTeam mgr = new ManagementTeam(system);
 		
@@ -117,22 +135,11 @@ public class ManagementTeamGUI {
 		});
 		mtsScroll.setViewportView(mtsTable);
 		
+		updateItemsTable(mtsTable, system);
 		JButton btnRefresh = new JButton("Refresh");
 		btnRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {				
-				//Clears the table of old data
-				DefaultTableModel clear = (DefaultTableModel) mtsTable.getModel();
-				clear.setRowCount(0);
-				//Looks at all items
-				ArrayList<Item> holder = new ArrayList<Item>(system.getStock()); // Books in stock
-				holder.addAll(system.getBorrowed());// Books people are borrowing
-				holder.addAll(system.getSubs()); // Subscription options
-				
-				for(Item e : holder) {
-					String[] rowdata = {e.getClass().toString().substring(10),e.getId()+"",e.getName(),e.getPrice() +"",e.getDisabled()+""};
-					DefaultTableModel tblModel = (DefaultTableModel) mtsTable.getModel();
-					tblModel.addRow(rowdata);
-				}
+				updateItemsTable(mtsTable, system);
 			}
 		});
 		GroupLayout gl_panelTableItems = new GroupLayout(panelTableItems);
@@ -224,11 +231,6 @@ public class ManagementTeamGUI {
 		lblNewLabel_7.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		JButton btnNewButton_1 = new JButton("Approve Notifications");
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
 		GroupLayout gl_panelNotifications = new GroupLayout(panelNotifications);
 		gl_panelNotifications.setHorizontalGroup(
 			gl_panelNotifications.createParallelGroup(Alignment.LEADING)

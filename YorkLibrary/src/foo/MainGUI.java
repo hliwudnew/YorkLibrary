@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -607,9 +608,11 @@ public class MainGUI{
 		btnRent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//loggedIn.rentPhysicalItem((PhysicalItem)system.getPhysicalItem(Integer.valueOf(textField_Rent.getText())));
-				
-				//when user clicks add button, menu (invoker) calls the add command and then it gets added to cart 
-				loggedIn.getMenu().clickAdd(((PhysicalItem)system.getPhysicalItem(Integer.valueOf(textField_Rent.getText()))));
+				if(!textField_Rent.getText().isEmpty()){
+					//when user clicks add button, menu (invoker) calls the add command and then it gets added to cart 
+					loggedIn.getMenu().clickAdd(((PhysicalItem)system.getPhysicalItem(Integer.valueOf(textField_Rent.getText()))));
+				}
+
 			}
 		});
 		GroupLayout gl_panel = new GroupLayout(panel);
@@ -1461,15 +1464,6 @@ public class MainGUI{
 		frame.getContentPane().add(cartPage, "cart_");
 		
 		centerContentPanel = new JPanel();
-		GroupLayout gl_cartPage = new GroupLayout(cartPage);
-		gl_cartPage.setHorizontalGroup(
-			gl_cartPage.createParallelGroup(Alignment.LEADING)
-				.addComponent(centerContentPanel, GroupLayout.DEFAULT_SIZE, 856, Short.MAX_VALUE)
-		);
-		gl_cartPage.setVerticalGroup(
-			gl_cartPage.createParallelGroup(Alignment.LEADING)
-				.addComponent(centerContentPanel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 620, Short.MAX_VALUE)
-		);
 		
 		JPanel topBar_1_1 = new JPanel();
 		topBar_1_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
@@ -1561,7 +1555,30 @@ public class MainGUI{
 		JButton btnNewButton_6 = new JButton("Checkout");
 		btnNewButton_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				loggedIn.getMenu().clickCheckout();
+				
+
+				//check if user is eligible to checkout, if not then display error popups
+				if(loggedIn.getCart().canCheckout()==-1) {
+					JOptionPane.showMessageDialog(frame, "Too many items being checked out, only 10 physical items can be rented at once", "Unable to Checkout", JOptionPane.INFORMATION_MESSAGE);
+				}
+				else if(loggedIn.getCart().canCheckout()==-2) {
+					JOptionPane.showMessageDialog(frame, "Cannot checkout, cart is empty", "Unable to Checkout", JOptionPane.INFORMATION_MESSAGE);
+				}
+				//if user is eligible, then ask them which currency they would like to use,  convert the cart price
+				//using that and then ask if they would like to confirm (popup window)
+				else {
+					Object[] options = CurrencyExchange.getCurrencyList().toArray();
+					Object userInfo=JOptionPane.showInputDialog(frame, "Choose currency type", "Currency Options", JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+					loggedIn.getCart().setCurrency((String)userInfo);
+					double displayPrice = loggedIn.getCart().getConvertedPrice();
+					int response = JOptionPane.showConfirmDialog(frame, "Your total is: "+ String.format("%.2f",displayPrice)+"\n"
+							+ "Would you like to confirm your purchase?", "Confirm your purchase", JOptionPane.YES_NO_OPTION);
+					if(response == JOptionPane.YES_OPTION) {
+						loggedIn.getMenu().clickCheckout();
+						loggedIn.getMenu().clickClear();
+					}
+
+				}
 
 				updateTable1(table, loggedIn, loggedIn.getCart().getItems());
 			}
@@ -1591,7 +1608,7 @@ public class MainGUI{
 					.addGroup(gl_centerContentPanel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_centerContentPanel.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(lblNewLabel_1, GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE))
+							.addComponent(lblNewLabel_1, GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE))
 						.addGroup(gl_centerContentPanel.createSequentialGroup()
 							.addGap(18)
 							.addComponent(btnNewButton_7))
@@ -1599,7 +1616,7 @@ public class MainGUI{
 							.addContainerGap()
 							.addComponent(textFieldRemove, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 					.addGap(18)
-					.addComponent(displayScrollPane_1, GroupLayout.DEFAULT_SIZE, 551, Short.MAX_VALUE)
+					.addComponent(displayScrollPane_1, GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE)
 					.addGap(189))
 				.addGroup(gl_centerContentPanel.createSequentialGroup()
 					.addGap(137)
@@ -1648,6 +1665,15 @@ public class MainGUI{
 	});
 		displayScrollPane_1.setViewportView(table);
 		centerContentPanel.setLayout(gl_centerContentPanel);
+		GroupLayout gl_cartPage = new GroupLayout(cartPage);
+		gl_cartPage.setHorizontalGroup(
+			gl_cartPage.createParallelGroup(Alignment.LEADING)
+				.addComponent(centerContentPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+		);
+		gl_cartPage.setVerticalGroup(
+			gl_cartPage.createParallelGroup(Alignment.LEADING)
+				.addComponent(centerContentPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+		);
 		cartPage.setLayout(gl_cartPage);
 		
 		

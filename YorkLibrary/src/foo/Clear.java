@@ -7,7 +7,7 @@ public class Clear implements ICartCommand2 {
 		this.cart=cart;
 	}
 	@Override
-	public void execute() {
-		cart.clear();
+	public double execute() {
+		return cart.clear();
 	}
 }

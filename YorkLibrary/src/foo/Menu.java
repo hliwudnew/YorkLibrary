@@ -21,11 +21,11 @@ public class Menu {
 	public void clickRemove(Item item) {
 		removeCommand.execute(item);
 	}
-	public void clickClear() {
-		clearCommand.execute();
+	public double clickClear() {
+		return clearCommand.execute();
 	}
-	public void clickCheckout() {
-		checkoutCommand.execute();
+	public double clickCheckout() {
+		return checkoutCommand.execute();
 	}
 	
 }
