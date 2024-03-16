@@ -64,7 +64,7 @@ public class ManagementTeamGUI {
 		holder.addAll(system.getSubs()); // Subscription options
 		
 		for(Item e : holder) {
-			String[] rowdata = {e.getClass().toString().substring(10),e.getId()+"",e.getName(),e.getPrice() +"",e.getDisabled()+""};
+			String[] rowdata = {e.getClass().toString().substring(10),e.getId()+"",e.getName(),e.getPrice() +"",e.getDisabled().getState().getClass().toString().substring(10)+""};
 			DefaultTableModel tblModel = (DefaultTableModel) table.getModel();
 			tblModel.addRow(rowdata);
 		}
@@ -123,7 +123,7 @@ public class ManagementTeamGUI {
 			new Object[][] {
 			},
 			new String[] {
-				"Type", "Id", "Name", "Price", "Disabled"
+				"Type", "Id", "Name", "Price", "Status"
 			}
 		) {
 			boolean[] columnEditables = new boolean[] {
@@ -320,12 +320,12 @@ public class ManagementTeamGUI {
 				
 				String type = comboBoxItemType.getSelectedItem()+"";
 				
-				boolean disabled;
+				ItemStateContext disabled = new ItemStateContext();
 				if(checkDisabled.getSelectedObjects() != null) {
-					disabled = true;
+					disabled.setState(new Disabled());
 				}
 				else {
-					disabled = false;
+					disabled.setState(new Enabled());
 				}
 				//Prevents duplicate Ids from being used
 				if(!taken && !invalid) {
@@ -468,7 +468,7 @@ public class ManagementTeamGUI {
 		JButton btnDisableItem = new JButton("Submit");
 		btnDisableItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				mgr.disableItem(system.getOnlineItem(Integer.valueOf(textField_Disable.getText())));
+				mgr.disableItem(system.getItemAll(Integer.valueOf(textField_Disable.getText())));
 			}
 		});
 		
@@ -485,7 +485,7 @@ public class ManagementTeamGUI {
 		JButton btnEnableItem = new JButton("Submit");
 		btnEnableItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				mgr.enableItem(system.getOnlineItem(Integer.valueOf(textField_Enable.getText())));
+				mgr.enableItem(system.getItemAll(Integer.valueOf(textField_Enable.getText())));
 			}
 		});
 		GroupLayout gl_disableItem = new GroupLayout(disableItem);

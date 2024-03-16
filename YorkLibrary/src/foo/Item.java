@@ -5,13 +5,13 @@ public abstract class Item {
 	private int id;
 	private String name;
 	private double price;
-	private boolean disabled;
+	private ItemStateContext disabled;
 	
 	public Item() {
-		
+		disabled = new ItemStateContext();
 	}
 	
-	public Item(int inputId,String inputName, double inputPrice, boolean disabled) {
+	public Item(int inputId,String inputName, double inputPrice, ItemStateContext disabled) {
 		this.id = inputId;
 		this.name= inputName;
 		this.price = inputPrice;
@@ -31,8 +31,8 @@ public abstract class Item {
 		this.id = id;
 	}
 	
-	public void setDisabled(boolean disabled) {
-		this.disabled = disabled;
+	public void setDisabled(ItemStateContext status) {
+		this.disabled.setState(status.getState());
 	}
 	
 	//Getters
@@ -48,7 +48,7 @@ public abstract class Item {
 		return this.id;
 	}
 	
-	public boolean getDisabled() {
+	public ItemStateContext getDisabled() {
 		return this.disabled;
 	}
 }

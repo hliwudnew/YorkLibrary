@@ -61,22 +61,38 @@ public class ManagementTeam {
 	}
 	
 	public void disableItem(Item item) {
-		item.setDisabled(true);
+		if(item.getClass().toString().equals(new PhysicalItem().getClass().toString())) {
+			if(((PhysicalItem) item).getBorrower().contains("@")) {
+				System.out.println("Cannot disabled item, it is currently being rented");
+			}
+			else {
+				ItemStateContext status = new ItemStateContext(new Disabled());
+				item.setDisabled(status);
+			}
+		}
+		//Can disabled all online items easily
+		else {
+			ItemStateContext status = new ItemStateContext(new Disabled());
+			item.setDisabled(status);
+		}
 	}
 	
 	public void disableItem(ArrayList<Item> items) {
 		for(Item I: items) {
-			I.setDisabled(true);
+			ItemStateContext status = new ItemStateContext(new Disabled());
+			I.setDisabled(status);
 		}
 	}
 	
 	public void enableItem(Item item) {
-		item.setDisabled(false);
+		ItemStateContext status = new ItemStateContext(new Enabled());
+		item.setDisabled(status);
 	}
 	
 	public void enableItem(ArrayList<Item> items) {
 		for(Item I: items) {
-			I.setDisabled(false);
+			ItemStateContext status = new ItemStateContext(new Enabled());
+			I.setDisabled(status);
 		}
 	}
 	

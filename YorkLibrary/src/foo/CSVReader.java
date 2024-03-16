@@ -156,7 +156,7 @@ public class CSVReader {
 			 * Saves item data
 			 */
 			for(Item I: items) {
-				buffWrite.write(I.getId()+","+I.getName()+","+I.getPrice()+","+I.getDisabled()+","+ ((PhysicalItem) I).getDueDate() +","+ ((PhysicalItem) I).getBorrower()+","+ ((PhysicalItem) I).getFee()+"\n");//Rewrites CSV file
+				buffWrite.write(I.getId()+","+I.getName()+","+I.getPrice()+","+I.getDisabled().getState().getClass().toString().substring(10)+","+ ((PhysicalItem) I).getDueDate() +","+ ((PhysicalItem) I).getBorrower()+","+ ((PhysicalItem) I).getFee()+"\n");//Rewrites CSV file
 			}
 			buffWrite.close();// Closes the writer so the data saves
 			
@@ -191,7 +191,7 @@ public class CSVReader {
 			buffWrite3.write(subscriptionsHeader);// Rewrites the headers
 			//Saves the subscriptions
 			for(OnlineItem I: subs) {
-				buffWrite3.write(I.getId()+","+I.getName()+","+I.getPrice()+","+I.getDisabled()+","+I.getLink()+"\n");//Rewrites CSV file	
+				buffWrite3.write(I.getId()+","+I.getName()+","+I.getPrice()+","+I.getDisabled().getState().getClass().toString().substring(10)+","+I.getLink()+"\n");//Rewrites CSV file	
 			}
 			buffWrite3.close();
 			
@@ -348,17 +348,17 @@ public class CSVReader {
 				//Fixes issues with blank spaces in csv file
 				if(values.length != 0 && !skip) {
 					PhysicalItem temp = new PhysicalItem();
-					boolean disabled = false;
+					ItemStateContext status = new ItemStateContext(new Disabled());
 					
-					if(values[3].equals("true") ||values[3].equals("TRUE") ){
-						disabled = true;
+					if(values[3].contains("Enabled") ||values[3].contains("ENABLED") ){
+						status.setState(new Enabled());
 					}
 					
 					//All pulled from database
 					temp.setId(Integer.valueOf(values[0]));
 					temp.setName(values[1]);
 					temp.setPrice(Double.valueOf(values[2]));
-					temp.setDisabled(disabled);
+					temp.setDisabled(status);
 					temp.setDueDate(values[4]);
 					temp.setBorrower(values[5]);
 					temp.setFee(Double.valueOf(values[6]));
@@ -394,17 +394,17 @@ public class CSVReader {
 				//Fixes issues with blank spaces in csv file
 				if(values.length != 0 && !skip3) {
 					OnlineItem temp = new OnlineItem();
-					boolean disabled = false;
+					ItemStateContext status = new ItemStateContext(new Disabled());
 					
-					if(values[3].equals("true") ||values[3].equals("TRUE") ){
-						disabled = true;
+					if(values[3].contains("Enabled") ||values[3].contains("ENABLED")){
+						status.setState(new Enabled());
 					}
 					
 					//All pulled from database
 					temp.setId(Integer.valueOf(values[0]));
 					temp.setName(values[1]);
 					temp.setPrice(Double.valueOf(values[2]));
-					temp.setDisabled(disabled);
+					temp.setDisabled(status);
 					temp.setLink(values[4]);
 					
 					subscriptions.add(temp);

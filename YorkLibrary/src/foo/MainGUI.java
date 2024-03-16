@@ -129,7 +129,7 @@ public class MainGUI{
 		 DefaultTableModel clear = (DefaultTableModel) table.getModel();
 			clear.setRowCount(0);
 			for(Item item : listToParse) {
-				String[] rowdata = {item.getId()+"",item.getName(),item.getPrice()+"", item.getDisabled()+""};
+				String[] rowdata = {item.getId()+"",item.getName(),item.getPrice()+"", item.getDisabled().getState().getClass().toString().substring(10)};
 				DefaultTableModel tblModel = (DefaultTableModel) table.getModel();
 				tblModel.addRow(rowdata);
 			}
@@ -184,7 +184,7 @@ public class MainGUI{
 				clear.setRowCount(0);
 				//Loops through the CSV data and adds it to the table
 				for(Item item : system.getStock()) {
-					String[] rowdata = {item.getId()+"",item.getName(),item.getPrice() +"",item.getDisabled()+""};
+					String[] rowdata = {item.getId()+"",item.getName(),item.getPrice() +"",item.getDisabled().getState().getClass().toString().substring(10)+""};
 					DefaultTableModel tblModel = (DefaultTableModel) displayTable.getModel();
 					tblModel.addRow(rowdata);
 					//System.out.println(e.toString());
@@ -259,7 +259,7 @@ public class MainGUI{
 			new Object[][] {
 			},
 			new String[] {
-				"Id", "Name", "Price", "Disabled"
+				"Id", "Name", "Price", "Status"
 			}
 		) {
 			boolean[] columnEditables = new boolean[] {
@@ -287,7 +287,7 @@ public class MainGUI{
 		
 		lblName = new JLabel("{email}");
 		lblName.setText(email);
-		lblName.setFont(new Font("Book Antiqua", Font.PLAIN, 16));
+		lblName.setFont(new Font("Century Gothic", Font.PLAIN, 16));
 		lblName.setForeground(new Color(0, 0, 255));
 		
 		JButton btnAdmin = new JButton("Admin");
@@ -514,7 +514,7 @@ public class MainGUI{
 
 				if (!searchResults.isEmpty()) {
 					for (Item result : searchResults) {
-						String[] rowData = {String.valueOf(result.getId()), result.getName(), String.valueOf(result.getPrice()), String.valueOf(result.getDisabled())};
+						String[] rowData = {String.valueOf(result.getId()), result.getName(), String.valueOf(result.getPrice()), String.valueOf(result.getDisabled().getState().getClass().toString().substring(10))};
 						searchTableModel.addRow(rowData);
 					}
 				} else {
@@ -669,7 +669,7 @@ public class MainGUI{
 			new Object[][] {
 			},
 			new String[] {
-				"Id", "Name", "Price", "Disabled"
+				"Id", "Name", "Price", "Status"
 			}
 		) {
 			boolean[] columnEditables = new boolean[] {
@@ -847,7 +847,7 @@ public class MainGUI{
 			new Object[][] {
 			},
 			new String[] {
-				"Id", "Name", "Price", "Disabled"
+				"Id", "Name", "Price", "Status"
 			}
 		) {
 			boolean[] columnEditables = new boolean[] {
@@ -970,7 +970,7 @@ public class MainGUI{
 			new Object[][] {
 			},
 			new String[] {
-				"Id", "Name", "Price", "Disabled"
+				"Id", "Name", "Price", "Status"
 			}
 		) {
 			boolean[] columnEditables = new boolean[] {
@@ -1165,7 +1165,7 @@ public class MainGUI{
 			new Object[][] {
 			},
 			new String[] {
-				"Id", "Name", "Price", "Disabled"
+				"Id", "Name", "Price", "Status"
 			}
 		) {
 			boolean[] columnEditables = new boolean[] {

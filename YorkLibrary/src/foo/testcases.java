@@ -12,7 +12,7 @@ class testcases {
 		chair.setName("chair");
 		chair.setId(1);
 		chair.setBorrower(null);
-		chair.setDisabled(false);
+//		chair.setDisabled(false);
 		chair.setPrice(0);
 		
 		assertTrue(chair.getBorrower() == null);
@@ -36,12 +36,12 @@ class testcases {
 		
 		PhysicalItem book1 = new PhysicalItem();
 		book1.setId(1);
-		book1.setDisabled(false);
+//		book1.setDisabled(false);
 		book1.setName("First Book");
 		
 		PhysicalItem book2 = new PhysicalItem();
 		book2.setId(2);
-		book2.setDisabled(false);
+//		book2.setDisabled(false);
 		book2.setName("Second Book");
 		
 		team.addPhysicalItem(book1);
@@ -68,5 +68,13 @@ class testcases {
 
 		assertTrue(system.getBorrowed().get(0).getName() == "Second Book");
 		assertTrue(system.getStock().get(0).getName() == "First Book");
+	}
+	
+	@Test
+	void testingState() {
+		ItemStateContext status = new ItemStateContext();
+		System.out.println(status.getState().getClass().toString().substring(10));
+		status.setState(new Enabled());
+		System.out.println(status.getState().getClass().toString().substring(10));
 	}
 }
