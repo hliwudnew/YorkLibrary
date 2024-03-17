@@ -4,6 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -20,6 +23,13 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.Color;
+import java.awt.Font;
+import javax.swing.SwingConstants;
+import javax.swing.border.EtchedBorder;
 
 
 
@@ -27,6 +37,7 @@ public class LoginGUI implements ActionListener {
 
 	//Basic login
 	private JFrame frame;
+	private JFrame mgrFrame;
 	private JPanel loginPanel;
 	private JButton login;
 	private JButton register;
@@ -41,7 +52,13 @@ public class LoginGUI implements ActionListener {
 	private JPanel registrationPanel;
 	private JButton signup;
 	private JComboBox<String> type;
-	
+	private JPanel panel;
+	private JButton btnNewButton;
+	private JButton btnAdmin;
+	private JButton btnRelogin;
+	private JLabel lblTitle;
+	//Verification stuff
+	private ArrayList<User> accounts = new ArrayList<User>(CSVReader.loadPendingAccounts());
 	
 	public static void main(String[] args) {
 		new LoginGUI();
@@ -49,18 +66,32 @@ public class LoginGUI implements ActionListener {
 	public LoginGUI(){
 		//UI
 		frame = new JFrame(); // The window
+		frame.getContentPane().setBackground(new Color(255, 128, 128));
+		mgrFrame = new JFrame();
 		loginPanel = new JPanel(); // Use to put stuff in the window
+		loginPanel.setBackground(new Color(255, 128, 128));
 		login = new JButton("Login");
+		login.setBounds(100, 240, 446, 35);
 		register = new JButton("Register");
+		register.setBounds(100, 275, 446, 35);
 		text1 = new JLabel("Email");
+		text1.setBounds(100, 100, 446, 35);
 		text2 = new JLabel("Password");
+		text2.setBounds(100, 170, 446, 35);
 		emailInput = new JTextField(100);
+		emailInput.setLocation(100, 135);
 		passwordInput = new JPasswordField(100);
+		passwordInput.setBounds(100, 205, 446, 35);
 		registrationPanel = new JPanel();
+		registrationPanel.setBackground(new Color(255, 128, 128));
 		layers = new JLayeredPane();
+		layers.setBackground(new Color(255, 128, 128));
+		layers.setSize(frame.getBounds().getSize());
 		signup = new JButton("Register");
+		btnRelogin = new JButton("Attempt Signin");
 		text3 = new JLabel("Enter a valid email address and password");
 		text4 = new JLabel("Select Account Type");
+		
 		
 		//Account stuff
 		Vector<String> accountTypes = new Vector<String>();
@@ -74,9 +105,6 @@ public class LoginGUI implements ActionListener {
 		layers.setBorder(BorderFactory.createEmptyBorder(100, 100, 100, 100));
 		layers.setLayout(new GridLayout(0,1));
 		
-		loginPanel.setBorder(BorderFactory.createEmptyBorder(100, 100, 100, 100));
-		loginPanel.setLayout(new GridLayout(0,1));
-		
 		registrationPanel.setBorder(BorderFactory.createEmptyBorder(100, 100, 100, 100));
 		registrationPanel.setLayout(new GridLayout(0,1));
 		
@@ -84,25 +112,88 @@ public class LoginGUI implements ActionListener {
 		login.addActionListener(this);
 		register.addActionListener(this);
 		signup.addActionListener(this);
-		emailInput.setSize(100, 50);
-		
-		
-		//LoginPanel Additions
+		btnRelogin.addActionListener(this);
+		emailInput.setSize(446, 35);
+		layers.add(loginPanel);
+		loginPanel.setLayout(null);
 		loginPanel.add(text1);
 		loginPanel.add(emailInput);
 		loginPanel.add(text2);
 		loginPanel.add(passwordInput);
 		loginPanel.add(login);
 		loginPanel.add(register);
-		layers.add(loginPanel);
 		
+		lblTitle = new JLabel("York University Library");
+		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTitle.setFont(new Font("Book Antiqua", Font.BOLD | Font.ITALIC, 24));
+		lblTitle.setBounds(142, 0, 371, 69);
+		loginPanel.add(lblTitle);
 		
-		//Basically boilerplate
-		frame.add(layers, BorderLayout.CENTER); //Adds the border to the panel
+		panel = new JPanel();
+		panel.setBackground(new Color(255, 128, 128));
+		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.TRAILING)
+				.addComponent(panel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 846, Short.MAX_VALUE)
+				.addComponent(layers, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 846, Short.MAX_VALUE)
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(layers, GroupLayout.DEFAULT_SIZE, 556, Short.MAX_VALUE))
+		);
+		
+		btnNewButton = new JButton("Leave");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+		    	CSVReader.savePendingAccounts(accounts);
+				mgrFrame.dispose();
+				frame.dispose();
+			}
+		});
+		
+		btnAdmin = new JButton("Admin");
+		btnAdmin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new VerificationGUI(accounts,mgrFrame);
+			}
+		});
+		GroupLayout gl_panel = new GroupLayout(panel);
+		gl_panel.setHorizontalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(btnNewButton, GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
+					.addGap(648)
+					.addComponent(btnAdmin, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		gl_panel.setVerticalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnNewButton)
+						.addComponent(btnAdmin))
+					.addContainerGap(14, Short.MAX_VALUE))
+		);
+		panel.setLayout(gl_panel);
+		frame.getContentPane().setLayout(groupLayout);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Closes window when closed (Set what happends when frame closed)
 		frame.setTitle("York Library Login");
-		frame.pack(); //Sets window to specific size
+		frame.setSize(862, 649);
 		frame.setVisible(true);
+		//Saves everything to CSVs when the window closes
+		frame.addWindowListener(new WindowAdapter() {
+		    public void windowClosing(WindowEvent e) {
+		    	//Saves everything that happened
+		    	CSVReader.savePendingAccounts(accounts);
+		        //Closes windows
+		    	frame.dispose();
+		    }
+		});
 	}
 	
 	@Override
@@ -112,11 +203,12 @@ public class LoginGUI implements ActionListener {
 		String accountType = type.getSelectedItem() +"";
 		
 		
-		if(event.getSource() == login) {
+		if(event.getSource() == login || event.getSource() == btnRelogin) {
 			
 			//Checks database to see if their information is correct to login
 			if(CSVReader.loginData(email, password)) {
 				//Closes window to open main application
+				mgrFrame.dispose();
 				frame.dispose();
 				new MainGUI(email);
 			}
@@ -131,6 +223,7 @@ public class LoginGUI implements ActionListener {
 		//Register
 		else if(event.getSource() == register) {
 			//RegistrationPanel Additions
+			registrationPanel.add(lblTitle);
 			registrationPanel.add(text1);
 			registrationPanel.add(emailInput);
 			registrationPanel.add(text2);
@@ -138,6 +231,7 @@ public class LoginGUI implements ActionListener {
 			registrationPanel.add(text4);
 			registrationPanel.add(type);
 			registrationPanel.add(signup);
+			registrationPanel.add(btnRelogin);
 			
 			//Swaps to Register Panel
 			layers.removeAll();
@@ -147,14 +241,40 @@ public class LoginGUI implements ActionListener {
 		}
 		else if(event.getSource() == signup) {
 			try {
-				if(validateInput(email,password) && !CSVReader.checkEmail(email)) {
-					
-					//Calls database to add credentials and sign them in
-					CSVReader.register(email, password,accountType);
-					
-					//Closes window to open main application
-					frame.dispose();
-					new MainGUI(email);
+				if(validateInput(email,password) && !CSVReader.checkEmail(email) && !CSVReader.checkEmailPending(email)) {
+					//Sends a request to get the Student/Faculty/NonFaculty account verified
+					if(!accountType.equals("Visitor")) {
+						if(accountType.equals("Student")) {
+							Student user = new Student();
+							user.setEmail(email);
+							user.setPassword(password);
+							accounts.add(user);
+						}
+						else if(accountType.equals("Faculty")) {
+							Faculty user = new Faculty();
+							user.setEmail(email);
+							user.setPassword(password);
+							accounts.add(user);
+
+						}
+						else {
+							Nonfaculty user = new Nonfaculty();
+							user.setEmail(email);
+							user.setPassword(password);
+							accounts.add(user);
+						}
+						
+						CSVReader.savePendingAccounts(accounts);
+						System.out.println("Account Has been submitted for verification");
+					}
+					else {
+						//Calls database to add credentials and sign them in
+						CSVReader.register(email, password,accountType);
+						//Closes window to open main application
+						mgrFrame.dispose();
+						frame.dispose();
+						new MainGUI(email);
+					}
 				}
 				else {
 					//Prompts the user to enter in proper email and password
@@ -209,5 +329,4 @@ public class LoginGUI implements ActionListener {
 			return false;
 		}
 	}
-
 }

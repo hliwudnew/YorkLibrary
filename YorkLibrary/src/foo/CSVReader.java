@@ -93,10 +93,115 @@ public class CSVReader {
 		}
 	}
 	
+	public static ArrayList<User> loadPendingAccounts() {
+		String path2 ="src/data/PendingAccounts.csv";
+		String line2 = "";
+		ArrayList<User> users = new ArrayList<User>();
+		boolean skip2 = true; // Not my greatest fix but skips the first row of column names
+		try {
+			BufferedReader br2 = new BufferedReader(new FileReader(path2));
+			while((line2 = br2.readLine())!= null) {
+				String[] values = line2.split(",");
+				if(values.length != 0 && !skip2) {
+					if(values[2].equals("Student")) {
+						Student temp = new Student(); 
+						temp.setEmail(values[0]);
+						temp.setPassword(values[1]);
+						users.add(temp);
+					}
+					else if(values[2].equals("Faculty")) {
+						Faculty temp = new Faculty();
+						temp.setEmail(values[0]);
+						temp.setPassword(values[1]);
+						users.add(temp);
+					}
+					else if(values[2].equals("NonFaculty")) {
+						Nonfaculty temp = new Nonfaculty();
+						temp.setEmail(values[0]);
+						temp.setPassword(values[1]);
+						users.add(temp);
+					}
+					else if(values[2].equals("Visitor")) {
+						Visitor temp = new Visitor();
+						temp.setEmail(values[0]);
+						temp.setPassword(values[1]);
+						users.add(temp);
+					}
+				}
+				skip2 = false;
+			}
+			br2.close();
+		} catch(FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return users;
+	}
+	
+	public static void savePendingAccounts(ArrayList<User> users) {
+		String pathAccount ="src/data/PendingAccounts.csv";
+		String accountHeaders = "Email,Password,Type\n";
+		try {
+			BufferedWriter buffWrite2 = new BufferedWriter(new FileWriter(new File(pathAccount)));
+			buffWrite2.write(accountHeaders);
+			for(User u: users) {
+				String type ="";
+				if(u.getClass().toString().equals("class foo.Student")) {
+					type = "Student";
+				}
+				else if(u.getClass().toString().equals("class foo.Faculty")) {
+					type = "Faculty";
+				}
+				else if(u.getClass().toString().equals("class foo.Visitor")){
+					type = "Visitor";
+				}
+				else {
+					type = "NonFaculty";
+				}
+				buffWrite2.write(u.getEmail()+","+u.getPassword()+","+type+"\n");//Rewrites CSV file				
+			}
+			buffWrite2.close();// Closes the writer so the data saves
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	//Checks if the email is in the CSV file
 	public static boolean checkEmail(String email) throws Exception {
 		//This should work in as long as the CSV files are in the data folder/package
 		String path ="src/data/Accounts.csv";
+		String line = "";
+		ArrayList<String> emails = new ArrayList<String>();
+		
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(path));
+			while((line = br.readLine())!= null) {
+				String[] values = line.split(",");
+				//Fixes issues with blank spaces in csv file
+				if(values.length != 0) {
+					emails.add(values[0]);
+				}
+			}
+			br.close();
+		} catch(FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		//Checks if the email is used already
+		for(String s: emails) {
+			if(s.equals(email)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	//Checks if the email is in the CSV file
+	public static boolean checkEmailPending(String email) throws Exception {
+		//This should work in as long as the CSV files are in the data folder/package
+		String path ="src/data/PendingAccounts.csv";
 		String line = "";
 		ArrayList<String> emails = new ArrayList<String>();
 		
