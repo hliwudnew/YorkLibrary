@@ -41,12 +41,13 @@ public class CSVReader {
 //			e.printStackTrace();
 //		}
 //	}
-
+	
 	//Checks if the user exists in the system
 	public static boolean loginData(String email, String password) {
 		String path ="src/data/Accounts.csv";
 		String line = "";
 		ArrayList<User> Users = new ArrayList<User>();
+		UserFactory buildUser = new UserFactory();
 		boolean result = false;
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(path));
@@ -54,7 +55,7 @@ public class CSVReader {
 				String[] values = line.split(",");
 				//Fixes issues with blank spaces in csv file
 				if(values.length != 0) {
-					User s = new Visitor();
+					User s = buildUser.getUser("Visitor");
 					s.setEmail(values[0]);
 					s.setPassword(values[1]);
 					Users.add(s);
@@ -97,32 +98,15 @@ public class CSVReader {
 		String path2 ="src/data/PendingAccounts.csv";
 		String line2 = "";
 		ArrayList<User> users = new ArrayList<User>();
+		UserFactory buildUser = new UserFactory();
 		boolean skip2 = true; // Not my greatest fix but skips the first row of column names
 		try {
 			BufferedReader br2 = new BufferedReader(new FileReader(path2));
 			while((line2 = br2.readLine())!= null) {
 				String[] values = line2.split(",");
 				if(values.length != 0 && !skip2) {
-					if(values[2].equals("Student")) {
-						Student temp = new Student(); 
-						temp.setEmail(values[0]);
-						temp.setPassword(values[1]);
-						users.add(temp);
-					}
-					else if(values[2].equals("Faculty")) {
-						Faculty temp = new Faculty();
-						temp.setEmail(values[0]);
-						temp.setPassword(values[1]);
-						users.add(temp);
-					}
-					else if(values[2].equals("NonFaculty")) {
-						Nonfaculty temp = new Nonfaculty();
-						temp.setEmail(values[0]);
-						temp.setPassword(values[1]);
-						users.add(temp);
-					}
-					else if(values[2].equals("Visitor")) {
-						Visitor temp = new Visitor();
+					User temp = buildUser.getUser(values[2]);
+					if(temp != null) {
 						temp.setEmail(values[0]);
 						temp.setPassword(values[1]);
 						users.add(temp);
@@ -147,13 +131,13 @@ public class CSVReader {
 			buffWrite2.write(accountHeaders);
 			for(User u: users) {
 				String type ="";
-				if(u.getClass().toString().equals("class foo.Student")) {
+				if(u.getClass().toString().equals(new Student().getClass().toString())) {
 					type = "Student";
 				}
-				else if(u.getClass().toString().equals("class foo.Faculty")) {
+				else if(u.getClass().toString().equals(new Faculty().getClass().toString())) {
 					type = "Faculty";
 				}
-				else if(u.getClass().toString().equals("class foo.Visitor")){
+				else if(u.getClass().toString().equals(new Visitor().getClass().toString())){
 					type = "Visitor";
 				}
 				else {
@@ -273,13 +257,13 @@ public class CSVReader {
 			for(User u: users) {
 				String type ="";
 		    	String rented ="BLANK";
-				if(u.getClass().toString().equals("class foo.Student")) {
+				if(u.getClass().toString().equals(new Student().getClass().toString())) {
 					type = "Student";
 				}
-				else if(u.getClass().toString().equals("class foo.Faculty")) {
+				else if(u.getClass().toString().equals(new Faculty().getClass().toString())) {
 					type = "Faculty";
 				}
-				else if(u.getClass().toString().equals("class foo.Visitor")){
+				else if(u.getClass().toString().equals(new Visitor().getClass().toString())){
 					type = "Visitor";
 				}
 				else {
@@ -389,42 +373,18 @@ public class CSVReader {
 		String line2 = "";
 		ArrayList<User> users = new ArrayList<User>();
 		boolean skip2 = true; // Not my greatest fix but skips the first row of column names
-		
+		UserFactory buildUser = new UserFactory();
 		try {
 			BufferedReader br2 = new BufferedReader(new FileReader(path2));
 			while((line2 = br2.readLine())!= null) {
 				String[] values = line2.split(",");
 				if(values.length != 0 && !skip2) {
-					if(values[4].equals("Student")) {
-						Student temp = new Student(); 
+					User temp = buildUser.getUser(values[4]);
+					if(temp != null) {
 						temp.setEmail(values[0]);
 						temp.setPassword(values[1]);
 						temp.setRented(new ArrayList<PhysicalItem>());
 						temp.setSubscriptions(new ArrayList<OnlineItem>()); 
-						users.add(temp);
-					}
-					else if(values[4].equals("Faculty")) {
-						Faculty temp = new Faculty();
-						temp.setEmail(values[0]);
-						temp.setPassword(values[1]);
-						temp.setRented(new ArrayList<PhysicalItem>());
-						temp.setSubscriptions(new ArrayList<OnlineItem>());
-						users.add(temp);
-					}
-					else if(values[4].equals("NonFaculty")) {
-						Nonfaculty temp = new Nonfaculty();
-						temp.setEmail(values[0]);
-						temp.setPassword(values[1]);
-						temp.setRented(new ArrayList<PhysicalItem>());
-						temp.setSubscriptions(new ArrayList<OnlineItem>());
-						users.add(temp);
-					}
-					else if(values[4].equals("Visitor")) {
-						Visitor temp = new Visitor();
-						temp.setEmail(values[0]);
-						temp.setPassword(values[1]);
-						temp.setRented(new ArrayList<PhysicalItem>());
-						temp.setSubscriptions(new ArrayList<OnlineItem>());
 						users.add(temp);
 					}
 				}

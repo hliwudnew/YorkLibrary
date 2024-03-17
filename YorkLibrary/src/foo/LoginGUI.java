@@ -243,22 +243,23 @@ public class LoginGUI implements ActionListener {
 			try {
 				if(validateInput(email,password) && !CSVReader.checkEmail(email) && !CSVReader.checkEmailPending(email)) {
 					//Sends a request to get the Student/Faculty/NonFaculty account verified
+					UserFactory buildUser = new UserFactory();
 					if(!accountType.equals("Visitor")) {
 						if(accountType.equals("Student")) {
-							Student user = new Student();
+							User user = buildUser.getUser(accountType);
 							user.setEmail(email);
 							user.setPassword(password);
 							accounts.add(user);
 						}
 						else if(accountType.equals("Faculty")) {
-							Faculty user = new Faculty();
+							User user = buildUser.getUser(accountType);
 							user.setEmail(email);
 							user.setPassword(password);
 							accounts.add(user);
 
 						}
 						else {
-							Nonfaculty user = new Nonfaculty();
+							User user = buildUser.getUser(accountType);
 							user.setEmail(email);
 							user.setPassword(password);
 							accounts.add(user);

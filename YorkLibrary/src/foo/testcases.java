@@ -77,4 +77,27 @@ class testcases {
 		status.setState(new Enabled());
 		System.out.println(status.getState().getClass().toString().substring(10));
 	}
+	
+	@Test
+	void userFactoryTesting() {
+		UserFactory buildUser = new UserFactory();
+		
+		User student = buildUser.getUser("Student");
+		User fac = buildUser.getUser("Faculty");
+		User nonFac = buildUser.getUser("NonFaculty");
+		User visitor = buildUser.getUser("Visitor");
+		User broke = buildUser.getUser("w");
+		User broke2 = buildUser.getUser("");
+
+		
+		assertTrue(student.getClass().toString().equals(new Student().getClass().toString()));
+		assertTrue(fac.getClass().toString().equals(new Faculty().getClass().toString()));
+		assertTrue(nonFac.getClass().toString().equals(new Nonfaculty().getClass().toString()));
+		assertTrue(visitor.getClass().toString().equals(new Visitor().getClass().toString()));
+		assertTrue(broke == null);
+		assertTrue(broke2 == null);
+
+		
+		
+	}
 }

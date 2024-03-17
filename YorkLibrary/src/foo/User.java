@@ -12,7 +12,6 @@ public abstract class User {
 	//each user will have a cart with their own items, and a menu that allows them to interact with the cart
 	private Cart cart;
 	private Menu menu;
-	//Ask me, Gabriel, about this connection and how it works
 	
 	
 	public User() {
@@ -51,7 +50,7 @@ public abstract class User {
 	//this method in its class (user can access it through menu class)
 	//however, i am leaving it here strictly because it is being used by CSVReader to intialize the system (can be changed later)
 	
-	public void rentPhysicalItem(PhysicalItem wantToRent) {
+	public void rentPhysicalItem(PhysicalItem wantToRent){
 		//Prevents from going over the limit
 		if(this.rented.size() < 10) {
 			if(wantToRent != null && !this.rented.contains(wantToRent) && !system.getBorrowed().contains(wantToRent)) {
@@ -67,10 +66,6 @@ public abstract class User {
 		else {
 			System.out.println("Cannot rent more than 10 items");
 		}
-	}
-	
-	public void loginAccount() {
-		// No idea how to do this
 	}
 	
 	public void openOnlineItem(Item wantToRead) {
