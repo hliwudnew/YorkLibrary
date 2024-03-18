@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Date;
 
 /*
  * TIP: Don't have the data files open on your computer while running the code because the program cannot access them if they are already open
@@ -410,6 +411,9 @@ public class CSVReader {
 			BufferedReader br = new BufferedReader(new FileReader(path));
 			while((line = br.readLine())!= null) {
 				String[] values = line.split(",");
+				//String[] dateToAdd; 
+				Date date;
+
 				//Fixes issues with blank spaces in csv file
 				if(values.length != 0 && !skip) {
 					PhysicalItem temp = new PhysicalItem();
@@ -424,12 +428,27 @@ public class CSVReader {
 					temp.setName(values[1]);
 					temp.setPrice(Double.valueOf(values[2]));
 					temp.setDisabled(status);
-					temp.setDueDate(values[4]);
+					//convert csv date to Date object and set it to the item
+
+					if(values[4].equals("null")) {
+						temp.setDueDate(null);
+					}
+					else {
+						//dateToAdd = values[4].split("/");
+						date= new Date(values[4]);
+						temp.setDueDate(date);
+					}
+
 					temp.setBorrower(values[5]);
 					temp.setFee(Double.valueOf(values[6]));
 					//Assign Item to User
 					if(!temp.getBorrower().equals("BLANK")) {
-						system.getUser(temp.getBorrower()).rentPhysicalItem(temp);
+						//commented out because if it rents everytime we download, then it will overwrite the due dates
+						//system.getUser(temp.getBorrower()).rentPhysicalItem(temp);
+						system.getUser(temp.getBorrower()).getRented().add(temp); //They rent  the book
+						temp.setBorrower(temp.getBorrower()); //The book is now borrowed by them
+						system.removeStock(temp); //Book is now in borrowed
+						system.addBarrowed(temp);
 					}
 					items.add(temp);
 				}

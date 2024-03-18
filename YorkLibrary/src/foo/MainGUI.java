@@ -140,7 +140,7 @@ public class MainGUI{
 		 DefaultTableModel clear = (DefaultTableModel) table.getModel();
 			clear.setRowCount(0);
 			for(PhysicalItem item : listToParse) {
-				String[] rowdata = {item.getId()+"",item.getName(),item.getPrice()+"", item.getDisabled().getState().getClass().toString().substring(10)+"", item.getDueDate()};
+				String[] rowdata = {item.getId()+"",item.getName(),item.getPrice()+"", item.getDisabled().getState().getClass().toString().substring(10)+"", item.getDueDate().toString()};
 				DefaultTableModel tblModel = (DefaultTableModel) table.getModel();
 				tblModel.addRow(rowdata);
 			}
@@ -886,7 +886,25 @@ public class MainGUI{
 		JButton btnReturn = new JButton("Return");
 		btnReturn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				loggedIn.returnPhysicalItem((PhysicalItem)system.getPhysicalItem(Integer.valueOf(textField_Return.getText())));
+				//calculate any fee on the item, if no fee then just return item
+				//if there is a fee, inform the user, ask what currency they would like to pay in.
+				//if they confirm payment, return item, otherwise do nothing
+				PhysicalItem retItem=(PhysicalItem)system.getPhysicalItem(Integer.valueOf(textField_Return.getText()));
+				retItem.calculateFee();
+				if(retItem.getFee()==0) {
+					loggedIn.returnPhysicalItem(retItem);
+				}
+				else {
+					Object[] options = CurrencyExchange.getCurrencyList().toArray();
+					Object userInfo=JOptionPane.showInputDialog(frame, "This item is overdue\nChoose currency type:", "Overdue Item: Currency Options", JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+					IPayment payment = new CurrencyExchange(new Payment(retItem.getFee()));
+					double finalPrice = payment.getPrice((String)userInfo);
+					int response = JOptionPane.showConfirmDialog(frame, "Your total is: "+ String.format("%.2f",finalPrice)+"\n"
+							+ "Would you like to confirm your payment?", "Confirm payment", JOptionPane.YES_NO_OPTION);
+					if(response == JOptionPane.YES_OPTION) {
+						loggedIn.returnPhysicalItem(retItem);
+					}
+				}
 				updateTable3(inventoryTable, loggedIn, loggedIn.getRented() );
 			}
 		});

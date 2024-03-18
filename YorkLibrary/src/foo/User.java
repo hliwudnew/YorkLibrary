@@ -1,6 +1,7 @@
 package foo;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public abstract class User {
 
@@ -45,12 +46,8 @@ public abstract class User {
 	}
 	
 	//Methods
-	
-	//NOTE: Moved this method to the cart class, since all renting happens through the cart, the user class does not need
-	//this method in its class (user can access it through menu class)
-	//however, i am leaving it here strictly because it is being used by CSVReader to intialize the system (can be changed later)
-	
-	public void rentPhysicalItem(PhysicalItem wantToRent){
+
+	public void rentPhysicalItem(PhysicalItem wantToRent) {
 		//Prevents from going over the limit
 		if(this.rented.size() < 10) {
 			if(wantToRent != null && !this.rented.contains(wantToRent) && !system.getBorrowed().contains(wantToRent)) {
@@ -58,6 +55,13 @@ public abstract class User {
 				wantToRent.setBorrower(email); //The book is now borrowed by them
 				system.removeStock(wantToRent); //Book is now in borrowed
 				system.addBarrowed(wantToRent);
+				Date newDue = new Date(); //makes date object set at current time
+				
+				//add a month (in milliseconds) to the current date item is being rented,
+				//then set it as a due date (setting due date a month ahead because in
+				//req2 it says "users can keep item at most for a month")
+				long timeInMilli=newDue.getTime()+2629800000L; 
+				wantToRent.setDueDate(new Date(timeInMilli));
 			}
 			else {
 				System.out.println("Item entered is null or it has been rented already");
@@ -73,11 +77,14 @@ public abstract class User {
 	}
 	
 	public void returnPhysicalItem(PhysicalItem item) {
+
 		if(item != null && this.rented.contains(item) && !system.getStock().contains(item)) {
 			item.setBorrower("BLANK");
+			item.setDueDate(null);
 			this.rented.remove(item);
 			system.addStock(item);
 			system.removeBarrowed(item);
+			//the due date and fee for the return will be accounted for in MainGUI
 		}
 	}
 	

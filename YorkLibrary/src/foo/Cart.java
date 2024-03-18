@@ -18,6 +18,13 @@ public class Cart {
 	public void add(Item item) {
 		//add item to cart if not already in cart
 		if(!(itemsInCart.contains(item))) {
+			//check if item can actually be added to cart
+			if(item instanceof PhysicalItem) {
+				if(((PhysicalItem)item).getBorrower().equals(this.owner.getEmail())) {
+					System.out.println("Item already being rented!");
+					return;
+				}
+			}
 			itemsInCart.add(item);
 			this.initialPrice+=item.getPrice();
 		}

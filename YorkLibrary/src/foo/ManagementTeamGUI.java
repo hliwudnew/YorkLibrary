@@ -337,7 +337,7 @@ public class ManagementTeamGUI {
 						holder.setPrice(Double.valueOf(textField_Price.getText()));
 						holder.setDisabled(disabled);
 						holder.setBorrower("BLANK");
-						holder.setDueDate("BLANK");
+						holder.setDueDate(null); //no due date cuz new item so set date to null
 						holder.setFee(0);
 						
 						mgr.addPhysicalItem(holder);
