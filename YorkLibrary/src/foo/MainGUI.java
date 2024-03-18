@@ -114,36 +114,42 @@ public class MainGUI{
 	
 	//updates given table for given user with ID, NAME, PRICE
 	public <T extends Item> void updateTable1(JTable table, User user, ArrayList<T> listToParse) {
-		 DefaultTableModel clear = (DefaultTableModel) table.getModel();
-			clear.setRowCount(0);
-			for(Item item : listToParse) {
-				String[] rowdata = {item.getId()+"",item.getName(),item.getPrice()+""};
-				DefaultTableModel tblModel = (DefaultTableModel) table.getModel();
-				tblModel.addRow(rowdata);
-			}
+		//Clears the table of old data  
+		DefaultTableModel clear = (DefaultTableModel) table.getModel();
+		clear.setRowCount(0);
+		//Loops through the CSV data and adds it to the table
+		for(Item item : listToParse) {
+			String[] rowdata = {item.getId()+"",item.getName(),item.getPrice()+""};
+			DefaultTableModel tblModel = (DefaultTableModel) table.getModel();
+			tblModel.addRow(rowdata);
+		}
 	}
 	//updates given table for given user with ID, NAME, PRICE, DISABLED STATUS
 	//might not need this method? can even add more methods for different attribute displays
 	//could get a bit messy but it is a nice quick fix to adding this code to every single button
 	public <T extends Item> void updateTable2(JTable table, User user, ArrayList<T> listToParse) {
-		 DefaultTableModel clear = (DefaultTableModel) table.getModel();
-			clear.setRowCount(0);
-			for(Item item : listToParse) {
-				String[] rowdata = {item.getId()+"",item.getName(),item.getPrice()+"", item.getStatus().getState().getClass().toString().substring(10)};
-				DefaultTableModel tblModel = (DefaultTableModel) table.getModel();
-				tblModel.addRow(rowdata);
-			}
+		//Clears the table of old data
+		DefaultTableModel clear = (DefaultTableModel) table.getModel();
+		clear.setRowCount(0);
+		//Loops through the CSV data and adds it to the table
+		for(Item item : listToParse) {
+			String[] rowdata = {item.getId()+"",item.getName(),item.getPrice()+"", item.getStatus().getState().getClass().toString().substring(10)};
+			DefaultTableModel tblModel = (DefaultTableModel) table.getModel();
+			tblModel.addRow(rowdata);
+		}
 	}
 	
-	//Updates a table with physicalItem's has an extra column for the due date of the item
+	//updates a table with physicalItem's has an extra column for the due date of the item
 	public <T extends Item> void updateTable3(JTable table, User user, ArrayList<PhysicalItem> listToParse) {
-		 DefaultTableModel clear = (DefaultTableModel) table.getModel();
-			clear.setRowCount(0);
-			for(PhysicalItem item : listToParse) {
-				String[] rowdata = {item.getId()+"",item.getName(),item.getPrice()+"", item.getStatus().getState().getClass().toString().substring(10)+"", item.getDueDate().toString()};
-				DefaultTableModel tblModel = (DefaultTableModel) table.getModel();
-				tblModel.addRow(rowdata);
-			}
+		//Clears the table of old data 
+		DefaultTableModel clear = (DefaultTableModel) table.getModel();
+		clear.setRowCount(0);
+		//Loops through the CSV data and adds it to the table
+		for(PhysicalItem item : listToParse) {
+			String[] rowdata = {item.getId()+"",item.getName(),item.getPrice()+"", item.getStatus().getState().getClass().toString().substring(10)+"", item.getDueDate().toString()};
+			DefaultTableModel tblModel = (DefaultTableModel) table.getModel();
+			tblModel.addRow(rowdata);
+		}
 	}
 	/**
 	 * @wbp.parser.entryPoint
@@ -190,16 +196,6 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "homePage_");
 				frame.repaint();
 				frame.revalidate();
-//				//Clears the table of old data
-//				DefaultTableModel clear = (DefaultTableModel) displayTable.getModel();
-//				clear.setRowCount(0);
-//				//Loops through the CSV data and adds it to the table
-//				for(Item item : system.getStock()) {
-//					String[] rowdata = {item.getId()+"",item.getName(),item.getPrice() +"",item.getStatus().getState().getClass().toString().substring(10)+""};
-//					DefaultTableModel tblModel = (DefaultTableModel) displayTable.getModel();
-//					tblModel.addRow(rowdata);
-//					//System.out.println(e.toString());
-//				}
 				updateTable3(displayTable, loggedIn, loggedIn.getRented());
 			}
 		});
