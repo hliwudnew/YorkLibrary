@@ -134,6 +134,17 @@ public class MainGUI{
 				tblModel.addRow(rowdata);
 			}
 	}
+	
+	//Updates a table with physicalItem's has an extra column for the due date of the item
+	public <T extends Item> void updateTable3(JTable table, User user, ArrayList<PhysicalItem> listToParse) {
+		 DefaultTableModel clear = (DefaultTableModel) table.getModel();
+			clear.setRowCount(0);
+			for(PhysicalItem item : listToParse) {
+				String[] rowdata = {item.getId()+"",item.getName(),item.getPrice()+"", item.getDisabled().getState().getClass().toString().substring(10)+"", item.getDueDate()};
+				DefaultTableModel tblModel = (DefaultTableModel) table.getModel();
+				tblModel.addRow(rowdata);
+			}
+	}
 	/**
 	 * @wbp.parser.entryPoint
 	 */
@@ -167,7 +178,7 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "inventoryPage_");
 				frame.repaint();
 				frame.revalidate();
-				updateTable2(inventoryTable, loggedIn, loggedIn.getRented());
+				updateTable3(inventoryTable, loggedIn, loggedIn.getRented());
 				updateTable2(onlineTable, loggedIn, loggedIn.getSubscriptions());
 				updateTable2(tableRead, loggedIn, loggedIn.getSubscriptions());
 			}
@@ -398,7 +409,7 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "inventoryPage_");
 				frame.repaint();
 				frame.revalidate();
-				updateTable2(inventoryTable, loggedIn, loggedIn.getRented());
+				updateTable3(inventoryTable, loggedIn, loggedIn.getRented());
 				updateTable2(onlineTable, loggedIn, loggedIn.getSubscriptions());
 				updateTable2(tableRead, loggedIn, loggedIn.getSubscriptions());
 			}
@@ -410,7 +421,7 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "rentPage_");
 				frame.repaint();
 				frame.revalidate();
-				updateTable2(inventoryTable, loggedIn, loggedIn.getRented());
+				updateTable3(inventoryTable, loggedIn, loggedIn.getRented());
 			}
 		});
 		
@@ -740,7 +751,7 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "inventoryPage_");
 				frame.repaint();
 				frame.revalidate();
-				updateTable2(inventoryTable, loggedIn, loggedIn.getRented());
+				updateTable3(inventoryTable, loggedIn, loggedIn.getRented());
 			}
 		});
 		
@@ -847,11 +858,11 @@ public class MainGUI{
 			new Object[][] {
 			},
 			new String[] {
-				"Id", "Name", "Price", "Status"
+				"Id", "Name", "Price", "Status", "Due Date"
 			}
 		) {
 			boolean[] columnEditables = new boolean[] {
-				false, false, false, false
+				false, false, false, false, false
 			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
@@ -876,7 +887,7 @@ public class MainGUI{
 		btnReturn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				loggedIn.returnPhysicalItem((PhysicalItem)system.getPhysicalItem(Integer.valueOf(textField_Return.getText())));
-				updateTable2(inventoryTable, loggedIn, loggedIn.getRented() );
+				updateTable3(inventoryTable, loggedIn, loggedIn.getRented() );
 			}
 		});
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
@@ -945,7 +956,7 @@ public class MainGUI{
 		btnRefreshInventory.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				//Refreshes loggedin inventory
-				updateTable2(inventoryTable, loggedIn,loggedIn.getRented());
+				updateTable3(inventoryTable, loggedIn,loggedIn.getRented());
 			}
 		});
 		
@@ -1220,7 +1231,7 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "inventoryPage_");
 				frame.repaint();
 				frame.revalidate();
-				updateTable2(inventoryTable, loggedIn, loggedIn.getRented());
+				updateTable3(inventoryTable, loggedIn, loggedIn.getRented());
 				updateTable2(onlineTable, loggedIn, loggedIn.getSubscriptions());
 				updateTable2(tableRead, loggedIn, loggedIn.getSubscriptions());
 			}
@@ -1518,7 +1529,7 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "inventoryPage_");
 				frame.repaint();
 				frame.revalidate();
-				updateTable2(inventoryTable, loggedIn, loggedIn.getRented());
+				updateTable3(inventoryTable, loggedIn, loggedIn.getRented());
 				updateTable2(onlineTable, loggedIn, loggedIn.getSubscriptions());
 				updateTable2(tableRead, loggedIn, loggedIn.getSubscriptions());
 			}
