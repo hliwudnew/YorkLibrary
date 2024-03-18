@@ -64,7 +64,7 @@ public class ManagementTeamGUI {
 		holder.addAll(system.getSubs()); // Subscription options
 		
 		for(Item e : holder) {
-			String[] rowdata = {e.getClass().toString().substring(10),e.getId()+"",e.getName(),e.getPrice() +"",e.getDisabled().getState().getClass().toString().substring(10)+""};
+			String[] rowdata = {e.getClass().toString().substring(10),e.getId()+"",e.getName(),e.getPrice() +"",e.getStatus().getState().getClass().toString().substring(10)+""};
 			DefaultTableModel tblModel = (DefaultTableModel) table.getModel();
 			tblModel.addRow(rowdata);
 		}
@@ -335,7 +335,7 @@ public class ManagementTeamGUI {
 						holder.setId(Integer.valueOf(textField_id.getText()));
 						holder.setName(textField_Name.getText());
 						holder.setPrice(Double.valueOf(textField_Price.getText()));
-						holder.setDisabled(disabled);
+						holder.setStatus(disabled);
 						holder.setBorrower("BLANK");
 						holder.setDueDate(null); //no due date cuz new item so set date to null
 						holder.setFee(0);
@@ -348,7 +348,7 @@ public class ManagementTeamGUI {
 						holder.setId(Integer.valueOf(textField_id.getText()));
 						holder.setName(textField_Name.getText());
 						holder.setPrice(Double.valueOf(textField_Price.getText()));
-						holder.setDisabled(disabled);
+						holder.setStatus(disabled);
 //						holder.setSubscriber("BLANK");
 						holder.setLink(textField_Link.getText());
 						

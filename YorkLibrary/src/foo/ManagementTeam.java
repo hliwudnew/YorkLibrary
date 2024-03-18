@@ -67,32 +67,32 @@ public class ManagementTeam {
 			}
 			else {
 				ItemStateContext status = new ItemStateContext(new Disabled());
-				item.setDisabled(status);
+				item.setStatus(status);
 			}
 		}
 		//Can disabled all online items easily
 		else {
 			ItemStateContext status = new ItemStateContext(new Disabled());
-			item.setDisabled(status);
+			item.setStatus(status);
 		}
 	}
 	
 	public void disableItem(ArrayList<Item> items) {
 		for(Item I: items) {
 			ItemStateContext status = new ItemStateContext(new Disabled());
-			I.setDisabled(status);
+			I.setStatus(status);
 		}
 	}
 	
 	public void enableItem(Item item) {
 		ItemStateContext status = new ItemStateContext(new Enabled());
-		item.setDisabled(status);
+		item.setStatus(status);
 	}
 	
 	public void enableItem(ArrayList<Item> items) {
 		for(Item I: items) {
 			ItemStateContext status = new ItemStateContext(new Enabled());
-			I.setDisabled(status);
+			I.setStatus(status);
 		}
 	}
 	
@@ -175,7 +175,7 @@ public class ManagementTeam {
 							textBookCopy.setId(I.getId()*-1);
 							textBookCopy.setName(I.getName());
 							textBookCopy.setPrice(I.getPrice());
-							textBookCopy.setDisabled(I.getDisabled());
+							textBookCopy.setStatus(I.getStatus());
 							textBookCopy.setLink("https://www.amazon.ca/New-Used-Textbooks-Books/b?ie=UTF8&node=15115321");
 							
 							student.subscribe(textBookCopy);
@@ -275,7 +275,7 @@ public class ManagementTeam {
 					textBookCopy.setId(textbook.getId()*-1);//Negative Ids are used for textbook online copies
 					textBookCopy.setName(textbook.getName());
 					textBookCopy.setPrice(textbook.getPrice());
-					textBookCopy.setDisabled(textbook.getDisabled());
+					textBookCopy.setStatus(textbook.getStatus());
 					textBookCopy.setLink("https://www.amazon.ca/New-Used-Textbooks-Books/b?ie=UTF8&node=15115321");
 					system.addSub(textBookCopy);
 					

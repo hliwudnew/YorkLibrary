@@ -5,17 +5,17 @@ public abstract class Item {
 	private int id;
 	private String name;
 	private double price;
-	private ItemStateContext disabled;
+	private ItemStateContext status;
 	
 	public Item() {
-		disabled = new ItemStateContext();
+		status = new ItemStateContext();
 	}
 	
 	public Item(int inputId,String inputName, double inputPrice, ItemStateContext disabled) {
 		this.id = inputId;
 		this.name= inputName;
 		this.price = inputPrice;
-		this.disabled = disabled;
+		this.status = disabled;
 	}
 	
 	//Setters
@@ -31,8 +31,8 @@ public abstract class Item {
 		this.id = id;
 	}
 	
-	public void setDisabled(ItemStateContext status) {
-		this.disabled.setState(status.getState());
+	public void setStatus(ItemStateContext status) {
+		this.status.setState(status.getState());
 	}
 	
 	//Getters
@@ -48,7 +48,7 @@ public abstract class Item {
 		return this.id;
 	}
 	
-	public ItemStateContext getDisabled() {
-		return this.disabled;
+	public ItemStateContext getStatus() {
+		return this.status;
 	}
 }

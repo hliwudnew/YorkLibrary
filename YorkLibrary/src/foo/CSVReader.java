@@ -246,7 +246,7 @@ public class CSVReader {
 			 * Saves item data
 			 */
 			for(Item I: items) {
-				buffWrite.write(I.getId()+","+I.getName()+","+I.getPrice()+","+I.getDisabled().getState().getClass().toString().substring(10)+","+ ((PhysicalItem) I).getDueDate() +","+ ((PhysicalItem) I).getBorrower()+","+ ((PhysicalItem) I).getFee()+"\n");//Rewrites CSV file
+				buffWrite.write(I.getId()+","+I.getName()+","+I.getPrice()+","+I.getStatus().getState().getClass().toString().substring(10)+","+ ((PhysicalItem) I).getDueDate() +","+ ((PhysicalItem) I).getBorrower()+","+ ((PhysicalItem) I).getFee()+"\n");//Rewrites CSV file
 			}
 			buffWrite.close();// Closes the writer so the data saves
 			
@@ -281,7 +281,7 @@ public class CSVReader {
 			buffWrite3.write(subscriptionsHeader);// Rewrites the headers
 			//Saves the subscriptions
 			for(OnlineItem I: subs) {
-				buffWrite3.write(I.getId()+","+I.getName()+","+I.getPrice()+","+I.getDisabled().getState().getClass().toString().substring(10)+","+I.getLink()+"\n");//Rewrites CSV file	
+				buffWrite3.write(I.getId()+","+I.getName()+","+I.getPrice()+","+I.getStatus().getState().getClass().toString().substring(10)+","+I.getLink()+"\n");//Rewrites CSV file	
 			}
 			buffWrite3.close();
 			
@@ -427,7 +427,7 @@ public class CSVReader {
 					temp.setId(Integer.valueOf(values[0]));
 					temp.setName(values[1]);
 					temp.setPrice(Double.valueOf(values[2]));
-					temp.setDisabled(status);
+					temp.setStatus(status);
 					//convert csv date to Date object and set it to the item
 
 					if(values[4].equals("null")) {
@@ -488,7 +488,7 @@ public class CSVReader {
 					temp.setId(Integer.valueOf(values[0]));
 					temp.setName(values[1]);
 					temp.setPrice(Double.valueOf(values[2]));
-					temp.setDisabled(status);
+					temp.setStatus(status);
 					temp.setLink(values[4]);
 					
 					subscriptions.add(temp);
