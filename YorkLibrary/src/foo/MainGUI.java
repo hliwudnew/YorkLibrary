@@ -227,6 +227,7 @@ public class MainGUI{
 		
 		displayScrollPane = new JScrollPane();
 		
+		
 		JButton btnNotifications = new JButton("Notifications");
 		btnNotifications.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {				
@@ -239,31 +240,33 @@ public class MainGUI{
 		
 		GroupLayout gl_centerContent = new GroupLayout(centerContent);
 		gl_centerContent.setHorizontalGroup(
-			gl_centerContent.createParallelGroup(Alignment.LEADING)
-				.addComponent(topBar, GroupLayout.DEFAULT_SIZE, 846, Short.MAX_VALUE)
-				.addGroup(gl_centerContent.createSequentialGroup()
-					.addGap(108)
-					.addGroup(gl_centerContent.createParallelGroup(Alignment.TRAILING)
-						.addComponent(displayScrollPane, GroupLayout.DEFAULT_SIZE, 541, Short.MAX_VALUE)
-						.addComponent(btnRefreshInventory_1, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE))
-					.addGap(197))
-				.addGroup(Alignment.TRAILING, gl_centerContent.createSequentialGroup()
-					.addContainerGap(747, Short.MAX_VALUE)
-					.addComponent(btnNotifications)
-					.addContainerGap())
+		    gl_centerContent.createParallelGroup(Alignment.LEADING)
+		        .addComponent(topBar, GroupLayout.DEFAULT_SIZE, 846, Short.MAX_VALUE)
+		        .addGroup(gl_centerContent.createSequentialGroup()
+		            .addGap(108)
+		            .addGroup(gl_centerContent.createParallelGroup(Alignment.TRAILING)
+		                .addComponent(displayScrollPane, GroupLayout.DEFAULT_SIZE, 541, Short.MAX_VALUE)
+		                .addComponent(btnRefreshInventory_1, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE))
+		            .addGap(197))
+		        .addGroup(Alignment.TRAILING, gl_centerContent.createSequentialGroup()
+		            .addContainerGap(747, Short.MAX_VALUE)
+		            .addComponent(btnNotifications)
+		            .addContainerGap())
 		);
 		gl_centerContent.setVerticalGroup(
-			gl_centerContent.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_centerContent.createSequentialGroup()
-					.addComponent(topBar, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(btnNotifications)
-					.addGap(72)
-					.addComponent(btnRefreshInventory_1)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(displayScrollPane, GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
-					.addGap(119))
+		    gl_centerContent.createParallelGroup(Alignment.LEADING)
+		        .addGroup(gl_centerContent.createSequentialGroup()
+		            .addComponent(topBar, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+		            .addPreferredGap(ComponentPlacement.UNRELATED)
+		            .addGroup(gl_centerContent.createParallelGroup(Alignment.BASELINE)
+		                .addComponent(btnNotifications))
+		            .addGap(72)
+		            .addComponent(btnRefreshInventory_1)
+		            .addPreferredGap(ComponentPlacement.RELATED)
+		            .addComponent(displayScrollPane, GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
+		            .addGap(119))
 		);
+
 		
 		displayTable = new JTable();
 		displayTable.setModel(new DefaultTableModel(
@@ -545,12 +548,6 @@ public class MainGUI{
 				return similarBooks;
 			}
 		});
-
-		
-		rentScroll = new JScrollPane();
-		
-		JPanel panel = new JPanel();
-		panel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		
 		btnSeeAll = new JButton("See All");
 		btnSeeAll.addActionListener(new ActionListener() {
@@ -558,6 +555,16 @@ public class MainGUI{
 				updateTable2(searchTable, loggedIn, system.getStock());
 			}
 		});
+
+		
+		rentScroll = new JScrollPane();
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		
+		JPanel panelRequest = new JPanel();
+		panelRequest.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		
 		GroupLayout gl_centerContent_Rent = new GroupLayout(centerContent_Rent);
 		gl_centerContent_Rent.setHorizontalGroup(
 			gl_centerContent_Rent.createParallelGroup(Alignment.LEADING)
@@ -586,6 +593,7 @@ public class MainGUI{
 							.addGap(6)))
 					.addGap(18)
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 173, Short.MAX_VALUE)
+					.addComponent(panelRequest, GroupLayout.PREFERRED_SIZE, 173, Short.MAX_VALUE)
 					.addGap(55))
 				.addGroup(gl_centerContent_Rent.createSequentialGroup()
 					.addComponent(topBar_Rent, GroupLayout.DEFAULT_SIZE, 891, Short.MAX_VALUE)
@@ -616,7 +624,7 @@ public class MainGUI{
 							.addGap(18)
 							.addGroup(gl_centerContent_Rent.createParallelGroup(Alignment.LEADING)
 								.addComponent(panel, GroupLayout.PREFERRED_SIZE, 330, GroupLayout.PREFERRED_SIZE)
-								//.addComponent(pReccomendation, GroupLayout.PREFERRED_SIZE, 339, GroupLayout.PREFERRED_SIZE)
+								.addComponent(panelRequest, GroupLayout.PREFERRED_SIZE, 330, GroupLayout.PREFERRED_SIZE)
 								)))
 					.addContainerGap())
 		);
@@ -674,6 +682,28 @@ public class MainGUI{
 					.addContainerGap(174, Short.MAX_VALUE))
 		);
 		panel.setLayout(gl_panel);
+		
+		
+	
+
+		JLabel lblRequest = new JLabel("Request a New Book");
+		lblRequest.setFont(new Font("Book Antiqua", Font.BOLD, 16));
+
+		JLabel lblNewLabelRequest = new JLabel("Add by name");
+
+		JButton btnRequest = new JButton("Request");
+		btnRequest.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        if (!textField_Rent.getText().isEmpty()) {
+		            loggedIn.getMenu().clickAdd(((PhysicalItem) system.getPhysicalItem(Integer.valueOf(textField_Rent.getText()))));
+		        }
+		    }
+		});
+		
+		
+		
+
+		
 		
 		searchTable = new JTable();
 		searchTable.setModel(new DefaultTableModel(
