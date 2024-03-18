@@ -190,17 +190,17 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "homePage_");
 				frame.repaint();
 				frame.revalidate();
-				//Clears the table of old data
-				DefaultTableModel clear = (DefaultTableModel) displayTable.getModel();
-				clear.setRowCount(0);
-				//Loops through the CSV data and adds it to the table
-				for(Item item : system.getStock()) {
-					String[] rowdata = {item.getId()+"",item.getName(),item.getPrice() +"",item.getStatus().getState().getClass().toString().substring(10)+""};
-					DefaultTableModel tblModel = (DefaultTableModel) displayTable.getModel();
-					tblModel.addRow(rowdata);
-					//System.out.println(e.toString());
-				}
-				updateTable2(displayTable, loggedIn, system.getStock());
+//				//Clears the table of old data
+//				DefaultTableModel clear = (DefaultTableModel) displayTable.getModel();
+//				clear.setRowCount(0);
+//				//Loops through the CSV data and adds it to the table
+//				for(Item item : system.getStock()) {
+//					String[] rowdata = {item.getId()+"",item.getName(),item.getPrice() +"",item.getStatus().getState().getClass().toString().substring(10)+""};
+//					DefaultTableModel tblModel = (DefaultTableModel) displayTable.getModel();
+//					tblModel.addRow(rowdata);
+//					//System.out.println(e.toString());
+//				}
+				updateTable3(displayTable, loggedIn, loggedIn.getRented());
 			}
 		});
 		
@@ -221,7 +221,7 @@ public class MainGUI{
 		btnRefreshInventory_1 = new JButton("Refresh");
 		btnRefreshInventory_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				updateTable2(displayTable, loggedIn, system.getStock());
+				updateTable3(displayTable, loggedIn, loggedIn.getRented());
 			}
 		});
 		
@@ -273,11 +273,11 @@ public class MainGUI{
 			new Object[][] {
 			},
 			new String[] {
-				"Id", "Name", "Price", "Status"
+				"Id", "Name", "Price", "Status", "Due Date"
 			}
 		) {
 			boolean[] columnEditables = new boolean[] {
-				false, false, false, false
+				false, false, false, false, false
 			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
@@ -287,7 +287,7 @@ public class MainGUI{
 		
 		//after table on home page is initialized, populate the table (same functionality as refresh, but it does it on startup now)
 		//Clears the table of old data
-		updateTable2(displayTable, loggedIn, system.getStock());
+		updateTable3(displayTable, loggedIn, loggedIn.getRented());
 		
 		rent = new JButton("Rent");
 		rent.addActionListener(new ActionListener() {
@@ -400,7 +400,7 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "homePage_");
 				frame.repaint();
 				frame.revalidate();
-				updateTable2(displayTable, loggedIn, system.getStock());
+				updateTable3(displayTable, loggedIn, loggedIn.getRented());
 				
 				
 			}
@@ -771,7 +771,7 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "homePage_");
 				frame.repaint();
 				frame.revalidate();
-				updateTable2(displayTable, loggedIn, system.getStock());
+				updateTable3(displayTable, loggedIn, loggedIn.getRented());
 			}
 		});
 		
@@ -1269,7 +1269,7 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "homePage_");
 				frame.repaint();
 				frame.revalidate();
-				updateTable2(displayTable, loggedIn, system.getStock());
+				updateTable3(displayTable, loggedIn, loggedIn.getRented());
 			}
 		});
 		
@@ -1568,7 +1568,7 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "homePage_");
 				frame.repaint();
 				frame.revalidate();
-				updateTable2(displayTable, loggedIn, system.getStock());
+				updateTable3(displayTable, loggedIn, loggedIn.getRented());
 			}
 		});
 		JButton inventory_1_1 = new JButton("My Inventory");
