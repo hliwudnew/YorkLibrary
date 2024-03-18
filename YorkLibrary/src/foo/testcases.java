@@ -96,8 +96,27 @@ class testcases {
 		assertTrue(visitor.getClass().toString().equals(new Visitor().getClass().toString()));
 		assertTrue(broke == null);
 		assertTrue(broke2 == null);
+	}
+	
+	@Test
+	void strategy() {
+		PaymentContext payment = new PaymentContext(new GiftCardStrategy("2342345422"));
+		assertTrue(payment.pay(10));
 
+		payment = new PaymentContext(new CreditCardStrategy("First Last","1240 1400 1300 1100","2/24","111"));
+		assertTrue(payment.pay(100));
 		
+		payment = new PaymentContext(new DebitCardStrategy("First Last","1290 1400 1300 1100","2/24","111"));
+		assertTrue(payment.pay(50));
 		
+		payment = new PaymentContext(new PayPalStrategy("cool@gmail.com"));
+		assertTrue(payment.pay(25));
+		
+		payment = new PaymentContext(new CreditCardStrategy("First Last","100","2/24","111"));
+		assertFalse(payment.pay(100));
+		
+		payment = new PaymentContext(new PayPalStrategy("coolmail.com"));
+		assertFalse(payment.pay(25));
+
 	}
 }

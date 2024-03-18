@@ -265,7 +265,7 @@ public class ManagementTeam {
 							((OnlineItem) system.getOnlineItem(textbook.getId()*-1)).addSubscriber(u);
 							u.subscribe(((OnlineItem) system.getOnlineItem(textbook.getId()*-1)));
 						}
-					
+				
 					}
 				}
 				//Online copy doesnt exist
