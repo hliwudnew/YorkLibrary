@@ -11,14 +11,14 @@ public class PayPalStrategy implements PaymentStrategy{
 	}
 	
 	@Override
-	public boolean pay(int amount) {
+	public boolean pay(double amount) {
 		//Checks if @ is in the right place, Email Checker
 		String emailRegex = "^(.+)@(.+)$";
 		Pattern pattern = Pattern.compile(emailRegex);
 		Matcher matcher = pattern.matcher(buyerEmail);
 		
 		if(matcher.matches() && buyerEmail.contains(".com")) {
-			System.out.println(amount +" paid with PayPal from "+ buyerEmail+"'s account");
+			System.out.println(String.format("%.2f",amount) +" paid with PayPal from "+ buyerEmail+"'s account");
 			return true;
 		}
 		else {

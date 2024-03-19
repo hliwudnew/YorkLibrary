@@ -26,7 +26,7 @@ public class Cart {
 				}
 			}
 			itemsInCart.add(item);
-			this.initialPrice+=item.getPrice();
+			this.initialPrice+=item.getPrice()-(item.getPrice()*item.getDiscount());
 		}
 		//purely for testing purposes, can remove print statement
 		else {
@@ -36,22 +36,28 @@ public class Cart {
 	public void remove(Item item) {
 		if(itemsInCart.contains(item)) {
 			itemsInCart.remove(item);
-			this.initialPrice-=item.getPrice();
+			this.initialPrice-=item.getPrice()-(item.getPrice()*item.getDiscount());
 		}
 		//purely for testing purposes, can remove print statement
 		else {
 			System.out.println("Item not in cart!");
 		}
 	}
-	public double clear() {
-		itemsInCart.clear();
-		return 0.0; //returns new price of 0
+	public boolean clear() {
+		ArrayList<Item> copyList = new ArrayList<Item>();
+		for(Item item: this.itemsInCart) {
+			copyList.add(item);
+		}
+		for(Item item : copyList) {
+			this.remove(item);
+		}
+		return true; //returns new price of 0
 	}
 	
 	//checkout method will check if user can checkout item and then return a message:
 	//positive double value if the checkout is possible, showing the price
 
-	public double checkout() {
+	public boolean checkout() {
 		double finalPrice=getConvertedPrice();
 		//check if checking out all items in cart would cause user to exceed physical item limit
 		//only count physical items as online items have no limit
@@ -69,8 +75,11 @@ public class Cart {
 				}
 			}
 		}
+		else {
+			return false;
+		}
 			//this.clear();
-		return finalPrice; //returns price of checked out cart to be displayed
+		return true; //returns price of checked out cart to be displayed
 	}
 	public void setCurrency(String currency) {
 		this.currency=currency;
@@ -78,10 +87,14 @@ public class Cart {
 	//method to check if user is allowed to checkout currently
 	//-1 if user is trying to rent too many physical items
 	//-2 if cart is empty
+	// -3 if user has 4 or more things overdue
 	//1 if allowed
 	public int canCheckout() {
 		if(itemsInCart.size()<1) {
 			return -2;
+		}
+		if(this.owner.numberOverdue()>3) {
+			return -3;
 		}
 		int count1=0;
 		int count2=0;

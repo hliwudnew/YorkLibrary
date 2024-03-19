@@ -7,8 +7,12 @@ public class PhysicalItem extends Item{
 	private Date dueDate;
 	private String borrower;
 	private double fee;
+	private boolean lost;
+
+
+
 	
-	
+
 	public PhysicalItem() {
 		
 	}
@@ -17,8 +21,20 @@ public class PhysicalItem extends Item{
 		this.dueDate = dueDate;
 		this.borrower = borrower;
 		this.fee = fee;
+		this.lost=false;
 	}
-	
+	public int daysOverdue() {
+		int count=0; //keeps track of how many days the current time is past due date 
+		long dueDate=this.getDueDate().getTime();
+		long thisDate=new Date().getTime();
+		//while the difference between current time of return and due date is greater than 
+		//a day, keep adding 1 to count to count number of days past due date
+		while((thisDate-dueDate)>=86400000L) {
+			count++;
+			thisDate-=86400000; //keep subtracting a day off curent date until we are at dueDate
+		}
+		return count;
+	}
 	public double calculateFee() {
 		double amountOwed=0;
 		int count=0; //keeps track of how many days the current time is past due date 
@@ -44,7 +60,12 @@ public class PhysicalItem extends Item{
 	public void setFee(double fee) {
 		this.fee = fee;
 	}
-	
+
+	public void setLost(boolean lost) {
+		this.lost = lost;
+	}
+
+
 	
 	//Getters
 	public Date getDueDate() {
@@ -74,5 +95,9 @@ public class PhysicalItem extends Item{
 		return this.fee;
 	}
 	
-	
+	public boolean isLost() {
+		return lost;
+	}
+
+
 }

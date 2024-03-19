@@ -163,6 +163,67 @@ public class MainGUI{
 				tblModel.addRow(rowdata);
 			}
 		}
+	public PaymentContext debitPopup() {
+		JTextField name = new JTextField();
+		JTextField card = new JTextField();
+		JTextField expire = new JTextField();
+		JTextField cvv = new JTextField();
+		Object[] message= {
+				"Enter name:", name,
+				"Enter card number:", card,
+				"Enter expire date:", expire,
+				"Enter cvv:", cvv
+		};
+		int option = JOptionPane.showConfirmDialog(frame, message, "Enter Debit Card Information", JOptionPane.OK_CANCEL_OPTION);
+		if (option==JOptionPane.CANCEL_OPTION) {
+			return null;
+		}
+		PaymentContext payment = new PaymentContext(new DebitCardStrategy(name.getText(),card.getText(),expire.getText(),cvv.getText()));
+		return payment;
+		
+	}
+	public PaymentContext creditPopup() {
+		JTextField name = new JTextField();
+		JTextField card = new JTextField();
+		JTextField expire = new JTextField();
+		JTextField cvv = new JTextField();
+		Object[] message= {
+				"Enter name:", name,
+				"Enter card number:", card,
+				"Enter expire date:", expire,
+				"Enter cvv:", cvv
+		};
+		int option = JOptionPane.showConfirmDialog(frame, message, "Enter Credit Card Information", JOptionPane.OK_CANCEL_OPTION);
+		if (option==JOptionPane.CANCEL_OPTION) {
+			return null;
+		}
+		PaymentContext payment = new PaymentContext(new CreditCardStrategy(name.getText(),card.getText(),expire.getText(),cvv.getText()));
+		return payment;
+	}
+	public PaymentContext paypalPopup() {
+		JTextField email = new JTextField();
+		Object[] message= {
+				"Enter email:", email,
+		};
+		int option = JOptionPane.showConfirmDialog(frame, message, "Enter Paypal Information", JOptionPane.OK_CANCEL_OPTION);
+		if (option==JOptionPane.CANCEL_OPTION) {
+			return null;
+		}
+		PaymentContext payment = new PaymentContext(new PayPalStrategy(email.getText()));
+		return payment;
+	}
+	public PaymentContext giftPopup() {
+		JTextField card = new JTextField();
+		Object[] message= {
+				"Enter card number:", card,
+		};
+		int option = JOptionPane.showConfirmDialog(frame, message, "Enter Gift Card Information", JOptionPane.OK_CANCEL_OPTION);
+		if (option==JOptionPane.CANCEL_OPTION) {
+			return null;
+		}
+		PaymentContext payment = new PaymentContext(new GiftCardStrategy(card.getText()));
+		return payment; 
+	}
 	/**
 	 * @wbp.parser.entryPoint
 	 */
@@ -1664,27 +1725,69 @@ public class MainGUI{
 		btnNewButton_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-
+				int checkoutStatus = loggedIn.getCart().canCheckout();
 				//check if user is eligible to checkout, if not then display error popups
-				if(loggedIn.getCart().canCheckout()==-1) {
+				if(checkoutStatus==-3) {
+					JOptionPane.showMessageDialog(frame, "You have 4 or more items overdue, \nplease return items before checking out more items", "Unable to Checkout", JOptionPane.INFORMATION_MESSAGE);
+				}
+				else if(checkoutStatus==-1) {
 					JOptionPane.showMessageDialog(frame, "Too many items being checked out, only 10 physical items can be rented at once", "Unable to Checkout", JOptionPane.INFORMATION_MESSAGE);
 				}
-				else if(loggedIn.getCart().canCheckout()==-2) {
+				else if(checkoutStatus==-2) {
 					JOptionPane.showMessageDialog(frame, "Cannot checkout, cart is empty", "Unable to Checkout", JOptionPane.INFORMATION_MESSAGE);
+				}
+				//if user is eligible and the price of their cart is zero, just checkout, no payment needed
+				else if(loggedIn.getCart().getInitialPrice()<=0) {
+					loggedIn.getMenu().clickCheckout();
+					loggedIn.getMenu().clickClear();
 				}
 				//if user is eligible, then ask them which currency they would like to use,  convert the cart price
 				//using that and then ask if they would like to confirm (popup window)
 				else {
 					Object[] options = CurrencyExchange.getCurrencyList().toArray();
 					Object userInfo=JOptionPane.showInputDialog(frame, "Choose currency type", "Currency Options", JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
-					loggedIn.getCart().setCurrency((String)userInfo);
-					double displayPrice = loggedIn.getCart().getConvertedPrice();
-					int response = JOptionPane.showConfirmDialog(frame, "Your total is: "+ String.format("%.2f",displayPrice)+"\n"
-							+ "Would you like to confirm your purchase?", "Confirm your purchase", JOptionPane.YES_NO_OPTION);
-					if(response == JOptionPane.YES_OPTION) {
-						loggedIn.getMenu().clickCheckout();
-						loggedIn.getMenu().clickClear();
+					if(userInfo!=null) {
+						loggedIn.getCart().setCurrency((String)userInfo);
+						double displayPrice = loggedIn.getCart().getConvertedPrice();
+						int response = JOptionPane.showConfirmDialog(frame, "Your total is: "+ String.format("%.2f",displayPrice)+" "+(String)userInfo+"\n"
+								+ "Would you like to confirm your purchase?", "Confirm your purchase", JOptionPane.YES_NO_OPTION);
+						if(response == JOptionPane.YES_OPTION) {
+							Object[] options2 = PaymentContext.getPaymentMethods();
+							Object userInfo2=JOptionPane.showInputDialog(frame, "Choose payment method", "Payment Options", JOptionPane.PLAIN_MESSAGE, null, options2, options2[0]);
+							PaymentContext payment=null;
+							if(userInfo2!=null && userInfo2.equals("Debit")) {
+								payment=debitPopup();
+							}
+							else if(userInfo2!=null && userInfo2.equals("Paypal")) {
+								payment=paypalPopup();
+							}
+							else if(userInfo2!=null && userInfo2.equals("Gift")) {
+								payment=giftPopup();
+							}
+							else if(userInfo2!=null && userInfo2.equals("Credit")) {
+								payment=creditPopup();
+							}
+							//payment will only be null if user hits cancel on the popups to enter info, if it is null
+							//then cancel payment otherwise proceed to payment confirmation
+							if(payment!=null) {
+								int response2 = JOptionPane.showConfirmDialog(frame, "Would you like to confirm your payment?", "Confirm Payment", JOptionPane.YES_NO_OPTION);
+								if(response2==JOptionPane.YES_OPTION) {
+									//if the user entered valid info then checkout, if not then cancel payment
+									if(payment.pay(displayPrice)) {
+										//if the user is able to checkout without issues
+										if(loggedIn.getMenu().clickCheckout()) {
+											loggedIn.getMenu().clickClear();
+										}
+
+									}
+
+								}
+							}
+
+
+						}
 					}
+
 
 				}
 
