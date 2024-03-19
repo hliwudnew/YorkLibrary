@@ -252,7 +252,7 @@ public class MainGUI{
 		JPanel topBar = new JPanel();
 		topBar.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		topBar.setBackground(new Color(227, 24, 55));
-		
+				
 		inventory = new JButton("My Inventory");
 		inventory.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -771,6 +771,7 @@ public class MainGUI{
 		
 		JLabel lblNewLabelRequest = new JLabel("Add by name");
 		
+	    notificationsGUI = new NotificationsGUI(notifyFrame, loggedIn, system);
 
 		JButton btnRequest = new JButton("Request");
 		btnRequest.addActionListener(new ActionListener() {
@@ -778,15 +779,21 @@ public class MainGUI{
 				if (!textField_Request.getText().isEmpty()) {
 	                boolean existsInCSV = system.existsInCSV("src/data/CourseTextBooks.csv", textField_Request.getText().toLowerCase(), 0);
 	                if (existsInCSV) {
-	                	System.out.println("working");
-	                    String notification = "The requested text '" + textField_Request.getText() + "' exists in the CSV file.";
+	                	System.out.println("high priority");
+	                    String notification = "The requested textbook '" + textField_Request.getText() + "' is a course teaching and will the request will be handled promptly.";
 	                    notificationsGUI.sendNotification(notification, 1);
+		                JOptionPane.showMessageDialog(frame, "Request received and set to high priority! Check your notification tab on the main page for more info!");
+
 	                } 
 	                else {
-	                	System.out.println("still working");
-	                    String notification = "The requested text '" + textField_Request.getText() + "' does not exist in the CSV file.";
+	                	System.out.println("low priority");
+	                    String notification = "The requested textbook '" + textField_Request.getText() + "' is not a course teaching textbook and has been given lower priority, but will still be handled shortly.";
 	                    notificationsGUI.sendNotification(notification, 2);
+		                JOptionPane.showMessageDialog(frame, "Request received and set to low priority! Check your notification tab on the main page for more info!");
+
 	                }
+	                
+
 	            }
 			}
 		});	
