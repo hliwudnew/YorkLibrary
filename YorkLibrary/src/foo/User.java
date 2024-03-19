@@ -123,6 +123,16 @@ public abstract class User {
 		}
 	}
 	
+	public int numberOverdue() {
+		int numOverdue=0;
+		for(PhysicalItem item: this.rented) {
+			//if a rented item has a fee on it, it is overdue so add to the count
+			if(item.calculateFee()!=0) {
+				numOverdue++;
+			}
+		}
+		return numOverdue;
+	}
 	
 	public void setEmail(String validEmail) {
 		if(validEmail != null && validEmail != "") {

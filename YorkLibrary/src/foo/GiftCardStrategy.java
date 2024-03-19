@@ -9,8 +9,8 @@ public class GiftCardStrategy implements PaymentStrategy{
 	}
 	
 	@Override
-	public boolean pay(int amount) {
-		System.out.println(amount +" paid with GiftCard "+ cardNumber.substring(0, 3)+"****");
+	public boolean pay(double amount) {
+		System.out.println(String.format("%.2f",amount) +" paid with GiftCard "+ cardNumber.substring(0, 3)+"****");
 		return true;
 	}
 }

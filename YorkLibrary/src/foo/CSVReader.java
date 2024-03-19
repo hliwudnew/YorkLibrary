@@ -449,6 +449,14 @@ public class CSVReader {
 						temp.setBorrower(temp.getBorrower()); //The book is now borrowed by them
 						system.removeStock(temp); //Book is now in borrowed
 						system.addBarrowed(temp);
+						//check if item has been overdue for >=15 days, if it has then book is lost
+						//(due date should never be null here because we checked if it had borrower, if it does then there should be a due date)
+						if(temp.daysOverdue()>=15) {
+							temp.setLost(true);
+						}
+						else {
+							temp.setLost(false);
+						}
 					}
 					items.add(temp);
 				}

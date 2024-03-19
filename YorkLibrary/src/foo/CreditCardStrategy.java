@@ -16,10 +16,10 @@ public class CreditCardStrategy implements PaymentStrategy{
 	}
 	
 	@Override
-	public boolean pay(int amount) {
+	public boolean pay(double amount) {
 		//Makes sure the details of the card are correct
 		if(cvv.trim().toCharArray().length == 3 && cardNumber.trim().toCharArray().length == 16 && expire.trim().toCharArray().length <= 5){
-			System.out.println(amount +" paid with CreditCard "+ cardNumber.substring(0, 3)+"****");
+			System.out.println(String.format("%.2f",amount) +" paid with CreditCard "+ cardNumber.substring(0, 3)+"****");
 			return true;
 		}
 		else {
