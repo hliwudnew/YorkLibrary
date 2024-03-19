@@ -77,6 +77,7 @@ public class MainGUI{
 	private JTable inventoryTable;
 	private JLabel lblName;
 	private JTextField textField_Rent;
+	private JTextField textField_Request;
 	private JTextField textField_Return;
 	private JButton btnSeeAll;
 	private JPanel onlineItemsPage;
@@ -638,7 +639,10 @@ public class MainGUI{
 		);
 		
 		textField_Rent = new JTextField();
+		textField_Request = new JTextField();
 		textField_Rent.setColumns(10);
+		textField_Request.setColumns(10);
+
 		
 		JLabel lblRent = new JLabel("Add to Cart");
 		lblRent.setFont(new Font("Book Antiqua", Font.BOLD, 16));
@@ -656,6 +660,9 @@ public class MainGUI{
 
 			}
 		});
+		
+		
+		
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
@@ -691,9 +698,6 @@ public class MainGUI{
 		);
 		panel.setLayout(gl_panel);
 		
-		
-	
-
 		JLabel lblRequest = new JLabel("Request a New Book");
 		lblRequest.setFont(new Font("Book Antiqua", Font.BOLD, 16));
 
@@ -702,11 +706,51 @@ public class MainGUI{
 		JButton btnRequest = new JButton("Request");
 		btnRequest.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
-		        if (!textField_Rent.getText().isEmpty()) {
+		        if (!textField_Request.getText().isEmpty()) {
 		            loggedIn.getMenu().clickAdd(((PhysicalItem) system.getPhysicalItem(Integer.valueOf(textField_Rent.getText()))));
 		        }
 		    }
-		});
+		});	
+		
+		GroupLayout gl_panelRequest = new GroupLayout(panelRequest);
+		gl_panelRequest.setHorizontalGroup(
+				gl_panelRequest.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelRequest.createSequentialGroup()
+					.addGap(40)
+					.addComponent(lblRequest, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addGap(41))
+				.addGroup(gl_panelRequest.createSequentialGroup()
+					.addGap(32)
+					.addComponent(textField_Request, GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
+					.addGap(35))
+				.addGroup(gl_panelRequest.createSequentialGroup()
+					.addGap(57)
+					.addComponent(btnRequest, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addGap(63))
+				.addGroup(gl_panelRequest.createSequentialGroup()
+					.addGap(56)
+					.addComponent(lblNewLabelRequest, GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+					.addGap(60))
+		);
+		gl_panelRequest.setVerticalGroup(
+				gl_panelRequest.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelRequest.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblRequest)
+					.addGap(49)
+					.addComponent(lblNewLabelRequest)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(textField_Request, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(btnRequest)
+					.addContainerGap(174, Short.MAX_VALUE))
+		);
+		panelRequest.setLayout(gl_panelRequest);
+		
+		
+	
+
+		
 		
 		
 		
