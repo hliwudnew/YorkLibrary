@@ -66,7 +66,7 @@ public class NotificationsGUI {
 		});
 		scrollPane.setViewportView(table);
 		
-        table.getColumnModel().getColumn(1).setPreferredWidth(500); // Adjust the value as needed
+        table.getColumnModel().getColumn(1).setPreferredWidth(500); 
 
 		
 		JButton btnNewButton = new JButton("Refresh");
@@ -197,10 +197,10 @@ public class NotificationsGUI {
 	public void sendNotification(String message, int priority) {
         String subject;
         if (priority == 1) {
-            subject = "High Priority";
+            subject = "Request received - High Priority";
         } 
         else {
-            subject = "Low Priority";
+            subject = "Request received - Low Priority";
         }
         String[] rowData = {subject, message};
         DefaultTableModel tblModel = (DefaultTableModel) table.getModel();

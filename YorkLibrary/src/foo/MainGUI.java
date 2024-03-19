@@ -765,7 +765,7 @@ public class MainGUI{
 		panel.setLayout(gl_panel);
 		
 		JLabel lblRequest = new JLabel("Request a New Book");
-		JLabel lblRequest1 = new JLabel("<html>Note: Course teaching textbooks will be given <br>higher priorty (1) than other textbooks (2)<html>");
+		JLabel lblRequest1 = new JLabel("<html>Note: Course teaching textbooks will be given <br>higher priorty than other textbooks<html>");
 
 		lblRequest.setFont(new Font("Book Antiqua", Font.BOLD, 16));
 		
@@ -780,7 +780,7 @@ public class MainGUI{
 	                boolean existsInCSV = system.existsInCSV("src/data/CourseTextBooks.csv", textField_Request.getText().toLowerCase(), 0);
 	                if (existsInCSV) {
 	                	System.out.println("high priority");
-	                    String notification = "The requested textbook '" + textField_Request.getText() + "' is a course teaching textbook and will the request will be handled promptly.";
+	                    String notification = "The requested textbook '" + textField_Request.getText() + "' is a course teaching textbook and the request will be handled promptly.";
 	                    notificationsGUI.sendNotification(notification, 1);
 		                JOptionPane.showMessageDialog(frame, "Request received and set to high priority! Check your notification tab on the main page for more info!");
 
