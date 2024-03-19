@@ -780,7 +780,7 @@ public class MainGUI{
 	                boolean existsInCSV = system.existsInCSV("src/data/CourseTextBooks.csv", textField_Request.getText().toLowerCase(), 0);
 	                if (existsInCSV) {
 	                	System.out.println("high priority");
-	                    String notification = "The requested textbook '" + textField_Request.getText() + "' is a course teaching and will the request will be handled promptly.";
+	                    String notification = "The requested textbook '" + textField_Request.getText() + "' is a course teaching textbook and will the request will be handled promptly.";
 	                    notificationsGUI.sendNotification(notification, 1);
 		                JOptionPane.showMessageDialog(frame, "Request received and set to high priority! Check your notification tab on the main page for more info!");
 

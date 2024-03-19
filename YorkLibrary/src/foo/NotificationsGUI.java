@@ -66,6 +66,9 @@ public class NotificationsGUI {
 		});
 		scrollPane.setViewportView(table);
 		
+        table.getColumnModel().getColumn(1).setPreferredWidth(500); // Adjust the value as needed
+
+		
 		JButton btnNewButton = new JButton("Refresh");
 		
 		JButton btnNewButton_1 = new JButton("Back");
