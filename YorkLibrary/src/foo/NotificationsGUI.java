@@ -173,7 +173,8 @@ public class NotificationsGUI {
 		}
 		//other notification types might be thrown here or maybe in a different method call idk whichever is easier
 		else {
-			
+			String notification = "Test, testtt ";
+			notifications.add(notification);
 		}
 		//Returns all the found notifications
 		return notifications;
@@ -189,4 +190,18 @@ public class NotificationsGUI {
 			return false;  
 		}  
 	}
+	
+	
+	public void sendNotification(String message, int priority) {
+        String subject;
+        if (priority == 1) {
+            subject = "High Priority";
+        } 
+        else {
+            subject = "Low Priority";
+        }
+        String[] rowData = {subject, message};
+        DefaultTableModel tblModel = (DefaultTableModel) table.getModel();
+        tblModel.addRow(rowData);
+    }
 }

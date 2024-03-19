@@ -105,6 +105,7 @@ public class MainGUI{
 	private JButton btnNewButton_3;
 	private JButton btnNewButton_4;
 	private JTextField textFieldRemove;
+    private NotificationsGUI notificationsGUI;
 	
 	public static void main(String[] args) {
 		new MainGUI("test@gmail.com");
@@ -775,12 +776,18 @@ public class MainGUI{
 		btnRequest.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (!textField_Request.getText().isEmpty()) {
-//					for(Item item : listToParse) {
-//						String[] rowdata = {item.getId()+"",item.getName(),item.getPrice()+""};
-//						DefaultTableModel tblModel = (DefaultTableModel) table.getModel();
-//						tblModel.addRow(rowdata);
-//					}
-				}
+	                boolean existsInCSV = system.existsInCSV("src/data/CourseTextBooks.csv", textField_Request.getText().toLowerCase(), 0);
+	                if (existsInCSV) {
+	                	System.out.println("working");
+	                    String notification = "The requested text '" + textField_Request.getText() + "' exists in the CSV file.";
+	                    notificationsGUI.sendNotification(notification, 1);
+	                } 
+	                else {
+	                	System.out.println("still working");
+	                    String notification = "The requested text '" + textField_Request.getText() + "' does not exist in the CSV file.";
+	                    notificationsGUI.sendNotification(notification, 2);
+	                }
+	            }
 			}
 		});	
 		
