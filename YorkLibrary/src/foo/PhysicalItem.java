@@ -51,6 +51,21 @@ public class PhysicalItem extends Item{
 		return this.dueDate;
 	}
 	
+	public String getDueStatus() {
+		
+		Date current = new Date();
+		long difference = this.dueDate.getTime() - current.getTime();
+		
+		if (dueDate.before(current)) {
+			return "Overdue";
+		} else if (difference <= 86400000L) {
+			return "Due in: " + difference / 3600000 + " Hours";
+		} else {
+			return "Due in >24 Hours";
+		}
+			
+	}
+	
 	public String getBorrower() {
 		return this.borrower;
 	}

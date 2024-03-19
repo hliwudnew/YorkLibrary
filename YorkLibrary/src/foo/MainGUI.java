@@ -151,6 +151,18 @@ public class MainGUI{
 			tblModel.addRow(rowdata);
 		}
 	}
+	//updates a table with physicalItem's has an extra column for the due date and time due in of the item
+		public <T extends Item> void updateTable4(JTable table, User user, ArrayList<PhysicalItem> listToParse) {
+			//Clears the table of old data 
+			DefaultTableModel clear = (DefaultTableModel) table.getModel();
+			clear.setRowCount(0);
+			//Loops through the CSV data and adds it to the table
+			for(PhysicalItem item : listToParse) {
+				String[] rowdata = {item.getId()+"",item.getName(), item.getStatus().getState().getClass().toString().substring(10)+"", item.getDueStatus(), item.getDueDate().toString()};
+				DefaultTableModel tblModel = (DefaultTableModel) table.getModel();
+				tblModel.addRow(rowdata);
+			}
+		}
 	/**
 	 * @wbp.parser.entryPoint
 	 */
@@ -196,7 +208,7 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "homePage_");
 				frame.repaint();
 				frame.revalidate();
-				updateTable3(displayTable, loggedIn, loggedIn.getRented());
+				updateTable4(displayTable, loggedIn, loggedIn.getRented());
 			}
 		});
 		
@@ -217,7 +229,7 @@ public class MainGUI{
 		btnRefreshInventory_1 = new JButton("Refresh");
 		btnRefreshInventory_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				updateTable3(displayTable, loggedIn, loggedIn.getRented());
+				updateTable4(displayTable, loggedIn, loggedIn.getRented());
 			}
 		});
 		
@@ -269,7 +281,7 @@ public class MainGUI{
 			new Object[][] {
 			},
 			new String[] {
-				"Id", "Name", "Price", "Status", "Due Date"
+				"Id", "Name", "Status", "Due In", "Due Date"
 			}
 		) {
 			boolean[] columnEditables = new boolean[] {
@@ -283,7 +295,7 @@ public class MainGUI{
 		
 		//after table on home page is initialized, populate the table (same functionality as refresh, but it does it on startup now)
 		//Clears the table of old data
-		updateTable3(displayTable, loggedIn, loggedIn.getRented());
+		updateTable4(displayTable, loggedIn, loggedIn.getRented());
 		
 		rent = new JButton("Rent");
 		rent.addActionListener(new ActionListener() {
@@ -396,7 +408,7 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "homePage_");
 				frame.repaint();
 				frame.revalidate();
-				updateTable3(displayTable, loggedIn, loggedIn.getRented());
+				updateTable4(displayTable, loggedIn, loggedIn.getRented());
 				
 				
 			}
@@ -767,7 +779,7 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "homePage_");
 				frame.repaint();
 				frame.revalidate();
-				updateTable3(displayTable, loggedIn, loggedIn.getRented());
+				updateTable4(displayTable, loggedIn, loggedIn.getRented());
 			}
 		});
 		
@@ -1265,7 +1277,7 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "homePage_");
 				frame.repaint();
 				frame.revalidate();
-				updateTable3(displayTable, loggedIn, loggedIn.getRented());
+				updateTable4(displayTable, loggedIn, loggedIn.getRented());
 			}
 		});
 		
@@ -1564,7 +1576,7 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "homePage_");
 				frame.repaint();
 				frame.revalidate();
-				updateTable3(displayTable, loggedIn, loggedIn.getRented());
+				updateTable4(displayTable, loggedIn, loggedIn.getRented());
 			}
 		});
 		JButton inventory_1_1 = new JButton("My Inventory");
