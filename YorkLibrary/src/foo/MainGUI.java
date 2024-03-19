@@ -663,6 +663,7 @@ public class MainGUI{
 							.addGap(6)))
 					.addGap(18)
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 173, Short.MAX_VALUE)
+					.addGap(35)
 					.addComponent(panelRequest, GroupLayout.PREFERRED_SIZE, 173, Short.MAX_VALUE)
 					.addGap(55))
 				.addGroup(gl_centerContent_Rent.createSequentialGroup()
@@ -694,8 +695,11 @@ public class MainGUI{
 							.addGap(18)
 							.addGroup(gl_centerContent_Rent.createParallelGroup(Alignment.LEADING)
 								.addComponent(panel, GroupLayout.PREFERRED_SIZE, 330, GroupLayout.PREFERRED_SIZE)
+								.addGap(50)
+								
 								.addComponent(panelRequest, GroupLayout.PREFERRED_SIZE, 330, GroupLayout.PREFERRED_SIZE)
 								)))
+					
 					.addContainerGap())
 		);
 		
@@ -760,26 +764,34 @@ public class MainGUI{
 		panel.setLayout(gl_panel);
 		
 		JLabel lblRequest = new JLabel("Request a New Book");
-		lblRequest.setFont(new Font("Book Antiqua", Font.BOLD, 16));
+		JLabel lblRequest1 = new JLabel("<html>Note: Course teaching textbooks will be given <br>higher priorty (1) than other textbooks (2)<html>");
 
+		lblRequest.setFont(new Font("Book Antiqua", Font.BOLD, 16));
+		
 		JLabel lblNewLabelRequest = new JLabel("Add by name");
+		
 
 		JButton btnRequest = new JButton("Request");
 		btnRequest.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-		        if (!textField_Request.getText().isEmpty()) {
-		            loggedIn.getMenu().clickAdd(((PhysicalItem) system.getPhysicalItem(Integer.valueOf(textField_Rent.getText()))));
-		        }
-		    }
+			public void actionPerformed(ActionEvent e) {
+				if (!textField_Request.getText().isEmpty()) {
+//					for(Item item : listToParse) {
+//						String[] rowdata = {item.getId()+"",item.getName(),item.getPrice()+""};
+//						DefaultTableModel tblModel = (DefaultTableModel) table.getModel();
+//						tblModel.addRow(rowdata);
+//					}
+				}
+			}
 		});	
 		
 		GroupLayout gl_panelRequest = new GroupLayout(panelRequest);
 		gl_panelRequest.setHorizontalGroup(
-				gl_panelRequest.createParallelGroup(Alignment.LEADING)
+				gl_panelRequest.createParallelGroup(Alignment.LEADING, false)
 				.addGroup(gl_panelRequest.createSequentialGroup()
 					.addGap(40)
 					.addComponent(lblRequest, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addGap(41))
+					.addGap(20))
+				.addComponent(lblRequest1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 				.addGroup(gl_panelRequest.createSequentialGroup()
 					.addGap(32)
 					.addComponent(textField_Request, GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
@@ -794,29 +806,21 @@ public class MainGUI{
 					.addGap(60))
 		);
 		gl_panelRequest.setVerticalGroup(
-				gl_panelRequest.createParallelGroup(Alignment.LEADING)
+				gl_panelRequest.createParallelGroup(Alignment.LEADING, false)
 				.addGroup(gl_panelRequest.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(lblRequest)
 					.addGap(49)
-					.addComponent(lblNewLabelRequest)
+					.addComponent(lblRequest1)
+					.addGap(49)
+					.addComponent(lblNewLabelRequest)					
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(textField_Request, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(btnRequest)
 					.addContainerGap(174, Short.MAX_VALUE))
 		);
-		panelRequest.setLayout(gl_panelRequest);
-		
-		
-	
-
-		
-		
-		
-		
-
-		
+		panelRequest.setLayout(gl_panelRequest);		
 		
 		searchTable = new JTable();
 		searchTable.setModel(new DefaultTableModel(
