@@ -16,6 +16,9 @@ public class LibrarySystem {
 	private ArrayList<OnlineItem> subscriptions = new ArrayList<OnlineItem>();
 	private ArrayList<Course> courses = new ArrayList<Course>();
 
+	private final int NUM_COPIES_PER_ITEM=20; //when an item is added, this number decides how many total copies of that item of that type will be added to the system
+	
+	
 
 	public LibrarySystem() {
 		stock = new ArrayList<Item>();
@@ -232,6 +235,7 @@ public class LibrarySystem {
 		return student;
 	}
 
+
 	public boolean existsInCSV(String path, String request, int col) {
 		boolean found = false;
 		BufferedReader reader = null;
@@ -260,6 +264,11 @@ public class LibrarySystem {
 			}
 		}
 		return found;
+	}
+
+
+	public int getNUM_COPIES_PER_ITEM() {
+		return NUM_COPIES_PER_ITEM;
 	}
 
 }

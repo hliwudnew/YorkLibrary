@@ -22,6 +22,7 @@ import java.awt.Window.Type;
 
 import javax.swing.JTabbedPane;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JCheckBox;
 import javax.swing.SwingConstants;
 import java.awt.Font;
@@ -51,6 +52,7 @@ public class ManagementTeamGUI {
 	private JTextField textField_Ctextbook;
 	private JTextField textField_CIDtextbook;
 	private JTable tableNotifications;
+	private JTextField discountField;
 	
 	//updates the items table for managementgui with 5 fields: Type, Id, Name, Price, Disabled
 	//parameters are just the table to update and the library system to update from
@@ -297,27 +299,41 @@ public class ManagementTeamGUI {
 		JLabel lblNewPrice = new JLabel("Price");
 		
 		JLabel lblNewDisbabled = new JLabel("Disabled");
-		
+		JLabel lblDiscount = new JLabel("Discount (%)");
 		JButton btnAddItem = new JButton("Submit");
+		JLabel lblType = new JLabel("Item Type");
+		
+		textField_Link = new JTextField();
+		textField_Link.setColumns(10);
+		
+		lblLink = new JLabel("Link");
+		
+		discountField = new JTextField();
+		discountField.setColumns(10);
+		
 		btnAddItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ArrayList<Item> items = new ArrayList<Item>(system.getBorrowed());
-				items.addAll(system.getStock());
-				items.addAll(system.getSubs());
-				boolean taken = false;
-				boolean invalid = false;
-				//Checks if Id is already taken
-				for(Item I: items) {
-					if((I.getId()+"").equals(textField_id.getText())) {
-						taken = true;
-					}
+				if(textField_Name.getText().isEmpty() || textField_Price.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(frame, "Cannot add item with empty name/price.", "Failed to Add Items", JOptionPane.INFORMATION_MESSAGE);
+					return;
 				}
+				//ArrayList<Item> items = new ArrayList<Item>(system.getBorrowed());
+				//items.addAll(system.getStock());
+				//items.addAll(system.getSubs());
+				//boolean taken = false;
+				//boolean invalid = false;
+				//Checks if Id is already taken
+				//for(Item I: items) {
+				//	if((I.getId()+"").equals(textField_id.getText())) {
+				//		taken = true;
+				//	}
+				//}
 				
 				//Negative id's are reserved for copies of textbooks
-				if(Integer.valueOf(textField_id.getText()) < 0) {
-					invalid = true;
-				}
-				
+				//if(Integer.valueOf(textField_id.getText()) < 0) {
+				//	invalid = true;
+				//}
+
 				String type = comboBoxItemType.getSelectedItem()+"";
 				
 				ItemStateContext disabled = new ItemStateContext();
@@ -328,42 +344,80 @@ public class ManagementTeamGUI {
 					disabled.setState(new Enabled());
 				}
 				//Prevents duplicate Ids from being used
-				if(!taken && !invalid) {
-					if(type.equals("Physical Item")) {
-						//Builds the item
-						PhysicalItem holder = new PhysicalItem();
-						holder.setId(Integer.valueOf(textField_id.getText()));
-						holder.setName(textField_Name.getText());
-						holder.setPrice(Double.valueOf(textField_Price.getText()));
-						holder.setStatus(disabled);
-						holder.setBorrower("BLANK");
-						holder.setDueDate(null); //no due date cuz new item so set date to null
-						holder.setFee(0);
-						
-						mgr.addPhysicalItem(holder);
+				//if(!invalid && !taken);
+				if(type.equals("Physical Item")) {
+
+					double discount=0;
+					//Builds the item
+					if(discountField.getText().equals("")) {
+						discount=0;
 					}
-					else {//Online Item
-						//Builds the item
-						OnlineItem holder = new OnlineItem();
-						holder.setId(Integer.valueOf(textField_id.getText()));
-						holder.setName(textField_Name.getText());
-						holder.setPrice(Double.valueOf(textField_Price.getText()));
-						holder.setStatus(disabled);
-//						holder.setSubscriber("BLANK");
-						holder.setLink(textField_Link.getText());
-						
-						mgr.addOnlineItem(holder);
-					}
-				}
-				else {
-					if(invalid) {
-						System.out.println("Negative ID's are not allowed");
+					//if not a valid percentage then cancel the addition of item
+					else if(Double.valueOf(discountField.getText())>100 || Double.valueOf(discountField.getText())<0) {
+						JOptionPane.showMessageDialog(frame, "Invalid discount percentage entered.", "Failed to Add Items", JOptionPane.INFORMATION_MESSAGE);
+						return;
 					}
 					else {
-						System.out.println("Duplicate ID, try again");
+						discount=Double.valueOf(discountField.getText())/100.0; //divide because user enters % so must convert to decimal
+					}
+					
+					PhysicalItem holder = new PhysicalItem(PhysicalItem.getNextValidId(),textField_Name.getText(),Double.valueOf(textField_Price.getText()), disabled, null, "BLANK", 0.0, discount);
+					//holder.setId(Integer.valueOf(textField_id.getText()));
+					//holder.setId(PhysicalItem.getNextValidId()); //id should be multiple of 20: 1, 20, 40, 60, etc.
+					//since every new unique item will have 19 other copies with different ids 
+					//holder.setName(textField_Name.getText());
+					//holder.setPrice(Double.valueOf(textField_Price.getText()));
+					//holder.setStatus(disabled);
+					//holder.setBorrower("BLANK");
+					//holder.setDueDate(null); //no due date cuz new item so set date to null
+					//holder.setFee(0);
+					mgr.addPhysicalItem(holder);
+				}
+				//TODO: CHECK IF I ENTER ID THEN SWITCH TO PHYS IF IT SAVES THE TEXT IN ID FIELD(PROBLEM!!)
+				
+				else {//Online Item
+					//Checks if Id is already taken
+					ArrayList<Item> items = new ArrayList<Item>(system.getBorrowed());
+					items.addAll(system.getStock());
+					items.addAll(system.getSubs());
+					boolean taken = false;
+					for(Item I: items) {
+						if((I.getId()+"").equals(textField_id.getText())) {
+							taken = true;
+						}
+					}
+					if(taken) {
+						JOptionPane.showMessageDialog(frame, "ID already taken.", "Failed to Add Items", JOptionPane.INFORMATION_MESSAGE);
+						return;
+					}
+					else if((textField_id.getText()).equals("")){
+						JOptionPane.showMessageDialog(frame, "Online Item must have an ID.", "Failed to Add Items", JOptionPane.INFORMATION_MESSAGE);
+						return;
+					}
+					else if(Integer.valueOf(textField_id.getText())>=0) {
+						JOptionPane.showMessageDialog(frame, "Online Item ID's must be negative.", "Failed to Add Items", JOptionPane.INFORMATION_MESSAGE);
+						return;
+					}
+					//Builds the item
+					OnlineItem holder = new OnlineItem();
+					holder.setId(Integer.valueOf(textField_id.getText()));
+					holder.setName(textField_Name.getText());
+					holder.setPrice(Double.valueOf(textField_Price.getText()));
+					holder.setStatus(disabled);
+//					holder.setSubscriber("BLANK");
+					holder.setLink(textField_Link.getText());					
+					mgr.addOnlineItem(holder);
 					}
 				}
-			}
+				//else {
+				//	if(invalid) {
+				//		System.out.println("Negative ID's are not allowed");
+					//}
+					//else {
+					//	System.out.println("Duplicate ID, try again");
+					//}
+				//}
+			//}
 		});
 		
 		checkDisabled = new JCheckBox("");
@@ -372,27 +426,44 @@ public class ManagementTeamGUI {
 		itemTypes.add("Physical Item");
 		itemTypes.add("Online Item");
 		comboBoxItemType = new JComboBox<String>(itemTypes);
+		comboBoxItemType.setSelectedItem(itemTypes.get(0));
+		//automatically sets the default view of the page to show phys item view
+		textField_Link.setVisible(false);
+		lblLink.setVisible(false);
+		textField_id.setVisible(false);
+		lblNewID.setVisible(false);
+		//only phys items can have discount as per req 10 
+		lblDiscount.setVisible(true); 
+		discountField.setVisible(true);
+
+
 		comboBoxItemType.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(comboBoxItemType.getSelectedItem().equals("Physical Item")) {
 					textField_Link.setVisible(false);
 					lblLink.setVisible(false);
+					textField_id.setVisible(false);
+					lblNewID.setVisible(false);
+					//only phys items can have discount as per req 10 
+					lblDiscount.setVisible(true); 
+					discountField.setVisible(true);
 				}
 				else {
 					textField_Link.setVisible(true);
 					lblLink.setVisible(true);
+					textField_id.setVisible(true);
+					lblNewID.setVisible(true);
+					lblDiscount.setVisible(false); 
+					discountField.setVisible(false);
 				}
 				System.out.println(comboBoxItemType.getSelectedItem()+"");
 				
 			}
 		});
 		
-		JLabel lblType = new JLabel("Item Type");
 		
-		textField_Link = new JTextField();
-		textField_Link.setColumns(10);
 		
-		lblLink = new JLabel("Link");
+
 		GroupLayout gl_addItem = new GroupLayout(addItem);
 		gl_addItem.setHorizontalGroup(
 			gl_addItem.createParallelGroup(Alignment.LEADING)
@@ -424,12 +495,17 @@ public class ManagementTeamGUI {
 								.addComponent(lblNewDisbabled, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
 								.addComponent(checkDisabled)))
 						.addGroup(gl_addItem.createSequentialGroup()
-							.addGap(207)
-							.addComponent(lblLink))
-						.addGroup(gl_addItem.createSequentialGroup()
-							.addGap(181)
-							.addComponent(textField_Link, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(169, Short.MAX_VALUE))
+							.addGap(51)
+							.addGroup(gl_addItem.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_addItem.createSequentialGroup()
+									.addComponent(lblDiscount)
+									.addGap(110)
+									.addComponent(lblLink))
+								.addGroup(gl_addItem.createSequentialGroup()
+									.addComponent(discountField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addGap(44)
+									.addComponent(textField_Link, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))))
+					.addContainerGap(215, Short.MAX_VALUE))
 		);
 		gl_addItem.setVerticalGroup(
 			gl_addItem.createParallelGroup(Alignment.LEADING)
@@ -454,9 +530,13 @@ public class ManagementTeamGUI {
 							.addComponent(textField_id, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addComponent(comboBoxItemType, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 					.addGap(18)
-					.addComponent(lblLink)
+					.addGroup(gl_addItem.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblLink)
+						.addComponent(lblDiscount))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(textField_Link, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGroup(gl_addItem.createParallelGroup(Alignment.BASELINE)
+						.addComponent(textField_Link, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(discountField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(29)
 					.addComponent(btnAddItem))
 		);
@@ -920,5 +1000,4 @@ public class ManagementTeamGUI {
 				tblModel.addRow(rowdata);
 			}
 	}
-	
 }
