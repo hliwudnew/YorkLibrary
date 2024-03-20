@@ -275,6 +275,9 @@ public class ManagementTeamGUI {
 		});
 		scrollPane.setViewportView(tableNotifications);
 		panelNotifications.setLayout(gl_panelNotifications);
+		Vector<String> itemTypes = new Vector<String>();
+		itemTypes.add("Physical Item");
+		itemTypes.add("Online Item");
 		
 		JPanel addItem = new JPanel();
 		tabbedPane.addTab("Add Items", null, addItem, null);
@@ -368,9 +371,6 @@ public class ManagementTeamGUI {
 		
 		checkDisabled = new JCheckBox("");
 		checkDisabled.setSelected(true);
-		Vector<String> itemTypes = new Vector<String>();
-		itemTypes.add("Physical Item");
-		itemTypes.add("Online Item");
 		comboBoxItemType = new JComboBox<String>(itemTypes);
 		comboBoxItemType.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -397,62 +397,73 @@ public class ManagementTeamGUI {
 		gl_addItem.setHorizontalGroup(
 			gl_addItem.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_addItem.createSequentialGroup()
-					.addGroup(gl_addItem.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_addItem.createSequentialGroup()
-							.addGap(169)
-							.addComponent(btnAddItem, GroupLayout.PREFERRED_SIZE, 132, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_addItem.createSequentialGroup()
-							.addContainerGap()
-							.addGroup(gl_addItem.createParallelGroup(Alignment.LEADING)
-								.addComponent(comboBoxItemType, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblType))
-							.addGap(18)
-							.addGroup(gl_addItem.createParallelGroup(Alignment.LEADING)
-								.addComponent(textField_id, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblNewID, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_addItem.createParallelGroup(Alignment.LEADING)
-								.addComponent(textField_Name, GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblNewName)
-								.addComponent(lblAdd, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_addItem.createParallelGroup(Alignment.LEADING)
-								.addComponent(textField_Price, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblNewPrice))
-							.addGap(18)
-							.addGroup(gl_addItem.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblNewDisbabled, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
-								.addComponent(checkDisabled)))
-						.addGroup(gl_addItem.createSequentialGroup()
-							.addGap(207)
-							.addComponent(lblLink))
-						.addGroup(gl_addItem.createSequentialGroup()
-							.addGap(181)
-							.addComponent(textField_Link, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(169, Short.MAX_VALUE))
+					.addGap(161)
+					.addComponent(lblAdd, GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
+					.addGap(414))
+				.addGroup(gl_addItem.createSequentialGroup()
+					.addGap(10)
+					.addComponent(lblType, GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
+					.addGap(61)
+					.addComponent(lblNewID, GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
+					.addGap(48)
+					.addComponent(lblNewName, GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
+					.addGap(66)
+					.addComponent(lblNewPrice, GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
+					.addGap(63)
+					.addComponent(lblNewDisbabled, GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
+					.addGap(132))
+				.addGroup(gl_addItem.createSequentialGroup()
+					.addGap(10)
+					.addComponent(comboBoxItemType, 0, 132, Short.MAX_VALUE)
+					.addGap(10)
+					.addComponent(textField_id, GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
+					.addGap(10)
+					.addComponent(textField_Name, GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
+					.addGap(10)
+					.addComponent(textField_Price, GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+					.addGap(25)
+					.addComponent(checkDisabled)
+					.addGap(163))
+				.addGroup(gl_addItem.createSequentialGroup()
+					.addGap(181)
+					.addComponent(textField_Link)
+					.addGap(410))
+				.addGroup(gl_addItem.createSequentialGroup()
+					.addGap(169)
+					.addComponent(btnAddItem, GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
+					.addGap(376))
+				.addGroup(gl_addItem.createSequentialGroup()
+					.addGap(207)
+					.addComponent(lblLink, GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
+					.addGap(432))
 		);
 		gl_addItem.setVerticalGroup(
 			gl_addItem.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_addItem.createSequentialGroup()
-					.addContainerGap()
+					.addGap(11)
 					.addComponent(lblAdd, GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)
 					.addGap(33)
-					.addGroup(gl_addItem.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_addItem.createParallelGroup(Alignment.BASELINE)
-							.addComponent(lblNewName)
-							.addComponent(lblNewID)
-							.addComponent(lblType))
-						.addGroup(gl_addItem.createParallelGroup(Alignment.BASELINE)
-							.addComponent(lblNewPrice)
-							.addComponent(lblNewDisbabled)))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_addItem.createParallelGroup(Alignment.LEADING)
-						.addComponent(checkDisabled)
-						.addGroup(gl_addItem.createParallelGroup(Alignment.BASELINE)
-							.addComponent(textField_Price, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addComponent(textField_Name, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addComponent(textField_id, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addComponent(comboBoxItemType, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+						.addComponent(lblType)
+						.addComponent(lblNewID)
+						.addComponent(lblNewName)
+						.addComponent(lblNewPrice)
+						.addComponent(lblNewDisbabled))
+					.addGap(11)
+					.addGroup(gl_addItem.createParallelGroup(Alignment.LEADING)
+						.addComponent(comboBoxItemType, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_addItem.createSequentialGroup()
+							.addGap(1)
+							.addComponent(textField_id, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_addItem.createSequentialGroup()
+							.addGap(1)
+							.addComponent(textField_Name, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_addItem.createSequentialGroup()
+							.addGap(1)
+							.addComponent(textField_Price, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_addItem.createSequentialGroup()
+							.addGap(1)
+							.addComponent(checkDisabled)))
 					.addGap(18)
 					.addComponent(lblLink)
 					.addPreferredGap(ComponentPlacement.RELATED)
@@ -461,6 +472,9 @@ public class ManagementTeamGUI {
 					.addComponent(btnAddItem))
 		);
 		addItem.setLayout(gl_addItem);
+		
+		textField_Link.setVisible(false);
+		lblLink.setVisible(false);
 		
 		JPanel disableItem = new JPanel();
 		tabbedPane.addTab("Disable/Enable", null, disableItem, null);
@@ -826,13 +840,10 @@ public class ManagementTeamGUI {
 		//Populates Notifications Table
 		//Todo: test this
 		updateTable(tableNotifications,loggedIn,checkNotification(loggedIn,system));
-		
-		textField_Link.setVisible(false);
-		lblLink.setVisible(false);
 		//Sets the window text and lets user see the GUI
 		frame.setTitle("Managment Team Services");
 		//frame.setSize(1000, 750); //In editor it doesn't fit, but when running application it looks good
-		frame.setSize(862, 649);
+		frame.setSize(900, 700);
 		frame.setVisible(true);
 	}
 	

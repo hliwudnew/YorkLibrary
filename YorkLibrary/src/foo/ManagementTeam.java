@@ -176,7 +176,7 @@ public class ManagementTeam {
 							textBookCopy.setName(I.getName());
 							textBookCopy.setPrice(I.getPrice());
 							textBookCopy.setStatus(I.getStatus());
-							textBookCopy.setLink("https://www.amazon.ca/New-Used-Textbooks-Books/b?ie=UTF8&node=15115321");
+							textBookCopy.setLink("https://www.bookstore.yorku.ca/default.asp?");
 							
 							student.subscribe(textBookCopy);
 							textBookCopy.addSubscriber(student);
@@ -276,7 +276,7 @@ public class ManagementTeam {
 					textBookCopy.setName(textbook.getName());
 					textBookCopy.setPrice(textbook.getPrice());
 					textBookCopy.setStatus(textbook.getStatus());
-					textBookCopy.setLink("https://www.amazon.ca/New-Used-Textbooks-Books/b?ie=UTF8&node=15115321");
+					textBookCopy.setLink("https://www.bookstore.yorku.ca/default.asp?");
 					system.addSub(textBookCopy);
 					
 					//Assigns a virtual copy to all of the student in the course

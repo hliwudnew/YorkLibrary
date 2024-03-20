@@ -121,7 +121,7 @@ public class MainGUI{
 		clear.setRowCount(0);
 		//Loops through the CSV data and adds it to the table
 		for(Item item : listToParse) {
-			String[] rowdata = {item.getId()+"",item.getName(),item.getPrice()+""};
+			String[] rowdata = {item.getId()+"",item.getName(),item.getPrice()+"",item.getStatus().getState().getClass().toString().substring(10)};
 			DefaultTableModel tblModel = (DefaultTableModel) table.getModel();
 			tblModel.addRow(rowdata);
 		}
@@ -311,31 +311,32 @@ public class MainGUI{
 		
 		GroupLayout gl_centerContent = new GroupLayout(centerContent);
 		gl_centerContent.setHorizontalGroup(
-		    gl_centerContent.createParallelGroup(Alignment.LEADING)
-		        .addComponent(topBar, GroupLayout.DEFAULT_SIZE, 846, Short.MAX_VALUE)
-		        .addGroup(gl_centerContent.createSequentialGroup()
-		            .addGap(108)
-		            .addGroup(gl_centerContent.createParallelGroup(Alignment.TRAILING)
-		                .addComponent(displayScrollPane, GroupLayout.DEFAULT_SIZE, 541, Short.MAX_VALUE)
-		                .addComponent(btnRefreshInventory_1, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE))
-		            .addGap(197))
-		        .addGroup(Alignment.TRAILING, gl_centerContent.createSequentialGroup()
-		            .addContainerGap(747, Short.MAX_VALUE)
-		            .addComponent(btnNotifications)
-		            .addContainerGap())
+			gl_centerContent.createParallelGroup(Alignment.TRAILING)
+				.addComponent(topBar, GroupLayout.DEFAULT_SIZE, 846, Short.MAX_VALUE)
+				.addGroup(gl_centerContent.createSequentialGroup()
+					.addGap(108)
+					.addGroup(gl_centerContent.createParallelGroup(Alignment.TRAILING)
+						.addComponent(displayScrollPane, GroupLayout.DEFAULT_SIZE, 541, Short.MAX_VALUE)
+						.addGroup(gl_centerContent.createSequentialGroup()
+							.addGap(450)
+							.addComponent(btnRefreshInventory_1, GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)))
+					.addGap(197))
+				.addGroup(gl_centerContent.createSequentialGroup()
+					.addGap(745)
+					.addComponent(btnNotifications, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addContainerGap())
 		);
 		gl_centerContent.setVerticalGroup(
-		    gl_centerContent.createParallelGroup(Alignment.LEADING)
-		        .addGroup(gl_centerContent.createSequentialGroup()
-		            .addComponent(topBar, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
-		            .addPreferredGap(ComponentPlacement.UNRELATED)
-		            .addGroup(gl_centerContent.createParallelGroup(Alignment.BASELINE)
-		                .addComponent(btnNotifications))
-		            .addGap(72)
-		            .addComponent(btnRefreshInventory_1)
-		            .addPreferredGap(ComponentPlacement.RELATED)
-		            .addComponent(displayScrollPane, GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
-		            .addGap(119))
+			gl_centerContent.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_centerContent.createSequentialGroup()
+					.addComponent(topBar, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(btnNotifications)
+					.addGap(72)
+					.addComponent(btnRefreshInventory_1)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(displayScrollPane, GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
+					.addGap(119))
 		);
 
 		
@@ -414,27 +415,27 @@ public class MainGUI{
 			gl_topBar.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_topBar.createSequentialGroup()
 					.addGap(9)
-					.addComponent(home)
+					.addComponent(home, GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
 					.addGap(10)
-					.addComponent(inventory)
+					.addComponent(inventory, GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(rent)
+					.addComponent(rent, GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(Subscribe)
+					.addComponent(Subscribe, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(topBarTitle, GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+					.addComponent(topBarTitle, GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnNewButton_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(btnNewButton_1, GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE)
 					.addGap(38)
 					.addComponent(lblName)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(btnAdmin, GroupLayout.PREFERRED_SIZE, 71, Short.MAX_VALUE)
+					.addComponent(btnAdmin, GroupLayout.PREFERRED_SIZE, 77, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		gl_topBar.setVerticalGroup(
 			gl_topBar.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_topBar.createSequentialGroup()
-					.addContainerGap(14, Short.MAX_VALUE)
+					.addContainerGap(12, Short.MAX_VALUE)
 					.addGroup(gl_topBar.createParallelGroup(Alignment.LEADING)
 						.addComponent(home)
 						.addComponent(inventory)
@@ -535,17 +536,17 @@ public class MainGUI{
 			gl_topBar_Rent.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_topBar_Rent.createSequentialGroup()
 					.addGap(9)
-					.addComponent(home_Rent)
+					.addComponent(home_Rent, GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
 					.addGap(10)
-					.addComponent(inventory_Rent)
+					.addComponent(inventory_Rent, GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(rent_Rent)
+					.addComponent(rent_Rent, GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
 					.addGap(10)
-					.addComponent(Subscribe_1, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
+					.addComponent(Subscribe_1, GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(topBarTitle_Rent, GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
+					.addComponent(topBarTitle_Rent, GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
 					.addGap(78)
-					.addComponent(btnNewButton_2, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
+					.addComponent(btnNewButton_2, GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
 					.addGap(272))
 		);
 		gl_topBar_Rent.setVerticalGroup(
@@ -641,7 +642,6 @@ public class MainGUI{
 			gl_centerContent_Rent.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_centerContent_Rent.createSequentialGroup()
 					.addContainerGap()
-					//.addComponent(pReccomendation, GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
 					.addGroup(gl_centerContent_Rent.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_centerContent_Rent.createSequentialGroup()
 							.addGap(98)
@@ -655,52 +655,47 @@ public class MainGUI{
 									.addGap(105)
 									.addComponent(bthSearch, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 									.addGap(104)))
-							.addGap(96))
+							.addGap(90))
 						.addGroup(gl_centerContent_Rent.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addGroup(gl_centerContent_Rent.createParallelGroup(Alignment.LEADING)
-								.addComponent(btnSeeAll)
-								.addComponent(rentScroll, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGap(6)))
-					.addGap(18)
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 173, Short.MAX_VALUE)
-					.addGap(35)
-					.addComponent(panelRequest, GroupLayout.PREFERRED_SIZE, 173, Short.MAX_VALUE)
-					.addGap(55))
+							.addComponent(btnSeeAll, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addGap(397))
+						.addGroup(gl_centerContent_Rent.createSequentialGroup()
+							.addComponent(rentScroll)
+							.addGap(10)))
+					.addGap(0)
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 198, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panelRequest, GroupLayout.PREFERRED_SIZE, 198, Short.MAX_VALUE)
+					.addGap(24))
 				.addGroup(gl_centerContent_Rent.createSequentialGroup()
-					.addComponent(topBar_Rent, GroupLayout.DEFAULT_SIZE, 891, Short.MAX_VALUE)
+					.addComponent(topBar_Rent, GroupLayout.DEFAULT_SIZE, 854, Short.MAX_VALUE)
 					.addGap(0))
 		);
 		gl_centerContent_Rent.setVerticalGroup(
 			gl_centerContent_Rent.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_centerContent_Rent.createSequentialGroup()
 					.addComponent(topBar_Rent, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_centerContent_Rent.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_centerContent_Rent.createSequentialGroup()
 							.addGap(35)
 							.addComponent(searchLabel, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(textField_Search, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGroup(gl_centerContent_Rent.createParallelGroup(Alignment.LEADING, false)
+							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addGroup(gl_centerContent_Rent.createParallelGroup(Alignment.TRAILING, false)
 								.addGroup(gl_centerContent_Rent.createSequentialGroup()
-									.addPreferredGap(ComponentPlacement.RELATED)
 									.addComponent(bthSearch)
 									.addPreferredGap(ComponentPlacement.UNRELATED))
-								.addGroup(Alignment.TRAILING, gl_centerContent_Rent.createSequentialGroup()
-									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addGroup(gl_centerContent_Rent.createSequentialGroup()
 									.addComponent(btnSeeAll)
 									.addGap(3)))
 							.addComponent(rentScroll, GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE))
 						.addGroup(gl_centerContent_Rent.createSequentialGroup()
 							.addGap(18)
 							.addGroup(gl_centerContent_Rent.createParallelGroup(Alignment.LEADING)
-								.addComponent(panel, GroupLayout.PREFERRED_SIZE, 330, GroupLayout.PREFERRED_SIZE)
-								.addGap(50)
-								
-								.addComponent(panelRequest, GroupLayout.PREFERRED_SIZE, 330, GroupLayout.PREFERRED_SIZE)
-								)))
-					
+								.addComponent(panelRequest, GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
+								.addComponent(panel, GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE))
+							.addGap(208)))
 					.addContainerGap())
 		);
 		
@@ -720,8 +715,14 @@ public class MainGUI{
 			public void actionPerformed(ActionEvent e) {
 				//loggedIn.rentPhysicalItem((PhysicalItem)system.getPhysicalItem(Integer.valueOf(textField_Rent.getText())));
 				if(!textField_Rent.getText().isEmpty()){
-					//when user clicks add button, menu (invoker) calls the add command and then it gets added to cart 
-					loggedIn.getMenu().clickAdd(((PhysicalItem)system.getPhysicalItem(Integer.valueOf(textField_Rent.getText()))));
+					//Prevents disabled Items from being rented
+					if(((PhysicalItem)system.getPhysicalItem(Integer.valueOf(textField_Rent.getText()))).getStatus().getState().getClass().equals(new Disabled().getClass())){
+						System.out.println("Item is disabled and not allowed to currently be rented");
+					}
+					else {
+						//when user clicks add button, menu (invoker) calls the add command and then it gets added to cart 
+						loggedIn.getMenu().clickAdd(((PhysicalItem)system.getPhysicalItem(Integer.valueOf(textField_Rent.getText()))));
+					}
 				}
 
 			}
@@ -800,16 +801,7 @@ public class MainGUI{
 		
 		GroupLayout gl_panelRequest = new GroupLayout(panelRequest);
 		gl_panelRequest.setHorizontalGroup(
-				gl_panelRequest.createParallelGroup(Alignment.LEADING, false)
-				.addGroup(gl_panelRequest.createSequentialGroup()
-					.addGap(40)
-					.addComponent(lblRequest, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addGap(20))
-				.addComponent(lblRequest1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-				.addGroup(gl_panelRequest.createSequentialGroup()
-					.addGap(32)
-					.addComponent(textField_Request, GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
-					.addGap(35))
+			gl_panelRequest.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panelRequest.createSequentialGroup()
 					.addGap(57)
 					.addComponent(btnRequest, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -818,21 +810,32 @@ public class MainGUI{
 					.addGap(56)
 					.addComponent(lblNewLabelRequest, GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
 					.addGap(60))
+				.addGroup(gl_panelRequest.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(textField_Request, GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
+					.addGap(57))
+				.addGroup(gl_panelRequest.createSequentialGroup()
+					.addGroup(gl_panelRequest.createParallelGroup(Alignment.TRAILING)
+						.addComponent(lblRequest1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+						.addGroup(gl_panelRequest.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(lblRequest, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+					.addGap(4))
 		);
 		gl_panelRequest.setVerticalGroup(
-				gl_panelRequest.createParallelGroup(Alignment.LEADING, false)
+			gl_panelRequest.createParallelGroup(Alignment.LEADING, false)
 				.addGroup(gl_panelRequest.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(lblRequest)
 					.addGap(49)
 					.addComponent(lblRequest1)
 					.addGap(49)
-					.addComponent(lblNewLabelRequest)					
+					.addComponent(lblNewLabelRequest)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(textField_Request, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGap(11)
 					.addComponent(btnRequest)
-					.addContainerGap(174, Short.MAX_VALUE))
+					.addContainerGap(83, Short.MAX_VALUE))
 		);
 		panelRequest.setLayout(gl_panelRequest);		
 		
@@ -1106,15 +1109,15 @@ public class MainGUI{
 		gl_physicalItemPage.setHorizontalGroup(
 			gl_physicalItemPage.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_physicalItemPage.createSequentialGroup()
-					.addGroup(gl_physicalItemPage.createParallelGroup(Alignment.TRAILING)
+					.addGroup(gl_physicalItemPage.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_physicalItemPage.createSequentialGroup()
 							.addGap(732)
 							.addComponent(btnRefreshInventory, GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-						.addGroup(Alignment.LEADING, gl_physicalItemPage.createSequentialGroup()
+						.addGroup(gl_physicalItemPage.createSequentialGroup()
 							.addGap(47)
-							.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 186, GroupLayout.PREFERRED_SIZE)
+							.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
 							.addGap(40)
-							.addComponent(inventoryScroll, GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)))
+							.addComponent(inventoryScroll, GroupLayout.DEFAULT_SIZE, 557, Short.MAX_VALUE)))
 					.addContainerGap())
 		);
 		gl_physicalItemPage.setVerticalGroup(
@@ -1125,11 +1128,12 @@ public class MainGUI{
 							.addGap(17)
 							.addComponent(btnRefreshInventory)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(inventoryScroll, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addComponent(inventoryScroll))
 						.addGroup(gl_physicalItemPage.createSequentialGroup()
 							.addGap(64)
-							.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 330, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+							.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
+							.addGap(79)))
+					.addGap(57))
 		);
 		physicalItemPage.setLayout(gl_physicalItemPage);
 		btnRefreshInventory.addActionListener(new ActionListener() {
@@ -1176,11 +1180,13 @@ public class MainGUI{
 			gl_onlineItemsPage.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_onlineItemsPage.createSequentialGroup()
 					.addGap(10)
-					.addComponent(panel_Subs, GroupLayout.PREFERRED_SIZE, 218, GroupLayout.PREFERRED_SIZE)
+					.addComponent(panel_Subs, GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
 					.addGap(106)
 					.addGroup(gl_onlineItemsPage.createParallelGroup(Alignment.TRAILING)
-						.addComponent(onlineScroll, GroupLayout.PREFERRED_SIZE, 496, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnRefreshOnline, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE))
+						.addComponent(onlineScroll, GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE)
+						.addGroup(gl_onlineItemsPage.createSequentialGroup()
+							.addGap(412)
+							.addComponent(btnRefreshOnline, GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)))
 					.addContainerGap())
 		);
 		gl_onlineItemsPage.setVerticalGroup(
@@ -1188,11 +1194,12 @@ public class MainGUI{
 				.addGroup(gl_onlineItemsPage.createSequentialGroup()
 					.addGap(37)
 					.addGroup(gl_onlineItemsPage.createParallelGroup(Alignment.LEADING)
-						.addComponent(panel_Subs, GroupLayout.PREFERRED_SIZE, 423, GroupLayout.PREFERRED_SIZE)
+						.addComponent(panel_Subs, GroupLayout.DEFAULT_SIZE, 423, Short.MAX_VALUE)
 						.addGroup(gl_onlineItemsPage.createSequentialGroup()
 							.addComponent(btnRefreshOnline)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(onlineScroll, GroupLayout.PREFERRED_SIZE, 394, GroupLayout.PREFERRED_SIZE))))
+							.addComponent(onlineScroll, GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)))
+					.addGap(70))
 		);
 		
 		JLabel lblUnSubscribe = new JLabel("UnSubscribe by Id");
@@ -1266,23 +1273,26 @@ public class MainGUI{
 			gl_readOnlinePage.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_readOnlinePage.createSequentialGroup()
 					.addGap(20)
-					.addComponent(panel_Read, GroupLayout.PREFERRED_SIZE, 217, GroupLayout.PREFERRED_SIZE)
+					.addComponent(panel_Read, GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
 					.addGap(70)
 					.addGroup(gl_readOnlinePage.createParallelGroup(Alignment.TRAILING)
-						.addComponent(btnRrefreshRead)
-						.addComponent(scrollRead, GroupLayout.PREFERRED_SIZE, 515, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(18, Short.MAX_VALUE))
+						.addGroup(gl_readOnlinePage.createSequentialGroup()
+							.addGap(444)
+							.addComponent(btnRrefreshRead, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+						.addComponent(scrollRead, GroupLayout.DEFAULT_SIZE, 515, Short.MAX_VALUE))
+					.addGap(18))
 		);
 		gl_readOnlinePage.setVerticalGroup(
-			gl_readOnlinePage.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_readOnlinePage.createSequentialGroup()
-					.addContainerGap(76, Short.MAX_VALUE)
+			gl_readOnlinePage.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_readOnlinePage.createSequentialGroup()
+					.addGap(76)
 					.addGroup(gl_readOnlinePage.createParallelGroup(Alignment.TRAILING)
-						.addComponent(panel_Read, GroupLayout.PREFERRED_SIZE, 430, GroupLayout.PREFERRED_SIZE)
+						.addComponent(panel_Read, GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
 						.addGroup(gl_readOnlinePage.createSequentialGroup()
+							.addGap(61)
 							.addComponent(btnRrefreshRead)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(scrollRead, GroupLayout.PREFERRED_SIZE, 340, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(scrollRead, GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)))
 					.addGap(24))
 		);
 		
@@ -1535,11 +1545,15 @@ public class MainGUI{
 		JButton btnSub = new JButton("Subscribe");
 		btnSub.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				//.copySubscriptionOption((OnlineItem) system.getSubOp(Integer.valueOf(textField_Sub.getText())));
-				loggedIn.subscribe((OnlineItem)system.getOnlineItem(Integer.valueOf(textField_Sub.getText())));
-				updateTable1(tableSubs, loggedIn, system.getSubs());
-
+				//Prevents disabled Items from being rented
+				if(((OnlineItem)system.getOnlineItem(Integer.valueOf(textField_Sub.getText()))).getStatus().getState().getClass().equals(new Disabled().getClass())){
+					System.out.println("Item is disabled and not allowed to currently be rented");
+				}
+				else {
+					//.copySubscriptionOption((OnlineItem) system.getSubOp(Integer.valueOf(textField_Sub.getText())));
+					loggedIn.subscribe((OnlineItem)system.getOnlineItem(Integer.valueOf(textField_Sub.getText())));
+					updateTable1(tableSubs, loggedIn, system.getSubs());
+				}
 			}
 		});
 		GroupLayout gl_panel_2 = new GroupLayout(panel_2);
@@ -1554,12 +1568,12 @@ public class MainGUI{
 					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel_2.createSequentialGroup()
 							.addGap(10)
-							.addComponent(btnSub)
-							.addContainerGap())
+							.addComponent(btnSub, GroupLayout.PREFERRED_SIZE, 28, Short.MAX_VALUE)
+							.addGap(61))
 						.addGroup(gl_panel_2.createSequentialGroup()
 							.addGroup(gl_panel_2.createParallelGroup(Alignment.TRAILING)
-								.addComponent(textField_Sub, 104, 104, 104)
-								.addComponent(lblSubs, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+								.addComponent(lblSubs, GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
+								.addComponent(textField_Sub, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE))
 							.addGap(54))))
 		);
 		gl_panel_2.setVerticalGroup(
@@ -1577,31 +1591,6 @@ public class MainGUI{
 		);
 		panel_2.setLayout(gl_panel_2);
 		
-		JPanel pReccomendation_1 = new JPanel();
-		pReccomendation_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		
-		JLabel recomendationsLabel_1 = new JLabel("Recomendations");
-		recomendationsLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		recomendationsLabel_1.setFont(new Font("Book Antiqua", Font.PLAIN, 18));
-		GroupLayout gl_pReccomendation_1 = new GroupLayout(pReccomendation_1);
-		gl_pReccomendation_1.setHorizontalGroup(
-			gl_pReccomendation_1.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 155, Short.MAX_VALUE)
-				.addGroup(gl_pReccomendation_1.createSequentialGroup()
-					.addGap(10)
-					.addComponent(recomendationsLabel_1)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
-		gl_pReccomendation_1.setVerticalGroup(
-			gl_pReccomendation_1.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 339, Short.MAX_VALUE)
-				.addGroup(gl_pReccomendation_1.createSequentialGroup()
-					.addGap(11)
-					.addComponent(recomendationsLabel_1)
-					.addContainerGap(303, Short.MAX_VALUE))
-		);
-		pReccomendation_1.setLayout(gl_pReccomendation_1);
-		
 		JButton bthSearch_1 = new JButton("Search");
 		
 		textField_1 = new JTextField();
@@ -1613,56 +1602,51 @@ public class MainGUI{
 		GroupLayout gl_centerContent_Sub = new GroupLayout(centerContent_Sub);
 		gl_centerContent_Sub.setHorizontalGroup(
 			gl_centerContent_Sub.createParallelGroup(Alignment.LEADING)
-				.addComponent(topBar_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+				.addComponent(topBar_1, GroupLayout.DEFAULT_SIZE, 846, Short.MAX_VALUE)
 				.addGroup(gl_centerContent_Sub.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(pReccomendation_1, GroupLayout.PREFERRED_SIZE, 155, GroupLayout.PREFERRED_SIZE)
 					.addGroup(gl_centerContent_Sub.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_centerContent_Sub.createSequentialGroup()
-							.addGap(18)
+							.addGap(39)
 							.addGroup(gl_centerContent_Sub.createParallelGroup(Alignment.TRAILING)
-								.addComponent(btnRefreshSub)
-								.addComponent(scrollSubs, GroupLayout.PREFERRED_SIZE, 470, GroupLayout.PREFERRED_SIZE)))
+								.addGroup(gl_centerContent_Sub.createSequentialGroup()
+									.addGap(171)
+									.addComponent(bthSearch_1, GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
+									.addGap(163)
+									.addComponent(btnRefreshSub, GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE))
+								.addComponent(scrollSubs, GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE)))
 						.addGroup(gl_centerContent_Sub.createSequentialGroup()
-							.addGap(106)
-							.addGroup(gl_centerContent_Sub.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_centerContent_Sub.createSequentialGroup()
-									.addGap(74)
-									.addComponent(searchLabel_1, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE))
-								.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 274, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_centerContent_Sub.createSequentialGroup()
-									.addGap(105)
-									.addComponent(bthSearch_1, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)))))
-					.addGap(10)
-					.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 173, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
+							.addGap(114)
+							.addComponent(textField_1, GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
+							.addGap(121))
+						.addGroup(gl_centerContent_Sub.createSequentialGroup()
+							.addGap(191)
+							.addComponent(searchLabel_1, GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
+							.addGap(195)))
+					.addGap(18)
+					.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 173, Short.MAX_VALUE)
+					.addGap(146))
 		);
 		gl_centerContent_Sub.setVerticalGroup(
 			gl_centerContent_Sub.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_centerContent_Sub.createSequentialGroup()
 					.addComponent(topBar_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(61)
 					.addGroup(gl_centerContent_Sub.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_centerContent_Sub.createParallelGroup(Alignment.LEADING)
-							.addGroup(gl_centerContent_Sub.createSequentialGroup()
-								.addPreferredGap(ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
-								.addComponent(searchLabel_1)
-								.addGap(6)
-								.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addGap(6)
-								.addComponent(bthSearch_1)
-								.addGap(24)
-								.addComponent(btnRefreshSub)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(scrollSubs, GroupLayout.PREFERRED_SIZE, 372, GroupLayout.PREFERRED_SIZE)
-								.addContainerGap())
-							.addGroup(gl_centerContent_Sub.createSequentialGroup()
-								.addGap(28)
-								.addComponent(pReccomendation_1, GroupLayout.PREFERRED_SIZE, 339, GroupLayout.PREFERRED_SIZE)
-								.addContainerGap()))
 						.addGroup(gl_centerContent_Sub.createSequentialGroup()
-							.addGap(18)
-							.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 330, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap())))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(searchLabel_1)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(gl_centerContent_Sub.createParallelGroup(Alignment.BASELINE)
+								.addComponent(btnRefreshSub)
+								.addComponent(bthSearch_1))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(scrollSubs, GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE))
+						.addGroup(gl_centerContent_Sub.createSequentialGroup()
+							.addComponent(panel_2, GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
+							.addGap(118)))
+					.addGap(51))
 		);
 		
 		tableSubs = new JTable();
@@ -1670,11 +1654,11 @@ public class MainGUI{
 			new Object[][] {
 			},
 			new String[] {
-				"Id", "Name", "Price"
+				"Id", "Name", "Price", "Status"
 			}
 		) {
 			boolean[] columnEditables = new boolean[] {
-				false, false, false
+				false, false, false, false
 			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
@@ -1747,16 +1731,16 @@ public class MainGUI{
 			gl_topBar_1_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_topBar_1_1.createSequentialGroup()
 					.addGap(9)
-					.addComponent(home_1_1)
+					.addComponent(home_1_1, GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
 					.addGap(10)
-					.addComponent(inventory_1_1)
+					.addComponent(inventory_1_1, GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(rent_1_1)
+					.addComponent(rent_1_1, GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(Subscribe_3_1)
+					.addComponent(Subscribe_3_1, GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(topBarTitle_1_1, GroupLayout.PREFERRED_SIZE, 211, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(318, Short.MAX_VALUE))
+					.addComponent(topBarTitle_1_1, GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
+					.addGap(308))
 		);
 		gl_topBar_1_1.setVerticalGroup(
 			gl_topBar_1_1.createParallelGroup(Alignment.LEADING)
@@ -1876,7 +1860,6 @@ public class MainGUI{
 		GroupLayout gl_centerContentPanel = new GroupLayout(centerContentPanel);
 		gl_centerContentPanel.setHorizontalGroup(
 			gl_centerContentPanel.createParallelGroup(Alignment.LEADING)
-				.addComponent(topBar_1_1, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 				.addGroup(gl_centerContentPanel.createSequentialGroup()
 					.addGroup(gl_centerContentPanel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_centerContentPanel.createSequentialGroup()
@@ -1884,24 +1867,28 @@ public class MainGUI{
 							.addComponent(lblNewLabel_1, GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE))
 						.addGroup(gl_centerContentPanel.createSequentialGroup()
 							.addGap(18)
-							.addComponent(btnNewButton_7))
+							.addComponent(btnNewButton_7, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addGap(14))
 						.addGroup(gl_centerContentPanel.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(textFieldRemove, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(textFieldRemove)
+							.addGap(7)))
 					.addGap(18)
-					.addComponent(displayScrollPane_1, GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE)
+					.addComponent(displayScrollPane_1, GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE)
 					.addGap(189))
 				.addGroup(gl_centerContentPanel.createSequentialGroup()
 					.addGap(137)
-					.addComponent(btnNewButton_5)
+					.addComponent(btnNewButton_5, GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
 					.addGap(66)
-					.addComponent(btnNewButton_6)
-					.addContainerGap(495, Short.MAX_VALUE))
+					.addComponent(btnNewButton_6, GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
+					.addGap(485))
+				.addComponent(topBar_1_1, GroupLayout.DEFAULT_SIZE, 846, Short.MAX_VALUE)
 		);
 		gl_centerContentPanel.setVerticalGroup(
 			gl_centerContentPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_centerContentPanel.createSequentialGroup()
 					.addComponent(topBar_1_1, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_centerContentPanel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_centerContentPanel.createSequentialGroup()
 							.addGap(44)
@@ -1941,11 +1928,13 @@ public class MainGUI{
 		GroupLayout gl_cartPage = new GroupLayout(cartPage);
 		gl_cartPage.setHorizontalGroup(
 			gl_cartPage.createParallelGroup(Alignment.LEADING)
-				.addComponent(centerContentPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+				.addComponent(centerContentPanel, GroupLayout.DEFAULT_SIZE, 846, Short.MAX_VALUE)
 		);
 		gl_cartPage.setVerticalGroup(
 			gl_cartPage.createParallelGroup(Alignment.LEADING)
-				.addComponent(centerContentPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+				.addGroup(gl_cartPage.createSequentialGroup()
+					.addComponent(centerContentPanel, GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)
+					.addGap(0))
 		);
 		cartPage.setLayout(gl_cartPage);
 		
