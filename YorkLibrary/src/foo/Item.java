@@ -9,6 +9,7 @@ public abstract class Item {
 	//discount is a decimal representing the percentage an item is being discounted
 	//i.e 0.35 means 35% discount, so item's price is price-(0.35*price) 
 	private double discount; 
+
 	
 	public Item() {
 		status = new ItemStateContext();
@@ -21,6 +22,13 @@ public abstract class Item {
 		this.price = inputPrice;
 		this.status = disabled;
 		this.discount=0.0;
+	}
+	public Item(int inputId,String inputName, double inputPrice, ItemStateContext disabled, double discount) {
+		this.id = inputId;
+		this.name= inputName;
+		this.price = inputPrice;
+		this.status = disabled;
+		this.discount=discount;
 	}
 	
 	//Setters

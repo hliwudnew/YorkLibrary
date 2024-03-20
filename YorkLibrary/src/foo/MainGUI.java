@@ -165,6 +165,30 @@ public class MainGUI{
 				tblModel.addRow(rowdata);
 			}
 		}
+		//updates a table with physicalItem's has extra column for showing discount (rent table - searchTable)
+		public <T extends Item> void updateTable5(JTable table, User user, ArrayList<T> listToParse) {
+			//Clears the table of old data 
+			DefaultTableModel clear = (DefaultTableModel) table.getModel();
+			clear.setRowCount(0);
+			//Loops through the CSV data and adds it to the table
+			for(Item item : listToParse) {
+				String[] rowdata = {item.getId()+"",item.getName(),item.getPrice()+"",item.getStatus().getState().getClass().toString().substring(10)+"", Double.toString(item.getDiscount()*100)};
+				DefaultTableModel tblModel = (DefaultTableModel) table.getModel();
+				tblModel.addRow(rowdata);
+			}
+		}
+		//updates a table with physicalItem's has extra column for showing discount (cart table)
+		public <T extends Item> void updateTable6(JTable table, User user, ArrayList<T> listToParse) {
+			//Clears the table of old data 
+			DefaultTableModel clear = (DefaultTableModel) table.getModel();
+			clear.setRowCount(0);
+			//Loops through the CSV data and adds it to the table
+			for(Item item : listToParse) {
+				String[] rowdata = {item.getId()+"",item.getName(),item.getPrice()+"",Double.toString(item.getDiscount()*100)};
+				DefaultTableModel tblModel = (DefaultTableModel) table.getModel();
+				tblModel.addRow(rowdata);
+			}
+		}
 	public PaymentContext debitPopup() {
 		JTextField name = new JTextField();
 		JTextField card = new JTextField();
@@ -367,7 +391,7 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "rentPage_");
 				frame.repaint();
 				frame.revalidate();
-				updateTable2(searchTable, loggedIn, system.getStock());
+				updateTable5(searchTable, loggedIn, system.getStock());
 			}
 		});
 		
@@ -407,7 +431,7 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "cart_");
 				frame.repaint();
 				frame.revalidate();
-				updateTable1(table, loggedIn, loggedIn.getCart().getItems());
+				updateTable6(table, loggedIn, loggedIn.getCart().getItems());
 			}
 		});
 		GroupLayout gl_topBar = new GroupLayout(topBar);
@@ -528,7 +552,7 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "cart_");
 				frame.repaint();
 				frame.revalidate();
-				updateTable1(table, loggedIn,loggedIn.getCart().getItems());
+				updateTable6(table, loggedIn,loggedIn.getCart().getItems());
 			}
 		});
 		GroupLayout gl_topBar_Rent = new GroupLayout(topBar_Rent);
@@ -624,7 +648,7 @@ public class MainGUI{
 		btnSeeAll = new JButton("See All");
 		btnSeeAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				updateTable2(searchTable, loggedIn, system.getStock());
+				updateTable5(searchTable, loggedIn, system.getStock());
 			}
 		});
 
@@ -844,11 +868,11 @@ public class MainGUI{
 			new Object[][] {
 			},
 			new String[] {
-				"Id", "Name", "Price", "Status"
+				"Id", "Name", "Price", "Status", "Discount(%)"
 			}
 		) {
 			boolean[] columnEditables = new boolean[] {
-				false, false, false, false
+				false, false, false, false, false
 			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
@@ -925,7 +949,7 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "rentPage_");
 				frame.repaint();
 				frame.revalidate();
-				updateTable2(searchTable, loggedIn, system.getStock());
+				updateTable5(searchTable, loggedIn, system.getStock());
 			}
 		});
 		
@@ -957,7 +981,7 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "cart_");
 				frame.repaint();
 				frame.revalidate();
-				updateTable1(table, loggedIn, loggedIn.getCart().getItems());
+				updateTable6(table, loggedIn, loggedIn.getCart().getItems());
 			}
 		});
 		GroupLayout gl_topBar_Inv = new GroupLayout(topBar_Inv);
@@ -1061,13 +1085,46 @@ public class MainGUI{
 				else {
 					Object[] options = CurrencyExchange.getCurrencyList().toArray();
 					Object userInfo=JOptionPane.showInputDialog(frame, "This item is overdue\nChoose currency type:", "Overdue Item: Currency Options", JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
-					IPayment payment = new CurrencyExchange(new Payment(retItem.getFee()));
-					double finalPrice = payment.getPrice((String)userInfo);
-					int response = JOptionPane.showConfirmDialog(frame, "Your total is: "+ String.format("%.2f",finalPrice)+"\n"
-							+ "Would you like to confirm your payment?", "Confirm payment", JOptionPane.YES_NO_OPTION);
-					if(response == JOptionPane.YES_OPTION) {
-						loggedIn.returnPhysicalItem(retItem);
+					if(userInfo!=null) {
+						IPayment payment = new CurrencyExchange(new Payment(retItem.getFee()));
+						double finalPrice = payment.getPrice((String)userInfo);
+						int response = JOptionPane.showConfirmDialog(frame, "Your total is: "+ String.format("%.2f",finalPrice)+"\n"
+								+ "Would you like to confirm your payment?", "Confirm payment", JOptionPane.YES_NO_OPTION);
+						if(response == JOptionPane.YES_OPTION) {
+							Object[] options2 = PaymentContext.getPaymentMethods();
+							Object userInfo2=JOptionPane.showInputDialog(frame, "Choose payment method", "Payment Options", JOptionPane.PLAIN_MESSAGE, null, options2, options2[0]);
+							PaymentContext paymentInfo=null;
+							if(userInfo2!=null && userInfo2.equals("Debit")) {
+								paymentInfo=debitPopup();
+							}
+							else if(userInfo2!=null && userInfo2.equals("Paypal")) {
+								paymentInfo=paypalPopup();
+							}
+							else if(userInfo2!=null && userInfo2.equals("Gift")) {
+								paymentInfo=giftPopup();
+							}
+							else if(userInfo2!=null && userInfo2.equals("Credit")) {
+								paymentInfo=creditPopup();
+							}
+							//payment will only be null if user hits cancel on the popups to enter info, if it is null
+							//then cancel payment otherwise proceed to payment confirmation
+							if(paymentInfo!=null) {
+								int response2 = JOptionPane.showConfirmDialog(frame, "Would you like to confirm your payment?", "Confirm Payment", JOptionPane.YES_NO_OPTION);
+								if(response2==JOptionPane.YES_OPTION) {
+									//if the user entered valid info then checkout, if not then cancel payment
+									if(paymentInfo.pay(finalPrice)) {
+										loggedIn.returnPhysicalItem(retItem);
+									}
+									else {
+										JOptionPane.showMessageDialog(frame, "Invalid payment information entered, payment was cancelled.", "Failed to Return", JOptionPane.INFORMATION_MESSAGE);
+									}
+
+								}
+							}
+
+						}
 					}
+
 				}
 				updateTable3(inventoryTable, loggedIn, loggedIn.getRented() );
 			}
@@ -1432,7 +1489,7 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "rentPage_");
 				frame.repaint();
 				frame.revalidate();
-				updateTable2(searchTable, loggedIn, system.getStock());
+				updateTable5(searchTable, loggedIn, system.getStock());
 			}
 		});
 		
@@ -1464,7 +1521,7 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "cart_");
 				frame.repaint();
 				frame.revalidate();
-				updateTable1(table, loggedIn, loggedIn.getCart().getItems());
+				updateTable6(table, loggedIn, loggedIn.getCart().getItems());
 			}
 		});
 		GroupLayout gl_topBar_1 = new GroupLayout(topBar_1);
@@ -1703,7 +1760,7 @@ public class MainGUI{
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "rentPage_");
 				frame.repaint();
 				frame.revalidate();
-				updateTable2(searchTable, loggedIn, system.getStock());
+				updateTable5(searchTable, loggedIn, system.getStock());
 			}
 		});
 		JButton Subscribe_3_1 = new JButton("Subscribe");
@@ -1763,7 +1820,7 @@ public class MainGUI{
 		btnNewButton_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				loggedIn.getMenu().clickClear();
-				updateTable1(table, loggedIn, loggedIn.getCart().getItems());
+				updateTable6(table, loggedIn, loggedIn.getCart().getItems());
 			}
 		});
 		
@@ -1824,7 +1881,9 @@ public class MainGUI{
 										if(loggedIn.getMenu().clickCheckout()) {
 											loggedIn.getMenu().clickClear();
 										}
-
+									}
+									else {
+										JOptionPane.showMessageDialog(frame, "Invalid payment information entered, payment was cancelled.", "Failed to Checkout", JOptionPane.INFORMATION_MESSAGE);
 									}
 
 								}
@@ -1837,7 +1896,7 @@ public class MainGUI{
 
 				}
 
-				updateTable1(table, loggedIn, loggedIn.getCart().getItems());
+				updateTable6(table, loggedIn, loggedIn.getCart().getItems());
 			}
 		});
 		
@@ -1849,7 +1908,7 @@ public class MainGUI{
 				if(!textFieldRemove.getText().isEmpty()){
 					loggedIn.getMenu().clickRemove(((PhysicalItem)system.getPhysicalItem(Integer.valueOf(textFieldRemove.getText()))));
 				}
-				updateTable1(table, loggedIn, loggedIn.getCart().getItems());
+				updateTable6(table, loggedIn, loggedIn.getCart().getItems());
 			}
 		});
 		
@@ -1913,7 +1972,7 @@ public class MainGUI{
 		new Object[][] {
 		},
 		new String[] {
-			"Id", "Name", "Price"
+			"Id", "Name", "Price", "Discount(%)"
 		}
 	) {
 		boolean[] columnEditables = new boolean[] {

@@ -17,7 +17,14 @@ public class ManagementTeam {
 	//Methods
 	public void addPhysicalItem(PhysicalItem item) {
 		if(item != null) {
+			//use prototype to make 19 copies and add them as well 
 			system.addStock(item);
+			PhysicalItemPrototype originalItem = item;
+			PhysicalItem copyItem;
+			for(int i=1; i<system.getNUM_COPIES_PER_ITEM(); i++) {
+				copyItem = (PhysicalItem) originalItem.cloneItem();
+				system.addStock(copyItem);
+			}
 		}
 		else {
 			System.out.println("Null Item");

@@ -216,7 +216,7 @@ public class CSVReader {
 
 	//Uploads everything to the CSV on close
 	public static void upload(LibrarySystem system) {
-		String itemHeaders = "Id,Name,Price,Disabled,DueDate,Barrower,Fee\n";
+		String itemHeaders = "Id,Name,Price,Disabled,DueDate,Barrower,Fee,Discount\n";
 		String accountHeaders = "Email,Password,Rented,Subscriptions,Type,Courses,TextBooks\n";
 		
 		String subscribersHeader ="Id,Email\n";
@@ -246,7 +246,13 @@ public class CSVReader {
 			 * Saves item data
 			 */
 			for(Item I: items) {
-				buffWrite.write(I.getId()+","+I.getName()+","+I.getPrice()+","+I.getStatus().getState().getClass().toString().substring(10)+","+ ((PhysicalItem) I).getDueDate() +","+ ((PhysicalItem) I).getBorrower()+","+ ((PhysicalItem) I).getFee()+"\n");//Rewrites CSV file
+				if(((PhysicalItem) I).getBorrower()==null) {
+					buffWrite.write(I.getId()+","+I.getName()+","+I.getPrice()+","+I.getStatus().getState().getClass().toString().substring(10)+","+ ((PhysicalItem) I).getDueDate() +",BLANK,"+ ((PhysicalItem) I).getFee()+","+((PhysicalItem) I).getDiscount()+"\n");//Rewrites CSV file
+				}
+				else {
+					buffWrite.write(I.getId()+","+I.getName()+","+I.getPrice()+","+I.getStatus().getState().getClass().toString().substring(10)+","+ ((PhysicalItem) I).getDueDate() +","+ ((PhysicalItem) I).getBorrower()+","+ ((PhysicalItem) I).getFee()+","+((PhysicalItem) I).getDiscount()+"\n");//Rewrites CSV file
+				}
+				
 			}
 			buffWrite.close();// Closes the writer so the data saves
 			
@@ -441,6 +447,7 @@ public class CSVReader {
 
 					temp.setBorrower(values[5]);
 					temp.setFee(Double.valueOf(values[6]));
+					temp.setDiscount(Double.valueOf(values[7]));
 					//Assign Item to User
 					if(!temp.getBorrower().equals("BLANK")) {
 						//commented out because if it rents everytime we download, then it will overwrite the due dates

@@ -2,19 +2,20 @@ package foo;
 
 import java.util.Date;
 
-public class PhysicalItem extends Item{
+public class PhysicalItem extends Item implements PhysicalItemPrototype{
 
 	private Date dueDate;
 	private String borrower;
 	private double fee;
 	private boolean lost;
+	private static int nextValidId=0;
 
-
-
+	//TODO add a static id variable to ITEM class that gets incremented by 1 on object creation
+	//TODO add a clone method and implement from prototype interface so that phys items can be cloned to have 20 copies
 	
 
 	public PhysicalItem() {
-		
+		this.nextValidId++;
 	}
 	
 	public PhysicalItem(Date dueDate,String borrower,double fee) {
@@ -22,7 +23,47 @@ public class PhysicalItem extends Item{
 		this.borrower = borrower;
 		this.fee = fee;
 		this.lost=false;
+		this.nextValidId++;
 	}
+	//make a physical item with all required fields (using this for cloning)
+	public PhysicalItem(int id, String name, double price, ItemStateContext status, Date dueDate, String borrower,double fee, double discount) {
+		super(id, name, price,status,discount);
+		this.dueDate = dueDate;
+		this.borrower = borrower;
+		this.fee = fee;
+		this.lost=false;
+		this.nextValidId++;
+	}
+	
+	
+	//this method will clone the item it is being called on
+	//a cloned item should copy it's fields such as name, price, discount and status as all items of this type should share these
+	//and since all other fields such as duedate, id, lost, fee and borrower are UNIQUE, they should be different from the original
+	// (i.e a copy is a new item and thus it is impossible for it to have a borrower, be lost, incur a fee, etc. upon creation)
+	// NOTE: this method deep copies all non-primitive fields
+	@Override
+	public PhysicalItem cloneItem() {
+		String cloneName = new String(this.getName());
+		ItemStateContext cloneStatus=null;
+		if(this.getStatus().getState()==null) {
+			cloneStatus=null;
+		}
+		else if(this.getStatus().getState() instanceof Disabled) {
+			cloneStatus= new ItemStateContext(new Disabled());
+		}
+
+		else if(this.getStatus().getState() instanceof Enabled) {
+			cloneStatus= new ItemStateContext(new Enabled());
+		}
+		
+		PhysicalItem clonedItem = new PhysicalItem(PhysicalItem.nextValidId, cloneName, this.getPrice(), cloneStatus, null, "BLANK", 0.0, this.getDiscount());
+		return clonedItem;
+	}
+	
+	public static int getNextValidId() {
+		return nextValidId;
+	}
+
 	public int daysOverdue() {
 		int count=0; //keeps track of how many days the current time is past due date 
 		long dueDate=this.getDueDate().getTime();
