@@ -235,38 +235,6 @@ public class LibrarySystem {
 		return student;
 	}
 
-
-	public boolean existsInCSV(String path, String request, int col) {
-		boolean found = false;
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(new FileReader(path));
-			String line;
-			while ((line = reader.readLine()) != null) {
-				String[] parts = line.split(",");
-				if (parts.length > col && parts[col].trim().equalsIgnoreCase(request)) {
-					found = true;
-					break;
-				}
-			}
-		} 
-		catch (IOException e) {
-			e.printStackTrace();
-		} 
-		finally {
-			try {
-				if (reader != null) {
-					reader.close();
-				}
-			} 
-			catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		return found;
-	}
-
-
 	public int getNUM_COPIES_PER_ITEM() {
 		return NUM_COPIES_PER_ITEM;
 	}

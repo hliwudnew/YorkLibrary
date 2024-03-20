@@ -106,6 +106,9 @@ public class MainGUI{
 	private JButton btnNewButton_4;
 	private JTextField textFieldRemove;
     private NotificationsGUI notificationsGUI;
+    private JTable table_Courses;
+    private JTable table_Textbooks;
+    private JTable table_Old;
 	
 	public static void main(String[] args) {
 		new MainGUI("test@gmail.com");
@@ -154,41 +157,95 @@ public class MainGUI{
 		}
 	}
 	//updates a table with physicalItem's has an extra column for the due date and time due in of the item
-		public <T extends Item> void updateTable4(JTable table, User user, ArrayList<PhysicalItem> listToParse) {
-			//Clears the table of old data 
-			DefaultTableModel clear = (DefaultTableModel) table.getModel();
-			clear.setRowCount(0);
-			//Loops through the CSV data and adds it to the table
-			for(PhysicalItem item : listToParse) {
-				String[] rowdata = {item.getId()+"",item.getName(), item.getStatus().getState().getClass().toString().substring(10)+"", item.getDueStatus(), item.getDueDate().toString()};
+	public <T extends Item> void updateTable4(JTable table, User user, ArrayList<PhysicalItem> listToParse) {
+		//Clears the table of old data 
+		DefaultTableModel clear = (DefaultTableModel) table.getModel();
+		clear.setRowCount(0);
+		//Loops through the CSV data and adds it to the table
+		for(PhysicalItem item : listToParse) {
+			String[] rowdata = {item.getId()+"",item.getName(), item.getStatus().getState().getClass().toString().substring(10)+"", item.getDueStatus(), item.getDueDate().toString()};
+			DefaultTableModel tblModel = (DefaultTableModel) table.getModel();
+			tblModel.addRow(rowdata);
+		}
+	}
+	//updates a table with physicalItem's has extra column for showing discount (rent table - searchTable)
+	public <T extends Item> void updateTable5(JTable table, User user, ArrayList<T> listToParse) {
+		//Clears the table of old data 
+		DefaultTableModel clear = (DefaultTableModel) table.getModel();
+		clear.setRowCount(0);
+		//Loops through the CSV data and adds it to the table
+		for(Item item : listToParse) {
+			String[] rowdata = {item.getId()+"",item.getName(),item.getPrice()+"",item.getStatus().getState().getClass().toString().substring(10)+"", Double.toString(item.getDiscount()*100)};
+			DefaultTableModel tblModel = (DefaultTableModel) table.getModel();
+			tblModel.addRow(rowdata);
+		}
+	}
+	//updates a table with physicalItem's has extra column for showing discount (cart table)
+	public <T extends Item> void updateTable6(JTable table, User user, ArrayList<T> listToParse) {
+		//Clears the table of old data 
+		DefaultTableModel clear = (DefaultTableModel) table.getModel();
+		clear.setRowCount(0);
+		//Loops through the CSV data and adds it to the table
+		for(Item item : listToParse) {
+			String[] rowdata = {item.getId()+"",item.getName(),item.getPrice()+"",Double.toString(item.getDiscount()*100)};
+			DefaultTableModel tblModel = (DefaultTableModel) table.getModel();
+			tblModel.addRow(rowdata);
+		}
+	}
+	
+	public <T extends Item> void updateCoursesTable(JTable table, User user, ArrayList<Course> listToParse) {
+		//Clears the table of old data 
+		DefaultTableModel clear = (DefaultTableModel) table.getModel();
+		clear.setRowCount(0);
+		//Loops through the CSV data and adds it to the table
+		for(Course c : listToParse) {
+			String[] rowdata = {c.getCode()+"",c.getName()};
+			DefaultTableModel tblModel = (DefaultTableModel) table.getModel();
+			tblModel.addRow(rowdata);
+		}
+	}
+	
+	public <T extends Item> void updateTextbooksTable(JTable table, User user, ArrayList<Course> listToParse) {
+		//Clears the table of old data 
+		DefaultTableModel clear = (DefaultTableModel) table.getModel();
+		clear.setRowCount(0);
+		for(Course c : listToParse) {
+			for(PhysicalItem i: c.getTextBooks()) {
+				String[] rowdata = {c.getCode()+"",i.getId()+"",i.getName()};
 				DefaultTableModel tblModel = (DefaultTableModel) table.getModel();
 				tblModel.addRow(rowdata);
 			}
 		}
-		//updates a table with physicalItem's has extra column for showing discount (rent table - searchTable)
-		public <T extends Item> void updateTable5(JTable table, User user, ArrayList<T> listToParse) {
-			//Clears the table of old data 
-			DefaultTableModel clear = (DefaultTableModel) table.getModel();
-			clear.setRowCount(0);
-			//Loops through the CSV data and adds it to the table
-			for(Item item : listToParse) {
-				String[] rowdata = {item.getId()+"",item.getName(),item.getPrice()+"",item.getStatus().getState().getClass().toString().substring(10)+"", Double.toString(item.getDiscount()*100)};
+	}
+	
+	public <T extends Item> void updateOldTextbooksTable(JTable table, Faculty user) {
+		//Clears the table of old data 
+		DefaultTableModel clear = (DefaultTableModel) table.getModel();
+		clear.setRowCount(0);
+		
+		ArrayList<String> dupes = new ArrayList<String>();
+		
+		//Finds all the textbooks that are currently in a course the faculty is in
+		for(Course c: user.getCourses()) {
+			for(Item i : c.getTextBooks()) {
+				for(Item j: user.getTextBooks()) {
+					if(j.getName().equals(i.getName())) {
+						dupes.add(j.getName());
+					}
+				}
+			}
+		}
+		//NOTE: had to do it this way because the faculty objects for old and new textbooks had to not be the same
+		//Only allows the old textbooks that are not in a current course they are in to be listed here
+		for(Item i: user.getTextBooks()) {
+			if(!dupes.contains(i.getName())) {
+				String[] rowdata = {i.getName()};
 				DefaultTableModel tblModel = (DefaultTableModel) table.getModel();
 				tblModel.addRow(rowdata);
 			}
 		}
-		//updates a table with physicalItem's has extra column for showing discount (cart table)
-		public <T extends Item> void updateTable6(JTable table, User user, ArrayList<T> listToParse) {
-			//Clears the table of old data 
-			DefaultTableModel clear = (DefaultTableModel) table.getModel();
-			clear.setRowCount(0);
-			//Loops through the CSV data and adds it to the table
-			for(Item item : listToParse) {
-				String[] rowdata = {item.getId()+"",item.getName(),item.getPrice()+"",Double.toString(item.getDiscount()*100)};
-				DefaultTableModel tblModel = (DefaultTableModel) table.getModel();
-				tblModel.addRow(rowdata);
-			}
-		}
+	}			
+		
 	public PaymentContext debitPopup() {
 		JTextField name = new JTextField();
 		JTextField card = new JTextField();
@@ -286,6 +343,28 @@ public class MainGUI{
 				updateTable3(inventoryTable, loggedIn, loggedIn.getRented());
 				updateTable2(onlineTable, loggedIn, loggedIn.getSubscriptions());
 				updateTable2(tableRead, loggedIn, loggedIn.getSubscriptions());
+				//Updates the Course and Textbook tabs according to user account infromation
+				if(loggedIn.getClass().equals((new Student()).getClass())) {
+					ArrayList<Course> courses = new ArrayList<Course>();
+					for(Course c: system.getCourses()) {
+						if(c.getStudents().contains(loggedIn)) {
+							courses.add(c);
+						}
+					}
+					updateCoursesTable(table_Courses,loggedIn,courses);
+					updateTextbooksTable(table_Textbooks,loggedIn,courses);
+				}
+				else if(loggedIn.getClass().equals((new Faculty()).getClass())) {
+					ArrayList<Course> courses = new ArrayList<Course>();
+					for(Course c: system.getCourses()) {
+						if(c.getFaculty().contains(loggedIn)) {
+							courses.add(c);
+						}
+					}
+					updateCoursesTable(table_Courses,loggedIn,courses);
+					updateTextbooksTable(table_Textbooks,loggedIn,courses);
+					updateOldTextbooksTable(table_Old,(Faculty)loggedIn);
+				}
 			}
 		});
 		
@@ -511,6 +590,30 @@ public class MainGUI{
 				updateTable3(inventoryTable, loggedIn, loggedIn.getRented());
 				updateTable2(onlineTable, loggedIn, loggedIn.getSubscriptions());
 				updateTable2(tableRead, loggedIn, loggedIn.getSubscriptions());
+				//Updates the Course and Textbook tabs according to user account infromation
+				if(loggedIn.getClass().equals((new Student()).getClass())) {
+					ArrayList<Course> courses = new ArrayList<Course>();
+					for(Course c: system.getCourses()) {
+						if(c.getStudents().contains(loggedIn)) {
+							courses.add(c);
+						}
+					}
+					//I could alternatively give the student a list of textbooks but they wouldn't own them, so seems redundant
+					updateCoursesTable(table_Courses,loggedIn,courses);
+					updateTextbooksTable(table_Textbooks,loggedIn,courses);
+				}
+				else if(loggedIn.getClass().equals((new Faculty()).getClass())) {
+					ArrayList<Course> courses = new ArrayList<Course>();
+					for(Course c: system.getCourses()) {
+						if(c.getFaculty().contains(loggedIn)) {
+							courses.add(c);
+						}
+					}
+					//I could alternatively give the student a list of textbooks but they wouldn't own them, so seems redundant
+					updateCoursesTable(table_Courses,loggedIn,courses);
+					updateTextbooksTable(table_Textbooks,loggedIn,courses);
+					updateOldTextbooksTable(table_Old,(Faculty)loggedIn);
+				}
 			}
 		});
 		
@@ -802,8 +905,17 @@ public class MainGUI{
 		btnRequest.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (!textField_Request.getText().isEmpty()) {
-	                boolean existsInCSV = system.existsInCSV("src/data/CourseTextBooks.csv", textField_Request.getText().toLowerCase(), 0);
-	                if (existsInCSV) {
+	                boolean exists = false;
+	                for(Course c: system.getCourses()) {
+	                	for(Item i: c.getTextBooks()) {
+	                		if(i.getName().equals(textField_Request.getText())) {
+	                			exists = true;
+	                			break;
+	                		}
+	                	}
+	                }
+	                
+	                if (exists) {
 	                	System.out.println("high priority");
 	                    String notification = "The requested textbook '" + textField_Request.getText() + "' is a course teaching textbook and the request will be handled promptly.";
 	                    notificationsGUI.sendNotification(notification, 1);
@@ -940,6 +1052,30 @@ public class MainGUI{
 				frame.repaint();
 				frame.revalidate();
 				updateTable3(inventoryTable, loggedIn, loggedIn.getRented());
+				//Updates the Course and Textbook tabs according to user account infromation
+				if(loggedIn.getClass().equals((new Student()).getClass())) {
+					ArrayList<Course> courses = new ArrayList<Course>();
+					for(Course c: system.getCourses()) {
+						if(c.getStudents().contains(loggedIn)) {
+							courses.add(c);
+						}
+					}
+					//I could alternatively give the student a list of textbooks but they wouldn't own them, so seems redundant
+					updateCoursesTable(table_Courses,loggedIn,courses);
+					updateTextbooksTable(table_Textbooks,loggedIn,courses);
+				}
+				else if(loggedIn.getClass().equals((new Faculty()).getClass())) {
+					ArrayList<Course> courses = new ArrayList<Course>();
+					for(Course c: system.getCourses()) {
+						if(c.getFaculty().contains(loggedIn)) {
+							courses.add(c);
+						}
+					}
+					//I could alternatively give the student a list of textbooks but they wouldn't own them, so seems redundant
+					updateCoursesTable(table_Courses,loggedIn,courses);
+					updateTextbooksTable(table_Textbooks,loggedIn,courses);
+					updateOldTextbooksTable(table_Old,(Faculty)loggedIn);
+				}
 			}
 		});
 		
@@ -1434,6 +1570,182 @@ public class MainGUI{
 		});
 		scrollRead.setViewportView(tableRead);
 		readOnlinePage.setLayout(gl_readOnlinePage);
+		
+		JPanel coursesPage = new JPanel();
+		JPanel textBooksPage = new JPanel();
+
+		//TODO: comment out when done editing
+		
+//		if(loggedIn.getClass().equals((new Student()).getClass()) || loggedIn.getClass().equals((new Faculty()).getClass())){
+//		tabbedPane.addTab("Courses", null, coursesPage, null);
+//		tabbedPane.addTab("Textbooks", null, textBooksPage, null);
+//	}
+		
+		tabbedPane.addTab("Courses", null, coursesPage, null);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		
+		JLabel lblNewLabel_2 = new JLabel("My Courses");
+		lblNewLabel_2.setFont(new Font("Book Antiqua", Font.BOLD, 24));
+		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
+		GroupLayout gl_coursesPage = new GroupLayout(coursesPage);
+		gl_coursesPage.setHorizontalGroup(
+			gl_coursesPage.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_coursesPage.createSequentialGroup()
+					.addGroup(gl_coursesPage.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_coursesPage.createSequentialGroup()
+							.addGap(180)
+							.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE))
+						.addGroup(gl_coursesPage.createSequentialGroup()
+							.addGap(338)
+							.addComponent(lblNewLabel_2, GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+							.addGap(157)))
+					.addGap(215))
+		);
+		gl_coursesPage.setVerticalGroup(
+			gl_coursesPage.createParallelGroup(Alignment.LEADING)
+				.addGroup(Alignment.TRAILING, gl_coursesPage.createSequentialGroup()
+					.addGap(88)
+					.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE))
+		);
+		
+		table_Courses = new JTable();
+		table_Courses.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Course Code", "Name"
+			}
+		) {
+			boolean[] columnEditables = new boolean[] {
+				false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		scrollPane.setViewportView(table_Courses);
+		coursesPage.setLayout(gl_coursesPage);
+		tabbedPane.addTab("Textbooks", null, textBooksPage, null);
+	
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		
+		JLabel lblNewLabel_3 = new JLabel("My Textbooks");
+		lblNewLabel_3.setFont(new Font("Book Antiqua", Font.BOLD, 20));
+		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		
+		JLabel lblNewLabel_4 = new JLabel("Old Textbooks");
+		lblNewLabel_4.setVisible(false);
+		lblNewLabel_4.setFont(new Font("Book Antiqua", Font.BOLD, 16));
+		lblNewLabel_4.setHorizontalAlignment(SwingConstants.CENTER);
+		GroupLayout gl_textBooksPage = new GroupLayout(textBooksPage);
+		gl_textBooksPage.setHorizontalGroup(
+			gl_textBooksPage.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_textBooksPage.createSequentialGroup()
+					.addGroup(gl_textBooksPage.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_textBooksPage.createSequentialGroup()
+							.addGap(19)
+							.addComponent(scrollPane_2, GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED))
+						.addGroup(Alignment.TRAILING, gl_textBooksPage.createSequentialGroup()
+							.addGap(30)
+							.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 103, Short.MAX_VALUE)
+							.addGap(9)))
+					.addGroup(gl_textBooksPage.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_textBooksPage.createSequentialGroup()
+							.addGap(41)
+							.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 429, Short.MAX_VALUE)
+							.addGap(209))
+						.addGroup(gl_textBooksPage.createSequentialGroup()
+							.addGap(161)
+							.addComponent(lblNewLabel_3, GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
+							.addGap(329))))
+		);
+		gl_textBooksPage.setVerticalGroup(
+			gl_textBooksPage.createParallelGroup(Alignment.TRAILING)
+				.addGroup(Alignment.LEADING, gl_textBooksPage.createSequentialGroup()
+					.addGap(79)
+					.addGroup(gl_textBooksPage.createParallelGroup(Alignment.TRAILING)
+						.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_textBooksPage.createParallelGroup(Alignment.LEADING)
+						.addComponent(scrollPane_2, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)
+						.addComponent(scrollPane_1, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE))
+					.addContainerGap())
+		);
+		
+		table_Old = new JTable();
+		table_Old.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Name"
+			}
+		) {
+			boolean[] columnEditables = new boolean[] {
+				false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		scrollPane_2.setViewportView(table_Old);
+		
+		table_Textbooks = new JTable();
+		table_Textbooks.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Course", "Id", "Name"
+			}
+		) {
+			boolean[] columnEditables = new boolean[] {
+				false, false, true
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		scrollPane_1.setViewportView(table_Textbooks);
+		textBooksPage.setLayout(gl_textBooksPage);
+		
+		/*
+		 * Textbook & Course stuff
+		 * Displays different UI based on what account type the loggedIn user is
+		 */
+		scrollPane_2.setVisible(false);
+		if(loggedIn.getClass().equals((new Student()).getClass())) {
+			ArrayList<Course> courses = new ArrayList<Course>();
+			for(Course c: system.getCourses()) {
+				if(c.getStudents().contains(loggedIn)) {
+					courses.add(c);
+				}
+			}
+			//I could alternatively give the student a list of textbooks but they wouldn't own them, so seems redundant
+			updateCoursesTable(table_Courses,loggedIn,courses);
+			updateTextbooksTable(table_Textbooks,loggedIn,courses);
+		}
+		else if(loggedIn.getClass().equals((new Faculty()).getClass())) {
+			ArrayList<Course> courses = new ArrayList<Course>();
+			for(Course c: system.getCourses()) {
+				if(c.getFaculty().contains(loggedIn)) {
+					courses.add(c);
+				}
+			}
+			scrollPane_2.setVisible(true);
+			lblNewLabel_4.setVisible(true);
+			//I could alternatively give the student a list of textbooks but they wouldn't own them, so seems redundant
+			updateCoursesTable(table_Courses,loggedIn,courses);
+			updateTextbooksTable(table_Textbooks,loggedIn,courses);
+			updateOldTextbooksTable(table_Old,(Faculty)loggedIn);
+		}		
+		
 		centerContent_Inv.setLayout(gl_centerContent_Inv);
 		GroupLayout gl_inventoryPage = new GroupLayout(inventoryPage);
 		gl_inventoryPage.setHorizontalGroup(
@@ -1480,6 +1792,30 @@ public class MainGUI{
 				updateTable3(inventoryTable, loggedIn, loggedIn.getRented());
 				updateTable2(onlineTable, loggedIn, loggedIn.getSubscriptions());
 				updateTable2(tableRead, loggedIn, loggedIn.getSubscriptions());
+				//Updates the Course and Textbook tabs according to user account infromation
+				if(loggedIn.getClass().equals((new Student()).getClass())) {
+					ArrayList<Course> courses = new ArrayList<Course>();
+					for(Course c: system.getCourses()) {
+						if(c.getStudents().contains(loggedIn)) {
+							courses.add(c);
+						}
+					}
+					//I could alternatively give the student a list of textbooks but they wouldn't own them, so seems redundant
+					updateCoursesTable(table_Courses,loggedIn,courses);
+					updateTextbooksTable(table_Textbooks,loggedIn,courses);
+				}
+				else if(loggedIn.getClass().equals((new Faculty()).getClass())) {
+					ArrayList<Course> courses = new ArrayList<Course>();
+					for(Course c: system.getCourses()) {
+						if(c.getFaculty().contains(loggedIn)) {
+							courses.add(c);
+						}
+					}
+					//I could alternatively give the student a list of textbooks but they wouldn't own them, so seems redundant
+					updateCoursesTable(table_Courses,loggedIn,courses);
+					updateTextbooksTable(table_Textbooks,loggedIn,courses);
+					updateOldTextbooksTable(table_Old,(Faculty)loggedIn);
+				}
 			}
 		});
 		
@@ -1609,7 +1945,14 @@ public class MainGUI{
 				else {
 					//.copySubscriptionOption((OnlineItem) system.getSubOp(Integer.valueOf(textField_Sub.getText())));
 					loggedIn.subscribe((OnlineItem)system.getOnlineItem(Integer.valueOf(textField_Sub.getText())));
-					updateTable1(tableSubs, loggedIn, system.getSubs());
+					//Removes Student online textbooks, since they are technically subscriptions but shouldn't be allow subscribing
+					ArrayList<OnlineItem> holder = new ArrayList<OnlineItem>();
+					for(OnlineItem I: system.getSubs()) {
+						if(I.getId() >=0) {
+							holder.add(I);
+						}
+					}
+					updateTable1(tableSubs, loggedIn, holder);
 				}
 			}
 		});
@@ -1752,6 +2095,30 @@ public class MainGUI{
 				updateTable3(inventoryTable, loggedIn, loggedIn.getRented());
 				updateTable2(onlineTable, loggedIn, loggedIn.getSubscriptions());
 				updateTable2(tableRead, loggedIn, loggedIn.getSubscriptions());
+				//Updates the Course and Textbook tabs according to user account infromation
+				if(loggedIn.getClass().equals((new Student()).getClass())) {
+					ArrayList<Course> courses = new ArrayList<Course>();
+					for(Course c: system.getCourses()) {
+						if(c.getStudents().contains(loggedIn)) {
+							courses.add(c);
+						}
+					}
+					//I could alternatively give the student a list of textbooks but they wouldn't own them, so seems redundant
+					updateCoursesTable(table_Courses,loggedIn,courses);
+					updateTextbooksTable(table_Textbooks,loggedIn,courses);
+				}
+				else if(loggedIn.getClass().equals((new Faculty()).getClass())) {
+					ArrayList<Course> courses = new ArrayList<Course>();
+					for(Course c: system.getCourses()) {
+						if(c.getFaculty().contains(loggedIn)) {
+							courses.add(c);
+						}
+					}
+					//I could alternatively give the student a list of textbooks but they wouldn't own them, so seems redundant
+					updateCoursesTable(table_Courses,loggedIn,courses);
+					updateTextbooksTable(table_Textbooks,loggedIn,courses);
+					updateOldTextbooksTable(table_Old,(Faculty)loggedIn);
+				}
 			}
 		});
 		JButton rent_1_1 = new JButton("Rent");

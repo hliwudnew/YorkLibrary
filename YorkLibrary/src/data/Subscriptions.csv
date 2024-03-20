@@ -1,11 +1,7 @@
 Id,Name,Price,Disabled,Link
-25,Cool,0.0,Enabled,https://www.youtube.com/
--1,wda,12.0,Enabled,https://www.amazon.ca/New-Used-Textbooks-Books/b?ie=UTF8&node=15115321
--2,Vis,2.0,Enabled,https://www.amazon.ca/New-Used-Textbooks-Books/b?ie=UTF8&node=15115321
--3,th,0.0,Enabled,https://www.amazon.ca/New-Used-Textbooks-Books/b?ie=UTF8&node=15115321
--4,fr,0.0,Enabled,https://www.amazon.ca/New-Used-Textbooks-Books/b?ie=UTF8&node=15115321
--5,fiv,0.0,Enabled,https://www.amazon.ca/New-Used-Textbooks-Books/b?ie=UTF8&node=15115321
--6,six,0.0,Enabled,https://www.amazon.ca/New-Used-Textbooks-Books/b?ie=UTF8&node=15115321
--7,sev,0.0,Enabled,https://www.amazon.ca/New-Used-Textbooks-Books/b?ie=UTF8&node=15115321
--8,eig,0.0,Enabled,https://www.amazon.ca/New-Used-Textbooks-Books/b?ie=UTF8&node=15115321
+25,New York Times,0.0,Enabled,https://www.nytimes.com/ca/
 120,Disableded???,0.0,Disabled,www.google.com
+1000,OnlineITme,0.0,Enabled,www.google.com
+-60,Cool Book W,0.0,Enabled,https://www.bookstore.yorku.ca/default.asp?
+-40,anotherItem,50.0,Disabled,https://www.bookstore.yorku.ca/default.asp?
+0,notDiscounted,125.0,Disabled,https://www.bookstore.yorku.ca/default.asp?

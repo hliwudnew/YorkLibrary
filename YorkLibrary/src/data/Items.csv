@@ -1,5 +1,4 @@
 Id,Name,Price,Disabled,DueDate,Barrower,Fee,Discount
-0,notDiscounted,125.0,Disabled,null,BLANK,0.0,0.0
 2,notDiscounted,125.0,Disabled,null,BLANK,0.0,0.0
 3,notDiscounted,125.0,Disabled,null,BLANK,0.0,0.0
 4,notDiscounted,125.0,Disabled,null,BLANK,0.0,0.0
@@ -18,7 +17,6 @@ Id,Name,Price,Disabled,DueDate,Barrower,Fee,Discount
 17,notDiscounted,125.0,Disabled,null,BLANK,0.0,0.0
 18,notDiscounted,125.0,Disabled,null,BLANK,0.0,0.0
 19,notDiscounted,125.0,Disabled,null,BLANK,0.0,0.0
-20,discountedItem,10.0,Disabled,null,BLANK,0.0,0.4
 21,discountedItem,10.0,Disabled,null,BLANK,0.0,0.4
 22,discountedItem,10.0,Disabled,null,BLANK,0.0,0.4
 23,discountedItem,10.0,Disabled,null,BLANK,0.0,0.4
@@ -57,5 +55,48 @@ Id,Name,Price,Disabled,DueDate,Barrower,Fee,Discount
 57,anotherItem,50.0,Disabled,null,BLANK,0.0,0.0
 58,anotherItem,50.0,Disabled,null,BLANK,0.0,0.0
 59,anotherItem,50.0,Disabled,null,BLANK,0.0,0.0
-43,anotherItem,50.0,Disabled,Fri Apr 19 08:22:10 EDT 2024,test@gmail.com,0.0,0.0
-1,notDiscounted,125.0,Disabled,Fri Apr 19 08:22:10 EDT 2024,test@gmail.com,0.0,0.0
+70,Cool Book W,0.0,Enabled,null,BLANK,0.0,0.0
+71,Cool Book W,0.0,Enabled,null,BLANK,0.0,0.0
+72,Cool Book W,0.0,Enabled,null,BLANK,0.0,0.0
+73,Cool Book W,0.0,Enabled,null,BLANK,0.0,0.0
+74,Cool Book W,0.0,Enabled,null,BLANK,0.0,0.0
+75,Cool Book W,0.0,Enabled,null,BLANK,0.0,0.0
+76,Cool Book W,0.0,Enabled,null,BLANK,0.0,0.0
+77,Cool Book W,0.0,Enabled,null,BLANK,0.0,0.0
+78,Cool Book W,0.0,Enabled,null,BLANK,0.0,0.0
+79,Cool Book W,0.0,Enabled,null,BLANK,0.0,0.0
+84,Old Copy 2,0.0,Disabled,null,BLANK,0.0,0.0
+85,Old Copy 2,0.0,Disabled,null,BLANK,0.0,0.0
+86,Old Copy 2,0.0,Disabled,null,BLANK,0.0,0.0
+87,Old Copy 2,0.0,Disabled,null,BLANK,0.0,0.0
+88,Old Copy 2,0.0,Disabled,null,BLANK,0.0,0.0
+89,Old Copy 2,0.0,Disabled,null,BLANK,0.0,0.0
+90,Old Copy 2,0.0,Disabled,null,BLANK,0.0,0.0
+91,Old Copy 2,0.0,Disabled,null,BLANK,0.0,0.0
+92,Old Copy 2,0.0,Disabled,null,BLANK,0.0,0.0
+93,Old Copy 2,0.0,Disabled,null,BLANK,0.0,0.0
+94,Old Copy 2,0.0,Disabled,null,BLANK,0.0,0.0
+95,Old Copy 2,0.0,Disabled,null,BLANK,0.0,0.0
+96,Old Copy 2,0.0,Disabled,null,BLANK,0.0,0.0
+97,Old Copy 2,0.0,Disabled,null,BLANK,0.0,0.0
+98,Old Copy 2,0.0,Disabled,null,BLANK,0.0,0.0
+99,Old Copy 2,0.0,Disabled,null,BLANK,0.0,0.0
+100,Old Copy 2,0.0,Disabled,null,BLANK,0.0,0.0
+101,Old Copy 2,0.0,Disabled,null,BLANK,0.0,0.0
+102,Old Copy 2,0.0,Disabled,null,BLANK,0.0,0.0
+103,Old Copy 2,0.0,Disabled,null,BLANK,0.0,0.0
+60,Cool Book W,0.0,Enabled,null,BLANK,0.0,0.0
+1,notDiscounted,125.0,Disabled,null,BLANK,1.0,0.0
+20,discountedItem,10.0,Enabled,null,BLANK,9.5,0.4
+43,anotherItem,50.0,Disabled,Thu Mar 21 08:22:10 EDT 2024,test@gmail.com,0.0,0.0
+61,Cool Book W,0.0,Enabled,Sat Apr 20 00:26:46 EDT 2024,Awesome@gmail.com,0.0,0.0
+62,Cool Book W,0.0,Enabled,Sat Apr 20 00:26:46 EDT 2024,Awesome@gmail.com,0.0,0.0
+63,Cool Book W,0.0,Enabled,Sat Apr 20 00:26:46 EDT 2024,Awesome@gmail.com,0.0,0.0
+64,Cool Book W,0.0,Enabled,Sat Apr 20 00:26:46 EDT 2024,Awesome@gmail.com,0.0,0.0
+65,Cool Book W,0.0,Enabled,Sat Apr 20 00:26:46 EDT 2024,Awesome@gmail.com,0.0,0.0
+66,Cool Book W,0.0,Enabled,Sat Apr 20 00:26:46 EDT 2024,Awesome@gmail.com,0.0,0.0
+67,Cool Book W,0.0,Enabled,Sat Apr 20 00:26:46 EDT 2024,Awesome@gmail.com,0.0,0.0
+68,Cool Book W,0.0,Enabled,Sat Apr 20 00:26:46 EDT 2024,Awesome@gmail.com,0.0,0.0
+69,Cool Book W,0.0,Enabled,Sat Apr 20 00:26:46 EDT 2024,Awesome@gmail.com,0.0,0.0
+123,Cool Book W 2,0.0,Enabled,Sat Apr 20 02:34:08 EDT 2024,Awesome@gmail.com,0.0,0.0
+0,notDiscounted,125.0,Enabled,Sat Apr 20 03:04:16 EDT 2024,test@gmail.com,0.0,0.0

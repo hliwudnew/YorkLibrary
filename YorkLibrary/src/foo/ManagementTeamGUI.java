@@ -54,6 +54,7 @@ public class ManagementTeamGUI {
 	private JTextField textField_CIDtextbook;
 	private JTable tableNotifications;
 	private JTextField discountField;
+	private JTable table_Textbooks;
 
 	//updates the items table for managementgui with 5 fields: Type, Id, Name, Price, Disabled
 	//parameters are just the table to update and the library system to update from
@@ -68,6 +69,34 @@ public class ManagementTeamGUI {
 		
 		for(Item e : holder) {
 			String[] rowdata = {e.getClass().toString().substring(10),e.getId()+"",e.getName(),e.getPrice() +"",e.getStatus().getState().getClass().toString().substring(10)+""};
+			DefaultTableModel tblModel = (DefaultTableModel) table.getModel();
+			tblModel.addRow(rowdata);
+		}
+	}
+	
+	public void updateTextbookTable(JTable table, LibrarySystem system) {
+		//Clears the table of old data
+		DefaultTableModel clear = (DefaultTableModel) table.getModel();
+		clear.setRowCount(0);
+		
+		for(Course c: system.getCourses()) {
+			for(Item e : c.getTextBooks()) {
+				String[] rowdata = {c.getCode(), e.getId()+"", e.getName()};
+				DefaultTableModel tblModel = (DefaultTableModel) table.getModel();
+				tblModel.addRow(rowdata);
+			}
+		}
+	}
+	
+	public void updateCoursesTable(JTable table, LibrarySystem system) {
+		//Clears the table of old data
+		DefaultTableModel clear = (DefaultTableModel) table.getModel();
+		clear.setRowCount(0);
+		//Looks at all items
+		ArrayList<Course> holder = new ArrayList<Course>(system.getCourses()); //Courses
+		
+		for(Course e : holder) {
+			String[] rowdata = {e.getCode()+"",e.getName()};
 			DefaultTableModel tblModel = (DefaultTableModel) table.getModel();
 			tblModel.addRow(rowdata);
 		}
@@ -173,17 +202,7 @@ public class ManagementTeamGUI {
 		JButton btnRefreshCourses = new JButton("Refresh");
 		btnRefreshCourses.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				//Clears the table of old data
-				DefaultTableModel clear = (DefaultTableModel) mts2Table.getModel();
-				clear.setRowCount(0);
-				//Looks at all items
-				ArrayList<Course> holder = new ArrayList<Course>(system.getCourses()); //Courses
-				
-				for(Course e : holder) {
-					String[] rowdata = {e.getCode()+"",e.getName()};
-					DefaultTableModel tblModel = (DefaultTableModel) mts2Table.getModel();
-					tblModel.addRow(rowdata);
-				}
+				updateCoursesTable(mts2Table,system);
 			}
 		});
 		GroupLayout gl_panelTableCourses = new GroupLayout(panelTableCourses);
@@ -234,6 +253,10 @@ public class ManagementTeamGUI {
 		lblNewLabel_7.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		JButton btnNewButton_1 = new JButton("Approve Notifications");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		GroupLayout gl_panelNotifications = new GroupLayout(panelNotifications);
 		gl_panelNotifications.setHorizontalGroup(
 			gl_panelNotifications.createParallelGroup(Alignment.LEADING)
@@ -287,6 +310,8 @@ public class ManagementTeamGUI {
 		textField_id.setColumns(10);
 		
 		JLabel lblAdd = new JLabel("Add a new item");
+		lblAdd.setFont(new Font("Book Antiqua", Font.BOLD, 20));
+		lblAdd.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		textField_Name = new JTextField();
 		textField_Name.setColumns(10);
@@ -396,8 +421,8 @@ public class ManagementTeamGUI {
 						JOptionPane.showMessageDialog(frame, "Online Item must have an ID.", "Failed to Add Items", JOptionPane.INFORMATION_MESSAGE);
 						return;
 					}
-					else if(Integer.valueOf(textField_id.getText())>=0) {
-						JOptionPane.showMessageDialog(frame, "Online Item ID's must be negative.", "Failed to Add Items", JOptionPane.INFORMATION_MESSAGE);
+					else if(Integer.valueOf(textField_id.getText()) <0) {
+						JOptionPane.showMessageDialog(frame, "Item Id's cannot be negative", "Failed to Add Items", JOptionPane.INFORMATION_MESSAGE);
 						return;
 					}
 					//Builds the item
@@ -462,71 +487,81 @@ public class ManagementTeamGUI {
 				
 			}
 		});
-		
-		
-		
-
 		GroupLayout gl_addItem = new GroupLayout(addItem);
 		gl_addItem.setHorizontalGroup(
 			gl_addItem.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_addItem.createSequentialGroup()
+					.addGap(132)
+					.addComponent(lblDiscount, GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
+					.addGap(57)
+					.addComponent(lblLink, GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
+					.addGap(392))
+				.addGroup(gl_addItem.createSequentialGroup()
+					.addGap(132)
+					.addComponent(discountField)
+					.addGap(45)
+					.addComponent(textField_Link, GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
+					.addGap(344))
+				.addGroup(gl_addItem.createSequentialGroup()
+					.addGap(169)
+					.addComponent(btnAddItem, GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
+					.addGap(392))
+				.addGroup(gl_addItem.createSequentialGroup()
+					.addGap(51)
 					.addGroup(gl_addItem.createParallelGroup(Alignment.LEADING)
-							.addGroup(gl_addItem.createSequentialGroup()
-								.addGap(169)
-								.addComponent(btnAddItem, GroupLayout.PREFERRED_SIZE, 132, GroupLayout.PREFERRED_SIZE))
-							.addGroup(gl_addItem.createSequentialGroup()
-								.addContainerGap()
-								.addGroup(gl_addItem.createParallelGroup(Alignment.LEADING)
-									.addComponent(comboBoxItemType, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE)
-									.addComponent(lblType))
-								.addGap(18)
-								.addGroup(gl_addItem.createParallelGroup(Alignment.LEADING)
-									.addComponent(textField_id, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)
-									.addComponent(lblNewID, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addGroup(gl_addItem.createParallelGroup(Alignment.LEADING)
-									.addComponent(textField_Name, GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE)
-									.addComponent(lblNewName)
-									.addComponent(lblAdd, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE))
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addGroup(gl_addItem.createParallelGroup(Alignment.LEADING)
-									.addComponent(textField_Price, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE)
-									.addComponent(lblNewPrice))
-								.addGap(18)
-								.addGroup(gl_addItem.createParallelGroup(Alignment.LEADING)
-									.addComponent(lblNewDisbabled, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
-									.addComponent(checkDisabled)))
-							.addGroup(gl_addItem.createSequentialGroup()
-								.addGap(51)
-								.addGroup(gl_addItem.createParallelGroup(Alignment.LEADING)
-									.addGroup(gl_addItem.createSequentialGroup()
-										.addComponent(lblDiscount)
-										.addGap(110)
-										.addComponent(lblLink))
-									.addGroup(gl_addItem.createSequentialGroup()
-										.addComponent(discountField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addGap(44)
-										.addComponent(textField_Link, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))))
-						.addContainerGap(215, Short.MAX_VALUE))
+						.addGroup(gl_addItem.createSequentialGroup()
+							.addComponent(comboBoxItemType, 0, 146, Short.MAX_VALUE)
+							.addGap(10))
+						.addGroup(gl_addItem.createSequentialGroup()
+							.addComponent(lblType, GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE)
+							.addGap(95)))
+					.addGroup(gl_addItem.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_addItem.createSequentialGroup()
+							.addComponent(textField_Name, GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
+							.addGap(10))
+						.addGroup(gl_addItem.createSequentialGroup()
+							.addComponent(lblNewName, GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
+							.addGap(56)))
+					.addGroup(gl_addItem.createParallelGroup(Alignment.LEADING)
+						.addComponent(textField_Price, GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE)
+						.addGroup(gl_addItem.createSequentialGroup()
+							.addComponent(lblNewPrice, GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
+							.addGap(23)))
+					.addGap(10)
+					.addGroup(gl_addItem.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_addItem.createSequentialGroup()
+							.addComponent(lblNewID, GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
+							.addGap(25)
+							.addComponent(lblNewDisbabled, GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE)
+							.addGap(141))
+						.addGroup(gl_addItem.createSequentialGroup()
+							.addComponent(textField_id, GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
+							.addGap(33)
+							.addComponent(checkDisabled)
+							.addGap(154))))
+				.addGroup(gl_addItem.createSequentialGroup()
+					.addComponent(lblAdd, GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+					.addGap(61))
 		);
 		gl_addItem.setVerticalGroup(
 			gl_addItem.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_addItem.createSequentialGroup()
-					.addGap(11)
+					.addContainerGap()
 					.addComponent(lblAdd, GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)
 					.addGap(33)
-					.addGroup(gl_addItem.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblType)
-						.addComponent(lblNewID)
-						.addComponent(lblNewName)
-						.addComponent(lblNewPrice)
-						.addComponent(lblNewDisbabled))
-					.addGap(11)
+					.addGroup(gl_addItem.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_addItem.createSequentialGroup()
+							.addGroup(gl_addItem.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblType)
+								.addComponent(lblNewName)
+								.addComponent(lblNewPrice)
+								.addComponent(lblNewDisbabled))
+							.addGap(11))
+						.addGroup(gl_addItem.createSequentialGroup()
+							.addComponent(lblNewID)
+							.addPreferredGap(ComponentPlacement.UNRELATED)))
 					.addGroup(gl_addItem.createParallelGroup(Alignment.LEADING)
 						.addComponent(comboBoxItemType, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_addItem.createSequentialGroup()
-							.addGap(1)
-							.addComponent(textField_id, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_addItem.createSequentialGroup()
 							.addGap(1)
 							.addComponent(textField_Name, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
@@ -535,15 +570,16 @@ public class ManagementTeamGUI {
 							.addComponent(textField_Price, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_addItem.createSequentialGroup()
 							.addGap(1)
-							.addComponent(checkDisabled)))
+							.addComponent(textField_id, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(checkDisabled))
 					.addGap(18)
 					.addGroup(gl_addItem.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblLink)
-						.addComponent(lblDiscount))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_addItem.createParallelGroup(Alignment.BASELINE)
-						.addComponent(textField_Link, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(discountField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(lblDiscount)
+						.addComponent(lblLink))
+					.addGap(6)
+					.addGroup(gl_addItem.createParallelGroup(Alignment.LEADING)
+						.addComponent(discountField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(textField_Link, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(29)
 					.addComponent(btnAddItem))
 		);
@@ -916,12 +952,68 @@ public class ManagementTeamGUI {
 		//Todo: test this
 		updateTable(tableNotifications,loggedIn,checkNotification(loggedIn,system));
 		
+		JPanel panelTextbooks = new JPanel();
+		tabbedPane_1.addTab("Textbooks", null, panelTextbooks, null);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		
+		JButton btnTXRefresh = new JButton("Refresh");
+		btnTXRefresh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				updateTextbookTable(table_Textbooks,system);
+			}
+		});
+		GroupLayout gl_panelTextbooks = new GroupLayout(panelTextbooks);
+		gl_panelTextbooks.setHorizontalGroup(
+			gl_panelTextbooks.createParallelGroup(Alignment.LEADING)
+				.addGroup(Alignment.TRAILING, gl_panelTextbooks.createSequentialGroup()
+					.addGroup(gl_panelTextbooks.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_panelTextbooks.createSequentialGroup()
+							.addGap(459)
+							.addComponent(btnTXRefresh, GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+						.addGroup(gl_panelTextbooks.createSequentialGroup()
+							.addGap(125)
+							.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 423, Short.MAX_VALUE)))
+					.addGap(145))
+		);
+		gl_panelTextbooks.setVerticalGroup(
+			gl_panelTextbooks.createParallelGroup(Alignment.LEADING)
+				.addGroup(Alignment.TRAILING, gl_panelTextbooks.createSequentialGroup()
+					.addGap(55)
+					.addComponent(btnTXRefresh)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE))
+		);
+		
+		table_Textbooks = new JTable();
+		table_Textbooks.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Course Code", "Id", "Name"
+			}
+		) {
+			boolean[] columnEditables = new boolean[] {
+				false, false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		scrollPane_1.setViewportView(table_Textbooks);
+		panelTextbooks.setLayout(gl_panelTextbooks);
+		//Populates some of the tables
+		updateTextbookTable(table_Textbooks,system);
+		updateCoursesTable(mts2Table,system);
+
+		
 		textField_Link.setVisible(false);
 		lblLink.setVisible(false);
 		//Sets the window text and lets user see the GUI
 		frame.setTitle("Managment Team Services");
 		//frame.setSize(1000, 750); //In editor it doesn't fit, but when running application it looks good
-		frame.setSize(900, 700);
+		frame.setSize(1100, 700);
+		//mainPage.setSize(900, 900);
 		frame.setVisible(true);
 	}
 	
@@ -969,14 +1061,14 @@ public class ManagementTeamGUI {
 						boolean canPurchase = false;
 						//Makes sure there is no copy of the new edition available for purchase
 						for(Item w: system.getStock()) {
-							if(w.getName().equals(I.getName())) {
+							if(w.getName().equals(J.getName())) {
 								canPurchase = true;
 							}
 						}
 						//Textbook cannot be procured hence we must decided to talk to user
 						if(!canPurchase) {
 							//do notification
-							String notification = "New Edition of "+I.getName()+"Not Available," + f.getEmail() +" has an old edition: "+ I.getName()+" while a new Edition: "+J.getName()+" is not in stock, please consult them!";
+							String notification = "New Edition of "+I.getName()+" is not available," + f.getEmail() +" has an old edition: "+ I.getName()+" while a new Edition: "+J.getName()+" is not in stock, please consult them!";
 							notifications.add(notification);
 						}
 					}

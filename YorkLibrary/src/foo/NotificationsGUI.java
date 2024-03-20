@@ -70,6 +70,11 @@ public class NotificationsGUI {
 
 		
 		JButton btnNewButton = new JButton("Refresh");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 		
 		JButton btnNewButton_1 = new JButton("Back");
 		btnNewButton_1.addActionListener(new ActionListener() {
@@ -133,7 +138,7 @@ public class NotificationsGUI {
 		 */
 		//checks if the account is a Faculty
 		if(loggedIn.getClass().equals((new Faculty()).getClass())) {
-			System.out.println("Faculty Notifications");
+			ArrayList<String> alreadyNotified = new ArrayList<String>();
 			//New Book editions check
 			for(Item I: ((Faculty)loggedIn).getTextBooks()) {
 				for(Item J: system.getStock()) {
@@ -167,9 +172,12 @@ public class NotificationsGUI {
 					}
 					//Checks if the book is a new edition
 					if(ownedEdition < stockEdition && newEdition) {
-						//do notification
-						String notification = "New Edition of "+I.getName()+", Your copy of: "+I.getName()+" has a new edition: "+ J.getName();
-						notifications.add(notification);
+						if(!alreadyNotified.contains(J.getName())){
+							//do notification
+							String notification = "New Edition of "+I.getName()+", Your copy of: "+I.getName()+" has a new edition: "+ J.getName();
+							notifications.add(notification);
+							alreadyNotified.add(J.getName());
+						}
 					}
 				}
 			}
