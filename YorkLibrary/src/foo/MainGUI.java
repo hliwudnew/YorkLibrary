@@ -27,6 +27,9 @@ import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.border.BevelBorder;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 import java.awt.Font;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -312,6 +315,26 @@ public class MainGUI{
 	 */
 	public MainGUI(String email) {
 		System.out.println("Logged in");
+		   	//use UI manager to set "look and feel" which is the style of all components in the system
+			//subject to change, this is just one preset style
+	     try {
+	         UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+	        } 
+	     catch (ClassNotFoundException e) {
+	         e.printStackTrace();
+	        }
+	     catch (InstantiationException e) {
+	         e.printStackTrace();
+	        } 
+	     catch (IllegalAccessException e) {
+	         e.printStackTrace();
+	        }
+	     catch (UnsupportedLookAndFeelException e) {
+	         e.printStackTrace();
+	        }
+	     catch (Exception e) {
+	    	 e.printStackTrace();
+	       }
 		//Populate the system with data from CSVs
 		LibrarySystem system = CSVReader.dowloadData(new LibrarySystem());
 		
@@ -380,7 +403,7 @@ public class MainGUI{
 		
 		JLabel topBarTitle = new JLabel("York Library");
 		topBarTitle.setForeground(Color.WHITE);
-		topBarTitle.setFont(new Font("Book Antiqua", Font.PLAIN, 24));
+		topBarTitle.setFont(new Font("Book Antiqua", Font.PLAIN, 28));
 		topBarTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		GroupLayout gl_mainPage = new GroupLayout(mainPage);
 		gl_mainPage.setHorizontalGroup(
@@ -517,41 +540,44 @@ public class MainGUI{
 		gl_topBar.setHorizontalGroup(
 			gl_topBar.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_topBar.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(home, GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
 					.addGap(9)
-					.addComponent(home, GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
-					.addGap(10)
-					.addComponent(inventory, GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+					.addComponent(inventory, GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(rent, GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
+					.addComponent(rent, GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(Subscribe, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(Subscribe, GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(topBarTitle, GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
+					.addComponent(topBarTitle, GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnNewButton_1, GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE)
+					.addComponent(btnNewButton_1, GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
 					.addGap(38)
 					.addComponent(lblName)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(btnAdmin, GroupLayout.PREFERRED_SIZE, 77, Short.MAX_VALUE)
+					.addComponent(btnAdmin, GroupLayout.PREFERRED_SIZE, 89, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		gl_topBar.setVerticalGroup(
 			gl_topBar.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_topBar.createSequentialGroup()
-					.addContainerGap(12, Short.MAX_VALUE)
+					.addContainerGap(15, Short.MAX_VALUE)
 					.addGroup(gl_topBar.createParallelGroup(Alignment.LEADING)
-						.addComponent(home)
-						.addComponent(inventory)
-						.addGroup(gl_topBar.createParallelGroup(Alignment.BASELINE)
-							.addComponent(rent)
-							.addComponent(lblName)
-							.addComponent(Subscribe))
+						.addComponent(lblName)
 						.addComponent(btnAdmin))
 					.addContainerGap())
 				.addGroup(gl_topBar.createSequentialGroup()
 					.addGroup(gl_topBar.createParallelGroup(Alignment.BASELINE)
-						.addComponent(topBarTitle, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
+						.addComponent(topBarTitle, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnNewButton_1))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+				.addGroup(gl_topBar.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_topBar.createParallelGroup(Alignment.BASELINE)
+						.addComponent(home)
+						.addComponent(inventory)
+						.addComponent(rent)
+						.addComponent(Subscribe))
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		topBar.setLayout(gl_topBar);
@@ -630,7 +656,7 @@ public class MainGUI{
 		topBarTitle_Rent = new JLabel("Rentings");
 		topBarTitle_Rent.setHorizontalAlignment(SwingConstants.CENTER);
 		topBarTitle_Rent.setForeground(Color.WHITE);
-		topBarTitle_Rent.setFont(new Font("Book Antiqua", Font.PLAIN, 24));
+		topBarTitle_Rent.setFont(new Font("Book Antiqua", Font.PLAIN, 28));
 		
 		JButton Subscribe_1 = new JButton("Subscribe");
 		Subscribe_1.addActionListener(new ActionListener() {
@@ -662,13 +688,13 @@ public class MainGUI{
 		gl_topBar_Rent.setHorizontalGroup(
 			gl_topBar_Rent.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_topBar_Rent.createSequentialGroup()
-					.addGap(9)
+					.addContainerGap()
 					.addComponent(home_Rent, GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
-					.addGap(10)
+					.addGap(9)
 					.addComponent(inventory_Rent, GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(rent_Rent, GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
-					.addGap(10)
+					.addComponent(rent_Rent, GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(Subscribe_1, GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(topBarTitle_Rent, GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
@@ -680,15 +706,14 @@ public class MainGUI{
 			gl_topBar_Rent.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_topBar_Rent.createSequentialGroup()
 					.addGap(11)
-					.addComponent(home_Rent))
-				.addGroup(gl_topBar_Rent.createSequentialGroup()
-					.addGap(11)
-					.addComponent(inventory_Rent))
+					.addGroup(gl_topBar_Rent.createParallelGroup(Alignment.BASELINE)
+						.addComponent(rent_Rent)
+						.addComponent(inventory_Rent)
+						.addComponent(home_Rent)))
 				.addGroup(gl_topBar_Rent.createParallelGroup(Alignment.BASELINE)
-					.addComponent(rent_Rent)
-					.addComponent(Subscribe_1)
 					.addComponent(topBarTitle_Rent, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
-					.addComponent(btnNewButton_2))
+					.addComponent(btnNewButton_2)
+					.addComponent(Subscribe_1))
 		);
 		topBar_Rent.setLayout(gl_topBar_Rent);
 		
@@ -844,7 +869,7 @@ public class MainGUI{
 				if(!textField_Rent.getText().isEmpty()){
 					//Prevents disabled Items from being rented
 					if(((PhysicalItem)system.getPhysicalItem(Integer.valueOf(textField_Rent.getText()))).getStatus().getState().getClass().equals(new Disabled().getClass())){
-						System.out.println("Item is disabled and not allowed to currently be rented");
+						JOptionPane.showMessageDialog(frame, "Item is currently disabled and unable to be rented.", "Failed to Add to Cart", JOptionPane.INFORMATION_MESSAGE);
 					}
 					else {
 						//when user clicks add button, menu (invoker) calls the add command and then it gets added to cart 
@@ -861,21 +886,21 @@ public class MainGUI{
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(40)
-					.addComponent(lblRent, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addGap(41))
-				.addGroup(gl_panel.createSequentialGroup()
 					.addGap(32)
-					.addComponent(textField_Rent, GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
+					.addComponent(textField_Rent, GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
 					.addGap(35))
 				.addGroup(gl_panel.createSequentialGroup()
 					.addGap(57)
-					.addComponent(btnRent, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(btnRent, GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
 					.addGap(63))
-				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(56)
-					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-					.addGap(60))
+				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+					.addGap(77)
+					.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
+					.addGap(73))
+				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+					.addGap(61)
+					.addComponent(lblRent, GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
+					.addGap(52))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
@@ -888,12 +913,13 @@ public class MainGUI{
 					.addComponent(textField_Rent, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(btnRent)
-					.addContainerGap(174, Short.MAX_VALUE))
+					.addContainerGap(275, Short.MAX_VALUE))
 		);
 		panel.setLayout(gl_panel);
 		
 		JLabel lblRequest = new JLabel("Request a New Book");
-		JLabel lblRequest1 = new JLabel("<html>Note: Course teaching textbooks will be given <br>higher priorty than other textbooks<html>");
+		JLabel lblRequest1 = new JLabel("<html>Note: Course teaching textbooks will be <br>given higher priorty than <br>other textbooks<html>");
+		lblRequest1.setHorizontalAlignment(SwingConstants.CENTER);
 
 		lblRequest.setFont(new Font("Book Antiqua", Font.BOLD, 16));
 		
@@ -937,26 +963,26 @@ public class MainGUI{
 		
 		GroupLayout gl_panelRequest = new GroupLayout(panelRequest);
 		gl_panelRequest.setHorizontalGroup(
-			gl_panelRequest.createParallelGroup(Alignment.TRAILING)
+			gl_panelRequest.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelRequest.createSequentialGroup()
 					.addGap(57)
 					.addComponent(btnRequest, GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
 					.addGap(63))
 				.addGroup(gl_panelRequest.createSequentialGroup()
-					.addGap(56)
-					.addComponent(lblNewLabelRequest, GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-					.addGap(60))
-				.addGroup(gl_panelRequest.createSequentialGroup()
-					.addGroup(gl_panelRequest.createParallelGroup(Alignment.TRAILING)
-						.addComponent(lblRequest1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
-						.addGroup(gl_panelRequest.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(lblRequest, GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)))
+					.addComponent(lblRequest1, GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
 					.addGap(4))
-				.addGroup(Alignment.LEADING, gl_panelRequest.createSequentialGroup()
+				.addGroup(Alignment.TRAILING, gl_panelRequest.createSequentialGroup()
+					.addGap(23)
+					.addComponent(lblRequest, GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
+					.addGap(18))
+				.addGroup(Alignment.TRAILING, gl_panelRequest.createSequentialGroup()
 					.addGap(25)
 					.addComponent(textField_Request, GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
 					.addGap(42))
+				.addGroup(gl_panelRequest.createSequentialGroup()
+					.addGap(64)
+					.addComponent(lblNewLabelRequest, GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
+					.addGap(71))
 		);
 		gl_panelRequest.setVerticalGroup(
 			gl_panelRequest.createParallelGroup(Alignment.LEADING, false)
@@ -1092,7 +1118,7 @@ public class MainGUI{
 		topBarTitle_Inv = new JLabel("My Inventory");
 		topBarTitle_Inv.setHorizontalAlignment(SwingConstants.CENTER);
 		topBarTitle_Inv.setForeground(Color.WHITE);
-		topBarTitle_Inv.setFont(new Font("Book Antiqua", Font.PLAIN, 24));
+		topBarTitle_Inv.setFont(new Font("Book Antiqua", Font.PLAIN, 28));
 		
 		JButton Subscribe_2 = new JButton("Subscribe");
 		Subscribe_2.addActionListener(new ActionListener() {
@@ -1217,6 +1243,7 @@ public class MainGUI{
 				retItem.calculateFee();
 				if(retItem.getFee()==0) {
 					loggedIn.returnPhysicalItem(retItem);
+					JOptionPane.showMessageDialog(frame, "Item returned successfully.", "Successful Return", JOptionPane.INFORMATION_MESSAGE);
 				}
 				else {
 					Object[] options = CurrencyExchange.getCurrencyList().toArray();
@@ -1224,8 +1251,8 @@ public class MainGUI{
 					if(userInfo!=null) {
 						IPayment payment = new CurrencyExchange(new Payment(retItem.getFee()));
 						double finalPrice = payment.getPrice((String)userInfo);
-						int response = JOptionPane.showConfirmDialog(frame, "Your total is: "+ String.format("%.2f",finalPrice)+"\n"
-								+ "Would you like to confirm your payment?", "Confirm payment", JOptionPane.YES_NO_OPTION);
+						int response = JOptionPane.showConfirmDialog(frame, "Your total is: "+ String.format("%.2f",finalPrice)+" "+(String)userInfo+"\n"
+								+ "Would you like to confirm your purchase?", "Confirm your purchase", JOptionPane.YES_NO_OPTION);
 						if(response == JOptionPane.YES_OPTION) {
 							Object[] options2 = PaymentContext.getPaymentMethods();
 							Object userInfo2=JOptionPane.showInputDialog(frame, "Choose payment method", "Payment Options", JOptionPane.PLAIN_MESSAGE, null, options2, options2[0]);
@@ -1250,6 +1277,7 @@ public class MainGUI{
 									//if the user entered valid info then checkout, if not then cancel payment
 									if(paymentInfo.pay(finalPrice)) {
 										loggedIn.returnPhysicalItem(retItem);
+										JOptionPane.showMessageDialog(frame, "Item returned successfully.\nYour payment of "+String.format("%.2f",finalPrice)+" "+(String)userInfo+" has been recieved.", "Successful Return", JOptionPane.INFORMATION_MESSAGE);
 									}
 									else {
 										JOptionPane.showMessageDialog(frame, "Invalid payment information entered, payment was cancelled.", "Failed to Return", JOptionPane.INFORMATION_MESSAGE);
@@ -1849,7 +1877,7 @@ public class MainGUI{
 		topBarTitle_1 = new JLabel("Subscriptions");
 		topBarTitle_1.setHorizontalAlignment(SwingConstants.CENTER);
 		topBarTitle_1.setForeground(Color.WHITE);
-		topBarTitle_1.setFont(new Font("Book Antiqua", Font.PLAIN, 24));
+		topBarTitle_1.setFont(new Font("Book Antiqua", Font.PLAIN, 28));
 		
 		btnNewButton_4 = new JButton("Cart");
 		btnNewButton_4.addActionListener(new ActionListener() {
@@ -1873,10 +1901,10 @@ public class MainGUI{
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(Subscribe_3)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(topBarTitle_1, GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
-					.addGap(18)
+					.addComponent(topBarTitle_1, GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(btnNewButton_4, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
-					.addGap(225))
+					.addGap(233))
 		);
 		gl_topBar_1.setVerticalGroup(
 			gl_topBar_1.createParallelGroup(Alignment.LEADING)
@@ -1889,11 +1917,9 @@ public class MainGUI{
 							.addComponent(rent_1)
 							.addComponent(Subscribe_3)))
 					.addContainerGap())
-				.addComponent(topBarTitle_1, GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
-				.addGroup(gl_topBar_1.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(btnNewButton_4)
-					.addContainerGap(14, Short.MAX_VALUE))
+				.addGroup(gl_topBar_1.createParallelGroup(Alignment.BASELINE)
+					.addComponent(topBarTitle_1, GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
+					.addComponent(btnNewButton_4))
 		);
 		topBar_1.setLayout(gl_topBar_1);
 		GroupLayout gl_subscribePage = new GroupLayout(subscribePage);
@@ -2149,7 +2175,7 @@ public class MainGUI{
 		JLabel topBarTitle_1_1 = new JLabel("Your Cart");
 		topBarTitle_1_1.setHorizontalAlignment(SwingConstants.CENTER);
 		topBarTitle_1_1.setForeground(Color.WHITE);
-		topBarTitle_1_1.setFont(new Font("Book Antiqua", Font.PLAIN, 24));
+		topBarTitle_1_1.setFont(new Font("Book Antiqua", Font.PLAIN, 28));
 		GroupLayout gl_topBar_1_1 = new GroupLayout(topBar_1_1);
 		gl_topBar_1_1.setHorizontalGroup(
 			gl_topBar_1_1.createParallelGroup(Alignment.LEADING)
@@ -2210,6 +2236,7 @@ public class MainGUI{
 				else if(loggedIn.getCart().getInitialPrice()<=0) {
 					loggedIn.getMenu().clickCheckout();
 					loggedIn.getMenu().clickClear();
+					JOptionPane.showMessageDialog(frame, "Checkout completed.", "Transaction Successful", JOptionPane.INFORMATION_MESSAGE);
 				}
 				//if user is eligible, then ask them which currency they would like to use,  convert the cart price
 				//using that and then ask if they would like to confirm (popup window)
@@ -2247,6 +2274,7 @@ public class MainGUI{
 										//if the user is able to checkout without issues
 										if(loggedIn.getMenu().clickCheckout()) {
 											loggedIn.getMenu().clickClear();
+											JOptionPane.showMessageDialog(frame, "Checkout Successful.\nYour payment of "+String.format("%.2f",displayPrice)+" "+(String)userInfo+" has been recieved.", "Transaction Successful", JOptionPane.INFORMATION_MESSAGE);
 										}
 									}
 									else {

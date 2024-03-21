@@ -81,9 +81,12 @@ public abstract class User {
 		if(item != null && this.rented.contains(item) && !system.getStock().contains(item)) {
 			item.setBorrower("BLANK");
 			item.setDueDate(null);
+			item.setFee(0);
+			item.setLost(false);
 			this.rented.remove(item);
 			system.addStock(item);
 			system.removeBarrowed(item);
+			
 			//the due date and fee for the return will be accounted for in MainGUI
 		}
 	}

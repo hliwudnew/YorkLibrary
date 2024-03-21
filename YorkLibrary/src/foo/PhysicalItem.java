@@ -85,7 +85,7 @@ public class PhysicalItem extends Item implements PhysicalItemPrototype{
 		//a day, keep adding 1 to count to count number of days past due date
 		while((thisDate-dueDate)>=86400000L) {
 			count++;
-			thisDate-=86400000; //keep subtracting a day off curent date until we are at dueDate
+			thisDate-=86400000L; //keep subtracting a day off curent date until we are at dueDate
 		}
 		amountOwed = count * 0.50; //for each day, add 50 cents to amount owed
 		this.setFee(amountOwed);
