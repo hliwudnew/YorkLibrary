@@ -186,6 +186,18 @@ public class NotificationsGUI {
 		else {
 			
 		}
+		
+		for (PhysicalItem item : loggedIn.getRented()) {
+			
+			String dueStatus = item.getDueStatus();
+			
+			if (dueStatus.equals("Overdue")) {
+				notifications.add("WARNING: BOOK OVERDUE," + "Name: " + item.getName() + " | ID: " + item.getId());
+			} else if (!dueStatus.equals("Due in >24 Hours")) {
+				notifications.add(item.getDueStatus() + ",Name: " + item.getName() + " | ID: " + item.getId());
+			}
+		}
+		
 		//Returns all the found notifications
 		return notifications;
 	}
