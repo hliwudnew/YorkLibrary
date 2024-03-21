@@ -55,7 +55,6 @@ Id,Name,Price,Disabled,DueDate,Barrower,Fee,Discount
 57,anotherItem,50.0,Disabled,null,BLANK,0.0,0.0
 58,anotherItem,50.0,Disabled,null,BLANK,0.0,0.0
 59,anotherItem,50.0,Disabled,null,BLANK,0.0,0.0
-70,Cool Book W,0.0,Enabled,null,BLANK,0.0,0.0
 71,Cool Book W,0.0,Enabled,null,BLANK,0.0,0.0
 72,Cool Book W,0.0,Enabled,null,BLANK,0.0,0.0
 73,Cool Book W,0.0,Enabled,null,BLANK,0.0,0.0
@@ -87,7 +86,6 @@ Id,Name,Price,Disabled,DueDate,Barrower,Fee,Discount
 103,Old Copy 2,0.0,Disabled,null,BLANK,0.0,0.0
 60,Cool Book W,0.0,Enabled,null,BLANK,0.0,0.0
 1,notDiscounted,125.0,Disabled,null,BLANK,1.0,0.0
-20,discountedItem,10.0,Enabled,null,BLANK,9.5,0.4
 43,anotherItem,50.0,Disabled,Thu Mar 21 08:22:10 EDT 2024,test@gmail.com,0.0,0.0
 61,Cool Book W,0.0,Enabled,Sat Apr 20 00:26:46 EDT 2024,Awesome@gmail.com,0.0,0.0
 62,Cool Book W,0.0,Enabled,Sat Apr 20 00:26:46 EDT 2024,Awesome@gmail.com,0.0,0.0
@@ -100,3 +98,5 @@ Id,Name,Price,Disabled,DueDate,Barrower,Fee,Discount
 69,Cool Book W,0.0,Enabled,Sat Apr 20 00:26:46 EDT 2024,Awesome@gmail.com,0.0,0.0
 123,Cool Book W 2,0.0,Enabled,Sat Apr 20 02:34:08 EDT 2024,Awesome@gmail.com,0.0,0.0
 0,notDiscounted,125.0,Enabled,Sat Apr 20 03:04:16 EDT 2024,test@gmail.com,0.0,0.0
+70,Cool Book W,0.0,Enabled,Sat Apr 20 07:54:46 EDT 2024,Strike@gmail.com,0.0,0.0
+20,discountedItem,10.0,Enabled,Sat Apr 20 07:54:46 EDT 2024,Strike@gmail.com,9.5,0.4

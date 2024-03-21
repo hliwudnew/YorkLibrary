@@ -940,23 +940,23 @@ public class MainGUI{
 			gl_panelRequest.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panelRequest.createSequentialGroup()
 					.addGap(57)
-					.addComponent(btnRequest, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(btnRequest, GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
 					.addGap(63))
 				.addGroup(gl_panelRequest.createSequentialGroup()
 					.addGap(56)
 					.addComponent(lblNewLabelRequest, GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
 					.addGap(60))
 				.addGroup(gl_panelRequest.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(textField_Request, GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
-					.addGap(57))
-				.addGroup(gl_panelRequest.createSequentialGroup()
 					.addGroup(gl_panelRequest.createParallelGroup(Alignment.TRAILING)
-						.addComponent(lblRequest1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+						.addComponent(lblRequest1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
 						.addGroup(gl_panelRequest.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(lblRequest, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+							.addComponent(lblRequest, GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)))
 					.addGap(4))
+				.addGroup(Alignment.LEADING, gl_panelRequest.createSequentialGroup()
+					.addGap(25)
+					.addComponent(textField_Request, GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
+					.addGap(42))
 		);
 		gl_panelRequest.setVerticalGroup(
 			gl_panelRequest.createParallelGroup(Alignment.LEADING, false)
@@ -971,7 +971,7 @@ public class MainGUI{
 					.addComponent(textField_Request, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addGap(11)
 					.addComponent(btnRequest)
-					.addContainerGap(83, Short.MAX_VALUE))
+					.addContainerGap(184, Short.MAX_VALUE))
 		);
 		panelRequest.setLayout(gl_panelRequest);		
 		
@@ -1406,7 +1406,7 @@ public class MainGUI{
 
 				//Integer.valueOf(textField_UnSubscribe.getText()
 				loggedIn.unSubscribe((OnlineItem)system.getOnlineItem(Integer.valueOf(textField_UnSubscribe.getText())));
-				updateTable2(tableSubs, loggedIn, loggedIn.getSubscriptions() );
+				updateTable2(onlineTable, loggedIn, loggedIn.getSubscriptions() );
 
 			}
 		});
@@ -2002,7 +2002,7 @@ public class MainGUI{
 		GroupLayout gl_centerContent_Sub = new GroupLayout(centerContent_Sub);
 		gl_centerContent_Sub.setHorizontalGroup(
 			gl_centerContent_Sub.createParallelGroup(Alignment.LEADING)
-				.addComponent(topBar_1, GroupLayout.DEFAULT_SIZE, 846, Short.MAX_VALUE)
+				.addComponent(topBar_1, GroupLayout.DEFAULT_SIZE, 934, Short.MAX_VALUE)
 				.addGroup(gl_centerContent_Sub.createSequentialGroup()
 					.addGroup(gl_centerContent_Sub.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_centerContent_Sub.createSequentialGroup()
@@ -2010,30 +2010,29 @@ public class MainGUI{
 							.addGroup(gl_centerContent_Sub.createParallelGroup(Alignment.TRAILING)
 								.addGroup(gl_centerContent_Sub.createSequentialGroup()
 									.addGap(171)
-									.addComponent(bthSearch_1, GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
+									.addComponent(bthSearch_1, GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)
 									.addGap(163)
-									.addComponent(btnRefreshSub, GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE))
-								.addComponent(scrollSubs, GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE)))
+									.addComponent(btnRefreshSub, GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE))
+								.addComponent(scrollSubs, GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)))
 						.addGroup(gl_centerContent_Sub.createSequentialGroup()
 							.addGap(114)
-							.addComponent(textField_1, GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
-							.addGap(121))
-						.addGroup(gl_centerContent_Sub.createSequentialGroup()
-							.addGap(191)
-							.addComponent(searchLabel_1, GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
-							.addGap(195)))
-					.addGap(18)
-					.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 173, Short.MAX_VALUE)
-					.addGap(146))
+							.addComponent(textField_1, GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE)
+							.addGap(121)))
+					.addGap(78)
+					.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 217, Short.MAX_VALUE)
+					.addGap(86))
+				.addGroup(gl_centerContent_Sub.createSequentialGroup()
+					.addGap(176)
+					.addComponent(searchLabel_1, GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
+					.addGap(591))
 		);
 		gl_centerContent_Sub.setVerticalGroup(
 			gl_centerContent_Sub.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_centerContent_Sub.createSequentialGroup()
 					.addComponent(topBar_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(61)
-					.addGroup(gl_centerContent_Sub.createParallelGroup(Alignment.LEADING)
+					.addGroup(gl_centerContent_Sub.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_centerContent_Sub.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGap(61)
 							.addComponent(searchLabel_1)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -2042,10 +2041,10 @@ public class MainGUI{
 								.addComponent(btnRefreshSub)
 								.addComponent(bthSearch_1))
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(scrollSubs, GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE))
+							.addComponent(scrollSubs, GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE))
 						.addGroup(gl_centerContent_Sub.createSequentialGroup()
-							.addComponent(panel_2, GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
-							.addGap(118)))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 511, GroupLayout.PREFERRED_SIZE)))
 					.addGap(51))
 		);
 		
@@ -2072,6 +2071,7 @@ public class MainGUI{
 		frame.getContentPane().add(cartPage, "cart_");
 		
 		centerContentPanel = new JPanel();
+		centerContentPanel.setBackground(new Color(255, 255, 255));
 		
 		JPanel topBar_1_1 = new JPanel();
 		topBar_1_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
@@ -2368,7 +2368,7 @@ public class MainGUI{
 		//Sets the window text and lets user see the GUI
 		frame.setTitle("York Library");
 		//frame.setSize(1000, 750); //In editor it doesn't fit, but when running application it looks good
-		frame.setSize(862, 649);
+		frame.setSize(950, 750);
 		frame.setVisible(true);
 		
 		//Saves everything to CSVs when the window closes

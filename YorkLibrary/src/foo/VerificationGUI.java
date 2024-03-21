@@ -9,6 +9,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Font;
 import javax.swing.SwingConstants;
@@ -20,6 +21,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
 
 public class VerificationGUI {
 	private JFrame frame;
@@ -60,7 +62,7 @@ public class VerificationGUI {
 					frame.revalidate();
 				}
 				else {
-					System.out.println("Invalid Admin credentials");
+	                JOptionPane.showMessageDialog(frame, "Invalid Admin credentials");
 				}
 			}
 		});
@@ -118,13 +120,12 @@ public class VerificationGUI {
 		loginPanel.setLayout(gl_loginPanel);
 		
 		JPanel centerContent = new JPanel();
+		centerContent.setBackground(new Color(245, 245, 245));
 		frame.getContentPane().add(centerContent, "verificationPage_");
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(320, 193, 526, 417);
 		
 		JLabel lblNewLabel = new JLabel("Account Verification");
-		lblNewLabel.setBounds(255, 48, 244, 28);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Book Antiqua", Font.BOLD | Font.ITALIC, 20));
 		
@@ -138,6 +139,7 @@ public class VerificationGUI {
 							CSVReader.register(user.getEmail(),user.getPassword(),user.getClass().toString().substring(10));
 							accounts.remove(user);
 							System.out.println("Verified: "+user.getEmail());
+							updateTable(table,accounts);
 						} catch (Exception e1) {
 							e1.printStackTrace();
 						}
@@ -146,18 +148,14 @@ public class VerificationGUI {
 				}
 			}
 		});
-		btnAccept.setBounds(108, 339, 89, 23);
 		
 		textField = new JTextField();
-		textField.setBounds(108, 313, 86, 20);
 		textField.setColumns(10);
 		
 		JLabel lblNewLabel_1 = new JLabel("Accept by Email");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setBounds(93, 293, 107, 14);
 		
 		textField_1 = new JTextField();
-		textField_1.setBounds(108, 452, 86, 20);
 		textField_1.setColumns(10);
 		
 		JButton btnNewButton_1 = new JButton("Reject");
@@ -167,15 +165,14 @@ public class VerificationGUI {
 					if(user.getEmail().equals(textField_1.getText())) {
 						accounts.remove(user);
 						System.out.println("Rejected: "+user.getEmail());
+						updateTable(table,accounts);
 						break;// no need to loop
 					}
 				}
 			}
 		});
-		btnNewButton_1.setBounds(108, 478, 89, 23);
 		
 		JLabel lblNewLabel_1_1 = new JLabel("Reject by Email");
-		lblNewLabel_1_1.setBounds(108, 434, 89, 14);
 		
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
@@ -193,15 +190,6 @@ public class VerificationGUI {
 			}
 		});
 		scrollPane.setViewportView(table);
-		centerContent.setLayout(null);
-		centerContent.add(btnAccept);
-		centerContent.add(textField);
-		centerContent.add(lblNewLabel_1_1);
-		centerContent.add(textField_1);
-		centerContent.add(btnNewButton_1);
-		centerContent.add(lblNewLabel_1);
-		centerContent.add(scrollPane);
-		centerContent.add(lblNewLabel);
 		
 		JButton btnNewButton_2 = new JButton("Close");
 		btnNewButton_2.addActionListener(new ActionListener() {
@@ -215,9 +203,72 @@ public class VerificationGUI {
 				frame.dispose();
 			}
 		});
-		btnNewButton_2.setBounds(10, 11, 89, 23);
-		centerContent.add(btnNewButton_2);
 		updateTable(table,accounts);
+		GroupLayout gl_centerContent = new GroupLayout(centerContent);
+		gl_centerContent.setHorizontalGroup(
+			gl_centerContent.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_centerContent.createSequentialGroup()
+					.addGap(10)
+					.addComponent(btnNewButton_2, GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
+					.addGap(749))
+				.addGroup(gl_centerContent.createSequentialGroup()
+					.addGap(255)
+					.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
+					.addGap(349))
+				.addGroup(gl_centerContent.createSequentialGroup()
+					.addGap(93)
+					.addGroup(gl_centerContent.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblNewLabel_1, GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
+						.addGroup(gl_centerContent.createSequentialGroup()
+							.addGap(15)
+							.addComponent(textField)
+							.addGap(6))
+						.addGroup(gl_centerContent.createSequentialGroup()
+							.addGap(15)
+							.addComponent(btnAccept, GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
+							.addGap(3))
+						.addGroup(gl_centerContent.createSequentialGroup()
+							.addGap(15)
+							.addComponent(lblNewLabel_1_1, GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
+							.addGap(3))
+						.addGroup(gl_centerContent.createSequentialGroup()
+							.addGap(15)
+							.addComponent(textField_1)
+							.addGap(6))
+						.addGroup(gl_centerContent.createSequentialGroup()
+							.addGap(15)
+							.addComponent(btnNewButton_1, GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
+							.addGap(3)))
+					.addGap(120)
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 526, Short.MAX_VALUE)
+					.addGap(2))
+		);
+		gl_centerContent.setVerticalGroup(
+			gl_centerContent.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_centerContent.createSequentialGroup()
+					.addGap(11)
+					.addComponent(btnNewButton_2)
+					.addGap(14)
+					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+					.addGap(117)
+					.addGroup(gl_centerContent.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_centerContent.createSequentialGroup()
+							.addGap(100)
+							.addComponent(lblNewLabel_1)
+							.addGap(6)
+							.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGap(6)
+							.addComponent(btnAccept)
+							.addGap(72)
+							.addComponent(lblNewLabel_1_1)
+							.addGap(4)
+							.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGap(6)
+							.addComponent(btnNewButton_1))
+						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE))
+					.addGap(9))
+		);
+		centerContent.setLayout(gl_centerContent);
 		frame.setVisible(true);
 		
 		

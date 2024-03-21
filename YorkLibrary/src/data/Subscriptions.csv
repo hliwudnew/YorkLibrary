@@ -5,3 +5,4 @@ Id,Name,Price,Disabled,Link
 -60,Cool Book W,0.0,Enabled,https://www.bookstore.yorku.ca/default.asp?
 -40,anotherItem,50.0,Disabled,https://www.bookstore.yorku.ca/default.asp?
 0,notDiscounted,125.0,Disabled,https://www.bookstore.yorku.ca/default.asp?
+10001,Test,10.0,Enabled,www.google.com

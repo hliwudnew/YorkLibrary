@@ -20,6 +20,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -213,6 +214,7 @@ public class LoginGUI implements ActionListener {
 				new MainGUI(email);
 			}
 			else {
+                JOptionPane.showMessageDialog(frame, "Please Enter Valid Credentials");
 				//Prompts the user to enter in proper email and password
 				loginPanel.add(text3);
 				layers.repaint();
@@ -245,27 +247,13 @@ public class LoginGUI implements ActionListener {
 					//Sends a request to get the Student/Faculty/NonFaculty account verified
 					UserFactory buildUser = new UserFactory();
 					if(!accountType.equals("Visitor")) {
-						if(accountType.equals("Student")) {
-							User user = buildUser.getUser(accountType);
-							user.setEmail(email);
-							user.setPassword(password);
-							accounts.add(user);
-						}
-						else if(accountType.equals("Faculty")) {
-							User user = buildUser.getUser(accountType);
-							user.setEmail(email);
-							user.setPassword(password);
-							accounts.add(user);
-
-						}
-						else {
-							User user = buildUser.getUser(accountType);
-							user.setEmail(email);
-							user.setPassword(password);
-							accounts.add(user);
-						}
+						User user = buildUser.getUser(accountType);
+						user.setEmail(email);
+						user.setPassword(password);
+						accounts.add(user);
 						
 						CSVReader.savePendingAccounts(accounts);
+		                JOptionPane.showMessageDialog(frame, "Account Has been submitted for verification");
 						System.out.println("Account Has been submitted for verification");
 					}
 					else {
