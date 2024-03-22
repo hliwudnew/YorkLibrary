@@ -2,16 +2,19 @@ package foo;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
@@ -33,6 +36,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import java.awt.Font;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JToggleButton;
 import java.awt.FlowLayout;
@@ -159,14 +163,29 @@ public class MainGUI{
 			tblModel.addRow(rowdata);
 		}
 	}
-	//updates a table with physicalItem's has an extra column for the due date and time due in of the item
+	//updates a table with physicalItem's has an extra column for the due date and time due in of the item and if lost (used only on home screen)
 	public <T extends Item> void updateTable4(JTable table, User user, ArrayList<PhysicalItem> listToParse) {
 		//Clears the table of old data 
 		DefaultTableModel clear = (DefaultTableModel) table.getModel();
 		clear.setRowCount(0);
 		//Loops through the CSV data and adds it to the table
 		for(PhysicalItem item : listToParse) {
-			String[] rowdata = {item.getId()+"",item.getName(), item.getStatus().getState().getClass().toString().substring(10)+"", item.getDueStatus(), item.getDueDate().toString()};
+			String lostStatus="";
+			//check each item and see if it is lost
+			if(item.daysOverdue()>=15) {
+				item.setLost(true);
+			}
+			else {
+				item.setLost(false);
+			}
+			//depending on which item is lost will decide what is displayed in table
+			if(item.isLost()) {
+				lostStatus = "Lost";
+			}
+			else {
+				lostStatus = "Not Lost";
+			}
+			String[] rowdata = {item.getId()+"",item.getName(), item.getStatus().getState().getClass().toString().substring(10)+"", item.getDueStatus(), item.getDueDate().toString(), lostStatus};
 			DefaultTableModel tblModel = (DefaultTableModel) table.getModel();
 			tblModel.addRow(rowdata);
 		}
@@ -335,6 +354,28 @@ public class MainGUI{
 	     catch (Exception e) {
 	    	 e.printStackTrace();
 	       }
+	     
+	     
+	     //read images from files
+	     Image homeIcon =null;
+	     Image cartIcon =null;
+	     Image notiIcon =null;
+	     Image addIcon =null;
+	     Image removeIcon =null;
+	     Image refreshIcon =null;
+	     Image searchIcon =null;
+			try {
+				homeIcon = (ImageIO.read(new FileInputStream("src/images/homeIcon.png"))).getScaledInstance(10, 10, Image.SCALE_DEFAULT);
+				notiIcon= (ImageIO.read(new FileInputStream("src/images/notifIcon.png"))).getScaledInstance(10, 10, Image.SCALE_DEFAULT);
+				cartIcon= (ImageIO.read(new FileInputStream("src/images/cartIcon.png"))).getScaledInstance(10, 10, Image.SCALE_DEFAULT);
+				addIcon = (ImageIO.read(new FileInputStream("src/images/addIcon.png"))).getScaledInstance(15, 15, Image.SCALE_DEFAULT);
+				removeIcon= (ImageIO.read(new FileInputStream("src/images/removeIcon.png"))).getScaledInstance(10, 10, Image.SCALE_DEFAULT);
+				refreshIcon= (ImageIO.read(new FileInputStream("src/images/refreshIcon.png"))).getScaledInstance(23, 23, Image.SCALE_DEFAULT);
+				searchIcon= (ImageIO.read(new FileInputStream("src/images/searchIcon.png"))).getScaledInstance(15, 15, Image.SCALE_DEFAULT);
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
 		//Populate the system with data from CSVs
 		LibrarySystem system = CSVReader.dowloadData(new LibrarySystem());
 		
@@ -392,6 +433,9 @@ public class MainGUI{
 		});
 		
 		home = new JButton("Home");
+		
+
+		
 		home.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "homePage_");
@@ -471,11 +515,11 @@ public class MainGUI{
 			new Object[][] {
 			},
 			new String[] {
-				"Id", "Name", "Status", "Due In", "Due Date"
+				"Id", "Name", "Status", "Due In", "Due Date", "Lost"
 			}
 		) {
 			boolean[] columnEditables = new boolean[] {
-				false, false, false, false, false
+				false, false, false, false, false, false
 			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
@@ -752,11 +796,11 @@ public class MainGUI{
 
 				if (!searchResults.isEmpty()) {
 					for (Item result : searchResults) {
-						String[] rowData = {String.valueOf(result.getId()), result.getName(), String.valueOf(result.getPrice()), String.valueOf(result.getStatus().getState().getClass().toString().substring(10))};
+						String[] rowData = {String.valueOf(result.getId()), result.getName(), String.valueOf(result.getPrice()), String.valueOf(result.getStatus().getState().getClass().toString().substring(10)), String.valueOf(result.getDiscount()*100)};
 						searchTableModel.addRow(rowData);
 					}
 				} else {
-					String[] rowData = {"N/A", "N/A", "N/A", "N/A"};
+					String[] rowData = {"N/A", "N/A", "N/A", "N/A", "N/A"};
 					searchTableModel.addRow(rowData);
 				}
 			}
@@ -1289,7 +1333,7 @@ public class MainGUI{
 					}
 
 				}
-				updateTable3(inventoryTable, loggedIn, loggedIn.getRented() );
+				updateTable3(inventoryTable, loggedIn, loggedIn.getRented());
 			}
 		});
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
@@ -1966,42 +2010,107 @@ public class MainGUI{
 		btnSub.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//Prevents disabled Items from being rented
-				if(((OnlineItem)system.getOnlineItem(Integer.valueOf(textField_Sub.getText()))).getStatus().getState().getClass().equals(new Disabled().getClass())){
-					System.out.println("Item is disabled and not allowed to currently be rented");
+				OnlineItem subItem = (OnlineItem)system.getOnlineItem(Integer.valueOf(textField_Sub.getText()));
+				if(subItem.getStatus().getState().getClass().equals(new Disabled().getClass())){
+	                JOptionPane.showMessageDialog(frame, "Item disabled, unable to subscribe.");
 				}
 				else {
-					//.copySubscriptionOption((OnlineItem) system.getSubOp(Integer.valueOf(textField_Sub.getText())));
-					loggedIn.subscribe((OnlineItem)system.getOnlineItem(Integer.valueOf(textField_Sub.getText())));
-					//Removes Student online textbooks, since they are technically subscriptions but shouldn't be allow subscribing
-					ArrayList<OnlineItem> holder = new ArrayList<OnlineItem>();
-					for(OnlineItem I: system.getSubs()) {
-						if(I.getId() >=0) {
-							holder.add(I);
+					//if user has this subscription in their owned subscriptions already, do not allow them to subscribe
+					if(loggedIn.getSubscriptions().contains(subItem)) {
+						JOptionPane.showMessageDialog(frame, "Cannot subscribe to a subscription you already subscribed to.", "Unable to Subscribe", JOptionPane.INFORMATION_MESSAGE);
+						return;
+					}
+					else if(subItem.getPrice()==0) {
+						loggedIn.subscribe((OnlineItem)system.getOnlineItem(Integer.valueOf(textField_Sub.getText())));
+						//Removes Student online textbooks from display list, since they are technically subscriptions but shouldn't be allow subscribing
+						ArrayList<OnlineItem> holder = new ArrayList<OnlineItem>();
+						for(OnlineItem I: system.getSubs()) {
+							if(I.getId() >=0) {
+								holder.add(I);
+							}
+						}
+						updateTable1(tableSubs, loggedIn, holder);
+						JOptionPane.showMessageDialog(frame, "Subscription successful.", "Successful Subscribe", JOptionPane.INFORMATION_MESSAGE);
+						return;
+					}
+					Object[] options = CurrencyExchange.getCurrencyList().toArray();
+					Object userInfo=JOptionPane.showInputDialog(frame, "Choose currency type:", "Subscribe: Currency Options", JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+					if(userInfo!=null) {
+						IPayment payment = new CurrencyExchange(new Payment(subItem.getPrice()));
+						double finalPrice = payment.getPrice((String)userInfo);
+						int response = JOptionPane.showConfirmDialog(frame, "Your total is: "+ String.format("%.2f",finalPrice)+" "+(String)userInfo+"\n"
+									+ "Would you like to confirm your subscription purchase?", "Confirm your Subscription", JOptionPane.YES_NO_OPTION);
+						if(response == JOptionPane.YES_OPTION) {
+							Object[] options2 = PaymentContext.getPaymentMethods();
+							Object userInfo2=JOptionPane.showInputDialog(frame, "Choose payment method", "Payment Options", JOptionPane.PLAIN_MESSAGE, null, options2, options2[0]);
+							PaymentContext paymentInfo=null;
+							if(userInfo2!=null && userInfo2.equals("Debit")) {
+								paymentInfo=debitPopup();
+							}
+							else if(userInfo2!=null && userInfo2.equals("Paypal")) {
+									paymentInfo=paypalPopup();
+							}
+							else if(userInfo2!=null && userInfo2.equals("Gift")) {
+								paymentInfo=giftPopup();
+							}
+							else if(userInfo2!=null && userInfo2.equals("Credit")) {
+								paymentInfo=creditPopup();
+							}
+							//payment will only be null if user hits cancel on the popups to enter info, if it is null
+							//then cancel payment otherwise proceed to payment confirmation 
+							if(paymentInfo!=null) {
+								int response2 = JOptionPane.showConfirmDialog(frame, "Would you like to confirm your payment?", "Confirm Payment", JOptionPane.YES_NO_OPTION);
+								if(response2==JOptionPane.YES_OPTION) {
+									//if the user entered valid info then checkout, if not then cancel payment
+									if(paymentInfo.pay(finalPrice)) {
+										//.copySubscriptionOption((OnlineItem) system.getSubOp(Integer.valueOf(textField_Sub.getText())));
+										loggedIn.subscribe((OnlineItem)system.getOnlineItem(Integer.valueOf(textField_Sub.getText())));
+										//Removes Student online textbooks, since they are technically subscriptions but shouldn't be allow subscribing
+										ArrayList<OnlineItem> holder = new ArrayList<OnlineItem>();
+										for(OnlineItem I: system.getSubs()) {
+											if(I.getId() >=0) {
+												holder.add(I);
+											}
+										}
+										updateTable1(tableSubs, loggedIn, holder);
+										JOptionPane.showMessageDialog(frame, "Subscription successful.\nYour payment of "+String.format("%.2f",finalPrice)+" "+(String)userInfo+" has been recieved.", "Successful Subscribe", JOptionPane.INFORMATION_MESSAGE);
+									}
+									else {
+										JOptionPane.showMessageDialog(frame, "Invalid payment information entered, payment was cancelled.", "Failed to Subscribe", JOptionPane.INFORMATION_MESSAGE);
+									}
+
+								}
+
+							}
+					
 						}
 					}
-					updateTable1(tableSubs, loggedIn, holder);
 				}
-			}
+
+				}
+			
+		
 		});
 		GroupLayout gl_panel_2 = new GroupLayout(panel_2);
 		gl_panel_2.setHorizontalGroup(
 			gl_panel_2.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_2.createSequentialGroup()
-					.addGap(38)
-					.addComponent(lblSubsID, GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
-					.addGap(65))
-				.addGroup(gl_panel_2.createSequentialGroup()
-					.addGap(27)
+					.addGap(67)
 					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel_2.createSequentialGroup()
-							.addGap(10)
-							.addComponent(btnSub, GroupLayout.PREFERRED_SIZE, 28, Short.MAX_VALUE)
-							.addGap(61))
+							.addComponent(lblSubsID, GroupLayout.PREFERRED_SIZE, 42, Short.MAX_VALUE)
+							.addGap(58))
 						.addGroup(gl_panel_2.createSequentialGroup()
-							.addGroup(gl_panel_2.createParallelGroup(Alignment.TRAILING)
-								.addComponent(lblSubs, GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
-								.addComponent(textField_Sub, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE))
-							.addGap(54))))
+							.addComponent(lblSubs, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addGap(75))))
+				.addGroup(gl_panel_2.createSequentialGroup()
+					.addGap(37)
+					.addGroup(gl_panel_2.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_panel_2.createSequentialGroup()
+							.addGap(10)
+							.addComponent(btnSub, GroupLayout.PREFERRED_SIZE, 25, Short.MAX_VALUE))
+						.addComponent(textField_Sub, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE))
+					.addGap(35))
 		);
 		gl_panel_2.setVerticalGroup(
 			gl_panel_2.createParallelGroup(Alignment.LEADING)
@@ -2014,11 +2123,54 @@ public class MainGUI{
 					.addComponent(textField_Sub, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(btnSub)
-					.addContainerGap(174, Short.MAX_VALUE))
+					.addContainerGap(355, Short.MAX_VALUE))
 		);
 		panel_2.setLayout(gl_panel_2);
 		
 		JButton bthSearch_1 = new JButton("Search");
+		bthSearch_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String searchQuery = textField_1.getText().trim().toLowerCase();
+				ArrayList<OnlineItem> searchResults = new ArrayList<>();
+
+				for (OnlineItem item : system.getSubs()) {
+					if (item.getName().toLowerCase().equals(searchQuery)) {
+						searchResults.add(item);
+					}
+				}
+
+				ArrayList<OnlineItem> recommendations = recommendations(searchQuery);
+				for (OnlineItem recommendation : recommendations) {
+					if (!searchResults.contains(recommendation)) {
+						searchResults.add(recommendation);
+					}
+				}
+
+				DefaultTableModel searchTableModel = (DefaultTableModel) tableSubs.getModel();
+				searchTableModel.setRowCount(0);
+
+				if (!searchResults.isEmpty()) {
+					for (OnlineItem result : searchResults) {
+						String[] rowData = {String.valueOf(result.getId()), result.getName(), String.valueOf(result.getPrice()), String.valueOf(result.getStatus().getState().getClass().toString().substring(10))};
+						searchTableModel.addRow(rowData);
+					}
+				} else {
+					String[] rowData = {"N/A", "N/A", "N/A", "N/A"};
+					searchTableModel.addRow(rowData);
+				}
+			}
+
+			private ArrayList<OnlineItem> recommendations(String searchQuery) {
+				ArrayList<OnlineItem> similarSubs = new ArrayList<>();
+				for (OnlineItem item : system.getSubs()) {
+					String title = item.getName().toLowerCase();
+					if (title.contains(searchQuery)&&item.getId()>=0) {
+						similarSubs.add(item);
+					}
+				}
+				return similarSubs;
+			}
+		});
 		
 		textField_1 = new JTextField();
 		textField_1.setColumns(10);
@@ -2392,6 +2544,45 @@ public class MainGUI{
 					.addGap(0))
 		);
 		cartPage.setLayout(gl_cartPage);
+		
+		//setting icons here, after all buttons have been initialized
+		if(homeIcon!=null) {
+			home.setIcon(new ImageIcon(homeIcon));
+			home_Inv.setIcon(new ImageIcon(homeIcon));
+			home_Rent.setIcon(new ImageIcon(homeIcon));
+			home_1.setIcon(new ImageIcon(homeIcon));
+			home_1_1.setIcon(new ImageIcon(homeIcon));
+		}
+		if(cartIcon!=null) {
+			btnNewButton_1.setIcon(new ImageIcon(cartIcon));
+			btnNewButton_2.setIcon(new ImageIcon(cartIcon));
+			btnNewButton_3.setIcon(new ImageIcon(cartIcon));
+			btnNewButton_4.setIcon(new ImageIcon(cartIcon));
+		}
+		if(notiIcon!=null) {
+			btnNotifications.setIcon(new ImageIcon(notiIcon));
+		}
+		if(refreshIcon!=null) {
+			btnRefreshInventory_1.setIcon(new ImageIcon(refreshIcon));
+			btnSeeAll.setIcon(new ImageIcon(refreshIcon));
+			btnRefreshInventory.setIcon(new ImageIcon(refreshIcon));
+			btnRefreshOnline.setIcon(new ImageIcon(refreshIcon));
+			btnRrefreshRead.setIcon(new ImageIcon(refreshIcon));
+			btnRefreshSub.setIcon(new ImageIcon(refreshIcon));
+		}
+		if(addIcon!=null) {
+			btnRent.setIcon(new ImageIcon(addIcon));
+		}
+		if(removeIcon!=null) {
+			btnNewButton_7.setIcon(new ImageIcon(removeIcon));
+		}
+		if(searchIcon!=null) {
+			bthSearch_1.setIcon(new ImageIcon(searchIcon));
+			bthSearch.setIcon(new ImageIcon(searchIcon));
+		}
+		
+
+		
 		
 		
 		//Sets the window text and lets user see the GUI
