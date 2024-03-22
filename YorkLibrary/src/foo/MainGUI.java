@@ -119,7 +119,7 @@ public class MainGUI{
 	
 	public static void main(String[] args) {
 		new MainGUI("test@gmail.com");
-		
+		//comment
 	}
 	
 	//update methods to reuse code for updating tables in GUI:

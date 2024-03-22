@@ -1,14 +1,8 @@
 Id,Email
 25,Strike@gmail.com
 25,test@gmail.com
-<<<<<<< HEAD
 25,Good@gmail.com
-=======
->>>>>>> branch 'master' of https://github.com/hliwudnew/YorkLibrary.git
 1000,test@gmail.com
-<<<<<<< HEAD
 1000,Good@gmail.com
-1234567,test@gmail.com
-=======
 10001,test@gmail.com
->>>>>>> branch 'master' of https://github.com/hliwudnew/YorkLibrary.git
+1234567,test@gmail.com
