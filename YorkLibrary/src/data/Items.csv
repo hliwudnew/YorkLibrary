@@ -17,9 +17,8 @@ Id,Name,Price,Disabled,DueDate,Barrower,Fee,Discount
 17,notDiscounted,125.0,Disabled,null,BLANK,0.0,0.0
 18,notDiscounted,125.0,Disabled,null,BLANK,0.0,0.0
 19,notDiscounted,125.0,Disabled,null,BLANK,0.0,0.0
-21,discountedItem,10.0,Disabled,null,BLANK,0.0,0.4
-22,discountedItem,10.0,Disabled,null,BLANK,0.0,0.4
-23,discountedItem,10.0,Disabled,null,BLANK,0.0,0.4
+22,discountedItem,10.0,Enabled,null,BLANK,0.0,0.4
+23,discountedItem,10.0,Enabled,null,BLANK,0.0,0.4
 24,discountedItem,10.0,Disabled,null,BLANK,0.0,0.4
 25,discountedItem,10.0,Disabled,null,BLANK,0.0,0.4
 26,discountedItem,10.0,Disabled,null,BLANK,0.0,0.4
@@ -55,11 +54,6 @@ Id,Name,Price,Disabled,DueDate,Barrower,Fee,Discount
 57,anotherItem,50.0,Disabled,null,BLANK,0.0,0.0
 58,anotherItem,50.0,Disabled,null,BLANK,0.0,0.0
 59,anotherItem,50.0,Disabled,null,BLANK,0.0,0.0
-73,Cool Book W,0.0,Enabled,null,BLANK,0.0,0.0
-74,Cool Book W,0.0,Enabled,null,BLANK,0.0,0.0
-75,Cool Book W,0.0,Enabled,null,BLANK,0.0,0.0
-76,Cool Book W,0.0,Enabled,null,BLANK,0.0,0.0
-78,Cool Book W,0.0,Enabled,null,BLANK,0.0,0.0
 84,Old Copy 2,0.0,Disabled,null,BLANK,0.0,0.0
 85,Old Copy 2,0.0,Disabled,null,BLANK,0.0,0.0
 86,Old Copy 2,0.0,Disabled,null,BLANK,0.0,0.0
@@ -82,6 +76,203 @@ Id,Name,Price,Disabled,DueDate,Barrower,Fee,Discount
 103,Old Copy 2,0.0,Disabled,null,BLANK,0.0,0.0
 1,notDiscounted,125.0,Disabled,null,BLANK,0.0,0.0
 43,anotherItem,50.0,Disabled,null,BLANK,0.0,0.0
+114,Paid Item,12.0,Enabled,null,BLANK,0.0,0.0
+115,Paid Item,12.0,Enabled,null,BLANK,0.0,0.0
+116,Paid Item,12.0,Enabled,null,BLANK,0.0,0.0
+117,Paid Item,12.0,Enabled,null,BLANK,0.0,0.0
+118,Paid Item,12.0,Enabled,null,BLANK,0.0,0.0
+119,Paid Item,12.0,Enabled,null,BLANK,0.0,0.0
+120,Paid Item,12.0,Enabled,null,BLANK,0.0,0.0
+121,Paid Item,12.0,Enabled,null,BLANK,0.0,0.0
+122,Paid Item,12.0,Enabled,null,BLANK,0.0,0.0
+123,Paid Item,12.0,Enabled,null,BLANK,0.0,0.0
+124,Paid Item,12.0,Enabled,null,BLANK,0.0,0.0
+73,Cool Book W,0.0,Enabled,null,BLANK,0.0,0.0
+74,Cool Book W,0.0,Enabled,null,BLANK,0.0,0.0
+105,Paid Item,12.0,Enabled,null,BLANK,0.0,0.0
+106,Paid Item,12.0,Enabled,null,BLANK,0.0,0.0
+75,Cool Book W,0.0,Enabled,null,BLANK,0.0,0.0
+76,Cool Book W,0.0,Enabled,null,BLANK,0.0,0.0
+130,notDiscounted 2,12.0,Enabled,null,BLANK,0.0,0.0
+131,notDiscounted 2,12.0,Enabled,null,BLANK,0.0,0.0
+132,notDiscounted 2,12.0,Enabled,null,BLANK,0.0,0.0
+133,notDiscounted 2,12.0,Enabled,null,BLANK,0.0,0.0
+134,notDiscounted 2,12.0,Enabled,null,BLANK,0.0,0.0
+135,notDiscounted 2,12.0,Enabled,null,BLANK,0.0,0.0
+136,notDiscounted 2,12.0,Enabled,null,BLANK,0.0,0.0
+137,notDiscounted 2,12.0,Enabled,null,BLANK,0.0,0.0
+138,notDiscounted 2,12.0,Enabled,null,BLANK,0.0,0.0
+139,notDiscounted 2,12.0,Enabled,null,BLANK,0.0,0.0
+140,notDiscounted 2,12.0,Enabled,null,BLANK,0.0,0.0
+141,notDiscounted 2,12.0,Enabled,null,BLANK,0.0,0.0
+142,notDiscounted 2,12.0,Enabled,null,BLANK,0.0,0.0
+143,notDiscounted 2,12.0,Enabled,null,BLANK,0.0,0.0
+144,notDiscounted 2,12.0,Enabled,null,BLANK,0.0,0.0
+145,notDiscounted 2,12.0,Enabled,null,BLANK,0.0,0.0
+146,notDiscounted 2,12.0,Enabled,null,BLANK,0.0,0.0
+147,notDiscounted 2,12.0,Enabled,null,BLANK,0.0,0.0
+148,notDiscounted 2,12.0,Enabled,null,BLANK,0.0,0.0
+149,notDiscounted 2,12.0,Enabled,null,BLANK,0.0,0.0
+151,Paid Item 2,12.0,Enabled,null,BLANK,0.0,0.0
+152,Paid Item 2,12.0,Enabled,null,BLANK,0.0,0.0
+153,Paid Item 2,12.0,Enabled,null,BLANK,0.0,0.0
+154,Paid Item 2,12.0,Enabled,null,BLANK,0.0,0.0
+155,Paid Item 2,12.0,Enabled,null,BLANK,0.0,0.0
+156,Paid Item 2,12.0,Enabled,null,BLANK,0.0,0.0
+157,Paid Item 2,12.0,Enabled,null,BLANK,0.0,0.0
+158,Paid Item 2,12.0,Enabled,null,BLANK,0.0,0.0
+159,Paid Item 2,12.0,Enabled,null,BLANK,0.0,0.0
+160,Paid Item 2,12.0,Enabled,null,BLANK,0.0,0.0
+161,Paid Item 2,12.0,Enabled,null,BLANK,0.0,0.0
+162,Paid Item 2,12.0,Enabled,null,BLANK,0.0,0.0
+163,Paid Item 2,12.0,Enabled,null,BLANK,0.0,0.0
+164,Paid Item 2,12.0,Enabled,null,BLANK,0.0,0.0
+165,Paid Item 2,12.0,Enabled,null,BLANK,0.0,0.0
+166,Paid Item 2,12.0,Enabled,null,BLANK,0.0,0.0
+167,Paid Item 2,12.0,Enabled,null,BLANK,0.0,0.0
+168,Paid Item 2,12.0,Enabled,null,BLANK,0.0,0.0
+169,Paid Item 2,12.0,Enabled,null,BLANK,0.0,0.0
+170,Paid Item 2,12.0,Enabled,null,BLANK,0.0,0.0
+172,discountedItem 2,0.0,Enabled,null,BLANK,0.0,0.0
+173,discountedItem 2,0.0,Enabled,null,BLANK,0.0,0.0
+174,discountedItem 2,0.0,Enabled,null,BLANK,0.0,0.0
+175,discountedItem 2,0.0,Enabled,null,BLANK,0.0,0.0
+176,discountedItem 2,0.0,Enabled,null,BLANK,0.0,0.0
+177,discountedItem 2,0.0,Enabled,null,BLANK,0.0,0.0
+178,discountedItem 2,0.0,Enabled,null,BLANK,0.0,0.0
+179,discountedItem 2,0.0,Enabled,null,BLANK,0.0,0.0
+180,discountedItem 2,0.0,Enabled,null,BLANK,0.0,0.0
+181,discountedItem 2,0.0,Enabled,null,BLANK,0.0,0.0
+182,discountedItem 2,0.0,Enabled,null,BLANK,0.0,0.0
+183,discountedItem 2,0.0,Enabled,null,BLANK,0.0,0.0
+184,discountedItem 2,0.0,Enabled,null,BLANK,0.0,0.0
+185,discountedItem 2,0.0,Enabled,null,BLANK,0.0,0.0
+186,discountedItem 2,0.0,Enabled,null,BLANK,0.0,0.0
+187,discountedItem 2,0.0,Enabled,null,BLANK,0.0,0.0
+188,discountedItem 2,0.0,Enabled,null,BLANK,0.0,0.0
+189,discountedItem 2,0.0,Enabled,null,BLANK,0.0,0.0
+190,discountedItem 2,0.0,Enabled,null,BLANK,0.0,0.0
+191,discountedItem 2,0.0,Enabled,null,BLANK,0.0,0.0
+192,Original,0.0,Enabled,null,BLANK,0.0,0.0
+193,Original,0.0,Enabled,null,BLANK,0.0,0.0
+194,Original,0.0,Enabled,null,BLANK,0.0,0.0
+195,Original,0.0,Enabled,null,BLANK,0.0,0.0
+196,Original,0.0,Enabled,null,BLANK,0.0,0.0
+197,Original,0.0,Enabled,null,BLANK,0.0,0.0
+198,Original,0.0,Enabled,null,BLANK,0.0,0.0
+199,Original,0.0,Enabled,null,BLANK,0.0,0.0
+200,Original,0.0,Enabled,null,BLANK,0.0,0.0
+201,Original,0.0,Enabled,null,BLANK,0.0,0.0
+202,Original,0.0,Enabled,null,BLANK,0.0,0.0
+203,Original,0.0,Enabled,null,BLANK,0.0,0.0
+204,Original,0.0,Enabled,null,BLANK,0.0,0.0
+205,Original,0.0,Enabled,null,BLANK,0.0,0.0
+206,Original,0.0,Enabled,null,BLANK,0.0,0.0
+207,Original,0.0,Enabled,null,BLANK,0.0,0.0
+208,Original,0.0,Enabled,null,BLANK,0.0,0.0
+209,Original,0.0,Enabled,null,BLANK,0.0,0.0
+210,Original,0.0,Enabled,null,BLANK,0.0,0.0
+211,Original,0.0,Enabled,null,BLANK,0.0,0.0
+213,Original 2,0.0,Enabled,null,BLANK,0.0,0.0
+214,Original 2,0.0,Enabled,null,BLANK,0.0,0.0
+215,Original 2,0.0,Enabled,null,BLANK,0.0,0.0
+216,Original 2,0.0,Enabled,null,BLANK,0.0,0.0
+217,Original 2,0.0,Enabled,null,BLANK,0.0,0.0
+218,Original 2,0.0,Enabled,null,BLANK,0.0,0.0
+219,Original 2,0.0,Enabled,null,BLANK,0.0,0.0
+220,Original 2,0.0,Enabled,null,BLANK,0.0,0.0
+221,Original 2,0.0,Enabled,null,BLANK,0.0,0.0
+222,Original 2,0.0,Enabled,null,BLANK,0.0,0.0
+223,Original 2,0.0,Enabled,null,BLANK,0.0,0.0
+224,Original 2,0.0,Enabled,null,BLANK,0.0,0.0
+225,Original 2,0.0,Enabled,null,BLANK,0.0,0.0
+226,Original 2,0.0,Enabled,null,BLANK,0.0,0.0
+227,Original 2,0.0,Enabled,null,BLANK,0.0,0.0
+228,Original 2,0.0,Enabled,null,BLANK,0.0,0.0
+229,Original 2,0.0,Enabled,null,BLANK,0.0,0.0
+230,Original 2,0.0,Enabled,null,BLANK,0.0,0.0
+231,Original 2,0.0,Enabled,null,BLANK,0.0,0.0
+232,Original 2,0.0,Enabled,null,BLANK,0.0,0.0
+233,Single,0.0,Enabled,null,BLANK,0.0,0.0
+234,Single,0.0,Enabled,null,BLANK,0.0,0.0
+235,Single,0.0,Enabled,null,BLANK,0.0,0.0
+236,Single,0.0,Enabled,null,BLANK,0.0,0.0
+237,Single,0.0,Enabled,null,BLANK,0.0,0.0
+238,Single,0.0,Enabled,null,BLANK,0.0,0.0
+239,Single,0.0,Enabled,null,BLANK,0.0,0.0
+240,Single,0.0,Enabled,null,BLANK,0.0,0.0
+241,Single,0.0,Enabled,null,BLANK,0.0,0.0
+242,Single,0.0,Enabled,null,BLANK,0.0,0.0
+243,Single,0.0,Enabled,null,BLANK,0.0,0.0
+244,Single,0.0,Enabled,null,BLANK,0.0,0.0
+245,Single,0.0,Enabled,null,BLANK,0.0,0.0
+246,Single,0.0,Enabled,null,BLANK,0.0,0.0
+247,Single,0.0,Enabled,null,BLANK,0.0,0.0
+248,Single,0.0,Enabled,null,BLANK,0.0,0.0
+249,Single,0.0,Enabled,null,BLANK,0.0,0.0
+250,Single,0.0,Enabled,null,BLANK,0.0,0.0
+251,Single,0.0,Enabled,null,BLANK,0.0,0.0
+252,Single,0.0,Enabled,null,BLANK,0.0,0.0
+254,Single 2,0.0,Enabled,null,BLANK,0.0,0.0
+255,Single 2,0.0,Enabled,null,BLANK,0.0,0.0
+256,Single 2,0.0,Enabled,null,BLANK,0.0,0.0
+257,Single 2,0.0,Enabled,null,BLANK,0.0,0.0
+258,Single 2,0.0,Enabled,null,BLANK,0.0,0.0
+259,Single 2,0.0,Enabled,null,BLANK,0.0,0.0
+260,Single 2,0.0,Enabled,null,BLANK,0.0,0.0
+261,Single 2,0.0,Enabled,null,BLANK,0.0,0.0
+262,Single 2,0.0,Enabled,null,BLANK,0.0,0.0
+263,Single 2,0.0,Enabled,null,BLANK,0.0,0.0
+264,Single 2,0.0,Enabled,null,BLANK,0.0,0.0
+265,Single 2,0.0,Enabled,null,BLANK,0.0,0.0
+266,Single 2,0.0,Enabled,null,BLANK,0.0,0.0
+267,Single 2,0.0,Enabled,null,BLANK,0.0,0.0
+268,Single 2,0.0,Enabled,null,BLANK,0.0,0.0
+269,Single 2,0.0,Enabled,null,BLANK,0.0,0.0
+270,Single 2,0.0,Enabled,null,BLANK,0.0,0.0
+271,Single 2,0.0,Enabled,null,BLANK,0.0,0.0
+272,Single 2,0.0,Enabled,null,BLANK,0.0,0.0
+273,Single 2,0.0,Enabled,null,BLANK,0.0,0.0
+274,Double,0.0,Enabled,null,BLANK,0.0,0.0
+275,Double,0.0,Enabled,null,BLANK,0.0,0.0
+276,Double,0.0,Enabled,null,BLANK,0.0,0.0
+277,Double,0.0,Enabled,null,BLANK,0.0,0.0
+278,Double,0.0,Enabled,null,BLANK,0.0,0.0
+279,Double,0.0,Enabled,null,BLANK,0.0,0.0
+280,Double,0.0,Enabled,null,BLANK,0.0,0.0
+281,Double,0.0,Enabled,null,BLANK,0.0,0.0
+282,Double,0.0,Enabled,null,BLANK,0.0,0.0
+283,Double,0.0,Enabled,null,BLANK,0.0,0.0
+284,Double,0.0,Enabled,null,BLANK,0.0,0.0
+285,Double,0.0,Enabled,null,BLANK,0.0,0.0
+286,Double,0.0,Enabled,null,BLANK,0.0,0.0
+287,Double,0.0,Enabled,null,BLANK,0.0,0.0
+288,Double,0.0,Enabled,null,BLANK,0.0,0.0
+289,Double,0.0,Enabled,null,BLANK,0.0,0.0
+290,Double,0.0,Enabled,null,BLANK,0.0,0.0
+291,Double,0.0,Enabled,null,BLANK,0.0,0.0
+292,Double,0.0,Enabled,null,BLANK,0.0,0.0
+293,Double,0.0,Enabled,null,BLANK,0.0,0.0
+295,Double 2,0.0,Enabled,null,BLANK,0.0,0.0
+296,Double 2,0.0,Enabled,null,BLANK,0.0,0.0
+297,Double 2,0.0,Enabled,null,BLANK,0.0,0.0
+298,Double 2,0.0,Enabled,null,BLANK,0.0,0.0
+299,Double 2,0.0,Enabled,null,BLANK,0.0,0.0
+300,Double 2,0.0,Enabled,null,BLANK,0.0,0.0
+301,Double 2,0.0,Enabled,null,BLANK,0.0,0.0
+302,Double 2,0.0,Enabled,null,BLANK,0.0,0.0
+303,Double 2,0.0,Enabled,null,BLANK,0.0,0.0
+304,Double 2,0.0,Enabled,null,BLANK,0.0,0.0
+305,Double 2,0.0,Enabled,null,BLANK,0.0,0.0
+306,Double 2,0.0,Enabled,null,BLANK,0.0,0.0
+307,Double 2,0.0,Enabled,null,BLANK,0.0,0.0
+308,Double 2,0.0,Enabled,null,BLANK,0.0,0.0
+309,Double 2,0.0,Enabled,null,BLANK,0.0,0.0
+310,Double 2,0.0,Enabled,null,BLANK,0.0,0.0
+311,Double 2,0.0,Enabled,null,BLANK,0.0,0.0
+312,Double 2,0.0,Enabled,null,BLANK,0.0,0.0
+313,Double 2,0.0,Enabled,null,BLANK,0.0,0.0
+314,Double 2,0.0,Enabled,null,BLANK,0.0,0.0
 62,Cool Book W,0.0,Enabled,Sat Apr 20 00:26:46 EDT 2024,Awesome@gmail.com,0.0,0.0
 63,Cool Book W,0.0,Enabled,Sat Apr 20 00:26:46 EDT 2024,Awesome@gmail.com,0.0,0.0
 64,Cool Book W,0.0,Enabled,Sat Apr 20 00:26:46 EDT 2024,Awesome@gmail.com,0.0,0.0
@@ -100,3 +291,13 @@ Id,Name,Price,Disabled,DueDate,Barrower,Fee,Discount
 61,Cool Book W,0.0,Enabled,Sun Apr 21 00:21:39 EDT 2024,test@gmail.com,0.0,0.0
 79,Cool Book W,0.0,Enabled,Sun Apr 21 01:17:15 EDT 2024,test@gmail.com,0.0,0.0
 0,notDiscounted,125.0,Enabled,Sun Apr 21 01:17:15 EDT 2024,test@gmail.com,0.0,0.0
+78,Cool Book W,0.0,Enabled,Sun Apr 21 02:17:04 EDT 2024,Good@gmail.com,0.0,0.0
+107,Paid Item,12.0,Enabled,Sun Apr 21 02:17:04 EDT 2024,Good@gmail.com,0.0,0.0
+108,Paid Item,12.0,Enabled,Sun Apr 21 02:17:04 EDT 2024,Good@gmail.com,0.0,0.0
+109,Paid Item,12.0,Enabled,Sun Apr 21 02:17:04 EDT 2024,Good@gmail.com,0.0,0.0
+110,Paid Item,12.0,Enabled,Sun Apr 21 02:17:04 EDT 2024,Good@gmail.com,0.0,0.0
+111,Paid Item,12.0,Enabled,Sun Apr 21 02:17:04 EDT 2024,Good@gmail.com,0.0,0.0
+112,Paid Item,12.0,Enabled,Sun Apr 21 02:17:04 EDT 2024,Good@gmail.com,0.0,0.0
+113,Paid Item,12.0,Enabled,Sun Apr 21 02:17:04 EDT 2024,Good@gmail.com,0.0,0.0
+147,anotherItem 2,0.0,Enabled,Sun Apr 21 02:45:16 EDT 2024,test@gmail.com,0.0,0.0
+21,discountedItem,10.0,Enabled,Sun Apr 21 03:07:19 EDT 2024,Good@gmail.com,0.0,0.4

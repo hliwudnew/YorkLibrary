@@ -29,7 +29,7 @@ public class NotificationsGUI {
 			clear.setRowCount(0);
 			for(String message : listToParse) {
 				String[] data = message.split(",");
-				String[] rowdata = {data[0].toString(),data[1]+""};
+				String[] rowdata = {data[0],data[1]};
 				DefaultTableModel tblModel = (DefaultTableModel) table.getModel();
 				tblModel.addRow(rowdata);
 			}
@@ -64,15 +64,14 @@ public class NotificationsGUI {
 				return columnEditables[column];
 			}
 		});
+		table.getColumnModel().getColumn(1).setPreferredWidth(500);
 		scrollPane.setViewportView(table);
-		
-        table.getColumnModel().getColumn(1).setPreferredWidth(500); 
 
 		
 		JButton btnNewButton = new JButton("Refresh");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				updateTable(table, loggedIn, checkNotification(loggedIn,system));
 			}
 		});
 		
@@ -117,15 +116,14 @@ public class NotificationsGUI {
 		);
 		mainPage.setLayout(gl_mainPage);
 		
+		//Checks to see if the user could have notifications, and fills the table accordingly
+		updateTable(table, loggedIn, checkNotification(loggedIn,system));
 		
 		//Sets the window text and lets user see the GUI
 		frame.setTitle("Notifications");
 		//frame.setSize(1000, 750); //In editor it doesn't fit, but when running application it looks good
 		frame.setSize(862, 649);
 		frame.setVisible(true);
-		
-		//Checks to see if the user could have notifications, and fills the table accordingly
-		updateTable(table, loggedIn, checkNotification(loggedIn,system));
 	}
 	
 	

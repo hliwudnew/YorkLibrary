@@ -30,6 +30,8 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EtchedBorder;
 
 
@@ -65,6 +67,24 @@ public class LoginGUI implements ActionListener {
 		new LoginGUI();
 	}
 	public LoginGUI(){
+		 try {
+	         UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+	        } 
+	     catch (ClassNotFoundException e) {
+	         e.printStackTrace();
+	        }
+	     catch (InstantiationException e) {
+	         e.printStackTrace();
+	        } 
+	     catch (IllegalAccessException e) {
+	         e.printStackTrace();
+	        }
+	     catch (UnsupportedLookAndFeelException e) {
+	         e.printStackTrace();
+	        }
+	     catch (Exception e) {
+	    	 e.printStackTrace();
+	       }
 		//UI
 		frame = new JFrame(); // The window
 		frame.getContentPane().setBackground(new Color(255, 128, 128));

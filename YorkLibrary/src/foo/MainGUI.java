@@ -1184,16 +1184,15 @@ public class MainGUI{
 		GroupLayout gl_centerContent_Inv = new GroupLayout(centerContent_Inv);
 		gl_centerContent_Inv.setHorizontalGroup(
 			gl_centerContent_Inv.createParallelGroup(Alignment.LEADING)
-				.addComponent(topBar_Inv, GroupLayout.DEFAULT_SIZE, 1132, Short.MAX_VALUE)
-				.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 845, Short.MAX_VALUE)
+				.addComponent(topBar_Inv, GroupLayout.DEFAULT_SIZE, 933, Short.MAX_VALUE)
+				.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 933, Short.MAX_VALUE)
 		);
 		gl_centerContent_Inv.setVerticalGroup(
 			gl_centerContent_Inv.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_centerContent_Inv.createSequentialGroup()
 					.addComponent(topBar_Inv, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(tabbedPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(475, Short.MAX_VALUE))
+					.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 662, Short.MAX_VALUE))
 		);
 		
 		physicalItemPage = new JPanel();
@@ -1600,7 +1599,9 @@ public class MainGUI{
 		readOnlinePage.setLayout(gl_readOnlinePage);
 		
 		JPanel coursesPage = new JPanel();
+		coursesPage.setBackground(new Color(255, 255, 255));
 		JPanel textBooksPage = new JPanel();
+		textBooksPage.setBackground(new Color(255, 255, 255));
 
 		//TODO: comment out when done editing
 		

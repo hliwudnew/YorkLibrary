@@ -6,3 +6,13 @@ Id,Name,Price,Disabled,Link
 -40,anotherItem,50.0,Disabled,https://www.bookstore.yorku.ca/default.asp?
 0,notDiscounted,125.0,Disabled,https://www.bookstore.yorku.ca/default.asp?
 10001,Test,10.0,Enabled,www.google.com
+1234567,Costs,12.0,Enabled,https://github.com/
+-3,notDiscounted,125.0,Disabled,https://www.bookstore.yorku.ca/default.asp?
+-84,Old Copy 2,0.0,Disabled,https://www.bookstore.yorku.ca/default.asp?
+-43,anotherItem,50.0,Disabled,https://www.bookstore.yorku.ca/default.asp?
+-73,Cool Book W,0.0,Enabled,https://www.bookstore.yorku.ca/default.asp?
+-115,Paid Item,12.0,Enabled,https://www.bookstore.yorku.ca/default.asp?
+-21,discountedItem,10.0,Enabled,https://www.bookstore.yorku.ca/default.asp?
+-192,Original,0.0,Enabled,https://www.bookstore.yorku.ca/default.asp?
+-233,Single,0.0,Enabled,https://www.bookstore.yorku.ca/default.asp?
+-274,Double,0.0,Enabled,https://www.bookstore.yorku.ca/default.asp?
