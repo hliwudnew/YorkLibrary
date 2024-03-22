@@ -2,8 +2,6 @@ Id,Name,Price,Disabled,Link
 1000,New York Times,0.0,Enabled,https://www.nytimes.com/ca/
 1001,Special Report,0.0,Disabled,https://www.nytimes.com/ca/
 1002,BBC.com,15.0,Enabled,https://www.bbc.com/news
--80,Cool Math Book,125.0,Enabled,https://www.bookstore.yorku.ca/default.asp?
--1,Math & Stats,12.0,Enabled,https://www.bookstore.yorku.ca/default.asp?
+-1,Math & Stats,0.0,Enabled,https://www.bookstore.yorku.ca/default.asp?
 -20,Science,0.0,Enabled,https://www.bookstore.yorku.ca/default.asp?
--103,Art Book,0.0,Enabled,https://www.bookstore.yorku.ca/default.asp?
--123,Cooler Art Book,20.0,Enabled,https://www.bookstore.yorku.ca/default.asp?
+-111,Physics,0.0,Enabled,https://www.bookstore.yorku.ca/default.asp?
