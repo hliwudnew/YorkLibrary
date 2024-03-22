@@ -1,18 +1,9 @@
 Id,Name,Price,Disabled,Link
-25,New York Times,0.0,Enabled,https://www.nytimes.com/ca/
-120,Disableded???,0.0,Disabled,www.google.com
-1000,OnlineITme,0.0,Enabled,www.google.com
--60,Cool Book W,0.0,Enabled,https://www.bookstore.yorku.ca/default.asp?
--40,anotherItem,50.0,Disabled,https://www.bookstore.yorku.ca/default.asp?
-0,notDiscounted,125.0,Disabled,https://www.bookstore.yorku.ca/default.asp?
-10001,Test,10.0,Enabled,www.google.com
-1234567,Costs,12.0,Enabled,https://github.com/
--3,notDiscounted,125.0,Disabled,https://www.bookstore.yorku.ca/default.asp?
--84,Old Copy 2,0.0,Disabled,https://www.bookstore.yorku.ca/default.asp?
--43,anotherItem,50.0,Disabled,https://www.bookstore.yorku.ca/default.asp?
--73,Cool Book W,0.0,Enabled,https://www.bookstore.yorku.ca/default.asp?
--115,Paid Item,12.0,Enabled,https://www.bookstore.yorku.ca/default.asp?
--21,discountedItem,10.0,Enabled,https://www.bookstore.yorku.ca/default.asp?
--192,Original,0.0,Enabled,https://www.bookstore.yorku.ca/default.asp?
--233,Single,0.0,Enabled,https://www.bookstore.yorku.ca/default.asp?
--274,Double,0.0,Enabled,https://www.bookstore.yorku.ca/default.asp?
+1000,New York Times,0.0,Enabled,https://www.nytimes.com/ca/
+1001,Special Report,0.0,Disabled,https://www.nytimes.com/ca/
+1002,BBC.com,15.0,Enabled,https://www.bbc.com/news
+-80,Cool Math Book,125.0,Enabled,https://www.bookstore.yorku.ca/default.asp?
+-1,Math & Stats,12.0,Enabled,https://www.bookstore.yorku.ca/default.asp?
+-20,Science,0.0,Enabled,https://www.bookstore.yorku.ca/default.asp?
+-103,Art Book,0.0,Enabled,https://www.bookstore.yorku.ca/default.asp?
+-123,Cooler Art Book,20.0,Enabled,https://www.bookstore.yorku.ca/default.asp?
