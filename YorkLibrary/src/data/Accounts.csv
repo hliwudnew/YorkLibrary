@@ -2,3 +2,6 @@ Email,Password,Rented,Subscriptions,Type,Courses,TextBooks
 test@gmail.com,Password123#,BLANK,BLANK,Student,BLANK,BLANK
 Od2@gmail.com,Od2@,BLANK,BLANK,Student,BLANK,BLANK
 Fac2@gmail.com,Fac2@,BLANK,BLANK,Faculty,BLANK,BLANK
+Stu2@gmail.com,Stu2@,BLANK,BLANK,Student,BLANK,BLANK
+Visitor2@gmail.com,Visitor2@,BLANK,BLANK,Visitor,BLANK,BLANK
+NonFac2@gmail.com,NonFac2@,BLANK,BLANK,Nonfaculty,BLANK,BLANK

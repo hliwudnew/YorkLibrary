@@ -1,15 +1,5 @@
 Id,Name,Price,Disabled,DueDate,Barrower,Fee,Discount
 0,Math & Stats,0.0,Enabled,null,BLANK,0.0,0.0
-1,Math & Stats,0.0,Enabled,null,BLANK,0.0,0.0
-2,Math & Stats,0.0,Enabled,null,BLANK,0.0,0.0
-5,Math & Stats,0.0,Enabled,null,BLANK,0.0,0.0
-6,Math & Stats,0.0,Enabled,null,BLANK,0.0,0.0
-7,Math & Stats,0.0,Enabled,null,BLANK,0.0,0.0
-8,Math & Stats,0.0,Enabled,null,BLANK,0.0,0.0
-9,Math & Stats,0.0,Enabled,null,BLANK,0.0,0.0
-10,Math & Stats,0.0,Enabled,null,BLANK,0.0,0.0
-11,Math & Stats,0.0,Enabled,null,BLANK,0.0,0.0
-12,Math & Stats,0.0,Enabled,null,BLANK,0.0,0.0
 13,Math & Stats,0.0,Enabled,null,BLANK,0.0,0.0
 14,Math & Stats,0.0,Enabled,null,BLANK,0.0,0.0
 15,Math & Stats,0.0,Enabled,null,BLANK,0.0,0.0
@@ -17,7 +7,6 @@ Id,Name,Price,Disabled,DueDate,Barrower,Fee,Discount
 17,Math & Stats,0.0,Enabled,null,BLANK,0.0,0.0
 18,Math & Stats,0.0,Enabled,null,BLANK,0.0,0.0
 19,Math & Stats,0.0,Enabled,null,BLANK,0.0,0.0
-20,Science,0.0,Enabled,null,BLANK,0.0,0.0
 21,Science,0.0,Enabled,null,BLANK,0.0,0.0
 22,Science,0.0,Enabled,null,BLANK,0.0,0.0
 23,Science,0.0,Enabled,null,BLANK,0.0,0.0
@@ -56,7 +45,6 @@ Id,Name,Price,Disabled,DueDate,Barrower,Fee,Discount
 57,Aero Space,0.0,Disabled,null,BLANK,0.0,0.0
 58,Aero Space,0.0,Disabled,null,BLANK,0.0,0.0
 59,Aero Space,0.0,Disabled,null,BLANK,0.0,0.0
-60,Cool Book,15.0,Enabled,null,BLANK,0.0,0.0
 61,Cool Book,15.0,Enabled,null,BLANK,0.0,0.0
 62,Cool Book,15.0,Enabled,null,BLANK,0.0,0.0
 63,Cool Book,15.0,Enabled,null,BLANK,0.0,0.0
@@ -75,7 +63,6 @@ Id,Name,Price,Disabled,DueDate,Barrower,Fee,Discount
 77,Cool Book,15.0,Enabled,null,BLANK,0.0,0.0
 78,Cool Book,15.0,Enabled,null,BLANK,0.0,0.0
 79,Cool Book,15.0,Enabled,null,BLANK,0.0,0.0
-80,Cool CD,10.0,Enabled,null,BLANK,0.0,0.4
 81,Cool CD,10.0,Enabled,null,BLANK,0.0,0.4
 82,Cool CD,10.0,Enabled,null,BLANK,0.0,0.4
 83,Cool CD,10.0,Enabled,null,BLANK,0.0,0.4
@@ -113,9 +100,46 @@ Id,Name,Price,Disabled,DueDate,Barrower,Fee,Discount
 117,Physics,0.0,Enabled,null,BLANK,0.0,0.0
 118,Physics,0.0,Enabled,null,BLANK,0.0,0.0
 119,Physics,0.0,Enabled,null,BLANK,0.0,0.0
+123,Magizne,15.0,Enabled,null,BLANK,0.0,0.0
+124,Magizne,15.0,Enabled,null,BLANK,0.0,0.0
+125,Magizne,15.0,Enabled,null,BLANK,0.0,0.0
+126,Magizne,15.0,Enabled,null,BLANK,0.0,0.0
+127,Magizne,15.0,Enabled,null,BLANK,0.0,0.0
+128,Magizne,15.0,Enabled,null,BLANK,0.0,0.0
+129,Magizne,15.0,Enabled,null,BLANK,0.0,0.0
+130,Magizne,15.0,Enabled,null,BLANK,0.0,0.0
+131,Magizne,15.0,Enabled,null,BLANK,0.0,0.0
+132,Magizne,15.0,Enabled,null,BLANK,0.0,0.0
+133,Magizne,15.0,Enabled,null,BLANK,0.0,0.0
+134,Magizne,15.0,Enabled,null,BLANK,0.0,0.0
+135,Magizne,15.0,Enabled,null,BLANK,0.0,0.0
+136,Magizne,15.0,Enabled,null,BLANK,0.0,0.0
+137,Magizne,15.0,Enabled,null,BLANK,0.0,0.0
+138,Magizne,15.0,Enabled,null,BLANK,0.0,0.0
+139,Magizne,15.0,Enabled,null,BLANK,0.0,0.0
+140,Magizne,15.0,Enabled,null,BLANK,0.0,0.0
+141,Magizne,15.0,Enabled,null,BLANK,0.0,0.0
+142,Magizne,15.0,Enabled,null,BLANK,0.0,0.0
+39,Science,0.0,Enabled,null,BLANK,0.0,0.0
+1,Math & Stats,0.0,Enabled,null,BLANK,0.0,0.0
+2,Math & Stats,0.0,Enabled,null,BLANK,0.0,0.0
+5,Math & Stats,0.0,Enabled,null,BLANK,0.0,0.0
+7,Math & Stats,0.0,Enabled,null,BLANK,0.0,0.0
 3,Math & Stats,0.0,Enabled,Fri Mar 22 21:10:18 EDT 2024,Od2@gmail.com,0.0,0.0
-39,Science,0.0,Enabled,Wed Feb 21 00:10:18 EST 2024,Od2@gmail.com,15.0,0.0
 70,Cool Book,15.0,Enabled,Mon Mar 18 01:10:18 EDT 2024,Od2@gmail.com,2.0,0.0
 91,Cool CD,10.0,Enabled,Thu Feb 22 00:10:18 EST 2024,Od2@gmail.com,14.5,0.4
 107,Physics,0.0,Enabled,Mon Apr 22 01:10:18 EDT 2024,Od2@gmail.com,0.0,0.0
 4,Math & Stats,0.0,Enabled,Mon Mar 18 01:13:03 EDT 2024,Od2@gmail.com,2.0,0.0
+20,Science,0.0,Enabled,Mon Apr 22 01:22:19 EDT 2024,Stu2@gmail.com,0.0,0.0
+6,Math & Stats,0.0,Enabled,Mon Apr 22 01:23:34 EDT 2024,Stu2@gmail.com,0.0,0.0
+8,Math & Stats,0.0,Enabled,Mon Apr 22 01:23:34 EDT 2024,Stu2@gmail.com,0.0,0.0
+9,Math & Stats,0.0,Enabled,Mon Apr 22 01:23:34 EDT 2024,Stu2@gmail.com,0.0,0.0
+10,Math & Stats,0.0,Enabled,Mon Apr 22 01:23:34 EDT 2024,Stu2@gmail.com,0.0,0.0
+11,Math & Stats,0.0,Enabled,Mon Apr 22 01:23:34 EDT 2024,Stu2@gmail.com,0.0,0.0
+60,Cool Book,15.0,Enabled,Mon Apr 22 01:28:27 EDT 2024,Od2@gmail.com,0.0,0.0
+143,Science 2,0.0,Enabled,Mon Apr 22 01:34:44 EDT 2024,Od2@gmail.com,0.0,0.0
+144,Science 2,0.0,Enabled,Mon Apr 22 01:34:44 EDT 2024,Od2@gmail.com,0.0,0.0
+145,Science 2,0.0,Enabled,Mon Apr 22 01:34:44 EDT 2024,Od2@gmail.com,0.0,0.0
+162,Science 2,0.0,Enabled,Mon Apr 22 01:36:14 EDT 2024,Stu2@gmail.com,0.0,0.0
+80,Cool CD,10.0,Enabled,Mon Apr 22 01:44:07 EDT 2024,Stu2@gmail.com,0.0,0.4
+12,Math & Stats,0.0,Enabled,Tue Apr 23 00:53:13 EDT 2024,Stu2@gmail.com,0.0,0.0

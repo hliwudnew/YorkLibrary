@@ -10,7 +10,6 @@ public class Faculty extends User{
 	public Faculty() {
 		textBooks = new ArrayList<Item>();
 		courses = new ArrayList<Course>();
-
 	}
 	
 	public Faculty(ArrayList<Item> textBooks, ArrayList<Course> courses) {

@@ -138,11 +138,8 @@ public class CSVReader {
 				else if(u.getClass().toString().equals(new Faculty().getClass().toString())) {
 					type = "Faculty";
 				}
-				else if(u.getClass().toString().equals(new Visitor().getClass().toString())){
-					type = "Visitor";
-				}
 				else {
-					type = "NonFaculty";
+					type = "Nonfaculty";
 				}
 				buffWrite2.write(u.getEmail()+","+u.getPassword()+","+type+"\n");//Rewrites CSV file				
 			}
@@ -274,7 +271,7 @@ public class CSVReader {
 					type = "Visitor";
 				}
 				else {
-					type = "NonFaculty";
+					type = "Nonfaculty";
 				}
 				buffWrite2.write(u.getEmail()+","+u.getPassword()+","+rented+","+"BLANK"+","+type+","+"BLANK,BLANK"+"\n");//Rewrites CSV file				
 			}

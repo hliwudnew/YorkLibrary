@@ -117,10 +117,10 @@ public class MainGUI{
     private JTable table_Textbooks;
     private JTable table_Old;
 	
-	public static void main(String[] args) {
-		new MainGUI("test@gmail.com");
-		//comment
-	}
+//	public static void main(String[] args) {
+//		new MainGUI("test@gmail.com");
+//		//comment
+//	}
 	
 	//update methods to reuse code for updating tables in GUI:
 	

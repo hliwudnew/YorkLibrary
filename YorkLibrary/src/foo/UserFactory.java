@@ -9,7 +9,7 @@ public class UserFactory {
 			else if(user.equals("Faculty")) {
 				return new Faculty();
 			}
-			else if(user.equals("NonFaculty")) {
+			else if(user.equals("Nonfaculty")) {
 				return new Nonfaculty();
 			}
 			else if(user.equals("Visitor")) {

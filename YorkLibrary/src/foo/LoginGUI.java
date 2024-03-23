@@ -118,7 +118,7 @@ public class LoginGUI implements ActionListener {
 		Vector<String> accountTypes = new Vector<String>();
 		accountTypes.add("Student");
 		accountTypes.add("Faculty");
-		accountTypes.add("NonFaculty");
+		accountTypes.add("Nonfaculty");
 		accountTypes.add("Visitor");
 		type = new JComboBox<String>(accountTypes);
 		
