@@ -1,4 +1,4 @@
-package foo;
+package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -28,6 +28,26 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
+
+import foo.CSVReader;
+import foo.Course;
+import foo.CreditCardStrategy;
+import foo.CurrencyExchange;
+import foo.DebitCardStrategy;
+import foo.Disabled;
+import foo.Faculty;
+import foo.GiftCardStrategy;
+import foo.IPayment;
+import foo.Item;
+import foo.LibrarySystem;
+import foo.OnlineItem;
+import foo.PayPalStrategy;
+import foo.Payment;
+import foo.PaymentContext;
+import foo.PhysicalItem;
+import foo.Student;
+import foo.User;
+
 import javax.swing.border.BevelBorder;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;

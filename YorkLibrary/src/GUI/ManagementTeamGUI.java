@@ -1,4 +1,4 @@
-package foo;
+package GUI;
 
 import java.awt.CardLayout;
 
@@ -9,6 +9,19 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import foo.Course;
+import foo.Disabled;
+import foo.Enabled;
+import foo.Faculty;
+import foo.Item;
+import foo.ItemStateContext;
+import foo.LibrarySystem;
+import foo.ManagementTeam;
+import foo.OnlineItem;
+import foo.PhysicalItem;
+import foo.User;
+
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;

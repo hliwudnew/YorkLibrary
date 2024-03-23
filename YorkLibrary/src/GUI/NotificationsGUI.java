@@ -1,4 +1,4 @@
-package foo;
+package GUI;
 
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -13,6 +13,13 @@ import javax.swing.SwingConstants;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import foo.Faculty;
+import foo.Item;
+import foo.LibrarySystem;
+import foo.PhysicalItem;
+import foo.User;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;

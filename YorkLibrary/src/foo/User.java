@@ -72,10 +72,6 @@ public abstract class User {
 		}
 	}
 	
-	public void openOnlineItem(Item wantToRead) {
-		// Look at subscriptions and open the selected item
-	}
-	
 	public void returnPhysicalItem(PhysicalItem item) {
 
 		if(item != null && this.rented.contains(item) && !system.getStock().contains(item)) {
@@ -90,11 +86,6 @@ public abstract class User {
 			//the due date and fee for the return will be accounted for in MainGUI
 		}
 	}
-	
-	public void requestNewItem(Item item) {
-		//Check to make sure it doesn't exist in library
-	}
-	
 	
 	//Setters
 	public void unSubscribe(OnlineItem newsletter) {

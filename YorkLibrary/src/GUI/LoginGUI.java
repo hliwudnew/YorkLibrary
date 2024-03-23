@@ -1,4 +1,4 @@
-package foo;
+package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -33,6 +33,10 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EtchedBorder;
+
+import foo.CSVReader;
+import foo.User;
+import foo.UserFactory;
 
 
 

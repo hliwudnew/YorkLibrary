@@ -1,4 +1,4 @@
-package foo;
+package GUI;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -8,6 +8,10 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import foo.CSVReader;
+import foo.User;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.LayoutStyle.ComponentPlacement;

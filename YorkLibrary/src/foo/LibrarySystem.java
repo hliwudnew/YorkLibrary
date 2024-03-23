@@ -71,10 +71,6 @@ public class LibrarySystem {
 		return null;
 	}
 
-	public void checkPaymentInfo() {
-
-	}
-
 	public boolean checkUserPrivileges(User user) {
 		return false;
 	}

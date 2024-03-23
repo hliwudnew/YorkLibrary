@@ -3,6 +3,7 @@ package testcases;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.junit.jupiter.api.Test;
 
@@ -31,21 +32,45 @@ class testcases {
 	
 	@Test
 	void makePhysical() {
-		PhysicalItem chair = new PhysicalItem();
-		chair.setName("chair");
-		chair.setId(1);
-		chair.setBorrower(null);
-//		chair.setDisabled(false);
-		chair.setPrice(0);
+		PhysicalItem book = new PhysicalItem();
+		//Testing setter methods
+		book.setName("Chair Book");
+		book.setId(1);
+		book.setBorrower(null);
+		book.setStatus(new ItemStateContext(new Disabled()));
+		book.setPrice(100);
+		book.setLost(false);
+		book.setDueDate(new Date());
+		book.setFee(10);
+		book.setDiscount(10);
 		
-		assertTrue(chair.getBorrower() == null);
+		
+		assertTrue(book.getBorrower() == null);
+		assertTrue(book.getId() == 1);
+		assertTrue(book.getDiscount() == 10);
+		assertTrue(book.getPrice() == 100);
+		assertTrue(book.getDiscount() == 10);
+		assertTrue(book.getFee() == 10);
+		assertFalse(book.isLost());
+		assertTrue(book.getStatus().getState().getClass().equals(new Disabled().getClass()));
+		
 	}
 	
 	@Test 
 	void makeOnline(){
 		OnlineItem newsletter = new OnlineItem();
+		//Testing setter methods
+		newsletter.setId(1);
+		newsletter.setName("New York Times");
+		newsletter.setLink("https://www.nytimes.com/ca/");
+		newsletter.setPrice(0.0);
+		newsletter.setStatus(new ItemStateContext(new Enabled()));
+		newsletter.setSubscribers(new ArrayList<User>());
+		newsletter.addSubscriber(new Student());
 		
-		newsletter.addSubscriber( new Student());
+		assertFalse(newsletter.getSubscribers().isEmpty());
+		assertTrue(newsletter.getName().equals("New York Times"));
+		assertTrue(newsletter.getStatus().getState().getClass().equals(new Enabled().getClass()));
 	}
 	
 	@Test
@@ -107,6 +132,7 @@ class testcases {
 		System.out.println(status.getState().getClass().toString().substring(10));
 		status.setState(new Enabled());
 		System.out.println(status.getState().getClass().toString().substring(10));
+		status.status();
 	}
 	
 	@Test
