@@ -16,13 +16,13 @@ public abstract class Item {
 		this.discount=0.0;
 	}
 	
-	public Item(int inputId,String inputName, double inputPrice, ItemStateContext disabled) {
-		this.id = inputId;
-		this.name= inputName;
-		this.price = inputPrice;
-		this.status = disabled;
-		this.discount=0.0;
-	}
+	//public Item(int inputId,String inputName, double inputPrice, ItemStateContext disabled) {
+	//	this.id = inputId;
+	//	this.name= inputName;
+	//	this.price = inputPrice;
+	//	this.status = disabled;
+	//	this.discount=0.0;
+	//}
 	public Item(int inputId,String inputName, double inputPrice, ItemStateContext disabled, double discount) {
 		this.id = inputId;
 		this.name= inputName;

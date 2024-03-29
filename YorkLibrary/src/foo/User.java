@@ -29,21 +29,21 @@ public abstract class User {
 		this.menu=new Menu(clickAdd, clickRemove, clickClear, clickCheckout);
 	}
 	
-	public User(String email, String password, ArrayList<PhysicalItem> rented, ArrayList<OnlineItem> subs) {
-		this.email = email;
-		this.password = password;
-		this.rented = rented;
-		this.subscriptions = subs;
-		//create a new empty cart for this user
-		this.cart=new Cart(new ArrayList<Item>(), this);
-		//create the command objects and initialize them so that they are using this user's cart
-		ICartCommand1 clickAdd = new Add(this.cart);
-		ICartCommand1 clickRemove = new Remove(this.cart);
-		ICartCommand2 clickClear = new Clear(this.cart);
-		ICartCommand2 clickCheckout = new Checkout(this.cart);
-		//create a menu with the commands that the user can use 
-		this.menu=new Menu(clickAdd, clickRemove, clickClear, clickCheckout);
-	}
+	//public User(String email, String password, ArrayList<PhysicalItem> rented, ArrayList<OnlineItem> subs) {
+	//	this.email = email;
+	//	this.password = password;
+	//	this.rented = rented;
+	//	this.subscriptions = subs;
+	//	//create a new empty cart for this user
+	//	this.cart=new Cart(new ArrayList<Item>(), this);
+	//	//create the command objects and initialize them so that they are using this user's cart
+	//	ICartCommand1 clickAdd = new Add(this.cart);
+	//	ICartCommand1 clickRemove = new Remove(this.cart);
+	//	ICartCommand2 clickClear = new Clear(this.cart);
+	//	ICartCommand2 clickCheckout = new Checkout(this.cart);
+	//	//create a menu with the commands that the user can use 
+	//	this.menu=new Menu(clickAdd, clickRemove, clickClear, clickCheckout);
+	//}
 	
 	//Methods
 
@@ -157,6 +157,13 @@ public abstract class User {
 	public void setSystem(LibrarySystem system) {
 		this.system = system;
 	}
+	public void setCart(Cart cart) {
+		this.cart=cart;
+	}
+	public void setMenu(Menu menu) {
+		this.menu=menu;
+	}
+	
 	
 	//Getters
 	public ArrayList<PhysicalItem> getRented(){
