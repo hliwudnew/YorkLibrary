@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Cart {
 	private ArrayList<Item> itemsInCart;
 	private User owner;
-	double initialPrice;
+	private double initialPrice;
 	private String currency = "CAD"; //used to find what currency user wants to pay with, used for getting payment info in checkout, CAD is default
 	public Cart(ArrayList<Item> userItems, User owner) {
 		this.itemsInCart=userItems;
