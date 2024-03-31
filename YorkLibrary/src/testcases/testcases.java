@@ -1983,7 +1983,7 @@ class testcases {
 
 
 	@Test
-	void librarysystem_Test4() { //make sure overloaded constructor is working
+	void librarysystem_Test6() { //make sure overloaded constructor is working
 		ArrayList<Item> stock = new ArrayList<>();
 		ArrayList<Item> borrowed = new ArrayList<>();
 		ArrayList<User> users = new ArrayList<>();
@@ -2007,7 +2007,7 @@ class testcases {
 	}
 
 	@Test
-	void librarysystem_Test5() { //make sure system throws exception when user is null
+	void librarysystem_Test7() { //make sure system throws exception when user is null
 		try {
 			LibrarySystem lib = new LibrarySystem();
 			lib.addUser(null);
