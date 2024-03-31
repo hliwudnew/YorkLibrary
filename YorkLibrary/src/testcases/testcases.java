@@ -353,11 +353,160 @@ class testcases {
 	}
 	
 	@Test
+	void librarysystem_Test4() {
+		ManagementTeam team = new ManagementTeam();
+		LibrarySystem system = new LibrarySystem(new ArrayList<Item>(), new ArrayList<Item>(), new ArrayList<User>(), new ArrayList<OnlineItem>(), new ArrayList<Course>());
+		Student person = new Student();
+		Faculty teacher = new Faculty();
+		Visitor empty = null;
+
+		Course eecs3311 = new Course();
+		Course notInSystem = new Course();
+		
+		team.setSystem(system);
+		
+		PhysicalItem book1 = new PhysicalItem();
+		book1.setStatus(new ItemStateContext(new Enabled()));
+		book1.setId(PhysicalItem.getNextValidId()); 
+		book1.setName("First Book");
+		
+		PhysicalItem book2 = new PhysicalItem();
+		book2.setStatus(new ItemStateContext(new Enabled()));
+		book2.setId(PhysicalItem.getNextValidId());
+		book2.setName("Second Book");
+		
+		PhysicalItem book3 = new PhysicalItem();
+		book3.setStatus(new ItemStateContext(new Enabled()));
+		book3.setId(PhysicalItem.getNextValidId());
+		book3.setName("DOESNT EXISTS");
+		
+		team.addPhysicalItem(book1); // Makes 20 copies of the item into the system
+		team.addPhysicalItem(book2); // Makes 20 copies of the item into the system
+		
+		person.setEmail("ww@gmail");
+		person.setPassword("1234GHWUhh@$i");
+		
+		teacher.setEmail("ww2@gmail");
+		teacher.setPassword("1234GHWUhh@$i");
+		
+		system.addUser(person);
+		system.addUser(teacher);
+		system.addUser(empty);
+		
+		//Add course
+		eecs3311.setName("");// wont work because its empty hence we will check result
+		eecs3311.setCode("EECS3311");
+		
+		eecs3311.addStudent(person);
+		eecs3311.addFaculty(teacher);
+		eecs3311.addTextBook(book1);
+		eecs3311.addTextBook(book2);
+		
+		person.addCourse(eecs3311);
+		teacher.addCourse(eecs3311);
+
+		system.addCourse(eecs3311);
+		
+		//Incorrect values testing
+		assertFalse(system.getCourses().contains(notInSystem));// Invalid course, never put into system
+		system.removeCourse(null);// course doesn't exist, hence course list stays same size
+		assertFalse(system.getUsers().contains(empty));
+		assertEquals(null,system.getCourse("EECS2030"));
+		assertEquals(null, system.getItemAll(70));// There is no items with these id's hence we are testing to make sure they dont exist
+		assertEquals(null, system.getPhysicalItem(70));
+		assertEquals(null, system.getOnlineItem(70));
+		
+	}
+	
+	@Test
+	void librarysystem_Test5() {
+		ManagementTeam team = new ManagementTeam();
+		Student person = new Student();
+		Faculty teacher = new Faculty();
+
+		Course eecs3311 = new Course();
+		Course eecs2030 = new Course();
+		
+		//Physical Items
+		PhysicalItem book1 = new PhysicalItem();
+		book1.setStatus(new ItemStateContext(new Enabled()));
+		book1.setId(PhysicalItem.getNextValidId()); 
+		book1.setName("First Book");
+		
+		PhysicalItem book2 = new PhysicalItem();
+		book2.setStatus(new ItemStateContext(new Enabled()));
+		book2.setId(PhysicalItem.getNextValidId());
+		book2.setName("Second Book");
+		
+		
+		//OnlineItems
+		OnlineItem newYorkTimes = new OnlineItem();
+		newYorkTimes.setId(1000);
+		newYorkTimes.setName("New York Times");
+		newYorkTimes.setStatus(new ItemStateContext(new Enabled()));
+		newYorkTimes.setLink("https://www.nytimes.com/ca/");
+		
+		OnlineItem bbc = new OnlineItem();
+		bbc.setId(1000);
+		bbc.setName("British Broadcasting Central");
+		bbc.setStatus(new ItemStateContext(new Disabled()));
+		bbc.setLink("https://www.bbc.com/news");
+		
+		team.addPhysicalItem(book1); // Makes 20 copies of the item into the system
+		team.addPhysicalItem(book2); // Makes 20 copies of the item into the system
+		
+		person.setEmail("ww@gmail");
+		person.setPassword("1234GHWUhh@$i");
+		
+		teacher.setEmail("ww2@gmail");
+		teacher.setPassword("1234GHWUhh@$i");
+		
+		//Add course
+		eecs3311.setName("Cool Course");
+		eecs3311.setCode("EECS3311");
+		
+		eecs3311.addStudent(person);
+		eecs3311.addFaculty(teacher);
+		eecs3311.addTextBook(book1);
+		eecs3311.addTextBook(book2);
+		
+		person.addCourse(eecs3311);
+		teacher.addCourse(eecs3311);
+		
+		ArrayList<Item> items = new ArrayList<Item>();
+		ArrayList<OnlineItem> subs = new ArrayList<OnlineItem>();
+		ArrayList<Item> barrowed = new ArrayList<Item>();
+		ArrayList<Course> courses = new ArrayList<Course>();
+		ArrayList<User> users = new ArrayList<User>();
+		
+		users.add(teacher);
+		users.add(person);
+		courses.add(eecs2030);
+		courses.add(eecs3311);
+		items.add(book1);
+		items.add(book2);
+		subs.add(newYorkTimes);
+		subs.add(bbc);
+
+		//Giving a new system old/already created data
+		LibrarySystem system = new LibrarySystem(items, barrowed, users,subs,courses);
+		team.setSystem(system);
+		
+		assertEquals(2, system.getUsers().size());
+		assertEquals(2, system.getCourses().size());
+		assertEquals(2, system.getSubs().size());
+		assertEquals(2, system.getStock().size());
+		assertTrue(system.getBorrowed().isEmpty());
+	}
+	
+	
+	@Test
 	void testingState() {
 		ItemStateContext status = new ItemStateContext();
 		assertTrue(status.getState() instanceof Disabled);
 		status.setState(new Enabled());
 		assertTrue(status.getState() instanceof Enabled);
+		status.status();//Prints to console
 	}
 	
 	@Test
@@ -366,6 +515,7 @@ class testcases {
 		assertTrue(status.getState() instanceof Enabled);
 		status.setState(new Disabled());
 		assertTrue(status.getState() instanceof Disabled);
+		status.status();//Prints to console
 	}
 
 	@Test

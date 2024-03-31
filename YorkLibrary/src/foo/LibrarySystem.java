@@ -93,7 +93,7 @@ public class LibrarySystem {
 			user.setSystem(this);
 		}
 		else {
-			throw new NullPointerException();
+			System.out.println("User doesnt exist");
 		}
 	}
 
@@ -103,6 +103,9 @@ public class LibrarySystem {
 	public void removeCourse(Course course) {
 		if(course != null) {
 			this.courses.remove(course);
+		}
+		else {
+			System.out.println("Course doesnt exist");
 		}
 	}
 
