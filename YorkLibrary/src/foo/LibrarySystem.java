@@ -65,19 +65,6 @@ public class LibrarySystem {
 		this.courses = coursesCSVs;
 	}
 
-	//Methods
-	public ArrayList<Item> checkDue(User user){
-		//Finds the user and returns their list of when their rented items are due
-		return null;
-	}
-
-	public boolean checkUserPrivileges(User user) {
-		return false;
-	}
-
-
-
-
 	//Setters
 	public void addStock(Item item) {
 		this.stock.add(item);
@@ -178,17 +165,6 @@ public class LibrarySystem {
 			}
 		}
 		return null;
-	}
-
-	public int getStockOf(Item item) {
-		if(item != null) {
-			//Counts how many times the item appears in the stock
-			return Collections.frequency(stock, item);
-		}
-		else {
-			return 0;
-		}
-
 	}
 
 	public ArrayList<OnlineItem> getSubs(){
