@@ -293,7 +293,6 @@ class testcases {
 	}
 	
 	@Test
-	//Management team adds two items, then the library has them, one person rents them and returns one of them
 	void librarysystem_Test3() {
 		ManagementTeam team = new ManagementTeam();
 		LibrarySystem system = new LibrarySystem();
@@ -356,19 +355,17 @@ class testcases {
 	@Test
 	void testingState() {
 		ItemStateContext status = new ItemStateContext();
-		System.out.println(status.getState().getClass().toString().substring(10));
+		assertTrue(status.getState() instanceof Disabled);
 		status.setState(new Enabled());
-		System.out.println(status.getState().getClass().toString().substring(10));
-		status.status();
+		assertTrue(status.getState() instanceof Enabled);
 	}
 	
 	@Test
 	void testingState2() {
-		ItemStateContext status = new ItemStateContext();
-		System.out.println(status.getState().getClass().toString().substring(10));
+		ItemStateContext status = new ItemStateContext(new Enabled());
+		assertTrue(status.getState() instanceof Enabled);
 		status.setState(new Disabled());
-		System.out.println(status.getState().getClass().toString().substring(10));
-		status.status();
+		assertTrue(status.getState() instanceof Disabled);
 	}
 
 	@Test
