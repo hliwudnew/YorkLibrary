@@ -40,16 +40,24 @@ import foo.Visitor;
 class testcases {
 	
 	@Test
-	void makePhysical1() {
+	void testPhysical01() {
 		PhysicalItem book = new PhysicalItem();
 		//Testing setter methods
+		
+		Date date = new Date();
+		date.setTime(1711000000);
+		//Date current = new Date();
+		//long difference = date.getTime() - current.getTime();
+		
+		//int daysOverdue = (int) (difference / 3600000);
+		
 		book.setName("Chair Book");
 		book.setId(1);
 		book.setBorrower(null);
 		book.setStatus(new ItemStateContext(new Disabled()));
 		book.setPrice(100);
 		book.setLost(false);
-		book.setDueDate(new Date());
+		book.setDueDate(date);
 		book.setFee(10);
 		book.setDiscount(10);
 		
@@ -62,7 +70,7 @@ class testcases {
 		assertTrue(book.getFee() == 10);
 		assertFalse(book.isLost());
 		assertTrue(book.getStatus().getState().getClass().equals(new Disabled().getClass()));
-		
+		assertTrue(book.getDueStatus().equals("Overdue"));
 	}
 	
 	
