@@ -955,6 +955,18 @@ class testcases {
 		void testCart6() {
 		}
 		
+		@Test
+		void testFacultyEdgeCase1() {
+			Faculty faculty = new Faculty();
+			faculty.removeTextBook(null);
+			assertEquals(0, faculty.getTextBooks().size());
+		}
+		
+		@Test
+		void testFacultyEdgeCase2() {
+			
+		}
+		
 		
 		
 }
