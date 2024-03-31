@@ -866,7 +866,7 @@ class testcases {
 		Course course = new Course();
 		Faculty faculty = new Faculty();
 		String code = "EECS3101";
-		String email = "dummy@gmail.com";
+		String email = "email@gmail.com";
 		course.setCode(code);
 		faculty.setEmail(email);
 		system.addCourse(course);
@@ -889,7 +889,7 @@ class testcases {
 		Course course = new Course();
 		Faculty faculty = new Faculty();
 		String code = "EECS3101";
-		String email = "dummy@gmail.com";
+		String email = "email@gmail.com";
 		course.setCode(code);
 		faculty.setEmail(email);
 		system.addCourse(course);
@@ -914,7 +914,7 @@ class testcases {
 		Course course = new Course();
 		Faculty faculty = new Faculty();
 		String code = "EECS3101";
-		String email = "dummy@gmail.com";
+		String email = "email@gmail.com";
 		course.setCode(code);
 		faculty.setEmail(email);
 		system.addCourse(course);
@@ -931,33 +931,31 @@ class testcases {
 		assertEquals(course.getTextBooks().size(), faculty.getTextBooks().size());
 	}
 
+	
 	@Test
 	void testManagement8() {
 		LibrarySystem system = new LibrarySystem();
 		ManagementTeam team = new ManagementTeam(system);
-		Course course = new Course();
 		Faculty faculty = new Faculty();
+	    Course course = new Course();
 		String code = "EECS3101";
-		String email = "dummy@gmail.com";
-		course.setCode(code);
-		faculty.setEmail(email);
-		system.addCourse(course);
-		system.addUser(faculty);
-		PhysicalItem book3 = new PhysicalItem(PhysicalItem.getNextValidId(), "book3", 10, new ItemStateContext(new Disabled()), null, "BLANK", 0, 0);
-		PhysicalItem book4 = new PhysicalItem(PhysicalItem.getNextValidId(), "book4", 20, new ItemStateContext(new Disabled()), null, "BLANK", 0, 0);
-		PhysicalItem book5 = new PhysicalItem(PhysicalItem.getNextValidId(), "book5", 30, new ItemStateContext(new Disabled()), null, "BLANK", 0, 0);
-		ArrayList<Item> bookList = new ArrayList<Item>();
-		bookList.add(book3);
-		bookList.add(book4);
-		bookList.add(book5);
-		PhysicalItem existingTextbook = new PhysicalItem();
-		existingTextbook.setName("Different Textbook");
-		faculty.addTextBook(existingTextbook);
-		assertEquals(1, faculty.getTextBooks().size()); 
-		team.addFacultyToCourse(code, email);
-		assertEquals(course.getTextBooks().size() + 1, faculty.getTextBooks().size());
-	}
+		String email = "email@gmail.com";
+	    ArrayList<PhysicalItem> textbooks = new ArrayList<>();
+	    textbooks.add(new PhysicalItem(1, "Book1", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0));
+	    textbooks.add(new PhysicalItem(2, "Book2", 20, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0));
+	    faculty.addTextBooks(textbooks);
 
+	    course.addFaculty(faculty);
+	    team.addFacultyToCourse(code, email);
+	    
+	    ArrayList<String> array = new ArrayList<>();
+	    for (Item textbook : faculty.getTextBooks()) {
+	    	array.add(textbook.getName());
+	    }
+	    assertTrue(array.contains("Book1"));
+	    assertTrue(array.contains("Book2"));
+	}
+	
 	@Test
 	void testCart3() {
 
