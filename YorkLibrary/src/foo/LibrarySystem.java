@@ -94,6 +94,7 @@ public class LibrarySystem {
 		}
 		else {
 			System.out.println("User doesnt exist");
+			throw new NullPointerException();
 		}
 	}
 

@@ -413,7 +413,13 @@ class testcases {
 		
 		system.addUser(person);
 		system.addUser(teacher);
-		system.addUser(empty);
+		try {
+			system.addUser(empty);
+			fail();
+		}
+		catch(NullPointerException e) {
+			
+		}
 		
 		//Add course
 		eecs3311.setName("");// wont work because its empty hence we will check result
