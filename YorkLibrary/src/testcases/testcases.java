@@ -1,7 +1,6 @@
 package testcases;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -926,9 +925,9 @@ class testcases {
 		bookList.add(book3);
 		bookList.add(book4);
 		bookList.add(book5);
-		assertEquals(0, faculty.getTextBooks().size());
-		team.addFacultyToCourse(code, email); 
-		assertEquals(course.getTextBooks().size(), faculty.getTextBooks().size());
+		assertEquals(0, faculty.getTextBooks().size()); //make sure no textbooks exist yet in the faculty
+		team.addFacultyToCourse(code, email);  
+		assertEquals(course.getTextBooks().size(), faculty.getTextBooks().size()); //number of textbooks in the course must equal the amount of textbooks in the the faculty
 	}
 
 	
@@ -941,8 +940,8 @@ class testcases {
 		String code = "EECS3101";
 		String email = "email@gmail.com";
 	    ArrayList<PhysicalItem> textbooks = new ArrayList<>();
-	    textbooks.add(new PhysicalItem(1, "Book1", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0));
-	    textbooks.add(new PhysicalItem(2, "Book2", 20, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0));
+	    textbooks.add(new PhysicalItem(1, "book1", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0));
+	    textbooks.add(new PhysicalItem(2, "book2", 20, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0));
 	    faculty.addTextBooks(textbooks);
 
 	    course.addFaculty(faculty);
@@ -952,8 +951,8 @@ class testcases {
 	    for (Item textbook : faculty.getTextBooks()) {
 	    	array.add(textbook.getName());
 	    }
-	    assertTrue(array.contains("Book1"));
-	    assertTrue(array.contains("Book2"));
+	    assertTrue(array.contains("book1"));
+	    assertTrue(array.contains("book2"));
 	}
 	
 	@Test
