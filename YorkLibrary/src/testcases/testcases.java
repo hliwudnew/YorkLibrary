@@ -373,9 +373,45 @@ class testcases {
 		assertTrue(eecs3311.getTextBooks().contains(book2));
 
 	}
+	
+	@Test
+	void librarysystem_Test4() { //make sure overloaded constructor is working
+		ArrayList<Item> stock = new ArrayList<>();
+		ArrayList<Item> borrowed = new ArrayList<>();
+		ArrayList<User> users = new ArrayList<>();
+		ArrayList<OnlineItem> subs = new ArrayList<>();
+		ArrayList<Course> courses = new ArrayList<>();
+
+		// Add some dummy data
+		stock.add(new PhysicalItem());
+		borrowed.add(new PhysicalItem());
+		users.add(new Student());
+		subs.add(new OnlineItem());
+		courses.add(new Course());
+
+		LibrarySystem lib = new LibrarySystem(stock, borrowed, users, subs, courses);
+		assertNotNull(lib);
+		assertEquals(1, lib.getStock().size());
+		assertEquals(1, lib.getBorrowed().size());
+		assertEquals(1, lib.getUsers().size());
+		assertEquals(1, lib.getSubs().size());
+		assertEquals(1, lib.getCourses().size());
+	}
 
 	@Test
-	void librarysystem_Test4() {
+	void librarysystem_Test5() { //make sure system throws exception when user is null
+		try {
+			LibrarySystem lib = new LibrarySystem();
+			lib.addUser(null);
+			fail("Expected a NullPointerException");
+		} 
+		catch (NullPointerException e) {
+			
+		}
+	}
+
+	@Test
+	void librarysystem_Test6() {
 		ManagementTeam team = new ManagementTeam();
 		LibrarySystem system = new LibrarySystem(new ArrayList<Item>(), new ArrayList<Item>(), new ArrayList<User>(), new ArrayList<OnlineItem>(), new ArrayList<Course>());
 		Student person = new Student();
@@ -447,7 +483,7 @@ class testcases {
 	}
 	
 	@Test
-	void librarysystem_Test5() {
+	void librarysystem_Test7() {
 		ManagementTeam team = new ManagementTeam();
 		Student person = new Student();
 		Faculty teacher = new Faculty();
@@ -526,6 +562,7 @@ class testcases {
 		assertEquals(2, system.getStock().size());
 		assertTrue(system.getBorrowed().isEmpty());
 	}
+	
 	
 	
 	@Test
@@ -1986,44 +2023,4 @@ class testcases {
 		assertEquals(student.getCart().getItems().size(), 0); 
 		//assertEquals();
 	}
-
-
-	@Test
-	void librarysystem_Test6() { //make sure overloaded constructor is working
-		ArrayList<Item> stock = new ArrayList<>();
-		ArrayList<Item> borrowed = new ArrayList<>();
-		ArrayList<User> users = new ArrayList<>();
-		ArrayList<OnlineItem> subs = new ArrayList<>();
-		ArrayList<Course> courses = new ArrayList<>();
-
-		// Add some dummy data
-		stock.add(new PhysicalItem());
-		borrowed.add(new PhysicalItem());
-		users.add(new Student());
-		subs.add(new OnlineItem());
-		courses.add(new Course());
-
-		LibrarySystem lib = new LibrarySystem(stock, borrowed, users, subs, courses);
-		assertNotNull(lib);
-		assertEquals(1, lib.getStock().size());
-		assertEquals(1, lib.getBorrowed().size());
-		assertEquals(1, lib.getUsers().size());
-		assertEquals(1, lib.getSubs().size());
-		assertEquals(1, lib.getCourses().size());
-	}
-
-	@Test
-	void librarysystem_Test7() { //make sure system throws exception when user is null
-		try {
-			LibrarySystem lib = new LibrarySystem();
-			lib.addUser(null);
-			fail("Expected a NullPointerException");
-		} 
-		catch (NullPointerException e) {
-			
-		}
-	}
-
-
-
 }
