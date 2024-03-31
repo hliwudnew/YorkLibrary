@@ -144,7 +144,7 @@ class testcases {
 
 		assertTrue(count == 20); //Checks to make sure all copies of First Book are in the system, meaning the rented one was returned
 	}
-
+	
 	@Test
 	void testingState() {
 		ItemStateContext status = new ItemStateContext();
@@ -153,7 +153,7 @@ class testcases {
 		System.out.println(status.getState().getClass().toString().substring(10));
 		status.status();
 	}
-
+	
 	@Test
 	void testingState2() {
 		ItemStateContext status = new ItemStateContext();
@@ -1046,19 +1046,6 @@ class testcases {
 
 
 	@Test
-	void testCart4() {
-
-	}
-
-	@Test
-	void testCart5() {
-	}
-
-	@Test
-	void testCart6() {
-	}
-
-	@Test
 	void testFacultyEdgeCase1() {
 		Faculty faculty = new Faculty();
 		faculty.removeTextBook(null);
@@ -1071,5 +1058,552 @@ class testcases {
 	}
 
 
+		
+		//test buying several books at once
 
+		@Test
+		void testCart4() {
+			
+			LibrarySystem system = new LibrarySystem();
+			ManagementTeam team = new ManagementTeam(system);
+			
+			
+
+			ArrayList<Course> courses =new ArrayList<Course>();
+
+			
+			User student = new Student(courses);
+			student.setEmail("guy@gmail.com");
+			student.setPassword("123");
+			student.setRented(new ArrayList<PhysicalItem>());
+			student.setSubscriptions(new ArrayList<OnlineItem>());
+			student.setSystem(system);
+			
+			//create a new empty cart for this user
+			Cart cart=new Cart(new ArrayList<Item>(), student);
+			//create the command objects and initialize them so that they are using this user's cart
+			ICartCommand1 clickAdd = new Add(cart);
+			ICartCommand1 clickRemove = new Remove(cart);
+			ICartCommand2 clickClear = new Clear(cart);
+			ICartCommand2 clickCheckout = new Checkout(cart);
+			//create a menu with the commands that the user can use 
+			Menu menu=new Menu(clickAdd, clickRemove, clickClear, clickCheckout);
+			student.setCart(cart);
+			student.setMenu(menu);
+			system.addUser(student);
+			
+			
+			Date date = new Date();
+			PhysicalItem book2 = new PhysicalItem(date, "BLANK", 0);
+			book2.setName("some book");
+			book2.setId(PhysicalItem.getNextValidId());
+			book2.setStatus(new ItemStateContext(new Enabled()));
+			book2.setPrice(10);
+			book2.setDiscount(0);
+			
+			
+			team.addPhysicalItem(book2);
+			assertTrue(system.getItemAll(book2.getId())==book2);
+			
+			PhysicalItem book3 = new PhysicalItem(PhysicalItem.getNextValidId(), "book3", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0);
+			PhysicalItem book4 = new PhysicalItem(PhysicalItem.getNextValidId(), "book4", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0);
+			PhysicalItem book5 = new PhysicalItem(PhysicalItem.getNextValidId(), "book5", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0);
+			PhysicalItem book6 = new PhysicalItem(PhysicalItem.getNextValidId(), "book6", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0);
+			PhysicalItem book7 = new PhysicalItem(PhysicalItem.getNextValidId(), "book7", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0);
+			PhysicalItem book8 = new PhysicalItem(PhysicalItem.getNextValidId(), "book8", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0);
+			PhysicalItem book9 = new PhysicalItem(PhysicalItem.getNextValidId(), "book9", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0);
+	
+			team.addPhysicalItem(book3);
+			team.addPhysicalItem(book4);
+			team.addPhysicalItem(book5);
+			team.addPhysicalItem(book6);
+			team.addPhysicalItem(book7);
+			team.addPhysicalItem(book8);
+			team.addPhysicalItem(book9);
+			
+			student.getMenu().clickAdd(book2);
+			student.getMenu().clickAdd(book3);
+			student.getMenu().clickAdd(book4);
+			student.getMenu().clickAdd(book5);
+			student.getMenu().clickAdd(book6);
+			student.getMenu().clickAdd(book7);
+			student.getMenu().clickAdd(book8);
+			student.getMenu().clickAdd(book9);
+
+			assertEquals(student.getCart().getItems().size(), 8);
+			student.getMenu().clickCheckout();
+			student.getCart().clear();
+			assertEquals(student.getCart().getItems().size(), 0);
+		}
+		
+		
+		//test buying several books with payment
+		@Test
+		void testCart5() {
+			
+			LibrarySystem system = new LibrarySystem();
+			ManagementTeam team = new ManagementTeam(system);
+			
+			
+
+			ArrayList<Course> courses =new ArrayList<Course>();
+
+			
+			User student = new Student(courses);
+			student.setEmail("guy@gmail.com");
+			student.setPassword("123");
+			student.setRented(new ArrayList<PhysicalItem>());
+			student.setSubscriptions(new ArrayList<OnlineItem>());
+			student.setSystem(system);
+			
+			//create a new empty cart for this user
+			Cart cart=new Cart(new ArrayList<Item>(), student);
+			//create the command objects and initialize them so that they are using this user's cart
+			ICartCommand1 clickAdd = new Add(cart);
+			ICartCommand1 clickRemove = new Remove(cart);
+			ICartCommand2 clickClear = new Clear(cart);
+			ICartCommand2 clickCheckout = new Checkout(cart);
+			//create a menu with the commands that the user can use 
+			Menu menu=new Menu(clickAdd, clickRemove, clickClear, clickCheckout);
+			student.setCart(cart);
+			student.setMenu(menu);
+			system.addUser(student);
+			
+			
+			Date date = new Date();
+			PhysicalItem book2 = new PhysicalItem(date, "BLANK", 0);
+			book2.setName("some book");
+			book2.setId(PhysicalItem.getNextValidId());
+			book2.setStatus(new ItemStateContext(new Enabled()));
+			book2.setPrice(10);
+			book2.setDiscount(0);
+			
+			
+			team.addPhysicalItem(book2);
+			assertTrue(system.getItemAll(book2.getId())==book2);
+			
+			PhysicalItem book3 = new PhysicalItem(PhysicalItem.getNextValidId(), "book3", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0);
+			PhysicalItem book4 = new PhysicalItem(PhysicalItem.getNextValidId(), "book4", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0);
+			PhysicalItem book5 = new PhysicalItem(PhysicalItem.getNextValidId(), "book5", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0);
+			PhysicalItem book6 = new PhysicalItem(PhysicalItem.getNextValidId(), "book6", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0);
+			PhysicalItem book7 = new PhysicalItem(PhysicalItem.getNextValidId(), "book7", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0);
+			PhysicalItem book8 = new PhysicalItem(PhysicalItem.getNextValidId(), "book8", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0);
+			PhysicalItem book9 = new PhysicalItem(PhysicalItem.getNextValidId(), "book9", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0);
+	
+			team.addPhysicalItem(book3);
+			team.addPhysicalItem(book4);
+			team.addPhysicalItem(book5);
+			team.addPhysicalItem(book6);
+			team.addPhysicalItem(book7);
+			team.addPhysicalItem(book8);
+			team.addPhysicalItem(book9);
+			
+			student.getMenu().clickAdd(book2);
+			student.getMenu().clickAdd(book3);
+			student.getMenu().clickAdd(book4);
+			student.getMenu().clickAdd(book5);
+			student.getMenu().clickAdd(book6);
+			student.getMenu().clickAdd(book7);
+			student.getMenu().clickAdd(book8);
+			student.getMenu().clickAdd(book9);
+			
+			
+			student.getCart().setCurrency("EUR");
+			double displayPrice = student.getCart().getConvertedPrice();
+			assertEquals(80, student.getCart().getInitialPrice()); //price in CAD
+			assertEquals(54.296, displayPrice); //price in EUR
+			assertEquals(student.getCart().getItems().size(), 8);
+			
+			PaymentContext payment = new PaymentContext(new PayPalStrategy("guy@gmail.com"));
+			assertTrue(payment.pay(displayPrice)); //verify payment details are correct
+			student.getMenu().clickCheckout();
+			student.getCart().clear();
+			assertEquals(student.getCart().getItems().size(), 0);
+		}
+		
+		
+
+		//test buying several books with DEBIT payment in USD and discount
+		@Test
+		void testCart7() {
+			
+			LibrarySystem system = new LibrarySystem();
+			ManagementTeam team = new ManagementTeam(system);
+			
+			
+
+			ArrayList<Course> courses =new ArrayList<Course>();
+
+			
+			User student = new Student(courses);
+			student.setEmail("guy@gmail.com");
+			student.setPassword("123");
+			student.setRented(new ArrayList<PhysicalItem>());
+			student.setSubscriptions(new ArrayList<OnlineItem>());
+			student.setSystem(system);
+			
+			//create a new empty cart for this user
+			Cart cart=new Cart(new ArrayList<Item>(), student);
+			//create the command objects and initialize them so that they are using this user's cart
+			ICartCommand1 clickAdd = new Add(cart);
+			ICartCommand1 clickRemove = new Remove(cart);
+			ICartCommand2 clickClear = new Clear(cart);
+			ICartCommand2 clickCheckout = new Checkout(cart);
+			//create a menu with the commands that the user can use 
+			Menu menu=new Menu(clickAdd, clickRemove, clickClear, clickCheckout);
+			student.setCart(cart);
+			student.setMenu(menu);
+			system.addUser(student);
+			
+			
+			Date date = new Date();
+			PhysicalItem book2 = new PhysicalItem(date, "BLANK", 0);
+			book2.setName("some book");
+			book2.setId(PhysicalItem.getNextValidId());
+			book2.setStatus(new ItemStateContext(new Enabled()));
+			book2.setPrice(10);
+			book2.setDiscount(0.50);
+			
+			
+			team.addPhysicalItem(book2);
+			assertTrue(system.getItemAll(book2.getId())==book2);
+			
+			//add 50 percent discount to some items
+			PhysicalItem book3 = new PhysicalItem(PhysicalItem.getNextValidId(), "book3", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0.50);
+			PhysicalItem book4 = new PhysicalItem(PhysicalItem.getNextValidId(), "book4", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0.50);
+			PhysicalItem book5 = new PhysicalItem(PhysicalItem.getNextValidId(), "book5", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0);
+			PhysicalItem book6 = new PhysicalItem(PhysicalItem.getNextValidId(), "book6", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0.50);
+			PhysicalItem book7 = new PhysicalItem(PhysicalItem.getNextValidId(), "book7", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0);
+			PhysicalItem book8 = new PhysicalItem(PhysicalItem.getNextValidId(), "book8", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0.50);
+			PhysicalItem book9 = new PhysicalItem(PhysicalItem.getNextValidId(), "book9", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0);
+	
+			team.addPhysicalItem(book3);
+			team.addPhysicalItem(book4);
+			team.addPhysicalItem(book5);
+			team.addPhysicalItem(book6);
+			team.addPhysicalItem(book7);
+			team.addPhysicalItem(book8);
+			team.addPhysicalItem(book9);
+			
+			student.getMenu().clickAdd(book2);
+			student.getMenu().clickAdd(book3);
+			student.getMenu().clickAdd(book4);
+			student.getMenu().clickAdd(book5);
+			student.getMenu().clickAdd(book6);
+			student.getMenu().clickAdd(book7);
+			student.getMenu().clickAdd(book8);
+			student.getMenu().clickAdd(book9);
+			
+			//8 books being rented all cost 10 dollars, 5 are discounted half off
+			//thus the price should be 55 dollars in CAD
+			
+			student.getCart().setCurrency("USD");
+			double displayPrice = student.getCart().getConvertedPrice();
+			displayPrice=(Math.round(displayPrice*100))/100;
+			assertEquals(55, student.getCart().getInitialPrice()); //price in CAD
+			assertEquals(40.00, displayPrice); //price in USD
+			assertEquals(student.getCart().getItems().size(), 8);
+			
+			PaymentContext payment = new PaymentContext(new DebitCardStrategy("John Smith", "1234 1234 1234 1234", "04/25", "254" ));
+			assertTrue(payment.pay(displayPrice)); //verify payment details are correct
+			student.getMenu().clickCheckout();
+			student.getCart().clear();
+			assertEquals(student.getCart().getItems().size(), 0);
+		}
+		
+		//test adding items, then clearing and trying to checkout with empty cart (should not be allowed)
+		@Test
+		void testCart8() {
+			
+			LibrarySystem system = new LibrarySystem();
+			ManagementTeam team = new ManagementTeam(system);
+			
+			
+
+			ArrayList<Course> courses =new ArrayList<Course>();
+
+			
+			User student = new Student(courses);
+			student.setEmail("guy@gmail.com");
+			student.setPassword("123");
+			student.setRented(new ArrayList<PhysicalItem>());
+			student.setSubscriptions(new ArrayList<OnlineItem>());
+			student.setSystem(system);
+			
+			//create a new empty cart for this user
+			Cart cart=new Cart(new ArrayList<Item>(), student);
+			//create the command objects and initialize them so that they are using this user's cart
+			ICartCommand1 clickAdd = new Add(cart);
+			ICartCommand1 clickRemove = new Remove(cart);
+			ICartCommand2 clickClear = new Clear(cart);
+			ICartCommand2 clickCheckout = new Checkout(cart);
+			//create a menu with the commands that the user can use 
+			Menu menu=new Menu(clickAdd, clickRemove, clickClear, clickCheckout);
+			student.setCart(cart);
+			student.setMenu(menu);
+			system.addUser(student);
+			
+			
+			Date date = new Date();
+			PhysicalItem book2 = new PhysicalItem(date, "BLANK", 0);
+			book2.setName("some book");
+			book2.setId(PhysicalItem.getNextValidId());
+			book2.setStatus(new ItemStateContext(new Enabled()));
+			book2.setPrice(10);
+			book2.setDiscount(0.50);
+			
+			
+			team.addPhysicalItem(book2);
+			assertTrue(system.getItemAll(book2.getId())==book2);
+			
+			//add 50 percent discount to some items
+			PhysicalItem book3 = new PhysicalItem(PhysicalItem.getNextValidId(), "book3", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0.50);
+			PhysicalItem book4 = new PhysicalItem(PhysicalItem.getNextValidId(), "book4", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0.50);
+			PhysicalItem book5 = new PhysicalItem(PhysicalItem.getNextValidId(), "book5", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0);
+			PhysicalItem book6 = new PhysicalItem(PhysicalItem.getNextValidId(), "book6", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0.50);
+			PhysicalItem book7 = new PhysicalItem(PhysicalItem.getNextValidId(), "book7", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0);
+			PhysicalItem book8 = new PhysicalItem(PhysicalItem.getNextValidId(), "book8", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0.50);
+			PhysicalItem book9 = new PhysicalItem(PhysicalItem.getNextValidId(), "book9", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0);
+	
+			team.addPhysicalItem(book3);
+			team.addPhysicalItem(book4);
+			team.addPhysicalItem(book5);
+			team.addPhysicalItem(book6);
+			team.addPhysicalItem(book7);
+			team.addPhysicalItem(book8);
+			team.addPhysicalItem(book9);
+			
+			student.getMenu().clickAdd(book2);
+			student.getMenu().clickAdd(book3);
+			student.getMenu().clickAdd(book4);
+			student.getMenu().clickAdd(book5);
+			student.getMenu().clickAdd(book6);
+			student.getMenu().clickAdd(book7);
+			student.getMenu().clickAdd(book8);
+			student.getMenu().clickAdd(book9);
+			
+
+			student.getMenu().clickClear();
+			assertEquals(student.getCart().getItems().size(), 0);
+			//canCheckout() should return -2, meaning cart is empty and thus checkout didnt go through
+			// so checkout returns false
+			assertEquals(false, student.getMenu().clickCheckout());
+			assertEquals(student.getCart().getItems().size(), 0);
+		}
+		//test buying several books with payment and discount, while removing items
+		//and trying to add same item multiple times
+		@Test
+		void testCart9() {
+			
+			LibrarySystem system = new LibrarySystem();
+			ManagementTeam team = new ManagementTeam(system);
+			
+			
+
+			ArrayList<Course> courses =new ArrayList<Course>();
+
+			
+			User student = new Student(courses);
+			student.setEmail("guy@gmail.com");
+			student.setPassword("123");
+			student.setRented(new ArrayList<PhysicalItem>());
+			student.setSubscriptions(new ArrayList<OnlineItem>());
+			student.setSystem(system);
+			
+			//create a new empty cart for this user
+			Cart cart=new Cart(new ArrayList<Item>(), student);
+			//create the command objects and initialize them so that they are using this user's cart
+			ICartCommand1 clickAdd = new Add(cart);
+			ICartCommand1 clickRemove = new Remove(cart);
+			ICartCommand2 clickClear = new Clear(cart);
+			ICartCommand2 clickCheckout = new Checkout(cart);
+			//create a menu with the commands that the user can use 
+			Menu menu=new Menu(clickAdd, clickRemove, clickClear, clickCheckout);
+			student.setCart(cart);
+			student.setMenu(menu);
+			system.addUser(student);
+			
+			
+			Date date = new Date();
+			PhysicalItem book2 = new PhysicalItem(date, "BLANK", 0);
+			book2.setName("some book");
+			book2.setId(PhysicalItem.getNextValidId());
+			book2.setStatus(new ItemStateContext(new Enabled()));
+			book2.setPrice(10);
+			book2.setDiscount(0.50);
+			
+			
+			team.addPhysicalItem(book2);
+			assertTrue(system.getItemAll(book2.getId())==book2);
+			
+			//add 50 percent discount to some items
+			PhysicalItem book3 = new PhysicalItem(PhysicalItem.getNextValidId(), "book3", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0.50);
+			PhysicalItem book4 = new PhysicalItem(PhysicalItem.getNextValidId(), "book4", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0.50);
+			PhysicalItem book5 = new PhysicalItem(PhysicalItem.getNextValidId(), "book5", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0);
+			PhysicalItem book6 = new PhysicalItem(PhysicalItem.getNextValidId(), "book6", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0.50);
+			PhysicalItem book7 = new PhysicalItem(PhysicalItem.getNextValidId(), "book7", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0);
+			PhysicalItem book8 = new PhysicalItem(PhysicalItem.getNextValidId(), "book8", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0.50);
+			PhysicalItem book9 = new PhysicalItem(PhysicalItem.getNextValidId(), "book9", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0);
+	
+			team.addPhysicalItem(book3);
+			team.addPhysicalItem(book4);
+			team.addPhysicalItem(book5);
+			team.addPhysicalItem(book6);
+			team.addPhysicalItem(book7);
+			team.addPhysicalItem(book8);
+			team.addPhysicalItem(book9);
+			
+			student.getMenu().clickAdd(book2);
+			student.getMenu().clickAdd(book3);
+			student.getMenu().clickAdd(book4);
+			student.getMenu().clickAdd(book5);
+			student.getMenu().clickAdd(book6);
+			student.getMenu().clickAdd(book7);
+			student.getMenu().clickAdd(book8);
+			student.getMenu().clickAdd(book9);
+			
+			assertEquals(student.getCart().getItems().size(), 8);
+			
+			student.getMenu().clickAdd(book8);
+			student.getMenu().clickAdd(book8);
+			student.getMenu().clickAdd(book3);
+			assertEquals(student.getCart().getItems().size(), 8); //cart should not have increased in size
+			
+			student.getMenu().clickRemove(book8);
+			student.getMenu().clickRemove(book3);
+			assertEquals(student.getCart().getItems().size(), 6);
+			
+			student.getMenu().clickAdd(book3);
+			assertEquals(student.getCart().getItems().size(), 7);
+			
+			
+			//7 books being rented all cost 10 dollars, 4 are discounted half off
+			//thus the price should be 50 dollars in CAD
+			
+			student.getCart().setCurrency("KRW");
+			double displayPrice = student.getCart().getConvertedPrice();
+			displayPrice=(Math.round(displayPrice*100))/100;
+			assertEquals(50, student.getCart().getInitialPrice()); //price in CAD
+			assertEquals(48622, displayPrice); //price in Korean Won
+			assertEquals(student.getCart().getItems().size(), 7);
+			
+			PaymentContext payment = new PaymentContext(new PayPalStrategy("guy@gmail.com"));
+			assertTrue(payment.pay(displayPrice)); //verify payment details are correct
+			student.getMenu().clickCheckout();
+			student.getCart().clear();
+			assertEquals(student.getCart().getItems().size(), 0);
+		}
+		
+		//test buying too many books (should not allow checkout)
+		@Test
+		void testCart10() {
+			
+			LibrarySystem system = new LibrarySystem();
+			ManagementTeam team = new ManagementTeam(system);
+			
+			
+
+			ArrayList<Course> courses =new ArrayList<Course>();
+
+			
+			User student = new Student(courses);
+			student.setEmail("guy@gmail.com");
+			student.setPassword("123");
+			student.setRented(new ArrayList<PhysicalItem>());
+			student.setSubscriptions(new ArrayList<OnlineItem>());
+			student.setSystem(system);
+			
+			//create a new empty cart for this user
+			Cart cart=new Cart(new ArrayList<Item>(), student);
+			//create the command objects and initialize them so that they are using this user's cart
+			ICartCommand1 clickAdd = new Add(cart);
+			ICartCommand1 clickRemove = new Remove(cart);
+			ICartCommand2 clickClear = new Clear(cart);
+			ICartCommand2 clickCheckout = new Checkout(cart);
+			//create a menu with the commands that the user can use 
+			Menu menu=new Menu(clickAdd, clickRemove, clickClear, clickCheckout);
+			student.setCart(cart);
+			student.setMenu(menu);
+			system.addUser(student);
+			
+			
+			Date date = new Date();
+			PhysicalItem book2 = new PhysicalItem(date, "BLANK", 0);
+			book2.setName("some book");
+			book2.setId(PhysicalItem.getNextValidId());
+			book2.setStatus(new ItemStateContext(new Enabled()));
+			book2.setPrice(10);
+			book2.setDiscount(0);
+			
+			
+			team.addPhysicalItem(book2);
+			assertTrue(system.getItemAll(book2.getId())==book2);
+			
+			PhysicalItem book3 = new PhysicalItem(PhysicalItem.getNextValidId(), "book3", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0);
+			PhysicalItem book4 = new PhysicalItem(PhysicalItem.getNextValidId(), "book4", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0);
+			PhysicalItem book5 = new PhysicalItem(PhysicalItem.getNextValidId(), "book5", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0);
+			PhysicalItem book6 = new PhysicalItem(PhysicalItem.getNextValidId(), "book6", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0);
+			PhysicalItem book7 = new PhysicalItem(PhysicalItem.getNextValidId(), "book7", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0);
+			PhysicalItem book8 = new PhysicalItem(PhysicalItem.getNextValidId(), "book8", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0);
+			PhysicalItem book9 = new PhysicalItem(PhysicalItem.getNextValidId(), "book9", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0);
+			PhysicalItem book10 = new PhysicalItem(PhysicalItem.getNextValidId(), "book10", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0);
+			PhysicalItem book11 = new PhysicalItem(PhysicalItem.getNextValidId(), "book11", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0);
+			PhysicalItem book12 = new PhysicalItem(PhysicalItem.getNextValidId(), "book12", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0);
+			
+			team.addPhysicalItem(book3);
+			team.addPhysicalItem(book4);
+			team.addPhysicalItem(book5);
+			team.addPhysicalItem(book6);
+			team.addPhysicalItem(book7);
+			team.addPhysicalItem(book8);
+			team.addPhysicalItem(book9);
+			team.addPhysicalItem(book10);
+			team.addPhysicalItem(book11);
+			team.addPhysicalItem(book12);
+			
+			student.getMenu().clickAdd(book2);
+			student.getMenu().clickAdd(book3);
+			student.getMenu().clickAdd(book4);
+			student.getMenu().clickAdd(book5);
+			student.getMenu().clickAdd(book6);
+			student.getMenu().clickAdd(book7);
+			student.getMenu().clickAdd(book8);
+			student.getMenu().clickAdd(book9);
+			student.getMenu().clickAdd(book10);
+			student.getMenu().clickAdd(book11);
+			student.getMenu().clickAdd(book12);
+			
+			
+			
+			student.getCart().setCurrency("EUR");
+			double displayPrice = student.getCart().getConvertedPrice();
+			displayPrice=(Math.round(displayPrice*100))/100;
+			assertEquals(110, student.getCart().getInitialPrice()); //price in CAD
+			assertEquals(74.0, displayPrice); //price in EUR
+			assertEquals(student.getCart().getItems().size(), 11);
+			
+			//11 items in cart so checkout should not work (return false)
+			assertFalse(student.getMenu().clickCheckout());
+			
+			//remove item so checkout works
+			student.getMenu().clickRemove(book12);
+			//recalculate price for user's currency
+			displayPrice = student.getCart().getConvertedPrice();
+			displayPrice=(Math.round(displayPrice*100))/100;
+			//check updated price and size of cart
+			assertEquals(100, student.getCart().getInitialPrice()); //price in CAD
+			assertEquals(67.0, displayPrice); //price in EUR
+			assertEquals(student.getCart().getItems().size(), 10);
+			
+			//try to checkout  (it works now)
+			PaymentContext payment = new PaymentContext(new PayPalStrategy("guy@gmail.com"));
+			assertTrue(payment.pay(displayPrice)); //verify payment details are correct
+			assertTrue(student.getMenu().clickCheckout()); //checkout should be true now
+			student.getCart().clear();
+			assertEquals(student.getCart().getItems().size(), 0); 
+			//assertEquals();
+		}
+		
+		
+		
 }
