@@ -103,6 +103,29 @@ class testcases {
 		
 	}
 	
+	@Test
+	void testPhysical03() {
+		
+		Date presentDate = new Date();
+		Date dueDate = new Date();
+		
+		long presentMinusOneDay = presentDate.getTime() - 86400000l;
+		dueDate.setTime(presentMinusOneDay);
+		
+		PhysicalItem book = new PhysicalItem(dueDate, "Homer Simpson", 10.95);
+		
+		book.setName("Calculus and Vectors");
+		book.setId(1);
+		book.setPrice(19.99);
+		
+		assertTrue(book.getName().equals("Calculus and Vectors"));
+		assertTrue(book.getBorrower().equals("Homer Simpson"));
+		assertTrue(book.getId() == 1);
+		assertTrue(book.getPrice() == 19.99);
+		assertTrue(book.calculateFee() == 0.50);
+		
+	}
+	
 	@Test 
 	void makeOnlineItem_Test(){
 		OnlineItem newsletter = new OnlineItem();
