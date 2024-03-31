@@ -43,14 +43,14 @@ class testcases {
 	void testPhysical01() {
 		PhysicalItem book = new PhysicalItem();
 		//Testing setter methods
-		
+
 		Date date = new Date();
 		date.setTime(1711000000);
 		//Date current = new Date();
 		//long difference = date.getTime() - current.getTime();
-		
+
 		//int daysOverdue = (int) (difference / 3600000);
-		
+
 		book.setName("Chair Book");
 		book.setId(1);
 		book.setBorrower(null);
@@ -906,7 +906,58 @@ class testcases {
 		team.addFacultyToCourse(code, email); //try to add nother faculty to a course
 		assertEquals(facultyCount, course.getFaculty().size()); //make sure the above line doesn't work. i.e another faculty should not be added to the same course
 	}
-	
+
+	@Test
+	void testManagement7() {
+		LibrarySystem system = new LibrarySystem();
+		ManagementTeam team = new ManagementTeam(system);
+		Course course = new Course();
+		Faculty faculty = new Faculty();
+		String code = "EECS3101";
+		String email = "dummy@gmail.com";
+		course.setCode(code);
+		faculty.setEmail(email);
+		system.addCourse(course);
+		system.addUser(faculty);
+		PhysicalItem book3 = new PhysicalItem(PhysicalItem.getNextValidId(), "book3", 10, new ItemStateContext(new Disabled()), null, "BLANK", 0, 0);
+		PhysicalItem book4 = new PhysicalItem(PhysicalItem.getNextValidId(), "book4", 20, new ItemStateContext(new Disabled()), null, "BLANK", 0, 0);
+		PhysicalItem book5 = new PhysicalItem(PhysicalItem.getNextValidId(), "book5", 30, new ItemStateContext(new Disabled()), null, "BLANK", 0, 0);
+		ArrayList<Item> bookList = new ArrayList<Item>();
+		bookList.add(book3);
+		bookList.add(book4);
+		bookList.add(book5);
+		assertEquals(0, faculty.getTextBooks().size());
+		team.addFacultyToCourse(code, email); 
+		assertEquals(course.getTextBooks().size(), faculty.getTextBooks().size());
+	}
+
+	@Test
+	void testManagement8() {
+		LibrarySystem system = new LibrarySystem();
+		ManagementTeam team = new ManagementTeam(system);
+		Course course = new Course();
+		Faculty faculty = new Faculty();
+		String code = "EECS3101";
+		String email = "dummy@gmail.com";
+		course.setCode(code);
+		faculty.setEmail(email);
+		system.addCourse(course);
+		system.addUser(faculty);
+		PhysicalItem book3 = new PhysicalItem(PhysicalItem.getNextValidId(), "book3", 10, new ItemStateContext(new Disabled()), null, "BLANK", 0, 0);
+		PhysicalItem book4 = new PhysicalItem(PhysicalItem.getNextValidId(), "book4", 20, new ItemStateContext(new Disabled()), null, "BLANK", 0, 0);
+		PhysicalItem book5 = new PhysicalItem(PhysicalItem.getNextValidId(), "book5", 30, new ItemStateContext(new Disabled()), null, "BLANK", 0, 0);
+		ArrayList<Item> bookList = new ArrayList<Item>();
+		bookList.add(book3);
+		bookList.add(book4);
+		bookList.add(book5);
+		PhysicalItem existingTextbook = new PhysicalItem();
+		existingTextbook.setName("Different Textbook");
+		faculty.addTextBook(existingTextbook);
+		assertEquals(1, faculty.getTextBooks().size()); 
+		team.addFacultyToCourse(code, email);
+		assertEquals(course.getTextBooks().size() + 1, faculty.getTextBooks().size());
+	}
+
 	@Test
 	void testCart3() {
 
