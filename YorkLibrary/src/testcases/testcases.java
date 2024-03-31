@@ -1832,5 +1832,30 @@ class testcases {
 		}
 		
 		
+		@Test
+		void testLibrarySystem() {
+			ArrayList<Item> stock = new ArrayList<>();
+	        ArrayList<Item> borrowed = new ArrayList<>();
+	        ArrayList<User> users = new ArrayList<>();
+	        ArrayList<OnlineItem> subs = new ArrayList<>();
+	        ArrayList<Course> courses = new ArrayList<>();
+	        
+	        // Add some dummy data
+	        stock.add(new PhysicalItem());
+	        borrowed.add(new PhysicalItem());
+	        users.add(new Student());
+	        subs.add(new OnlineItem());
+	        courses.add(new Course());
+	        
+	        LibrarySystem lib = new LibrarySystem(stock, borrowed, users, subs, courses);
+	        assertNotNull(lib);
+	        assertEquals(1, lib.getStock().size());
+	        assertEquals(1, lib.getBorrowed().size());
+	        assertEquals(1, lib.getUsers().size());
+	        assertEquals(1, lib.getSubs().size());
+	        assertEquals(1, lib.getCourses().size());
+		}
+		
+		
 		
 }
