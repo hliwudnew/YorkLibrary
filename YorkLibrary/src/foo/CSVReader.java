@@ -45,7 +45,7 @@ public class CSVReader {
 	
 	//Checks if the user exists in the system
 	public static boolean loginData(String email, String password) {
-		String path ="YorkLibrary/src/data/Accounts.csv";
+		String path ="src/data/Accounts.csv";
 		String line = "";
 		ArrayList<User> Users = new ArrayList<User>();
 		UserFactory buildUser = new UserFactory();
@@ -84,7 +84,7 @@ public class CSVReader {
 	//Registers the user to the database
 	public static void register(String email, String password, String type) throws Exception {
 		try {
-			String path ="YorkLibrary/src/data/Accounts.csv";
+			String path ="src/data/Accounts.csv";
 			BufferedWriter buffWrite = new BufferedWriter(new FileWriter(new File(path), true));
 			// New line is important because it moves down a row
 			buffWrite.write(email +"," + password+",BLANK,BLANK,"+type+",BLANK,BLANK\n"); //Appends to CSV file
@@ -96,7 +96,7 @@ public class CSVReader {
 	}
 	
 	public static ArrayList<User> loadPendingAccounts() {
-		String path2 ="YorkLibrary/src/data/PendingAccounts.csv";
+		String path2 ="src/data/PendingAccounts.csv";
 		String line2 = "";
 		ArrayList<User> users = new ArrayList<User>();
 		UserFactory buildUser = new UserFactory();
@@ -125,7 +125,7 @@ public class CSVReader {
 	}
 	
 	public static void savePendingAccounts(ArrayList<User> users) {
-		String pathAccount ="YorkLibrary/src/data/PendingAccounts.csv";
+		String pathAccount ="src/data/PendingAccounts.csv";
 		String accountHeaders = "Email,Password,Type\n";
 		try {
 			BufferedWriter buffWrite2 = new BufferedWriter(new FileWriter(new File(pathAccount)));
@@ -152,7 +152,7 @@ public class CSVReader {
 	//Checks if the email is in the CSV file
 	public static boolean checkEmail(String email) throws Exception {
 		//This should work in as long as the CSV files are in the data folder/package
-		String path ="YorkLibrary/src/data/Accounts.csv";
+		String path ="src/data/Accounts.csv";
 		String line = "";
 		ArrayList<String> emails = new ArrayList<String>();
 		
@@ -183,7 +183,7 @@ public class CSVReader {
 	//Checks if the email is in the CSV file
 	public static boolean checkEmailPending(String email) throws Exception {
 		//This should work in as long as the CSV files are in the data folder/package
-		String path ="YorkLibrary/src/data/PendingAccounts.csv";
+		String path ="src/data/PendingAccounts.csv";
 		String line = "";
 		ArrayList<String> emails = new ArrayList<String>();
 		
@@ -233,9 +233,9 @@ public class CSVReader {
 		
 		// Saves all the items data and Account data
 		try {
-			String path ="YorkLibrary/src/data/Items.csv";
-			String pathAccount ="YorkLibrary/src/data/Accounts.csv";
-			String pathSubs ="YorkLibrary/src/data/Subscriptions.csv";
+			String path ="src/data/Items.csv";
+			String pathAccount ="src/data/Accounts.csv";
+			String pathSubs ="src/data/Subscriptions.csv";
 			
 			BufferedWriter buffWrite = new BufferedWriter(new FileWriter(new File(path)));
 			buffWrite.write(itemHeaders);// Rewrites the headers
@@ -288,7 +288,7 @@ public class CSVReader {
 			}
 			buffWrite3.close();
 			
-			buffWrite3 = new BufferedWriter(new FileWriter(new File("YorkLibrary/src/data/Subscribers.csv")));
+			buffWrite3 = new BufferedWriter(new FileWriter(new File("src/data/Subscribers.csv")));
 			buffWrite3.write(subscribersHeader);// Rewrites the headers
 			
 			//Saves the subscribers for a subscription/ who have a subscription
@@ -302,7 +302,7 @@ public class CSVReader {
 			/*
 			 * Saves courses data
 			 */
-			BufferedWriter buffWriter = new BufferedWriter(new FileWriter(new File("YorkLibrary/src/data/Courses.csv")));
+			BufferedWriter buffWriter = new BufferedWriter(new FileWriter(new File("src/data/Courses.csv")));
 			//Courses
 			buffWriter.write(courseHeaders);// Rewrites the headers
 			for(Course c: system.getCourses()) {
@@ -310,7 +310,7 @@ public class CSVReader {
 			}
 			buffWriter.close();
 			
-			buffWriter = new BufferedWriter(new FileWriter(new File("YorkLibrary/src/data/CourseStudents.csv")));
+			buffWriter = new BufferedWriter(new FileWriter(new File("src/data/CourseStudents.csv")));
 			//Course Students
 			buffWriter.write(courseSHeader);// Rewrites the headers
 			for(Course c: system.getCourses()) {
@@ -322,7 +322,7 @@ public class CSVReader {
 			}
 			buffWriter.close();
 			
-			buffWriter = new BufferedWriter(new FileWriter(new File("YorkLibrary/src/data/CourseFaculty.csv")));
+			buffWriter = new BufferedWriter(new FileWriter(new File("src/data/CourseFaculty.csv")));
 			//Course Faculty
 			buffWriter.write(courseFHeader);// Rewrites the headers
 			for(Course c: system.getCourses()) {
@@ -334,7 +334,7 @@ public class CSVReader {
 			}
 			buffWriter.close();
 			
-			buffWriter = new BufferedWriter(new FileWriter(new File("YorkLibrary/src/data/CourseTextBooks.csv")));
+			buffWriter = new BufferedWriter(new FileWriter(new File("src/data/CourseTextBooks.csv")));
 			//Course Textbooks
 			buffWriter.write(courseTHeader);// Rewrites the headers
 			for(Course c: system.getCourses()) {
@@ -350,7 +350,7 @@ public class CSVReader {
 			/*
 			 * Save Faculty Textbooks
 			 */
-			buffWriter = new BufferedWriter(new FileWriter(new File("YorkLibrary/src/data/FacultyTextBooks.csv")));
+			buffWriter = new BufferedWriter(new FileWriter(new File("src/data/FacultyTextBooks.csv")));
 
 			buffWriter.write(facultyTHeader);// Rewrites the headers
 			//Saves all their textbooks
@@ -373,7 +373,7 @@ public class CSVReader {
 		/*
 		 *  Grabbing user data
 		 */
-		String path2 ="YorkLibrary/src/data/Accounts.csv";
+		String path2 ="src/data/Accounts.csv";
 		String line2 = "";
 		ArrayList<User> users = new ArrayList<User>();
 		boolean skip2 = true; // Not my greatest fix but skips the first row of column names
@@ -405,7 +405,7 @@ public class CSVReader {
 		/*
 		 *  Grabbing Item data
 		 */
-		String path ="YorkLibrary/src/data/items.csv";
+		String path ="src/data/items.csv";
 		String line = "";
 		ArrayList<PhysicalItem> items = new ArrayList<PhysicalItem>();
 		boolean skip = true; // Not my greatest fix but skips the first row of column names
@@ -477,7 +477,7 @@ public class CSVReader {
 		/*
 		 *  Grabbing Subscription Data
 		 */
-		String path3 ="YorkLibrary/src/data/Subscriptions.csv";
+		String path3 ="src/data/Subscriptions.csv";
 		String line3 = "";
 		ArrayList<OnlineItem> subscriptions = new ArrayList<OnlineItem>();
 		boolean skip3 = true; // Not my greatest fix but skips the first row of column names
@@ -510,7 +510,7 @@ public class CSVReader {
 			br.close();
 			//Assigned the users to the subscriptions
 			skip3 = true;
-			br = new BufferedReader(new FileReader("YorkLibrary/src/data/Subscribers.csv"));
+			br = new BufferedReader(new FileReader("src/data/Subscribers.csv"));
 			while((line3 = br.readLine())!= null) {
 				String[] values = line3.split(",");
 				//Fixes issues with blank spaces in csv file
@@ -537,7 +537,7 @@ public class CSVReader {
 		 */
 		ArrayList<Course> courses = new ArrayList<Course>();
 		try {
-			String pathCourse ="YorkLibrary/src/data/Courses.csv";
+			String pathCourse ="src/data/Courses.csv";
 			String lineCourse = "";
 			boolean skipC = true; // Not my greatest fix but skips the first row of column names
 			
@@ -560,7 +560,7 @@ public class CSVReader {
 			
 			//Grabs Courses Faculty
 			skipC= true;
-			br = new BufferedReader(new FileReader("YorkLibrary/src/data/CourseFaculty.csv"));
+			br = new BufferedReader(new FileReader("src/data/CourseFaculty.csv"));
 			while((lineCourse = br.readLine())!= null) {
 				String[] values = lineCourse.split(",");
 				//Fixes issues with blank spaces in csv file
@@ -583,7 +583,7 @@ public class CSVReader {
 			
 			//Grabs Courses Students
 			skipC= true;
-			br = new BufferedReader(new FileReader("YorkLibrary/src/data/CourseStudents.csv"));
+			br = new BufferedReader(new FileReader("src/data/CourseStudents.csv"));
 			while((lineCourse = br.readLine())!= null) {
 				String[] values = lineCourse.split(",");
 				//Fixes issues with blank spaces in csv file
@@ -606,7 +606,7 @@ public class CSVReader {
 			
 			//Grabs Courses TextBooks
 			skipC= true;
-			br = new BufferedReader(new FileReader("YorkLibrary/src/data/CourseTextBooks.csv"));
+			br = new BufferedReader(new FileReader("src/data/CourseTextBooks.csv"));
 			while((lineCourse = br.readLine())!= null) {
 				String[] values = lineCourse.split(",");
 				//Fixes issues with blank spaces in csv file
@@ -631,7 +631,7 @@ public class CSVReader {
 			 */
 			//Grabs the faculty all their previous and current textbooks
 			skip3 = true;
-			br = new BufferedReader(new FileReader("YorkLibrary/src/data/FacultyTextBooks.csv"));
+			br = new BufferedReader(new FileReader("src/data/FacultyTextBooks.csv"));
 			while((line3 = br.readLine())!= null) {
 				String[] values = line3.split(",");
 				//Fixes issues with blank spaces in csv file
