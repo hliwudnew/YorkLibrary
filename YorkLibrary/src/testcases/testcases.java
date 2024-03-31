@@ -70,11 +70,8 @@ class testcases {
 		assertTrue(book.getFee() == 10);
 		assertFalse(book.isLost());
 		assertTrue(book.getStatus().getState().getClass().equals(new Disabled().getClass()));
-<<<<<<< Updated upstream
 		assertTrue(book.getDueStatus().equals("Overdue"));
-=======
 
->>>>>>> Stashed changes
 	}
 
 
