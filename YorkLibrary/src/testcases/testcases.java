@@ -73,8 +73,36 @@ class testcases {
 		assertTrue(book.getDueStatus().equals("Overdue"));
 
 	}
-
-
+	
+	@Test
+	void testPhysical02() { 
+		
+		Date pastDate = new Date();
+		Date presentDate = new Date();
+		Date futureDate = new Date();
+		
+		PhysicalItem pastBook = new PhysicalItem();
+		PhysicalItem presentBook = new PhysicalItem();
+		PhysicalItem futureBook = new PhysicalItem();
+		
+		long past = 1704110400000l;
+		long eightHoursMinusPresent = presentDate.getTime() + 28800000l;
+		long future = 1735707599000l;
+		
+		pastDate.setTime(past);
+		presentDate.setTime(eightHoursMinusPresent);
+		futureDate.setTime(future);
+		
+		pastBook.setDueDate(pastDate);
+		presentBook.setDueDate(presentDate);
+		futureBook.setDueDate(futureDate);
+		
+		assertTrue(pastBook.getDueStatus().equals("Overdue"));
+		assertTrue(presentBook.getDueStatus().equals("Due in: 8 Hours"));
+		assertTrue(futureBook.getDueStatus().equals("Due in >24 Hours"));	
+		
+	}
+	
 	@Test 
 	void makeOnline(){
 		OnlineItem newsletter = new OnlineItem();
