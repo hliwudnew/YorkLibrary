@@ -45,10 +45,6 @@ class testcases {
 
 		Date date = new Date();
 		date.setTime(1711000000);
-		//Date current = new Date();
-		//long difference = date.getTime() - current.getTime();
-
-		//int daysOverdue = (int) (difference / 3600000);
 
 		book.setName("Chair Book");
 		book.setId(1);
@@ -85,7 +81,9 @@ class testcases {
 		assertTrue(futureBook.getDueStatus().equals("Due in >24 Hours"));	
 	}
 	
-	void testPhysical04() {
+	// May not work for some reason
+	@Test
+	void testPhysical03() {
 		Date presentDate = new Date();
 		PhysicalItem presentBook = new PhysicalItem();
 		long eightHoursMinusPresent = presentDate.getTime() + 28800000l;
@@ -95,8 +93,9 @@ class testcases {
 		assertTrue(presentBook.getDueStatus().equals("Due in: 8 Hours"));
 	}
 	
-	void testPhysical03() {
-		
+	@Test
+	void testPhysical04() {
+
 		Date pastDate = new Date();
 		PhysicalItem pastBook = new PhysicalItem();
 		long past = 1704110400000l;
@@ -126,6 +125,30 @@ class testcases {
 		assertTrue(book.getId() == 1);
 		assertTrue(book.getPrice() == 19.99);
 		assertTrue(book.calculateFee() == 0.50);
+
+	}
+	
+	@Test
+	void testPhysical06() {
+		
+		Date presentDate = new Date();
+		Date dueDate = new Date();
+
+		long presentMinusOneDay = presentDate.getTime() - 86400000l;
+		dueDate.setTime(presentMinusOneDay);
+
+		PhysicalItem book = new PhysicalItem(dueDate, "Person X", 10.95);
+
+		book.setName("Robotics");
+		book.setId(2);
+		book.setPrice(30.00);
+
+		assertTrue(book.getName().equals("Robotics"));
+		assertTrue(book.getBorrower().equals("Person X"));
+		assertTrue(book.getId() == 2);
+		assertTrue(book.getPrice() == 30.00);
+		assertTrue(book.calculateFee() == 0.50);
+		assertTrue(book.daysOverdue() == 1);
 
 	}
 
