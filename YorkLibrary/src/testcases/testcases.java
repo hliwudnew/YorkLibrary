@@ -76,34 +76,38 @@ class testcases {
 	@Test
 	void testPhysical02() { 
 
-		Date pastDate = new Date();
-		Date presentDate = new Date();
 		Date futureDate = new Date();
-
-		PhysicalItem pastBook = new PhysicalItem();
-		PhysicalItem presentBook = new PhysicalItem();
 		PhysicalItem futureBook = new PhysicalItem();
-
-		long past = 1704110400000l;
-		long eightHoursMinusPresent = presentDate.getTime() + 28800000l;
 		long future = 1735707599000l;
-
-		pastDate.setTime(past);
-		presentDate.setTime(eightHoursMinusPresent);
 		futureDate.setTime(future);
-
-		pastBook.setDueDate(pastDate);
-		presentBook.setDueDate(presentDate);
 		futureBook.setDueDate(futureDate);
-
-		assertTrue(pastBook.getDueStatus().equals("Overdue"));
-		assertTrue(presentBook.getDueStatus().equals("Due in: 8 Hours"));
+		
 		assertTrue(futureBook.getDueStatus().equals("Due in >24 Hours"));	
-
+	}
+	
+	void testPhysical04() {
+		Date presentDate = new Date();
+		PhysicalItem presentBook = new PhysicalItem();
+		long eightHoursMinusPresent = presentDate.getTime() + 28800000l;
+		presentDate.setTime(eightHoursMinusPresent);
+		presentBook.setDueDate(presentDate);
+		
+		assertTrue(presentBook.getDueStatus().equals("Due in: 8 Hours"));
+	}
+	
+	void testPhysical03() {
+		
+		Date pastDate = new Date();
+		PhysicalItem pastBook = new PhysicalItem();
+		long past = 1704110400000l;
+		pastDate.setTime(past);
+		pastBook.setDueDate(pastDate);
+		
+		assertTrue(pastBook.getDueStatus().equals("Overdue"));
 	}
 
 	@Test
-	void testPhysical03() {
+	void testPhysical05() {
 
 		Date presentDate = new Date();
 		Date dueDate = new Date();
