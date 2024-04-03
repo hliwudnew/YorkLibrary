@@ -240,7 +240,7 @@ class testcases {
 	}
 	
 	@Test 
-	void makeOnlineItem_Test(){
+	void OnlineItem_Test1(){
 		OnlineItem newsletter = new OnlineItem();
 		//Testing setter methods
 		newsletter.setId(1);
@@ -255,6 +255,286 @@ class testcases {
 		assertTrue(newsletter.getName().equals("New York Times"));
 		assertTrue(newsletter.getStatus().getState().getClass().equals(new Enabled().getClass()));
 	}
+	
+	@Test 
+	void OnlineItem_Test2(){
+		OnlineItem newsletter = new OnlineItem();
+		//Testing setter methods
+		newsletter.setId(1);
+		newsletter.setName("BBC");
+		newsletter.setLink("https://www.bbc.com/news");
+		newsletter.setPrice(0.0);
+		newsletter.setStatus(new ItemStateContext(new Disabled()));
+		newsletter.setSubscribers(new ArrayList<User>());
+		newsletter.addSubscriber(new Student());
+
+		assertFalse(newsletter.getSubscribers().isEmpty());
+		assertTrue(newsletter.getName().equals("BBC"));
+		assertTrue(newsletter.getStatus().getState().getClass().equals(new Disabled().getClass()));
+	}
+	
+	@Test 
+	void OnlineItem_Test3(){
+		OnlineItem newsletter = new OnlineItem();
+		//Testing setter methods
+		newsletter.setId(1);
+		newsletter.setName("BBC");
+		newsletter.setLink("https://www.bbc.com/news");
+		newsletter.setPrice(0.0);
+		newsletter.setStatus(new ItemStateContext(new Disabled()));
+		newsletter.setSubscribers(new ArrayList<User>());
+
+		assertTrue(newsletter.getName().equals("BBC"));
+		assertTrue(newsletter.getStatus().getState().getClass().equals(new Disabled().getClass()));
+		
+		Student student = new Student();
+		
+		student.subscribe(newsletter);//Disabled so wont subscribe
+		assertTrue(student.getSubscriptions().isEmpty());
+	}
+	
+	@Test 
+	void OnlineItem_Test4(){
+		OnlineItem newsletter = new OnlineItem();
+		//Testing setter methods
+		newsletter.setId(1);
+		newsletter.setName("BBC");
+		newsletter.setLink("https://www.bbc.com/news");
+		newsletter.setPrice(25.0);
+		newsletter.setStatus(new ItemStateContext(new Enabled()));
+		newsletter.setSubscribers(new ArrayList<User>());
+
+		assertTrue(newsletter.getName().equals("BBC"));
+		assertTrue(newsletter.getStatus().getState().getClass().equals(new Enabled().getClass()));
+		
+		Student student = new Student();
+		
+		student.subscribe(newsletter);
+		assertFalse(student.getSubscriptions().isEmpty());
+		assertEquals(1, student.getSubscriptions().size());
+		assertEquals(newsletter,student.getSubscriptions().get(0));
+		assertEquals(newsletter.getName(),student.getSubscriptions().get(0).getName());
+	}
+	
+	@Test 
+	void OnlineItem_Test5(){
+		OnlineItem newsletter = new OnlineItem();
+		//Testing setter methods
+		newsletter.setId(1);
+		newsletter.setName("CBC");
+		newsletter.setLink("https://www.cbc.ca/");
+		newsletter.setPrice(100.0);
+		newsletter.setStatus(new ItemStateContext(new Enabled()));
+		newsletter.setSubscribers(new ArrayList<User>());
+
+		
+		Student student = new Student();
+		Faculty fac = new Faculty();
+		Nonfaculty nfac = new Nonfaculty();
+		Visitor visitor = new Visitor();
+		
+		student.subscribe(newsletter);
+		fac.subscribe(newsletter);
+		nfac.subscribe(newsletter);
+		visitor.subscribe(newsletter);
+		
+		assertEquals(4, newsletter.getSubscribers().size());
+		assertTrue(student.getSubscriptions().contains(newsletter));
+		assertTrue(fac.getSubscriptions().contains(newsletter));
+		assertTrue(nfac.getSubscriptions().contains(newsletter));
+		assertTrue(visitor.getSubscriptions().contains(newsletter));
+	}
+	
+	@Test 
+	void OnlineItem_Test6(){
+		OnlineItem cbc = new OnlineItem();
+		//Testing setter methods
+		cbc.setId(1);
+		cbc.setName("CBC");
+		cbc.setLink("https://www.cbc.ca/");
+		cbc.setPrice(100.0);
+		cbc.setStatus(new ItemStateContext(new Enabled()));
+		cbc.setSubscribers(new ArrayList<User>());
+
+		OnlineItem bbc = new OnlineItem();
+		//Testing setter methods
+		bbc.setId(2);
+		bbc.setName("BBC");
+		bbc.setLink("https://www.bbc.com/news");
+		bbc.setPrice(25.0);
+		bbc.setStatus(new ItemStateContext(new Enabled()));
+		bbc.setSubscribers(new ArrayList<User>());
+		
+		Student student = new Student();
+		Faculty fac = new Faculty();
+		Nonfaculty nfac = new Nonfaculty();
+		Visitor visitor = new Visitor();
+		
+		student.subscribe(bbc);
+		fac.subscribe(bbc);
+		nfac.subscribe(bbc);
+		visitor.subscribe(bbc);
+		
+		student.subscribe(cbc);
+		fac.subscribe(cbc);
+		nfac.subscribe(cbc);
+		visitor.subscribe(cbc);
+		
+		assertEquals(2, student.getSubscriptions().size());
+		assertEquals(2, fac.getSubscriptions().size());
+		assertEquals(2, nfac.getSubscriptions().size());
+		assertEquals(2, visitor.getSubscriptions().size());
+		assertEquals(4, cbc.getSubscribers().size());
+		assertEquals(4, bbc.getSubscribers().size());
+	}
+	
+	@Test 
+	void OnlineItem_Test7(){
+		OnlineItem cbc = new OnlineItem();
+		//Testing setter methods
+		cbc.setId(1);
+		cbc.setName("CBC");
+		cbc.setLink("https://www.cbc.ca/");
+		cbc.setPrice(100.0);
+		cbc.setStatus(new ItemStateContext(new Enabled()));
+		cbc.setSubscribers(new ArrayList<User>());
+		
+		Student student = new Student();
+		Faculty fac = new Faculty();
+		Nonfaculty nfac = new Nonfaculty();
+		Visitor visitor = new Visitor();
+		
+		student.subscribe(cbc);
+		fac.subscribe(cbc);
+		nfac.subscribe(cbc);
+		visitor.subscribe(cbc);
+		
+		student.unSubscribe(cbc);
+		fac.unSubscribe(cbc);
+		nfac.unSubscribe(cbc);
+		visitor.unSubscribe(cbc);
+		
+		assertEquals(0, student.getSubscriptions().size());
+		assertEquals(0, fac.getSubscriptions().size());
+		assertEquals(0, nfac.getSubscriptions().size());
+		assertEquals(0, visitor.getSubscriptions().size());
+		assertEquals(0, cbc.getSubscribers().size());
+	}
+	
+	@Test 
+	void OnlineItem_Test8(){
+		OnlineItem cbc = new OnlineItem();
+		//Testing setter methods
+		cbc.setId(1);
+		cbc.setName("CBC");
+		cbc.setLink("https://www.cbc.ca/");
+		cbc.setPrice(100.0);
+		cbc.setStatus(new ItemStateContext(new Enabled()));
+		cbc.setSubscribers(new ArrayList<User>());
+
+		OnlineItem bbc = new OnlineItem();
+		//Testing setter methods
+		bbc.setId(2);
+		bbc.setName("BBC");
+		bbc.setLink("https://www.bbc.com/news");
+		bbc.setPrice(25.0);
+		bbc.setStatus(new ItemStateContext(new Enabled()));
+		bbc.setSubscribers(new ArrayList<User>());
+		
+		Student student = new Student();
+		Faculty fac = new Faculty();
+		Nonfaculty nfac = new Nonfaculty();
+		Visitor visitor = new Visitor();
+		
+		student.subscribe(bbc);
+		fac.subscribe(bbc);
+		nfac.subscribe(bbc);
+		visitor.subscribe(bbc);
+		
+		student.subscribe(cbc);
+		fac.subscribe(cbc);
+		nfac.subscribe(cbc);
+		visitor.subscribe(cbc);
+		
+		student.unSubscribe(cbc);
+		fac.unSubscribe(cbc);
+		nfac.unSubscribe(cbc);
+		visitor.unSubscribe(cbc);
+		
+		assertEquals(1, student.getSubscriptions().size());
+		assertEquals(1, fac.getSubscriptions().size());
+		assertEquals(1, nfac.getSubscriptions().size());
+		assertEquals(1, visitor.getSubscriptions().size());
+		assertEquals(0, cbc.getSubscribers().size());
+		assertEquals(4, bbc.getSubscribers().size());
+		assertFalse(student.getSubscriptions().contains(cbc));
+		assertFalse(fac.getSubscriptions().contains(cbc));
+		assertFalse(nfac.getSubscriptions().contains(cbc));
+		assertFalse(visitor.getSubscriptions().contains(cbc));
+	}
+	
+	@Test 
+	void OnlineItem_Test9(){
+		OnlineItem cbc = new OnlineItem();
+		//Testing setter methods
+		cbc.setId(1);
+		cbc.setName("CBC");
+		cbc.setLink("https://www.cbc.ca/");
+		cbc.setPrice(100.0);
+		cbc.setStatus(new ItemStateContext(new Enabled()));
+		cbc.setSubscribers(new ArrayList<User>());
+		
+		Student student = new Student();
+		
+		student.subscribe(cbc);
+		assertTrue(student.getSubscriptions().contains(cbc));
+		
+		student.unSubscribe(cbc);
+		assertFalse(student.getSubscriptions().contains(cbc));
+		
+		cbc.setStatus(new ItemStateContext(new Disabled()));
+		
+		student.subscribe(cbc);
+		assertFalse(student.getSubscriptions().contains(cbc));
+	}
+	
+	@Test 
+	void OnlineItem_Test10(){
+		OnlineItem cbc = new OnlineItem();
+		//Testing setter methods
+		cbc.setId(1);
+		cbc.setName("CBC");
+		cbc.setLink("https://www.cbc.ca/");
+		cbc.setPrice(100.0);
+		cbc.setStatus(new ItemStateContext(new Enabled()));
+		cbc.setSubscribers(new ArrayList<User>());
+		
+		Student student = new Student();
+		Faculty fac = new Faculty();
+		Nonfaculty nfac = new Nonfaculty();
+		Visitor visitor = new Visitor();
+		
+		student.subscribe(cbc);
+		fac.subscribe(cbc);
+		nfac.subscribe(cbc);
+		visitor.subscribe(cbc);
+		assertEquals(4, cbc.getSubscribers().size());
+		
+		student.unSubscribe(cbc);
+		fac.unSubscribe(cbc);
+		nfac.unSubscribe(cbc);
+		visitor.unSubscribe(cbc);
+		assertEquals(0,cbc.getSubscribers().size());
+		
+		cbc.setStatus(new ItemStateContext(new Disabled()));
+		
+		student.subscribe(cbc);
+		fac.subscribe(cbc);
+		nfac.subscribe(cbc);
+		visitor.subscribe(cbc);
+		assertEquals(0,cbc.getSubscribers().size());
+	}
+
 
 	@Test
 	//Management team adds two items, then the library has them, one person rents them and returns one of them
