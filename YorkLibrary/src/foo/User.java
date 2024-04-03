@@ -46,11 +46,11 @@ public abstract class User {
 	//}
 	
 	//Methods
-
+	
 	public void rentPhysicalItem(PhysicalItem wantToRent) {
-		//Prevents from going over the limit
+		//Prevents from going over the limit of 10 items
 		if(this.rented.size() < 10) {
-			if(wantToRent != null && !this.rented.contains(wantToRent) && !system.getBorrowed().contains(wantToRent)) {
+			if(wantToRent != null && !this.rented.contains(wantToRent) && !system.getBorrowed().contains(wantToRent) && wantToRent.getStatus().getState() instanceof Enabled) {
 				rented.add(wantToRent); //They rent  the book
 				wantToRent.setBorrower(email); //The book is now borrowed by them
 				system.removeStock(wantToRent); //Book is now in borrowed
@@ -108,7 +108,7 @@ public abstract class User {
 	}
 	
 	public void subscribe(OnlineItem newsletter) {
-		if(newsletter != null && !this.subscriptions.contains(newsletter)) {
+		if(newsletter != null && !this.subscriptions.contains(newsletter) && newsletter.getStatus().getState() instanceof Enabled) {
 			this.subscriptions.add(newsletter);	
 			newsletter.addSubscriber(this);
 		}

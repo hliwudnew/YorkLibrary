@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 import java.util.Date;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.jupiter.api.Test;
 
 import foo.Add;
@@ -37,7 +39,7 @@ import foo.UserFactory;
 import foo.Visitor;
 
 class testcases {
-
+	
 	@Test
 	void testPhysical01() {
 		PhysicalItem book = new PhysicalItem();
@@ -270,7 +272,7 @@ class testcases {
 		OnlineItem bbc = new OnlineItem();
 		bbc.setId(1000);
 		bbc.setName("British Broadcasting Central");
-		bbc.setStatus(new ItemStateContext(new Disabled()));
+		bbc.setStatus(new ItemStateContext(new Enabled()));
 		bbc.setLink("https://www.bbc.com/news");
 
 		//Adding to system
@@ -590,6 +592,184 @@ class testcases {
 		assertTrue(system.getBorrowed().isEmpty());
 	}
 	
+	@Test
+	void librarysystem_Test8() {
+		ManagementTeam team = new ManagementTeam();
+		LibrarySystem system = new LibrarySystem();
+		Student student = new Student();
+		Faculty faculty = new Faculty();
+		Nonfaculty nonfaculty = new Nonfaculty();
+		Visitor visitor = new Visitor();		
+		
+		team.setSystem(system);
+		
+		//OnlineItems
+		OnlineItem newYorkTimes = new OnlineItem();
+		newYorkTimes.setId(1000);
+		newYorkTimes.setName("New York Times");
+		newYorkTimes.setStatus(new ItemStateContext(new Enabled()));
+		newYorkTimes.setLink("https://www.nytimes.com/ca/");
+		
+		OnlineItem bbc = new OnlineItem();
+		bbc.setId(1000);
+		bbc.setName("British Broadcasting Central");
+		bbc.setStatus(new ItemStateContext(new Disabled()));
+		bbc.setLink("https://www.bbc.com/news");
+		
+		
+		student.setEmail("ww@gmail");
+		student.setPassword("1234GHWUhh@$i");
+		
+		faculty.setEmail("ww2@gmail");
+		faculty.setPassword("1234GHWUhh@$i");
+		
+		nonfaculty.setEmail("ww3@gmail");
+		nonfaculty.setPassword("1234GHWUhh@$i");
+		
+		visitor.setEmail("ww4@gmail");
+		visitor.setPassword("1234GHWUhh@$i");
+		
+		system.addUser(visitor);
+		system.addUser(nonfaculty);
+		system.addUser(student);
+		system.addUser(faculty);
+		
+		system.addSub(bbc);
+		system.addSub(newYorkTimes);
+		
+		student.subscribe(bbc);// Wont subscribe to it because its disabled
+		faculty.subscribe(bbc);
+		nonfaculty.subscribe(bbc);
+		visitor.subscribe(bbc);
+		
+		assertTrue(student.getSubscriptions().isEmpty());
+		assertTrue(faculty.getSubscriptions().isEmpty());
+		assertTrue(nonfaculty.getSubscriptions().isEmpty());
+		assertTrue(visitor.getSubscriptions().isEmpty());
+	}
+	
+	@Test
+	void librarysystem_Test9() {
+		ManagementTeam team = new ManagementTeam();
+		Student student = new Student();
+		LibrarySystem system = new LibrarySystem();
+
+		team.setSystem(system);
+		
+		//Physical Items
+		PhysicalItem book1 = new PhysicalItem();
+		book1.setStatus(new ItemStateContext(new Disabled()));
+		book1.setId(PhysicalItem.getNextValidId()); 
+		book1.setName("First Book");
+		
+		PhysicalItem book2 = new PhysicalItem();
+		book2.setStatus(new ItemStateContext(new Enabled()));
+		book2.setId(PhysicalItem.getNextValidId());
+		book2.setName("Second Book");
+		
+		team.addPhysicalItem(book1); // Makes 20 copies of the item into the system
+		team.addPhysicalItem(book2); // Makes 20 copies of the item into the system
+		
+		student.setEmail("ww@gmail");
+		student.setPassword("1234GHWUhh@$i");
+		
+		system.addUser(student);
+		
+		student.rentPhysicalItem(book1);
+		student.rentPhysicalItem(book2);
+		
+		assertTrue(student.getRented().contains(book2));
+		assertFalse(student.getRented().contains(book1));// Book disabled cannot be rented. hence they dont have it
+	}
+	
+	@Test
+	void librarysystem_Test10() {
+		ManagementTeam team = new ManagementTeam();
+		Student student = new Student();
+		LibrarySystem system = new LibrarySystem();
+		
+		team.setSystem(system);
+		
+		//Physical Items
+		PhysicalItem book1 = new PhysicalItem();
+		book1.setStatus(new ItemStateContext(new Enabled()));
+		book1.setId(PhysicalItem.getNextValidId()); 
+		book1.setName("First Book");
+		PhysicalItem book2 = new PhysicalItem();
+		book2.setStatus(new ItemStateContext(new Enabled()));
+		book2.setId(PhysicalItem.getNextValidId());
+		book2.setName("Second Book");
+		PhysicalItem book3 = new PhysicalItem();
+		book3.setStatus(new ItemStateContext(new Enabled()));
+		book3.setId(PhysicalItem.getNextValidId());
+		book3.setName("Third Book");
+		PhysicalItem book4 = new PhysicalItem();
+		book4.setStatus(new ItemStateContext(new Enabled()));
+		book4.setId(PhysicalItem.getNextValidId());
+		book4.setName("Fourth Book");
+		PhysicalItem book5 = new PhysicalItem();
+		book5.setStatus(new ItemStateContext(new Enabled()));
+		book5.setId(PhysicalItem.getNextValidId());
+		book5.setName("Fifth Book");
+		PhysicalItem book6 = new PhysicalItem();
+		book6.setStatus(new ItemStateContext(new Enabled()));
+		book6.setId(PhysicalItem.getNextValidId());
+		book6.setName("Sixth Book");
+		PhysicalItem book7 = new PhysicalItem();
+		book7.setStatus(new ItemStateContext(new Enabled()));
+		book7.setId(PhysicalItem.getNextValidId());
+		book7.setName("Seventh Book");
+		PhysicalItem book8 = new PhysicalItem();
+		book8.setStatus(new ItemStateContext(new Enabled()));
+		book8.setId(PhysicalItem.getNextValidId());
+		book8.setName("Eighth Book");
+		PhysicalItem book9 = new PhysicalItem();
+		book9.setStatus(new ItemStateContext(new Enabled()));
+		book9.setId(PhysicalItem.getNextValidId());
+		book9.setName("Ninth Book");
+		PhysicalItem book10 = new PhysicalItem();
+		book10.setStatus(new ItemStateContext(new Enabled()));
+		book10.setId(PhysicalItem.getNextValidId());
+		book10.setName("Tenth Book");
+		PhysicalItem book11 = new PhysicalItem();
+		book11.setStatus(new ItemStateContext(new Enabled()));
+		book11.setId(PhysicalItem.getNextValidId());
+		book11.setName("Eleventh Book");
+		
+		team.addPhysicalItem(book1); // Makes 20 copies of the item into the system
+		team.addPhysicalItem(book2); // Makes 20 copies of the item into the system
+		team.addPhysicalItem(book3); // Makes 20 copies of the item into the system
+		team.addPhysicalItem(book4); // Makes 20 copies of the item into the system
+		team.addPhysicalItem(book5); // Makes 20 copies of the item into the system
+		team.addPhysicalItem(book6); // Makes 20 copies of the item into the system
+		team.addPhysicalItem(book7); // Makes 20 copies of the item into the system
+		team.addPhysicalItem(book8); // Makes 20 copies of the item into the system
+		team.addPhysicalItem(book9); // Makes 20 copies of the item into the system
+		team.addPhysicalItem(book10); // Makes 20 copies of the item into the system
+		team.addPhysicalItem(book11); // Makes 20 copies of the item into the system
+		
+		student.setEmail("ww@gmail");
+		student.setPassword("1234GHWUhh@$i");
+		
+		system.addUser(student);
+		
+		//Attempts to rent one of each of the 11 unique available books
+
+		student.rentPhysicalItem(book1);
+		student.rentPhysicalItem(book2);
+		student.rentPhysicalItem(book3);
+		student.rentPhysicalItem(book4);
+		student.rentPhysicalItem(book5);
+		student.rentPhysicalItem(book6);
+		student.rentPhysicalItem(book7);
+		student.rentPhysicalItem(book8);
+		student.rentPhysicalItem(book9);
+		student.rentPhysicalItem(book10);
+		student.rentPhysicalItem(book11);//Wont rent because above limit
+
+		assertEquals(10, student.getRented().size());
+		assertEquals(210, system.getStock().size());// 11*20 = 220 - 10 rented = 210
+	}
 	
 	
 	@Test
@@ -2050,4 +2230,5 @@ class testcases {
 		assertEquals(student.getCart().getItems().size(), 0); 
 		//assertEquals();
 	}
+	
 }
