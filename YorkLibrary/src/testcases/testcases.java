@@ -918,7 +918,7 @@ class testcases {
 	}
 
 	@Test
-	void CSVReaderModificationTests() {
+	void CSVReader_Test1() {
 		LibrarySystem system = CSVReader.dowloadData(new LibrarySystem()); // Downloads data from the CSV files for the library system
 
 		//Checks if the system actually got populated
@@ -992,7 +992,7 @@ class testcases {
 	}
 
 	@Test
-	void CSVReaderAccountTests() {
+	void CSVReader_Test2() {
 		//w
 		try {
 			//Email checking in CSVs
@@ -1043,6 +1043,132 @@ class testcases {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@Test
+	void CSVReader_Test3() {
+		LibrarySystem system = CSVReader.dowloadData(new LibrarySystem()); // Downloads data from the CSV files for the library system
+		ManagementTeam team = new ManagementTeam(system);
+		team.setSystem(system);
+
+		//Checks if the system actually got populated
+		assertTrue(system.getStock().size() > 0);
+		assertTrue(system.getBorrowed().size() > 0);
+		assertTrue(system.getUsers().size() > 0);
+		assertTrue(system.getCourses().size() > 0);
+		assertTrue(system.getFaculty().size() > 0);
+		assertTrue(system.getStudents().size() > 0);
+		assertTrue(system.getSubs().size() >0);
+		
+		Student student = new Student();
+		student.setEmail("student@gmail.com");
+		system.addUser(student);
+		
+		ArrayList<PhysicalItem> available = new ArrayList<PhysicalItem>();
+		ArrayList<PhysicalItem> unAvailable = new ArrayList<PhysicalItem>();
+		
+		for(Item I: system.getStock()) {//makes a list of rentable items, ie not borrowed or disabled
+			if(((PhysicalItem)I).getBorrower().equals("BLANK") && I.getStatus().getState() instanceof Enabled) {
+				available.add((PhysicalItem)I);
+			}
+		}
+		
+		for(Item I: system.getStock()) {//makes a list of not rentable items, ie disabled
+			if(I.getStatus().getState() instanceof Disabled) {
+				unAvailable.add((PhysicalItem)I);
+			}
+		}
+		
+		student.rentPhysicalItem(available.get(0));
+		student.rentPhysicalItem(available.get(20));
+		student.rentPhysicalItem(available.get(25));
+		student.rentPhysicalItem(available.get(40));
+		
+		student.rentPhysicalItem(unAvailable.get(0));// Both are disabled
+		student.rentPhysicalItem(unAvailable.get(1));
+		
+		student.rentPhysicalItem((PhysicalItem)system.getBorrowed().get(0));// Rented out already to someone else
+
+		assertEquals(4, student.getRented().size());
+		assertEquals(available.get(0).getBorrower(), student.getEmail());
+		assertEquals(available.get(20).getBorrower(), student.getEmail());
+		assertEquals(available.get(25).getBorrower(), student.getEmail());
+		assertEquals(available.get(40).getBorrower(), student.getEmail());
+		assertFalse(unAvailable.get(0).getBorrower().equals(student.getEmail()));
+		assertFalse(unAvailable.get(1).getBorrower().equals(student.getEmail()));
+		assertFalse(((PhysicalItem)system.getBorrowed().get(0)).getBorrower().equals(student.getEmail()));
+
+	}
+	
+	@Test
+	void CSVReader_Test4() {
+		LibrarySystem system = CSVReader.dowloadData(new LibrarySystem()); // Downloads data from the CSV files for the library system
+		ManagementTeam team = new ManagementTeam(system);
+		team.setSystem(system);
+
+		//Checks if the system actually got populated
+		assertTrue(system.getStock().size() > 0);
+		assertTrue(system.getBorrowed().size() > 0);
+		assertTrue(system.getUsers().size() > 0);
+		assertTrue(system.getCourses().size() > 0);
+		assertTrue(system.getFaculty().size() > 0);
+		assertTrue(system.getStudents().size() > 0);
+		assertTrue(system.getSubs().size() >0);
+		
+		Student student = new Student();
+		student.setEmail("student@gmail.com");
+		system.addUser(student);
+		ArrayList<OnlineItem> newsletters = new ArrayList<OnlineItem>();
+		for(OnlineItem i: system.getSubs()) {
+			if(i.getId() > 0) {
+				student.subscribe(i);
+				newsletters.add(i);
+			}
+		}
+		// This testcase is dependant on the 3 subscriptions in the CSV files, 2 enabled 1 disabled
+		assertEquals(3, newsletters.size());//checking total number of newsletters in the system
+		assertEquals(2, student.getSubscriptions().size());// Doesn't rent the disabled newsletter
+		assertTrue(newsletters.contains(student.getSubscriptions().get(0)));
+		assertTrue(newsletters.contains(student.getSubscriptions().get(1)));
+		newsletters.remove(student.getSubscriptions().get(0));//Removing is easier than searching for disabled
+		newsletters.remove(student.getSubscriptions().get(1));
+		assertFalse(student.getSubscriptions().contains(newsletters.get(0)));
+	}
+	
+	@Test
+	void CSVReader_Test5() {
+		LibrarySystem system = CSVReader.dowloadData(new LibrarySystem()); // Downloads data from the CSV files for the library system
+		ManagementTeam team = new ManagementTeam(system);
+		team.setSystem(system);
+
+		//Checks if the system actually got populated
+		assertTrue(system.getStock().size() > 0);
+		assertTrue(system.getBorrowed().size() > 0);
+		assertTrue(system.getUsers().size() > 0);
+		assertTrue(system.getCourses().size() > 0);
+		assertTrue(system.getFaculty().size() > 0);
+		assertTrue(system.getStudents().size() > 0);
+		assertTrue(system.getSubs().size() >0);
+		
+		Student student = new Student();
+		student.setEmail("student@gmail.com");
+		
+		Faculty fac = new Faculty();
+		fac.setEmail("faculty@gmail.com");
+		
+		system.addUser(fac);
+		system.addUser(student);
+		
+		fac.addCourse(system.getCourse("EECS 2030"));
+		student.addCourse(system.getCourse("EECS 2030"));
+		system.getCourse("EECS 2030").addStudent(student);
+		system.getCourse("EECS 2030").addFaculty(fac);
+		
+		//Simple test of courses with csv data
+		assertTrue(system.getCourse("EECS 2030").getFaculty().contains(fac));
+		assertTrue(system.getCourse("EECS 2030").getStudents().contains(student));
+		assertTrue(student.getCourses().contains(system.getCourse("EECS 2030")));
+		assertTrue(fac.getCourses().contains(system.getCourse("EECS 2030")));
 	}
 	
 	//testing management and course functions
