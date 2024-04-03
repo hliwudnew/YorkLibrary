@@ -151,9 +151,94 @@ class testcases {
 		assertTrue(book.getPrice() == 30.00);
 		assertTrue(book.calculateFee() == 0.50);
 		assertTrue(book.daysOverdue() == 1);
-
 	}
 
+	@Test
+	void testPhysical07() {
+		
+		Date presentDate = new Date();
+		Date dueDate = new Date();
+
+		long presentPlusOneDay = presentDate.getTime() + 86400000l;
+		dueDate.setTime(presentPlusOneDay);
+
+		PhysicalItem book = new PhysicalItem(dueDate, "Lebron James", 23.00);
+
+		book.setName("Basketball");
+		book.setId(4);
+		book.setPrice(24.00);
+
+		assertTrue(book.getName().equals("Basketball"));
+		assertTrue(book.getBorrower().equals("Lebron James"));
+		assertTrue(book.getId() == 4);
+		assertTrue(book.getPrice() == 24.00);
+		assertTrue(book.calculateFee() == 0.00);
+		assertTrue(book.daysOverdue() == 0);
+
+	}
+	
+	@Test
+	void testPhysical08() {		
+		Date dueDate = new Date();
+
+		PhysicalItem book = new PhysicalItem(dueDate, "Kylian Mbappe", 19.98);
+
+		book.setName("OOP");
+		book.setId(5);
+		book.setPrice(20.00);
+
+		assertTrue(book.getName().equals("OOP"));
+		assertTrue(book.getBorrower().equals("Kylian Mbappe"));
+		assertTrue(book.getId() == 5);
+		assertTrue(book.getPrice() == 20.00);
+		assertTrue(book.calculateFee() == 0.00);
+		assertTrue(book.daysOverdue() == 0);
+
+	}
+	
+	@Test
+	void testPhysical09() {
+		
+		Date presentDate = new Date();
+		Date dueDate = new Date();
+
+		long twodays = presentDate.getTime() - 172800000l;
+		dueDate.setTime(twodays);
+
+		PhysicalItem book = new PhysicalItem(dueDate, "Michael Scott", 10.95);
+
+		book.setName("General Relativity");
+		book.setId(1);
+		book.setPrice(10.00);
+
+		assertTrue(book.getName().equals("General Relativity"));
+		assertTrue(book.getBorrower().equals("Michael Scott"));
+		assertTrue(book.getId() == 1);
+		assertTrue(book.getPrice() == 10.00);
+		assertTrue(book.calculateFee() == 1.00);
+		assertTrue(book.daysOverdue() == 2);
+
+	}
+	
+	@Test
+	void testPhysical10() {		
+		Date dueDate = new Date();
+
+		PhysicalItem book = new PhysicalItem(dueDate, "Thor", 10.95);
+
+		book.setName("Electricty 101");
+		book.setId(2);
+		book.setPrice(30.00);
+
+		assertTrue(book.getName().equals("Electricty 101"));
+		assertTrue(book.getBorrower().equals("Thor"));
+		assertTrue(book.getId() == 2);
+		assertTrue(book.getPrice() == 30.00);
+		assertTrue(book.calculateFee() == 0.00);
+		assertTrue(book.daysOverdue() == 0);
+
+	}
+	
 	@Test 
 	void makeOnlineItem_Test(){
 		OnlineItem newsletter = new OnlineItem();
