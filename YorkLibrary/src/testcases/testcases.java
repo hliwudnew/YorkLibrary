@@ -2363,7 +2363,7 @@ class testcases {
 		assertTrue(student.getMenu().clickCheckout()); //checkout should be true now
 		student.getCart().clear();
 		assertEquals(student.getCart().getItems().size(), 0); 
-		//assertEquals();
+		//assertEquals(); 
 	}
 	
 	@Test
@@ -2373,6 +2373,141 @@ class testcases {
 		assertEquals(0, faculty.getTextBooks().size());
 	}
 	
+	@Test
+	void testUser1() { //valid ID for unSubscribeById
+		UserFactory buildUser = new UserFactory();
+		User user = buildUser.getUser("Student"); 
+        OnlineItem item = new OnlineItem();
+        item.setId(1);
+        user.getSubscriptions().add(item);
+        
+        user.unSubscribeById(1);
+        
+        assertEquals(0, user.getSubscriptions().size());
+		
+	}
+	@Test
+	void testUser2() { //second valid ID for unSubscribeById
+		UserFactory buildUser = new UserFactory();
+		User user = buildUser.getUser("Faculty"); 
+        OnlineItem item = new OnlineItem();
+        item.setId(5);
+        user.getSubscriptions().add(item);
+        
+        user.unSubscribeById(5);
+        
+        assertEquals(0, user.getSubscriptions().size());
+		
+	}
+	
+	@Test
+	void testUser3() { //third valid ID for unSubscribeById
+		UserFactory buildUser = new UserFactory();
+		User user = buildUser.getUser("Nonfaculty"); 
+        OnlineItem item = new OnlineItem();
+        item.setId(2);
+        user.getSubscriptions().add(item);
+        
+        user.unSubscribeById(2);
+        
+        assertEquals(0, user.getSubscriptions().size());
+		
+	}
+	
+	@Test
+	void testUser4() { //fourth valid ID for unSubscribeById
+		UserFactory buildUser = new UserFactory();
+		User user = buildUser.getUser("Visitor"); 
+        OnlineItem item = new OnlineItem();
+        item.setId(9);
+        user.getSubscriptions().add(item);
+        
+        user.unSubscribeById(9);
+        
+        assertEquals(0, user.getSubscriptions().size());
+		
+	}
+	
+	@Test
+	void testUser5() { //invalid ID for unSubscribeById
+		UserFactory buildUser = new UserFactory();
+		User user = buildUser.getUser("Student"); 
+        OnlineItem item = new OnlineItem();
+        item.setId(5);
+        user.getSubscriptions().add(item);
+        
+        user.unSubscribeById(7);
+        
+        assertEquals(1, user.getSubscriptions().size());
+		
+	}
+	
+	@Test
+	void testUser6() { //second invalid ID for unSubscribeById
+		UserFactory buildUser = new UserFactory();
+		User user = buildUser.getUser("Faculty"); 
+        OnlineItem item = new OnlineItem();
+        item.setId(5);
+        user.getSubscriptions().add(item);
+        
+        user.unSubscribeById(2);
+        
+        assertEquals(1, user.getSubscriptions().size());
+		
+	}
+	
+	@Test
+	void testUser7() { //third invalid ID for unSubscribeById
+		UserFactory buildUser = new UserFactory();
+		User user = buildUser.getUser("Nonfaculty"); 
+        OnlineItem item = new OnlineItem();
+        item.setId(5);
+        user.getSubscriptions().add(item);
+        
+        user.unSubscribeById(4);
+        
+        assertEquals(1, user.getSubscriptions().size());
+		
+	}
+	
+	@Test
+	void testUser8() { //fourth invalid ID for unSubscribeById
+		UserFactory buildUser = new UserFactory();
+		User user = buildUser.getUser("Visitor"); 
+        OnlineItem item = new OnlineItem();
+        item.setId(7);
+        user.getSubscriptions().add(item);
+        
+        user.unSubscribeById(-1);
+        
+        assertEquals(1, user.getSubscriptions().size());
+		
+	}
+	
+	@Test
+	void testUser9() { //nothing overdue yet
+		UserFactory buildUser = new UserFactory();
+		User user = buildUser.getUser("Student");
+		assertEquals(0,user.numberOverdue());
+	}
+	
+	@Test
+	void testUser10() { //overdue by one day
+		UserFactory buildUser = new UserFactory();
+		User user = buildUser.getUser("Student");
+		PhysicalItem item = new PhysicalItem();		
+		Date presentDate = new Date();
+		Date dueDate = new Date();
+		
+		long presentMinusOneDay = presentDate.getTime() - 86400000l;
+		dueDate.setTime(presentMinusOneDay);
+		item.setDueDate(dueDate);   	    
+	    
+	    item.setFee(25);
+	    user.getRented().add(item);
+	    
+		assertEquals(1,user.numberOverdue());
+	}	 
 }
 
 
