@@ -1044,138 +1044,7 @@ class testcases {
 			e.printStackTrace();
 		}
 	}
-	@Test
-	void testCart1() {
-
-		LibrarySystem system = new LibrarySystem();
-
-
-		PhysicalItem book = new PhysicalItem();
-		//Testing setter methods
-		book.setName("Chair Book");
-		book.setId(1);
-		book.setBorrower(null);
-		book.setStatus(new ItemStateContext(new Disabled()));
-		book.setPrice(100);
-		book.setLost(false);
-		book.setDueDate(new Date());
-		book.setFee(10);
-		book.setDiscount(10);
-
-		ArrayList<PhysicalItem> listrent =new ArrayList<PhysicalItem>();
-		ArrayList<OnlineItem> onlinelist =new ArrayList<OnlineItem>();
-		UserFactory buildUser = new UserFactory();
-
-		User student = buildUser.getUser("Student");
-		student.setEmail("guy@gmail.com");
-		student.setPassword("123");
-
-		Date date = new Date();
-		PhysicalItem book2 = new PhysicalItem(date, "BLANK", 0);
-		book2.setName("some book");
-		book2.setId(2);
-		book2.setStatus(new ItemStateContext(new Enabled()));
-		book2.setPrice(10);
-		book2.setDiscount(0);
-
-		system.addUser(student);
-		system.addStock(book2);
-		system.addStock(book);
-
-		student.getMenu().clickAdd(book2);
-		student.getMenu().clickAdd(book2); //test adding same item twice
-		assertEquals(student.getCart().getItems().size(), 1);
-		assertEquals(student.getCart().getInitialPrice(), 10);
-		student.getMenu().clickRemove(book2);
-		assertEquals(student.getCart().getItems().size(), 0);
-
-		student.getMenu().clickAdd(book2);
-		assertEquals(student.getCart().getItems().get(0), book2);
-
-		student.getMenu().clickClear();
-		assertEquals(student.getCart().getItems().size(), 0);
-
-		student.getMenu().clickAdd(book2);
-		student.getMenu().clickCheckout();
-		student.getCart().clear();
-		assertEquals(student.getCart().getItems().size(), 0);
-		//assertEquals();
-	}
-
-
-	@Test
-	void testCart2() {
-
-		LibrarySystem system = new LibrarySystem();
-		ManagementTeam team = new ManagementTeam(system);
-
-		PhysicalItem book = new PhysicalItem();
-		//Testing setter methods
-		book.setName("Chair Book");
-		book.setId(PhysicalItem.getNextValidId());
-		book.setBorrower("BLANK");
-		book.setStatus(new ItemStateContext(new Enabled()));
-		book.setPrice(100);
-		book.setLost(false);
-		book.setDueDate(new Date());
-		book.setFee(10);
-		book.setDiscount(10);
-
-		ArrayList<PhysicalItem> listrent =new ArrayList<PhysicalItem>();
-		ArrayList<OnlineItem> onlinelist =new ArrayList<OnlineItem>();
-		UserFactory buildUser = new UserFactory();
-
-		User student = buildUser.getUser("Student");
-		student.setEmail("guy@gmail.com");
-		student.setPassword("123");
-
-		team.addPhysicalItem(book);
-		assertTrue(system.getStock().size()>0);
-
-		Date date = new Date();
-		PhysicalItem book2 = new PhysicalItem(date, "BLANK", 0);
-		book2.setName("some book");
-		book2.setId(PhysicalItem.getNextValidId());
-		book2.setStatus(new ItemStateContext(new Disabled()));
-		book2.setPrice(10);
-		book2.setDiscount(0);
-
-		team.enableItem(book);
-		team.disableItem(book2);
-
-		team.addPhysicalItem(book2);
-		assertTrue(system.getStock().size()>20);
-
-
-
-		team.removeItem(book);
-		assertFalse(system.getStock().size()>=40); //book should be removed, but all copies should be in there (thus total=39)
-		//team.removeItem(book2);
-
-		system.addUser(student);
-
-		student.getMenu().clickAdd(book2);
-		student.getMenu().clickAdd(book2); //test adding same item twice
-		assertEquals(student.getCart().getItems().size(), 1);
-		assertEquals(student.getCart().getInitialPrice(), 10);
-		student.getMenu().clickRemove(book2);
-		assertEquals(student.getCart().getItems().size(), 0);
-
-		student.getMenu().clickAdd(book2);
-		assertEquals(student.getCart().getItems().get(0), book2);
-
-		student.getMenu().clickClear();
-		assertEquals(student.getCart().getItems().size(), 0);
-
-		student.getMenu().clickAdd(book2);
-		student.getMenu().clickCheckout();
-		student.getCart().clear();
-		assertEquals(student.getCart().getItems().size(), 0);
-		//assertEquals();
-	}
-
-
-
+	
 	//testing management and course functions
 	@Test
 	void managementAndFacAndCourseTest1() {
@@ -1539,7 +1408,27 @@ class testcases {
 
 	}
 	@Test
-	void testManagement3() {
+	void testManagement1() { //enable singular book
+		LibrarySystem system = new LibrarySystem();
+		ManagementTeam team = new ManagementTeam(system);
+		PhysicalItem book3 = new PhysicalItem(PhysicalItem.getNextValidId(), "book3", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0);
+		ArrayList<Item> bookList = new ArrayList<Item>();
+		bookList.add(book3);
+		team.disableItem(bookList);
+		assertTrue(book3.getStatus().getState() instanceof Disabled);
+	}
+	@Test
+	void testManagement2() { //disable singular book
+		LibrarySystem system = new LibrarySystem();
+		ManagementTeam team = new ManagementTeam(system);
+		PhysicalItem book9 = new PhysicalItem(PhysicalItem.getNextValidId(), "book9", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0);
+		ArrayList<Item> bookList = new ArrayList<Item>();
+		bookList.add(book9);
+		team.enableItem(bookList);
+		assertTrue(book9.getStatus().getState() instanceof Enabled);
+	}
+	@Test
+	void testManagement3() { //disable multiple books
 		LibrarySystem system = new LibrarySystem();
 		ManagementTeam team = new ManagementTeam(system);
 		PhysicalItem book3 = new PhysicalItem(PhysicalItem.getNextValidId(), "book3", 10, new ItemStateContext(new Enabled()), null, "BLANK", 0, 0);
@@ -1555,7 +1444,7 @@ class testcases {
 		assertTrue(book5.getStatus().getState() instanceof Disabled);
 	}
 	@Test
-	void testManagement4() {
+	void testManagement4() { //enable multiple books
 		LibrarySystem system = new LibrarySystem();
 		ManagementTeam team = new ManagementTeam(system);
 		PhysicalItem book3 = new PhysicalItem(PhysicalItem.getNextValidId(), "book3", 10, new ItemStateContext(new Disabled()), null, "BLANK", 0, 0);
@@ -1572,7 +1461,7 @@ class testcases {
 
 	}
 	@Test
-	void testManagement5() {
+	void testManagement5() { //make sure faculty is successfully added to course
 		LibrarySystem system = new LibrarySystem();
 		ManagementTeam team = new ManagementTeam(system);
 		Course course = new Course();
@@ -1595,7 +1484,7 @@ class testcases {
 	}
 
 	@Test
-	void testManagement6() {
+	void testManagement6() { 
 		LibrarySystem system = new LibrarySystem();
 		ManagementTeam team = new ManagementTeam(system);
 		Course course = new Course();
@@ -1615,7 +1504,7 @@ class testcases {
 		bookList.add(book5);
 		team.addFacultyToCourse(code, email); //add first faculty
 		int facultyCount = course.getFaculty().size(); //should only ever be 1
-		team.addFacultyToCourse(code, email); //try to add nother faculty to a course
+		team.addFacultyToCourse(code, email); //try to add another faculty to a course
 		assertEquals(facultyCount, course.getFaculty().size()); //make sure the above line doesn't work. i.e another faculty should not be added to the same course
 	}
 
@@ -1666,6 +1555,182 @@ class testcases {
 		}
 		assertTrue(array.contains("book1"));
 		assertTrue(array.contains("book2"));
+	}
+	
+	@Test
+	void testManagement9() { //different input for adding faculty to course
+		LibrarySystem system = new LibrarySystem();
+		ManagementTeam team = new ManagementTeam(system);
+		Course course = new Course();
+		Faculty faculty = new Faculty();
+		String code = "EECS3101";
+		String email = "testing@outlook.com";
+		course.setCode(code);
+		faculty.setEmail(email);
+		system.addCourse(course);
+		system.addUser(faculty);
+		PhysicalItem book3 = new PhysicalItem(PhysicalItem.getNextValidId(), "Running Time", 10, new ItemStateContext(new Disabled()), null, "BLANK", 0, 0);
+		PhysicalItem book4 = new PhysicalItem(PhysicalItem.getNextValidId(), "Big Oh", 20, new ItemStateContext(new Disabled()), null, "BLANK", 0, 0);
+		PhysicalItem book5 = new PhysicalItem(PhysicalItem.getNextValidId(), "Dynamic Programming", 30, new ItemStateContext(new Disabled()), null, "BLANK", 0, 0);
+		ArrayList<Item> bookList = new ArrayList<Item>();
+		bookList.add(book3);
+		bookList.add(book4);
+		bookList.add(book5);
+		team.addFacultyToCourse(code, email);
+		assertTrue(course.getFaculty().contains(faculty));		
+	}
+	
+	@Test
+	void testManagement10() { //different input for adding faculty to course
+		LibrarySystem system = new LibrarySystem();
+		ManagementTeam team = new ManagementTeam(system);
+		Course course = new Course();
+		Faculty faculty = new Faculty();
+		String code = "CODE2002";
+		String email = "user@hotmail.com";
+		course.setCode(code);
+		faculty.setEmail(email);
+		system.addCourse(course);
+		system.addUser(faculty);
+		PhysicalItem book3 = new PhysicalItem(PhysicalItem.getNextValidId(), "Data Structures", 10, new ItemStateContext(new Disabled()), null, "BLANK", 0, 0);
+		PhysicalItem book4 = new PhysicalItem(PhysicalItem.getNextValidId(), "OOP", 20, new ItemStateContext(new Disabled()), null, "BLANK", 0, 0);
+		PhysicalItem book5 = new PhysicalItem(PhysicalItem.getNextValidId(), "foo", 30, new ItemStateContext(new Disabled()), null, "BLANK", 0, 0);
+		ArrayList<Item> bookList = new ArrayList<Item>();
+		bookList.add(book3);
+		bookList.add(book4);
+		bookList.add(book5);
+		team.addFacultyToCourse(code, email);
+		assertTrue(course.getFaculty().contains(faculty));		
+	}
+	
+	
+	
+	@Test
+	void testCart1() {
+
+		LibrarySystem system = new LibrarySystem();
+
+
+		PhysicalItem book = new PhysicalItem();
+		//Testing setter methods
+		book.setName("Chair Book");
+		book.setId(1);
+		book.setBorrower(null);
+		book.setStatus(new ItemStateContext(new Disabled()));
+		book.setPrice(100);
+		book.setLost(false);
+		book.setDueDate(new Date());
+		book.setFee(10);
+		book.setDiscount(10);
+
+		ArrayList<PhysicalItem> listrent =new ArrayList<PhysicalItem>();
+		ArrayList<OnlineItem> onlinelist =new ArrayList<OnlineItem>();
+		UserFactory buildUser = new UserFactory();
+
+		User student = buildUser.getUser("Student");
+		student.setEmail("guy@gmail.com");
+		student.setPassword("123");
+
+		Date date = new Date();
+		PhysicalItem book2 = new PhysicalItem(date, "BLANK", 0);
+		book2.setName("some book");
+		book2.setId(2);
+		book2.setStatus(new ItemStateContext(new Enabled()));
+		book2.setPrice(10);
+		book2.setDiscount(0);
+
+		system.addUser(student);
+		system.addStock(book2);
+		system.addStock(book);
+
+		student.getMenu().clickAdd(book2);
+		student.getMenu().clickAdd(book2); //test adding same item twice
+		assertEquals(student.getCart().getItems().size(), 1);
+		assertEquals(student.getCart().getInitialPrice(), 10);
+		student.getMenu().clickRemove(book2);
+		assertEquals(student.getCart().getItems().size(), 0);
+
+		student.getMenu().clickAdd(book2);
+		assertEquals(student.getCart().getItems().get(0), book2);
+
+		student.getMenu().clickClear();
+		assertEquals(student.getCart().getItems().size(), 0);
+
+		student.getMenu().clickAdd(book2);
+		student.getMenu().clickCheckout();
+		student.getCart().clear();
+		assertEquals(student.getCart().getItems().size(), 0);
+		//assertEquals();
+	}
+
+
+	@Test
+	void testCart2() {
+
+		LibrarySystem system = new LibrarySystem();
+		ManagementTeam team = new ManagementTeam(system);
+
+		PhysicalItem book = new PhysicalItem();
+		//Testing setter methods
+		book.setName("Chair Book");
+		book.setId(PhysicalItem.getNextValidId());
+		book.setBorrower("BLANK");
+		book.setStatus(new ItemStateContext(new Enabled()));
+		book.setPrice(100);
+		book.setLost(false);
+		book.setDueDate(new Date());
+		book.setFee(10);
+		book.setDiscount(10);
+
+		ArrayList<PhysicalItem> listrent =new ArrayList<PhysicalItem>();
+		ArrayList<OnlineItem> onlinelist =new ArrayList<OnlineItem>();
+		UserFactory buildUser = new UserFactory();
+
+		User student = buildUser.getUser("Student");
+		student.setEmail("guy@gmail.com");
+		student.setPassword("123");
+
+		team.addPhysicalItem(book);
+		assertTrue(system.getStock().size()>0);
+
+		Date date = new Date();
+		PhysicalItem book2 = new PhysicalItem(date, "BLANK", 0);
+		book2.setName("some book");
+		book2.setId(PhysicalItem.getNextValidId());
+		book2.setStatus(new ItemStateContext(new Disabled()));
+		book2.setPrice(10);
+		book2.setDiscount(0);
+
+		team.enableItem(book);
+		team.disableItem(book2);
+
+		team.addPhysicalItem(book2);
+		assertTrue(system.getStock().size()>20);
+
+		team.removeItem(book);
+		assertFalse(system.getStock().size()>=40); //book should be removed, but all copies should be in there (thus total=39)
+		//team.removeItem(book2);
+
+		system.addUser(student);
+
+		student.getMenu().clickAdd(book2);
+		student.getMenu().clickAdd(book2); //test adding same item twice
+		assertEquals(student.getCart().getItems().size(), 1);
+		assertEquals(student.getCart().getInitialPrice(), 10);
+		student.getMenu().clickRemove(book2);
+		assertEquals(student.getCart().getItems().size(), 0);
+
+		student.getMenu().clickAdd(book2);
+		assertEquals(student.getCart().getItems().get(0), book2);
+
+		student.getMenu().clickClear();
+		assertEquals(student.getCart().getItems().size(), 0);
+
+		student.getMenu().clickAdd(book2);
+		student.getMenu().clickCheckout();
+		student.getCart().clear();
+		assertEquals(student.getCart().getItems().size(), 0);
+		//assertEquals();
 	}
 
 	@Test
@@ -1755,21 +1820,6 @@ class testcases {
 		assertEquals(student.getCart().getItems().size(), 0);
 		//assertEquals();
 	}
-
-
-	@Test
-	void testFacultyEdgeCase1() {
-		Faculty faculty = new Faculty();
-		faculty.removeTextBook(null);
-		assertEquals(0, faculty.getTextBooks().size());
-	}
-
-	@Test
-	void testFacultyEdgeCase2() {
-
-	}
-
-
 
 	//test buying several books at once
 
@@ -2316,4 +2366,13 @@ class testcases {
 		//assertEquals();
 	}
 	
+	@Test
+	void testFacultyEdgeCase() {
+		Faculty faculty = new Faculty();
+		faculty.removeTextBook(null);
+		assertEquals(0, faculty.getTextBooks().size());
+	}
+	
 }
+
+
