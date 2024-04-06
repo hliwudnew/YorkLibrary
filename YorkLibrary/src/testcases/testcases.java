@@ -40,6 +40,7 @@ import foo.Visitor;
 
 class testcases {
 	
+	//Tests PhysicalItem methods on their own
 	@Test
 	void testPhysical01() {
 		PhysicalItem book = new PhysicalItem();
@@ -70,7 +71,7 @@ class testcases {
 		assertTrue(book.getDueStatus().equals("Overdue"));
 
 	}
-
+	//Tests due dates of items
 	@Test
 	void testPhysical02() { 
 
@@ -83,7 +84,7 @@ class testcases {
 		assertTrue(futureBook.getDueStatus().equals("Due in >24 Hours"));	
 	}
 	
-	// May not work for some reason
+	//Tests due dates for an item due within the next 24 hours
 	@Test
 	void testPhysical03() {
 		Date presentDate = new Date();
@@ -95,6 +96,7 @@ class testcases {
 		assertTrue(presentBook.getDueStatus().equals("Due in: 8 Hours"));
 	}
 	
+	//tests due date for an overdue item
 	@Test
 	void testPhysical04() {
 
@@ -107,6 +109,7 @@ class testcases {
 		assertTrue(pastBook.getDueStatus().equals("Overdue"));
 	}
 
+	//a more in depth test of due date involving a borrower
 	@Test
 	void testPhysical05() {
 
@@ -130,6 +133,7 @@ class testcases {
 
 	}
 	
+	//a more in depth test of due date involving a borrower
 	@Test
 	void testPhysical06() {
 		
@@ -153,6 +157,7 @@ class testcases {
 		assertTrue(book.daysOverdue() == 1);
 	}
 
+	//a more in depth test of due date involving a borrower
 	@Test
 	void testPhysical07() {
 		
@@ -177,6 +182,7 @@ class testcases {
 
 	}
 	
+	//a more in depth test of due date involving a borrower
 	@Test
 	void testPhysical08() {		
 		Date dueDate = new Date();
@@ -196,6 +202,7 @@ class testcases {
 
 	}
 	
+	//a more in depth test of due date involving a borrower
 	@Test
 	void testPhysical09() {
 		
@@ -220,6 +227,7 @@ class testcases {
 
 	}
 	
+	//a more in depth test of due date involving a borrower
 	@Test
 	void testPhysical10() {		
 		Date dueDate = new Date();
@@ -239,6 +247,7 @@ class testcases {
 
 	}
 	
+	//testing basic functionality of OnlineItem on its own
 	@Test 
 	void OnlineItem_Test1(){
 		OnlineItem newsletter = new OnlineItem();
@@ -256,6 +265,7 @@ class testcases {
 		assertTrue(newsletter.getStatus().getState().getClass().equals(new Enabled().getClass()));
 	}
 	
+	//testing basic functionality of OnlineItem on its own
 	@Test 
 	void OnlineItem_Test2(){
 		OnlineItem newsletter = new OnlineItem();
@@ -273,6 +283,7 @@ class testcases {
 		assertTrue(newsletter.getStatus().getState().getClass().equals(new Disabled().getClass()));
 	}
 	
+	//testing OnlineItem with a user subscribed to it
 	@Test 
 	void OnlineItem_Test3(){
 		OnlineItem newsletter = new OnlineItem();
@@ -293,6 +304,7 @@ class testcases {
 		assertTrue(student.getSubscriptions().isEmpty());
 	}
 	
+	//testing OnlineItem with a user subscribed to it
 	@Test 
 	void OnlineItem_Test4(){
 		OnlineItem newsletter = new OnlineItem();
@@ -316,6 +328,7 @@ class testcases {
 		assertEquals(newsletter.getName(),student.getSubscriptions().get(0).getName());
 	}
 	
+	//testing OnlineItem with a several users of different types subscribing to it
 	@Test 
 	void OnlineItem_Test5(){
 		OnlineItem newsletter = new OnlineItem();
@@ -345,6 +358,9 @@ class testcases {
 		assertTrue(visitor.getSubscriptions().contains(newsletter));
 	}
 	
+	
+	//testing OnlineItem with a several users of different types subscribing to it
+	// and users subscribed to multiple items at once
 	@Test 
 	void OnlineItem_Test6(){
 		OnlineItem cbc = new OnlineItem();
@@ -388,6 +404,8 @@ class testcases {
 		assertEquals(4, bbc.getSubscribers().size());
 	}
 	
+	//testing OnlineItem with a several users of different types subscribing to it
+	// and testing unsubscribe functionality
 	@Test 
 	void OnlineItem_Test7(){
 		OnlineItem cbc = new OnlineItem();
@@ -421,6 +439,8 @@ class testcases {
 		assertEquals(0, cbc.getSubscribers().size());
 	}
 	
+	//testing OnlineItem with a several users of different types subscribing to it
+	// and testing unsubscribe functionality
 	@Test 
 	void OnlineItem_Test8(){
 		OnlineItem cbc = new OnlineItem();
@@ -473,6 +493,8 @@ class testcases {
 		assertFalse(visitor.getSubscriptions().contains(cbc));
 	}
 	
+	//test student subscribing to item when enabled, then testing that
+	// student can no longer subscribe if item is disabled
 	@Test 
 	void OnlineItem_Test9(){
 		OnlineItem cbc = new OnlineItem();
@@ -498,6 +520,7 @@ class testcases {
 		assertFalse(student.getSubscriptions().contains(cbc));
 	}
 	
+	//testing subscribe and unsubscribe with multiple user types
 	@Test 
 	void OnlineItem_Test10(){
 		OnlineItem cbc = new OnlineItem();
@@ -588,7 +611,8 @@ class testcases {
 
 		assertTrue(count == 20); //Checks to make sure all copies of First Book are in the system, meaning the rented one was returned
 	}
-
+	//in depth test that tests: management team options, creation of librarySystem, adding several items to the system
+	// and testing users renting/subscribing the items that are added
 	@Test
 	void librarysystem_Test2() { 
 		ManagementTeam team = new ManagementTeam();
@@ -707,7 +731,9 @@ class testcases {
 		assertEquals(1, nonfaculty.getSubscriptions().size());
 		assertTrue(visitor.getSubscriptions().isEmpty());
 	}
-
+	
+	//tests library system with users and faculty being added to a course and adding a textbook 
+	// to that course
 	@Test
 	void librarysystem_Test3() {
 		ManagementTeam team = new ManagementTeam();
@@ -803,7 +829,9 @@ class testcases {
 			
 		}
 	}
-
+	
+	//testing system with several null and invalid objects to test that they are
+	//handled appropriately
 	@Test
 	void librarysystem_Test6() {
 		ManagementTeam team = new ManagementTeam();
@@ -876,6 +904,8 @@ class testcases {
 		
 	}
 	
+	//testing librarysystem constructor that will create a librarysystem from
+	//previous data
 	@Test
 	void librarysystem_Test7() {
 		ManagementTeam team = new ManagementTeam();
@@ -957,6 +987,7 @@ class testcases {
 		assertTrue(system.getBorrowed().isEmpty());
 	}
 	
+	//test library system with disabled items functioning as intended (not allowing user subscribing when disabled)
 	@Test
 	void librarysystem_Test8() {
 		ManagementTeam team = new ManagementTeam();
@@ -1013,6 +1044,8 @@ class testcases {
 		assertTrue(visitor.getSubscriptions().isEmpty());
 	}
 	
+	//test student trying to rent a disabled item and enabled item and test
+	//that only the enabled one is rented
 	@Test
 	void librarysystem_Test9() {
 		ManagementTeam team = new ManagementTeam();
@@ -1047,6 +1080,7 @@ class testcases {
 		assertFalse(student.getRented().contains(book1));// Book disabled cannot be rented. hence they dont have it
 	}
 	
+	//test that user is only allowed to own 10 items maximum
 	@Test
 	void librarysystem_Test10() {
 		ManagementTeam team = new ManagementTeam();
@@ -1154,7 +1188,9 @@ class testcases {
 		assertTrue(status.getState() instanceof Disabled);
 		status.status();//Prints to console
 	}
-
+	
+	//test that user factory creates correct objects for corresponding input values
+	// and tests invalid inputs
 	@Test
 	void userFactoryTesting() {
 		UserFactory buildUser = new UserFactory();
@@ -1175,6 +1211,7 @@ class testcases {
 		assertTrue(broke2 == null);
 	}
 
+	//testing payment methods in isolation (is tested using cart later)
 	@Test
 	void strategy() {
 		PaymentContext payment = new PaymentContext(new GiftCardStrategy("2342345422"));
@@ -1196,7 +1233,8 @@ class testcases {
 		assertFalse(payment.pay(25));
 
 	}
-
+	
+	//tests that the csv files are read properly and creates the system with the data
 	@Test
 	void CSVReader_Test1() {
 		LibrarySystem system = CSVReader.dowloadData(new LibrarySystem()); // Downloads data from the CSV files for the library system
@@ -1271,6 +1309,7 @@ class testcases {
 		CSVReader.upload(system);
 	}
 
+	//tests that the csv files can read the pending accounts file and various methods for checking credentials
 	@Test
 	void CSVReader_Test2() {
 		//w
@@ -1325,6 +1364,7 @@ class testcases {
 		}
 	}
 	
+	//tests that the csv files are read properly and creates the system with the data
 	@Test
 	void CSVReader_Test3() {
 		LibrarySystem system = CSVReader.dowloadData(new LibrarySystem()); // Downloads data from the CSV files for the library system
@@ -1379,7 +1419,7 @@ class testcases {
 		assertFalse(((PhysicalItem)system.getBorrowed().get(0)).getBorrower().equals(student.getEmail()));
 
 	}
-	
+	//tests that the csv files are read properly and creates the system with the data
 	@Test
 	void CSVReader_Test4() {
 		LibrarySystem system = CSVReader.dowloadData(new LibrarySystem()); // Downloads data from the CSV files for the library system
@@ -1415,6 +1455,7 @@ class testcases {
 		assertFalse(student.getSubscriptions().contains(newsletters.get(0)));
 	}
 	
+	//tests that the csv files are read properly and creates the system with the data
 	@Test
 	void CSVReader_Test5() {
 		LibrarySystem system = CSVReader.dowloadData(new LibrarySystem()); // Downloads data from the CSV files for the library system
@@ -1550,7 +1591,8 @@ class testcases {
 		assertTrue(system.getCourses().size()==0);
 	}
 
-
+	//testing librarysystem with multiple courses and textbooks and a student and faculty being added to them
+	//also tests that course can be removed properly
 	@Test
 	void courseAndFacTestManagement2() {
 		LibrarySystem system = new LibrarySystem();
@@ -1606,7 +1648,7 @@ class testcases {
 		assertTrue(system.getCourses().size()==2);
 	}
 
-	//manually test courses without using team
+	//manually test courses without using management team functions
 	@Test
 	void courseAndFacTest3() {
 		LibrarySystem system = new LibrarySystem();
@@ -1889,6 +1931,7 @@ class testcases {
 		assertTrue(course.getFaculty().contains(faculty));		
 	}
 
+	//using management team to properly set up a course with a faculty member
 	@Test
 	void testManagement6() { 
 		LibrarySystem system = new LibrarySystem();
@@ -1914,6 +1957,7 @@ class testcases {
 		assertEquals(facultyCount, course.getFaculty().size()); //make sure the above line doesn't work. i.e another faculty should not be added to the same course
 	}
 
+	//using management team to properly set up a course with a faculty member
 	@Test
 	void testManagement7() {
 		LibrarySystem system = new LibrarySystem();
@@ -1938,7 +1982,7 @@ class testcases {
 		assertEquals(course.getTextBooks().size(), faculty.getTextBooks().size()); //number of textbooks in the course must equal the amount of textbooks in the the faculty
 	}
 
-
+	//testing adding multiple textbooks to a course at once using an array
 	@Test
 	void testManagement8() {
 		LibrarySystem system = new LibrarySystem();
@@ -2010,7 +2054,7 @@ class testcases {
 	}
 	
 	
-	
+	//test user buying books using menu options (command pattern) such as clear, checkout, etc.
 	@Test
 	void testCart1() {
 
@@ -2029,8 +2073,6 @@ class testcases {
 		book.setFee(10);
 		book.setDiscount(10);
 
-		ArrayList<PhysicalItem> listrent =new ArrayList<PhysicalItem>();
-		ArrayList<OnlineItem> onlinelist =new ArrayList<OnlineItem>();
 		UserFactory buildUser = new UserFactory();
 
 		User student = buildUser.getUser("Student");
@@ -2069,7 +2111,7 @@ class testcases {
 		//assertEquals();
 	}
 
-
+	//test user buying books using menu options (command pattern)
 	@Test
 	void testCart2() {
 
@@ -2088,8 +2130,6 @@ class testcases {
 		book.setFee(10);
 		book.setDiscount(10);
 
-		ArrayList<PhysicalItem> listrent =new ArrayList<PhysicalItem>();
-		ArrayList<OnlineItem> onlinelist =new ArrayList<OnlineItem>();
 		UserFactory buildUser = new UserFactory();
 
 		User student = buildUser.getUser("Student");
@@ -2139,6 +2179,7 @@ class testcases {
 		//assertEquals();
 	}
 
+	//test user buying books using menu options (command pattern)
 	@Test
 	void testCart3() {
 
@@ -2228,7 +2269,6 @@ class testcases {
 	}
 
 	//test buying several books at once
-
 	@Test
 	void testCart4() {
 
@@ -2772,6 +2812,7 @@ class testcases {
 		//assertEquals(); 
 	}
 	
+	//testing invalid method input using null
 	@Test
 	void testFacultyEdgeCase() {
 		Faculty faculty = new Faculty();
